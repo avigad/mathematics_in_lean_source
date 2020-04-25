@@ -97,7 +97,7 @@ html_theme_options = {
     'font_family': 'Times New Roman, Times, serif',
     'head_font_family': 'Times New Roman, Times, serif',
     'code_bg': 'white',
-    'extra_nav_links': {'PDF version':'theorem_proving_in_lean.pdf',
+    'extra_nav_links': {'PDF version':'mathematics_in_lean.pdf',
                        'Lean Home':'https://leanprover.github.io/'},
     'sidebar_width' : '230px',
     # 'page_width' : '960px',
@@ -120,19 +120,25 @@ html_output_encoding = 'ascii'
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
     '**': [
-        'relations.html',  # needs 'show_related': True theme option to display
+        'about.html',
+        'navigation_without_header.html',
+        #'relations.html',  # needs 'show_related': True theme option to display
         'searchbox.html',
+        #'donate.html',
     ]
 }
-
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'MathematicsinLeandoc'
+htmlhelp_basename = 'mathematics_in_lean'
 
 
 # -- Options for LaTeX output ---------------------------------------------
+
+latex_engine = 'xelatex'
+
+latex_additional_files = ['unixode.sty']
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
@@ -144,8 +150,15 @@ latex_elements = {
     # 'pointsize': '10pt',
 
     # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+   # load packages and make box around code lighter
+    'preamble': r'''
+\usepackage{unixode}
+\definecolor{VerbatimBorderColor}{rgb}{0.7,0.7,0.7}
+% from sphinxmanual.cls: put authors on separate lines
+\DeclareRobustCommand{\and}{%
+   \end{tabular}\kern-\tabcolsep\\\begin{tabular}[t]{c}%
+}
+''',
 
     # Latex figure (float) alignment
     #
@@ -156,8 +169,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'MathematicsinLean.tex', 'Mathematics in Lean Documentation',
-     'Jeremy Avigad, Kevin Buzzard, Robert Y. Lewis, Patrick Massot', 'manual'),
+    (master_doc, 'mathematics_in_lean.tex', 'Mathematics in Lean',
+     'Jeremy Avigad \\and Kevin Buzzard \\and Robert Y. Lewis \\and Patrick Massot', 'manual'),
 ]
 
 
@@ -166,10 +179,9 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'mathematicsinlean', 'Mathematics in Lean Documentation',
+    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -177,7 +189,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'MathematicsinLean', 'Mathematics in Lean Documentation',
-     author, 'MathematicsinLean', 'One line description of project.',
+    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean',
+     author, 'mathematics_in_lean', 'A tutorial introduction to Lean and Mathlib',
      'Miscellaneous'),
 ]

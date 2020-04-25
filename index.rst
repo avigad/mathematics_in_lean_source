@@ -1,7 +1,7 @@
 
 
-Welcome to Mathematics in Lean's documentation!
-===============================================
+Mathematics in Lean
+===================
 
 .. toctree::
    :numbered:
@@ -9,8 +9,6 @@ Welcome to Mathematics in Lean's documentation!
 
    introduction
    the_basics
-
-
 
 .. Indices and tables
    ==================
