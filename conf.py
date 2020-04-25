@@ -32,7 +32,8 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.mathjax',
-    'sphinx.ext.githubpages']
+    'sphinx.ext.githubpages',
+    'lean_sphinx']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -97,6 +98,7 @@ html_theme_options = {
     'font_family': 'Times New Roman, Times, serif',
     'head_font_family': 'Times New Roman, Times, serif',
     'code_bg': 'white',
+    'code_font_size': '10pt',
     'extra_nav_links': {'PDF version':'mathematics_in_lean.pdf',
                        'Lean Home':'https://leanprover.github.io/'},
     'sidebar_width' : '230px',

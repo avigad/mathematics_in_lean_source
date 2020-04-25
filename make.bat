@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-set SPHINXPROJ=MathematicsinLean
+set SPHINXPROJ=mathematics_in_lean
 
 if "%1" == "" goto help
 
