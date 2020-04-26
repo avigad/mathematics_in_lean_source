@@ -3,8 +3,8 @@
 Introduction
 ============
 
-Getting Stated
---------------
+Getting Started
+---------------
 
 So, you are ready to formalize some mathematics.
 Maybe you have heard that formalization is the future
@@ -47,17 +47,20 @@ Every once in a while, you will see code snippet like this:
 Clicking on the ``try it!`` button in the upper right corner will
 make a local copy of the snippet in your working folder and open it in
 a window so that you can experiment with it.
-This book provides lots of exercises for you to try.
-You can save your changes and come back to them by pressing the corresponding
-``try it!`` button again.
-If you want to reset the text, simply delete or rename the file with your saved work
-and press ``try it!`` once again.
+This book also provides lots of exercises in that format.
+You can save your changes from VS Code in the usual way, and come back to the
+same file by pressing the corresponding ``try it!`` button again.
+If you want to reset the snippet or exercise to the version in the book,
+simply delete or rename the file with the changes you have made,
+and then press ``try it!`` once again.
 
 Sometimes in the text we will quote from a longer example, like so:
 
 .. code-block:: lean
 
     -- Give an example here
+    -- Instead of a ``try it!'' button,
+    -- there should be a ``see more!`` button.
 
 In that case, clicking on the ``see more!`` button opens a longer Lean file
 and takes you to that line.
@@ -247,12 +250,12 @@ prove our theorem automatically.
 
 Another big difference between the two introductions is that
 *Theorem Proving in Lean* depends only on core Lean and its built-in
-tactics, whereis *Mathematics in Lean* is built on top of Lean's
+tactics, whereas *Mathematics in Lean* is built on top of Lean's
 powerful and ever-growing library, *Mathlib*.
 As a result, we can show you how to use some of the mathematical
 objects and theorems in the library,
 and some of the very useful tactics.
-This book is not meant to be used as a reference:
+This book is not meant to be used as an overview of the library;
 the Mathlib_ web pages contain extensive documentation.
 Rather, our goal is to introduce you to the style of thinking that
 underlies that formalization,
