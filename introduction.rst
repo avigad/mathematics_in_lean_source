@@ -192,7 +192,7 @@ As you enter each line of such a proof in VS Code,
 Lean displays the *proof state* in a separate window,
 telling you what facts you have already established and what
 tasks remain to prove your theorem.
-You can ``replay`` the proof by stepping through the lines,
+You can replay the proof by stepping through the lines,
 since Lean will continue to show you the state of the proof
 at the point where the cursor is.
 In this example, you will then see that
