@@ -5,8 +5,12 @@ Analysis
 
 Ideas:
 
-* Calculations with limits
+* Using limits
 
-* Showing a metric space is a topological space
+* Some elementary calculus calculations with polynomials and transcendental functions.
 
-* Normed spaces and the Cauchy-Schwartz inequality
+* Some basic facts about topological spaces.
+
+* Showing a metric space is a topological space.
+
+* Normed spaces and the Cauchy-Schwartz inequality.

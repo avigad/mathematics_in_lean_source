@@ -109,8 +109,8 @@ These are mathematical statements.
 
     #check fermat_last_theorem
 
-Some expressions have a type `P`, where `P` itself has type `Prop`.
-Such an expression is a proof of `P`.
+Some expressions have a type, `P`, where `P` itself has type `Prop`.
+Such an expression is a proof of the proposition `P`.
 
 .. code-block:: lean
 
