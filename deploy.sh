@@ -13,8 +13,8 @@ rm -rf deploy
 mkdir deploy
 cd deploy
 git init
-cp -r ../_build/html/./ .
-cp ../_build/latex/mathematics_in_lean.pdf .
+cp -r ../build/html/./ .
+cp ../build/latex/mathematics_in_lean.pdf .
 git add .
 git commit -m "Update `date`"
 git push git@github.com:$1/$2 +HEAD:gh-pages
