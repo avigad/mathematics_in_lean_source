@@ -1,7 +1,7 @@
-.. _logic:
+.. _basic_skills:
 
-Logic
-=====
+Basic Skills
+============
 
 If mathematics is supposed to be about mathematical objects,
 logic is distinguished by the fact that it is

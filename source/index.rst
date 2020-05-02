@@ -8,11 +8,7 @@ Mathematics in Lean
    :maxdepth: 2
 
    introduction
-   logic
-   fundamentals
-   number_theory
-   algebra
-   analysis
+   basic_skills
 
 
 .. Indices and tables
