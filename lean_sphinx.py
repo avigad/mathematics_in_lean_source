@@ -21,7 +21,7 @@ except:
 class lean_code_goodies(nodes.General, nodes.Element): pass
 
 def mk_try_it_uri(code):
-    uri = 'https://leanprover.github.io/live/3.4.1/#code='
+    uri = 'https://leanprover-community.github.io/lean-web-editor/#code='
     uri += urlquote(code, safe='~@#$&()*!+=:;,.?/\'')
     return uri
 
