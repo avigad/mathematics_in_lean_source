@@ -1,6 +1,4 @@
-/build
-.*.sw?
-*.pyc
+.venv/
+.vscode
 __pycache__
-/.vscode
-/.venv
+/build
