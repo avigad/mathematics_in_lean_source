@@ -6,6 +6,16 @@ Built using Sphinx and restructured text.
 
 # How to build
 
+The project requires a Lean installation to test the snippets. Install the project with
+```
+leanproject new mathematics_in_lean
+```
+and use
+```
+leanproject up
+```
+to update.
+
 The build requires python 3 (install `python3-venv` on ubuntu).
 
 ```
