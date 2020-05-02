@@ -64,7 +64,7 @@ class LeanTestBuilder(Builder):
     '''
     Extract ``..code-block:: lean`` directives for testing.
     '''
-    name = 'leantest/src'
+    name = 'leantest'
 
     def init(self):
         self.written_files = set()
