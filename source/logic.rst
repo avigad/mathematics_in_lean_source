@@ -20,7 +20,7 @@ The syntax for the logical connectives is as follows:
 
 .. code-block:: lean
 
-    variables A B C : Prop
+    variables A B : Prop
 
     -- if A then B
     #check A → B
@@ -40,11 +40,13 @@ The syntax for the logical connectives is as follows:
     #check true
     #check false
 
-The first line, ``variables A B C : Prop``, declares some variables
+The first line, ``variables A B : Prop``, declares some variables
 ranging over propositions.
 In VS Code, you can type the symbols ``→``, ``∧``, ``∨``, ``¬``, and ``↔`` as
 ``\r``, ``\and,`` ``\or``, ``\not`` and ``\iff``, respectively.
-(The symbols don't appear until you hit space or the tab key.)
+(The symbols don't appear until you hit space or the tab key.
+If your keyboard does not have a backslash, you can change the leading
+character in by setting ``lean.input.leader`` in VS Code.)
 When reading a Lean file,
 if you hover over a symbol,
 VS Code will show you the syntax that can be used to enter it.
@@ -71,8 +73,11 @@ You can type these subscripted labels as ``h\1``, ``h\2``, and ``h\3``,
 but any legal identifiers would do:
 you can use ``h1``, ``h2``, ``h3`` instead,
 or ``foo``, ``bar``, and ``baz``.
-The last line represents the *target* of the current goal,
+The last line represents the *goal*,
 that is, the fact to be proved.
+(Beware: sometimes people use *target* for the fact to be proved,
+and *goal* for the combination of the context and the target.
+In practice, the intended meaning is usually clear.)
 
 To prove an implication, we introduce it with a label.
 This moves it to the context, where we can use it.
@@ -377,11 +382,11 @@ This example illustrates another nice bit of Lean syntax:
 you can use the underscore symbol as an *anonymous label*
 to avoid naming a hypothesis or piece of data that you
 do not need to refer to later on.
+(We will see that the underscore has multiple uses and meanings in Lean.)
 
 We will close this section with a discussion of *negation* and *falsity*.
 In Lean, ``¬ A`` is defined to be ``A → false``.
-This takes some getting used to,
-but make sense if you think of ``¬ A`` as equivalent to
+This makes sense if you think of ``¬ A`` as equivalent to
 the statement "if ``A`` is true, then ``2 + 2 = 5``,"
 where ``2 + 2 = 5`` is a prototypical falsehood.
 An advantage to this definition is that Lean can unfold the definition
