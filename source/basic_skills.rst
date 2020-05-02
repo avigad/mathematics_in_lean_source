@@ -362,7 +362,7 @@ that is already introduced.
 
     import tactic
 
-    variables A B : Prop
+    variables A B C D : Prop
 
     -- BEGIN
     example : A ∧ (B ∧ C) ∧ D → (B ∧ D) ∧ A :=
@@ -415,7 +415,7 @@ result by naming the general result and then applying it:
 
 .. code-block:: lean
 
-    variables A B : Prop
+    variables A B C : Prop
 
     -- BEGIN
     theorem impl_compose : (A → B) → (B → C) → A → C :=
@@ -443,7 +443,10 @@ implicit in the proof-term representation:
 
 .. code-block:: lean
 
-    variables A B : Prop
+    variables A B C : Prop
+
+    theorem impl_compose : (A → B) → (B → C) → A → C :=
+    λ h₁ h₂ h₃, h₂ (h₁ h₃)
 
     -- BEGIN
     example : (A → B) → ¬ B → ¬ A :=
@@ -459,7 +462,7 @@ specify that the arguments will be suppressed by default:
 
 .. code-block:: lean
 
-    variables A B : Prop
+    variables A B C : Prop
 
     -- BEGIN
     theorem impl_compose {A B C : Prop} : (A → B) → (B → C) → A → C :=
@@ -490,7 +493,7 @@ of types of overt contradiction in the context.
 
 .. code-block:: lean
 
-    variables A : Prop
+    variables A B : Prop
 
     -- BEGIN
     example : false → A :=
@@ -525,15 +528,10 @@ using the tactics and syntax we have covered in this section.
 We also encourage you to ask questions on the Lean Zulip channel
 if you have difficulty.
 When you click ``try it!``,
-the exercises will be opened in a file named ``propositional_logic.lean``
+the exercises will be opened in a file
 in the ``exercises/logic/`` directory.
-On Zulip, you can helpfully specify that you are asking about
-the third exercise by referring to it as
-"the third problem in ``exercises/logic/propositional_logic.lean``."
 
 .. code-block:: lean
-
-    /* exercises/logic/propositional_logic.lean */
 
     import tactic
 

@@ -114,6 +114,10 @@ Such an expression is a proof of the proposition `P`.
 
 .. code-block:: lean
 
+    def fermat_last_theorem :=
+      ∀ x y z n : ℕ, n > 2 → x * y * z ≠ 0 → x^n + y^n ≠ z^n
+
+    -- BEGIN
     theorem easy : 2 + 2 = 4 := rfl
 
     #check easy
@@ -121,6 +125,7 @@ Such an expression is a proof of the proposition `P`.
     theorem hard : fermat_last_theorem := sorry
 
     #check hard
+    -- END
 
 If you manage to construct an expression of type `fermat_last_theorem` and
 Lean accepts it as a term of that type,
