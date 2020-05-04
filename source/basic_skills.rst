@@ -222,7 +222,7 @@ we can replace the ``begin ... end`` block with a ``by``.
 You still see the incremental progress by placing the cursor after
 a comma in any list of rewrites.
 
-Another trick is that we can declare variables once and outside
+Another trick is that we can declare variables once and forall outside
 an example or theorem.
 When Lean sees them mentioned in the statement of the theorem,
 it includes them automatically.
@@ -409,7 +409,7 @@ in the assumption ``hyp``.
       rw mul_comm d a at hyp,
       rw ← two_mul (a*d) at hyp,
       rw ← mul_assoc 2 a d at hyp,
-      exact hyp, -- Our assumption hyp is now exactly what we have to prove
+      exact hyp
     end
     -- END
 
