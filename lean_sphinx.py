@@ -7,6 +7,7 @@ import os, os.path, fnmatch, subprocess
 import codecs
 import urllib
 import re
+import pathlib
 
 try:
     urlquote = urllib.parse.quote
@@ -31,6 +32,12 @@ def process_lean_nodes(app, doctree, fromdocname):
 
         new_node = lean_code_goodies()
         new_node['full_code'] = node.rawsource
+        if len(node['names']) > 0:
+            name = node['names'][0]
+        else:
+            name = 'unnamed_{0}'.format(node.line)
+        new_node['name'] = name
+        new_node['example_file'] = '{0}/{1}.lean'.format(fromdocname, name)
         node.replace_self([new_node])
 
         code = node.rawsource
@@ -46,7 +53,10 @@ def process_lean_nodes(app, doctree, fromdocname):
 def html_visit_lean_code_goodies(self, node):
     self.body.append(self.starttag(node, 'div', style='position: relative'))
     self.body.append("<div style='position: absolute; right: 0; top: 0; padding: 1ex'>")
-    self.body.append(self.starttag(node, 'a', target='_blank', href=mk_try_it_uri(node['full_code'])))
+    attrs = {}
+    if 'example_file' in node:
+        attrs['tryitFile'] = '../examples/' + node['example_file']
+    self.body.append(self.starttag(node, 'a', target='_blank', href=mk_try_it_uri(node['full_code']), **attrs))
     self.body.append('try it!</a></div>')
 
 def html_depart_lean_code_goodies(self, node):
@@ -100,6 +110,30 @@ class LeanTestBuilder(Builder):
     def get_outdated_docs(self):
         return self.env.found_docs
 
+# Extract code snippets for testing.
+
+class LeanExamplesBuilder(Builder):
+    '''
+    Extract ``..code-block:: lean`` examples.
+    '''
+    name = 'examples'
+
+    def write_doc(self, docname, doctree):
+        for node in doctree.traverse(lean_code_goodies):
+            if 'name' not in node: continue
+            d = pathlib.Path(self.outdir, docname)
+            d.mkdir(parents=True, exist_ok=True)
+            with (d / '{0}.lean'.format(node['name'])).open('w', encoding='utf-8') as out:
+                out.write(node['full_code'])
+
+    def prepare_writing(self, docnames): pass
+
+    def get_target_uri(self, docname, typ=None):
+        return ''
+
+    def get_outdated_docs(self):
+        return self.env.found_docs
+
 def setup(app):
     app.add_node(lean_code_goodies,
         html=(html_visit_lean_code_goodies, html_depart_lean_code_goodies),
@@ -107,5 +141,6 @@ def setup(app):
     app.connect('doctree-resolved', process_lean_nodes)
 
     app.add_builder(LeanTestBuilder)
+    app.add_builder(LeanExamplesBuilder)
 
     return {'version': '0.1'}
