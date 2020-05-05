@@ -1013,7 +1013,7 @@ In fact, Lean has a tactic that does this sort of thing automatically:
 
     import data.real.basic
 
-    variables a b c : ℝ
+    variables a b c d : ℝ
 
     -- BEGIN
     example (a b c d e : ℝ) (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d)
@@ -1022,7 +1022,36 @@ In fact, Lean has a tactic that does this sort of thing automatically:
     by linarith
     -- END
 
-We will return to ``linarith`` below.
+The ``linarith`` tactic is designed to handle *linear arithmetic*.
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c d : ℝ
+
+    -- BEGIN
+    example (h : 2 * a ≤ 3 * b) (h' : 1 ≤ a) (h'' : d = 2) :
+      d + a ≤ 5 * b :=
+    by linarith
+    -- END
+
+In addition to equations and inequalities in the context,
+``linarith`` will use additional inequalities that you pass as arguments.
+
+.. code-block:: lean
+
+    import analysis.special_functions.exp_log
+
+    open real
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    example (h : 1 ≤ a) (h' : b ≤ c) :
+      2 + a + exp b ≤ 3 * a + exp c :=
+    by linarith [exp_le_exp.mpr h']
+    -- END
 
 Here are some more theorems in the library that can be used to establish
 inequalities on the real numbers.
@@ -1030,6 +1059,7 @@ inequalities on the real numbers.
 .. code-block:: lean
 
     import analysis.special_functions.exp_log
+
     open real
 
     variables  a b c d : ℝ
@@ -1063,15 +1093,17 @@ an equivalent one:
     -- BEGIN
     example (a b : ℝ) (h : a ≤ b) : exp a ≤ exp b :=
     begin
-      rw [exp_le_exp],
+      rw exp_le_exp,
       exact h
     end
     -- END
 
 In this section, however, we will use that fact that if ``h : A ↔ B``
 is such an equivalence,
-then ``h.1`` establishes the forward direction, ``A → B``,
-and ``h.2`` establishes the reverse direction, ``B → A``.
+then ``h.mp`` establishes the forward direction, ``A → B``,
+and ``h.mpr`` establishes the reverse direction, ``B → A``.
+Here, ``mp`` stands for "modus ponens" and
+``mpr`` stands for modus ponens reverse.
 Thus the following proof works:
 
 .. code-block:: lean
@@ -1134,12 +1166,14 @@ find the library theorems you need constitutes an important
 part of formalization.
 There are a number of strategies you can use:
 
-* You can browse Mathlib in its `Github repository <https://github.com/leanprover-community/mathlib>`_.
+* You can browse Mathlib in its
+  `Github repository <https://github.com/leanprover-community/mathlib>`_.
 
-* You can use the documentation on the Mathlib `web pages <https://leanprover-community.github.io/>`_.
+* You can use the API documentation on the Mathlib
+  `web pages <https://leanprover-community.github.io/mathlib_docs/>`_.
 
-* You can rely on Mathlib naming conventions and tab completion in the editor to guess
-  a theorem name.
+* You can rely on Mathlib naming conventions and tab completion in
+  the editor to guess a theorem name.
   In Lean, a theorem named ``A_of_B_of_C`` establishes
   something of the form ``A`` from hypotheses of the form ``B`` and ``C``,
   where ``A``, ``B``, and ``C``
@@ -1187,6 +1221,8 @@ next example:
       sorry
     end
     -- END
+
+Also, confirm that ``linarith`` can do it with a bit of help.
 
 Here is another example of an inequality:
 
