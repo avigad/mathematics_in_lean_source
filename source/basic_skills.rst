@@ -1153,7 +1153,7 @@ There are a number of strategies you can use:
   and you can find similar theorems nearby.
 
 * You can use the ``library_search`` tactic,
-which tries to find the relevant theorem in the library.
+  which tries to find the relevant theorem in the library.
 
 .. code-block:: lean
 
