@@ -523,6 +523,7 @@ in the last section continue to hold when we replace
 .. code-block:: lean
 
     import tactic
+
     variables (R : Type*) [comm_ring R]
     variables a b c d : R
 
@@ -886,18 +887,410 @@ The proofs we have carried out in this section provide some hints.
 Using Theorems and Lemmas
 -------------------------
 
-This section will introduce ``apply`` and friends,
-and prove some theorems that go beyond equations.
+Rewriting is great for proving equations,
+but what about other sorts of theorems?
+For example, how can we prove an inequality,
+like the fact that :math:`a + e^b \le a + e^c` holds whenever :math:`b \le c`?
+We have already seen that theorems can be applied to arguments and hypotheses,
+and that the ``apply`` and ``exact`` tactics can be used to solve goals.
+In this section, we will make good use of these tools.
 
-Examples will use ``≤``, ``dvd``, ``gcd`` and ``lcm`` on ``nat``,
-``⊆`` on sets, and so on.
+Consider the library theorems ``le_refl`` and ``le_trans``:
 
-Basically, we'll theorems with ``∀`` and ``→`` to prove atomic statements.
-Even with these restrictions, we can prove some nontrivial theorems,
-like the fact that ``gcd`` distributes over ``lcm``,
-or ``a * b ≤ (a^2 + b^2) / 2``.
+.. code-block:: lean
 
-We'll also demonstrate the use of calc for inequalities.
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    #check (le_refl : ∀ a : ℝ, a ≤ a)
+    #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
+
+The library designers have set the arguments to ``le_trans`` implicit,
+so that Lean will *not* let you provide them explicitly.
+Rather, it expects to infer them from the context in which they are used.
+For example, when hypotheses ``h : a ≤ b`` and  ``h' : b ≤ c``
+are in the context,
+all the following work:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    -- BEGIN
+    variables a b c : ℝ
+    variables (h : a ≤ b) (h' : b ≤ c)
+
+    #check (le_refl : ∀ a : real, a ≤ a)
+    #check (le_refl a : a ≤ a)
+    #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
+    #check (le_trans h : b ≤ c → a ≤ c)
+    #check (le_trans h h' : a ≤ c)
+    -- END
+
+The ``apply`` tactic takes a proof of a general statement or implication,
+tries to match the conclusion with the current goal,
+and leaves the hypotheses, if any, as new goals.
+If the given proof matches the goal exactly,
+you can use the ``exact`` tactic instead of ``apply``.
+So, all of these work:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    -- BEGIN
+    example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
+    begin
+      apply le_trans,
+      { apply h₀ },
+      apply h₁
+    end
+
+    example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
+    begin
+      apply le_trans h₀,
+      apply h₁
+    end
+
+    example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
+    by exact le_trans h₀ h₁
+
+    example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
+    le_trans h₀ h₁
+
+    example (x : ℝ) : x ≤ x :=
+    by apply le_refl
+
+    example (x : ℝ) : x ≤ x :=
+    by exact le_refl x
+
+    example (x : ℝ) : x ≤ x :=
+    le_refl x
+    -- END
+
+In the first example, applying ``le_trans``
+creates two goals,
+and we use the curly braces to enclose the proof
+of the first one.
+In the fourth example and in the last example, we avoid going into tactic mode entirely:
+``le_trans h₀ h₁`` and ``le_refl x`` are the proof terms we need.
+
+Here are a few more library theorems:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    #check (le_refl  : ∀ a, a ≤ a)
+    #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
+    #check (lt_of_le_of_lt : a ≤ b → b < c → a < c)
+    #check (lt_of_lt_of_le : a < b → b ≤ c → a < c)
+    #check (lt_trans : a < b → b < c → a < c)
+    -- END
+
+Use them together with ``apply`` and ``exact`` to prove the following:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    example (a b c d e : ℝ) (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d)
+        (h₃ : d < e) :
+      a < e :=
+    sorry
+    -- END
+
+In fact, Lean has a tactic that does this sort of thing automatically:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    example (a b c d e : ℝ) (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d)
+        (h₃ : d < e) :
+      a < e :=
+    by linarith
+    -- END
+
+We will return to ``linarith`` below.
+
+Here are some more theorems in the library that can be used to establish
+inequalities on the real numbers.
+
+.. code-block:: lean
+
+    import analysis.special_functions.exp_log
+    open real
+
+    variables  a b c d : ℝ
+
+    #check (exp_le_exp : exp a ≤ exp b ↔ a ≤ b)
+    #check (exp_lt_exp : exp a < exp b ↔ a < b)
+    #check (log_le_log : 0 < a → 0 < b → (log a ≤ log b ↔ a ≤ b))
+    #check (log_lt_log : 0 < a → a < b → log a < log b)
+    #check (add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d)
+    #check (add_lt_add_of_le_of_lt : a ≤ b → c < d → a + c < b + d)
+    #check (add_lt_add_of_le_of_lt : a ≤ b → c < d → a + c < b + d)
+    #check (add_nonneg : 0 ≤ a → 0 ≤ b → 0 ≤ a + b)
+    #check (add_pos : 0 < a → 0 < b → 0 < a + b)
+    #check (add_pos_of_pos_of_nonneg : 0 < a → 0 ≤ b → 0 < a + b)
+    #check (exp_pos : ∀ a, 0 < exp a)
+
+Some of the theorems, ``exp_le_exp``, ``exp_lt_exp``, and ``log_le_log``
+use a *bi-implication*, which represents the
+phrase "if and only if."
+(You can type it in VS Code with ``\lr`` of ``\iff``).
+We will discuss this connective in greater detail in the next chapter.
+Such a theorem can be used with ``rw`` to rewrite a goal to
+an equivalent one:
+
+.. code-block:: lean
+
+    import analysis.special_functions.exp_log
+
+    open real
+
+    -- BEGIN
+    example (a b : ℝ) (h : a ≤ b) : exp a ≤ exp b :=
+    begin
+      rw [exp_le_exp],
+      exact h
+    end
+    -- END
+
+In this section, however, we will use that fact that if ``h : A ↔ B``
+is such an equivalence,
+then ``h.1`` establishes the forward direction, ``A → B``,
+and ``h.2`` establishes the reverse direction, ``B → A``.
+Thus the following proof works:
+
+.. code-block:: lean
+
+    import analysis.special_functions.exp_log
+
+    open real
+
+    variables a b c d e : ℝ
+
+    -- BEGIN
+    example (h₀ : a ≤ b) (h₁ : c < d) : a + exp c + e < b + exp d + e :=
+    begin
+      apply add_lt_add_of_lt_of_le,
+      { apply add_lt_add_of_le_of_lt h₀,
+        apply exp_lt_exp.2 h₁ },
+      apply le_refl
+    end
+    -- END
+
+The first line, ``apply add_lt_add_of_lt_of_le``,
+creates two goals,
+and once again we use the curly brackets to separate the
+proof of the first from the proof of the second.
+
+Try the following examples on your own.
+The example in the middle shows you that the ``norm_num``
+tactic can be used to solve concrete numeric goals.
+
+.. code-block:: lean
+
+    import analysis.special_functions.exp_log
+
+    open real
+
+    variables a b c d e : ℝ
+
+    -- BEGIN
+    example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) :=
+    begin
+      sorry
+    end
+
+    example : (0 : ℝ) < 1 :=
+    by norm_num
+
+    example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) :=
+    begin
+      have h₀ : 0 < 1 + exp a,
+      { sorry },
+      have h₁ : 0 < 1 + exp b,
+      { sorry },
+      apply (log_le_log h₀ h₁).2,
+      sorry
+    end
+    -- END
+
+From these examples, it should be clear that being able to
+find the library theorems you need constitutes an important
+part of formalization.
+There are a number of strategies you can use:
+
+* You can browse Mathlib in its `Github repository <https://github.com/leanprover-community/mathlib>`_.
+
+* You can use the documentation on the Mathlib `web pages <https://leanprover-community.github.io/>`_.
+
+* You can rely on Mathlib naming conventions and tab completion in the editor to guess
+  a theorem name.
+  In Lean, a theorem named ``A_of_B_of_C`` establishes
+  something of the form ``A`` from hypotheses of the form ``B`` and ``C``,
+  where ``A``, ``B``, and ``C``
+  approximate the way we might read the goals out loud.
+  So a theorem establishing something like ``x + y ≤ ...`` will probably
+  start with ``add_le``.
+  Typing ``add_le`` and hitting tab will give you some helpful choices.
+
+* If you right-click on an existing theorem in VS Code,
+  the editor will jump to the file where it is defined,
+  and you can find similar theorems nearby.
+
+* You can use the ``library_search`` tactic,
+which tries to find the relevant theorem in the library.
+
+.. code-block:: lean
+
+    import data.real.basic
+    import tactic
+
+    example (a : ℝ) : 0 ≤ a^2 :=
+    begin
+      -- library_search,
+      exact pow_two_nonneg a
+    end
+
+To try out ``library_search`` in this example,
+delete the ``exact`` command and uncomment the previous line.
+Using these tricks,
+see if you can find what you need to do the
+next example:
+
+.. code-block:: lean
+
+    import import analysis.special_functions.exp_log
+    import tactic
+
+    open real
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    example (h : a ≤ b) : c - exp b ≤ c - exp a :=
+    begin
+      sorry
+    end
+    -- END
+
+Here is another example of an inequality:
+
+.. code-block:: lean
+
+    import data.real.basic tactic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : 2*a*b ≤ a^2 + b^2 :=
+    begin
+      have h : 0 ≤ a^2 - 2*a*b + b^2,
+      calc
+        a^2 - 2*a*b + b^2 = (a - b)^2     : by ring
+        ... ≥ 0                           : by apply pow_two_nonneg,
+      calc
+        2*a*b
+            = 2*a*b + 0                   : by ring
+        ... ≤ 2*a*b + (a^2 - 2*a*b + b^2) : add_le_add (le_refl _) h
+        ... = a^2 + b^2                   : by ring
+    end
+    -- END
+
+Mathlib tends to put spaces around binary operations like ``*`` and ``^``,
+but in this example, the more compressed format increases readability.
+There are a number of things worth noticing in this example.
+First, an expression ``s ≥ t`` is definitionally equivalent to ``t ≤ s``.
+In principle, this means one should be able to use them interchangeably.
+But some of Lean's automation does not recognize the equivalence,
+so Mathlib tends to favor ``≤`` over ``≥``.
+Second, we have used the ``ring`` tactic extensively.
+It is a real timesaver!
+Finally, notice that in the second line of the
+second ``calc`` proof,
+instead of writing ``by exact add_le_add (le_refl _) h``,
+we can simply write the proof term ``add_le_add (le_refl _) h``.
+
+In fact, the only cleverness in the proof above is figuring
+out the hypothesis ``h``.
+Once we have it, the second calculation involves only
+linear arithmetic, and ``linarith`` can handle it:
+
+.. code-block:: lean
+
+    import data.real.basic tactic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : 2*a*b ≤ a^2 + b^2 :=
+    begin
+      have h : 0 ≤ a^2 - 2*a*b + b^2,
+      calc
+        a^2 - 2*a*b + b^2 = (a - b)^2 : by ring
+        ... ≥ 0                       : by apply pow_two_nonneg,
+      linarith
+    end
+    -- END
+
+How nice! We challenge you to use these ideas to prove the
+following theorem. You can use the theorem ``abs_le_of_le_of_neg_le``.
+
+.. code-block:: lean
+
+    import data.real.basic tactic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : abs (a*b) ≤ (a^2 + b^2) / 2 :=
+    sorry
+
+    #check abs_le_of_le_of_neg_le
+    -- END
+
+If you managed to solve this, congratulations!
+You are well on your way to becoming a master formalizer.
+
+
+.. _using_more_theorems_and_lemmas:
+
+Using More Theorems and Lemmas
+------------------------------
+
+[I got tired of writing, so I decided to give the reader a break
+and start a new section.
+But I have more fun examples and exercises:
+things with ``min`` and ``max``,
+things with ``dvd`` and ``gcd``,
+and an exercise with a variant of the triangle inequality.]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .. _proving_facts_about_algebraic_structures:
