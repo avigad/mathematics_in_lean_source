@@ -32,8 +32,11 @@ To get started:
 #. Type ``code mathematics_in_lean`` to open that directory in
    ``VS Code``.
 
-Openning the file ``welcome.lean`` should simultaneously open this
-tutorial in a VS Code window.
+Opening the file ``welcome.lean`` will simultaneously open this
+tutorial in a VS Code window. To update to a newer version of
+the tutorial, type ``git pull && leanproject get-mathlib-cache``
+inside the ``mathematics_in_lean`` folder.
+
 Every once in a while, you will see code snippet like this:
 
 .. code-block:: lean
