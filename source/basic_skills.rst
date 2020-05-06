@@ -1303,65 +1303,32 @@ If you managed to solve this, congratulations!
 You are well on your way to becoming a master formalizer.
 
 
-.. _using_more_theorems_and_lemmas:
+.. .. _using_more_theorems_and_lemmas:
 
-Using More Theorems and Lemmas
-------------------------------
+.. Using More Theorems and Lemmas
+.. ------------------------------
 
-[I got tired of writing, so I decided to give the reader a break
-and start a new section.
-But I have more fun examples and exercises:
-things with ``min`` and ``max``,
-things with ``dvd`` and ``gcd``,
-and an exercise with a variant of the triangle inequality.]
+.. [I got tired of writing, so I decided to give the reader a break
+.. and start a new section.
+.. But I have more fun examples and exercises:
+.. things with ``min`` and ``max``,
+.. things with ``dvd`` and ``gcd``,
+.. and an exercise with a variant of the triangle inequality.]
 
+.. .. _proving_facts_about_algebraic_structures:
 
+.. Proving Facts about Algebraic Structures
+.. ----------------------------------------
 
+.. As we did in section :numref:`proving_identities_in_algebraic_structures`,
+.. this section will apply skills from the last section in particular algebraic structures.
 
+.. Examples may include:
 
+.. * lattices: lubs, glbs, then theorems about distributivity, etc.
 
+.. * ordered rings
 
+.. * simple facts about metric spaces from axioms
 
-
-
-
-
-
-
-
-.. _proving_facts_about_algebraic_structures:
-
-Proving Facts about Algebraic Structures
-----------------------------------------
-
-As we did in section :numref:`proving_identities_in_algebraic_structures`,
-this section will apply skills from the last section in particular algebraic structures.
-
-Examples may include:
-
-* lattices: lubs, glbs, then theorems about distributivity, etc.
-
-* ordered rings
-
-* simple facts about metric spaces from axioms
-
-* derive different versions of the triangle inequality from axioms for norms
-
-
-.. _induction:
-
-Induction
----------
-
-We'll run through addition, multiplication, and exponentiation, à la the natural numbers game.
-
-Then we'll do fibonacci numbers or something like that. By now, students should be able to prove interesting identities.
-
-
-The AM-QM Inequality
---------------------
-
-We'll try taking the students through a proof of this,
-or something else that puts everything together:
-induction, inequalities, calculations,
-and theorems from the library.
+.. * derive different versions of the triangle inequality from axioms for norms
