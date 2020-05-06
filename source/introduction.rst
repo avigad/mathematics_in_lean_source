@@ -18,8 +18,6 @@ Or maybe you like mathematics and you like computers,
 are you have some time to spare.
 If you are in any of these situations, this book is for you.
 
-[The rest of this section is science fiction right now]
-
 Although you can read a pdf or html version of this book online,
 it designed to be read interactively,
 running Lean from inside the VS Code editor.
@@ -31,13 +29,11 @@ To get started:
 #. In a terminal, type ``leanproject get mathematics_in_lean``
    to set up a working directory for this tutorial.
 
-#. Open that directory in ``VS Code``.
+#. Type ``code mathematics_in_lean`` to open that directory in
+   ``VS Code``.
 
-#. Type ``Ctrl-shift-P`` and then enter the command ``Lean: Open Documentation View``.
-
-#. Click on ``Mathematics in Lean``.
-
-At that point, you will be reading this tutorial in a VS Code window.
+Openning the file ``welcome.lean`` should simultaneously open this
+tutorial in a VS Code window.
 Every once in a while, you will see code snippet like this:
 
 .. code-block:: lean
@@ -45,40 +41,45 @@ Every once in a while, you will see code snippet like this:
     #eval "Hello, World!"
 
 Clicking on the ``try it!`` button in the upper right corner will
-make a local copy of the snippet in your working folder and open it in
+open a copy of the snippet in an ``examples`` folder and open it in
 a window so that you can experiment with it.
-This book also provides lots of exercises in that format.
-You can save your changes from VS Code in the usual way, and come back to the
-same file by pressing the corresponding ``try it!`` button again.
-If you want to reset the snippet or exercise to the version in the book,
-simply delete or rename the file with the changes you have made,
-and then press ``try it!`` once again.
+This book provides lots of challenging exercises for you to do that
+way.
 
-Sometimes in the text we will quote from a longer example, like so:
+.. TODO: delete this, or update it
 
-.. code-block:: lean
+.. You can save your changes from VS Code in the usual way, and come back to the
+.. same file by pressing the corresponding ``try it!`` button again.
 
-    -- Give an example here
-    -- Instead of a ``try it!'' button,
-    -- there should be a ``see more!`` button.
+.. If you want to reset the snippet or exercise to the version in the book,
+.. simply delete or rename the file with the changes you have made,
+.. and then press ``try it!`` once again.
 
-In that case, clicking on the ``see more!`` button opens a longer Lean file
-and takes you to that line.
-These displays are read only,
-and you should think of them as part of the main text.
-This allows us to describe a long development one piece at a time,
-leaving you free to survey the whole development as you please.
+.. Sometimes in the text we will quote from a longer example, like so:
 
-Of course, you can create other Lean files to experiment.
-We have therefore set up the main folder with four subdirectories:
+.. .. code-block:: lean
 
-* `snippets` contains your edited copies of the snippets in the text.
+..     -- Give an example here
+..     -- Instead of a ``try it!'' button,
+..     -- there should be a ``see more!`` button.
 
-* `exercises` contains your edited copies of the exercises.
+.. In that case, clicking on the ``see more!`` button opens a longer Lean file
+.. and takes you to that line.
+.. These displays are read only,
+.. and you should think of them as part of the main text.
+.. This allows us to describe a long development one piece at a time,
+.. leaving you free to survey the whole development as you please.
 
-* `examples` contains the read-only examples we make use of in the text.
+.. Of course, you can create other Lean files to experiment.
+.. We have therefore set up the main folder with four subdirectories:
 
-* `user` is a folder for you use any way you please.
+.. * `snippets` contains your edited copies of the snippets in the text.
+
+.. * `exercises` contains your edited copies of the exercises.
+
+.. * `examples` contains the read-only examples we make use of in the text.
+
+.. * `user` is a folder for you use any way you please.
 
 Overview
 --------
