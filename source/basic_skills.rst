@@ -1304,17 +1304,319 @@ If you managed to solve this, congratulations!
 You are well on your way to becoming a master formalizer.
 
 
-.. .. _using_more_theorems_and_lemmas:
+.. _more_examples:
 
-.. Using More Theorems and Lemmas
-.. ------------------------------
+More Examples
+-------------
 
-.. [I got tired of writing, so I decided to give the reader a break
-.. and start a new section.
-.. But I have more fun examples and exercises:
-.. things with ``min`` and ``max``,
-.. things with ``dvd`` and ``gcd``,
-.. and an exercise with a variant of the triangle inequality.]
+The ``min`` function on the real numbers is uniquely characterized
+by the following three facts:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c d : ℝ
+
+    -- BEGIN
+    #check (min_le_left a b : min a b ≤ a)
+    #check (min_le_right a b : min a b ≤ b)
+    #check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
+    -- END
+
+Can you guess the names of the theorems that characterize
+``max`` in a similar way?
+
+Using the theorem ``le_antisymm``, we can show that two
+real numbers are equal if each is less than or equal to the other.
+Using this and the facts above,
+we can show that ``min`` is commutative:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : min a b = min b a :=
+    begin
+      apply le_antisymm,
+      { show min a b ≤ min b a,
+        apply le_min,
+        { apply min_le_right },
+        apply min_le_left },
+      { show min b a ≤ min a b,
+        apply le_min,
+        { apply min_le_right },
+        apply min_le_left }
+    end
+    -- END
+
+Here we have used curly brackets to separate proofs of
+different goals.
+Our usage is inconsistent:
+at the outer level,
+we use curly brackets and indentation for both goals,
+whereas for the nested proofs,
+we use curly brackets only until a single goal remains.
+Both conventions are reasonable and useful.
+We also use the ``show`` tactic to structure
+the proof
+and indicate what is being proved in each block.
+The proof still works without the ``show`` commands,
+but using them makes the proof easier to read and maintain.
+
+It may bother you that the the proof is repetitive.
+To foreshadow skills you will learn later on,
+we note that one way to avoid the repetition
+is to state a local lemma and then use it:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : min a b = min b a :=
+    begin
+      have h : ∀ x y, min x y ≤ min y x,
+      { intros x y,
+        apply le_min,
+        apply min_le_right,
+        apply min_le_left },
+      apply le_antisymm, apply h, apply h
+    end
+    -- END
+
+.. TODO: add reference to the later chapter
+
+We will say more about the universal quantifier in
+a later chapter,
+but suffice it to say here that the hypothesis
+``h`` says that the desired inequality holds for
+any ``x`` and ``y``,
+and the ``intros`` tactic introduces an arbitrary
+``x`` and ``y`` to establish the conclusion.
+The first ``apply`` after ``le_antisymm`` implicitly
+uses ``h a b``, whereas the second one uses ``h b a``.
+
+Another solution is to use the ``repeat`` tactic,
+which applies a tactic (or a block) as many times
+as it can.
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : min a b = min b a :=
+    begin
+      apply le_antisymm,
+      repeat {
+        apply le_min,
+        apply min_le_right,
+        apply min_le_left }
+    end
+    -- END
+
+In any case,
+whether or not you use these tricks,
+we encourage you to prove the following:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    example : max a b = max b a :=
+    begin
+      sorry
+    end
+
+    example : min (min a b) c = min a (min b c) :=
+    sorry
+    -- END
+
+Of course, you are welcome to prove the associativity of ``max`` as well.
+
+.. TODO: reference to later chapter
+
+It is an interesting fact that ``min`` distributes over ``max``
+the way that multiplication distributes over addition,
+and vice-versa.
+In other words, on the real numbers, we have the identity
+``min a (max b c) ≤ max (min a b) (min a c)``
+as well as the corresponding version with ``max`` and ``min``
+switched.
+But in the next section we will see that this does *not* follow
+from the transitivity and reflexivity of ``≤`` and
+the characterizing properties of ``min`` and ``max`` enumerated above.
+We need to use the fact that ``≤`` on the real numbers is a *total order*,
+which is to say,
+it satisfies ``∀ x y, x ≤ y ∨ y ≤ x``.
+Here the disjunction symbol, ``∨``, represents "or";
+in the first case, we have ``min x y = x``,
+and in the second case, we have ``min x y = y``.
+We will learn how to reason by cases in a later chapter,
+so for now we will stick to examples that don't require the case split.
+
+Here is one such example:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b c : ℝ
+
+    -- BEGIN
+    lemma aux : min a b + c ≤ min (a + c) (b + c) :=
+    begin
+      sorry
+    end
+
+    example : min a b + c = min (a + c) (b + c) :=
+    begin
+      sorry
+    end
+    -- END
+
+It is clear that ``aux`` provides one of the two inequalities
+needed to prove the equality,
+but applying it to suitable values yields the other direction
+as well.
+As a hint, you can use the theorem ``add_neg_cancel_right``
+and the ``linarith`` tactic.
+
+For another challenge,
+mathlib's manic naming convention is made manifest by the library's
+name for the triangle inequality:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    -- BEGIN
+    #check (abs_add_le_abs_add_abs : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
+    -- END
+
+Use it to prove the following variant:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables a b : ℝ
+
+    -- BEGIN
+    example : abs a - abs b ≤ abs (a - b) :=
+    begin
+      sorry
+    end
+    -- END
+
+See if you can do this in three lines or less.
+You can use the theorem ``sub_add_cancel``.
+
+Another important relation that we will make use of
+in the sections to come is the divisibility relation
+on the natural numbers, ``x ∣ y``.
+Be careful: the divisibility symbol is *not* the
+ordinary bar on your keyboard.
+Rather, it is a unicode character obtained by
+typing ``\|`` in VS Code.
+By convention, mathlib uses ``dvd``
+to refer to it in theorem names.
+
+.. code-block:: lean
+
+    import data.nat.gcd
+
+    variables x y z : ℕ
+
+    example (h₀ : x ∣ y) (h₁ : y ∣ z) : x ∣ z :=
+    dvd_trans h₀ h₁
+
+    example : x ∣ y * x * z :=
+    begin
+      apply dvd_mul_of_dvd_left,
+      apply dvd_mul_left
+    end
+
+    example : x ∣ x^2 :=
+    begin
+      rw nat.pow_two,
+      apply dvd_mul_left
+    end
+
+You can also use ``nat.pow_succ`` instead of
+``nat.pow_two`` to expand ``x^2`` into a product,
+with slightly different effect.
+(In the context of the natural numbers,
+``succ`` refers to the successor function;
+in Lean, ``2`` is definitionally equal to ``succ 1``.)
+See if you can guess the names of the theorems
+you need to prove the following:
+
+.. code-block:: lean
+
+    import data.nat.gcd
+
+    variables w x y z : ℕ
+
+    example (h : x ∣ w): x ∣ y * (x * z) + x^2 + w^2 :=
+    begin
+      sorry
+    end
+
+With respect to divisibility, the *greatest common divisor*,
+``gcd``, and least common multiple, ``lcm``,
+are analogous to ``min`` and ``max``.
+Since every number divides ``0``,
+``0`` is really the greatest element with respect to divisibility:
+
+.. code-block:: lean
+
+    import data.nat.gcd
+
+    open nat
+
+    variables n : ℕ
+
+    #check (gcd_zero_right n : gcd n 0 = n)
+    #check (gcd_zero_left n  : gcd 0 n = n)
+    #check (lcm_zero_right n : lcm n 0 = 0)
+    #check (lcm_zero_left n  : lcm 0 n = 0)
+
+The functions ``gcd`` and ``lcm`` for natural numbers are in the
+``nat`` namespace,
+which means that the full identifiers are ``nat.gcd`` and ``nat.lcm``.
+Similarly, the names of the theorems listed are prefixed by ``nat``.
+The command ``open nat`` opens the namespace,
+allowing us to use the shorter names.
+
+See if you can guess the names of the theorems you will need to
+prove the following:
+
+.. code-block:: lean
+
+    import data.nat.gcd
+
+    open nat
+
+    variables m n : ℕ
+
+    -- BEGIN
+    example : gcd m n = gcd n m :=
+    begin
+      sorry
+    end
+
 
 .. .. _proving_facts_about_algebraic_structures:
 
