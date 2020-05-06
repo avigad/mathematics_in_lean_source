@@ -192,6 +192,6 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'mathematics_in_lean', 'Mathematics in Lean',
-     author, 'mathematics_in_lean', 'A tutorial introduction to Lean and Mathlib',
+     author, 'mathematics_in_lean', 'A tutorial introduction to Lean and mathlib',
      'Miscellaneous'),
 ]
