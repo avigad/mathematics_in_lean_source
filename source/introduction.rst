@@ -284,6 +284,9 @@ interactive theorem prover will challenge you to think about
 mathematics and mathematical reasoning in fundamentally new ways.
 Your life may never be the same.
 
+*Acknowledgment.* We are grateful to Gabriel Ebner for setting up the
+infrastructure for running this tutorial in VS Code.
+
 .. _`The Mechanization of Mathematics`: https://www.ams.org/journals/notices/201806/rnoti-p681.pdf
 .. _`The Future of Mathematics`: https://www.youtube.com/watch?v=Dp-mQ3HxgDE
 .. _Lean: https://leanprover.github.io/people/
