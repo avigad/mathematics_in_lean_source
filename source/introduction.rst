@@ -48,7 +48,8 @@ Every once in a while, you will see code snippet like this:
 
 Clicking on the ``try it!`` button in the upper right corner will
 open a copy in a window
-so that you can edit it and get feedback from Lean.
+so that you can edit it,
+and Lean provides feedback in the ``Lean Goal'' window.
 This book provides lots of challenging exercises for you to do that
 way.
 
