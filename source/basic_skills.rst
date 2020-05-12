@@ -56,7 +56,7 @@ is repeated from example to example.
 Clicking the ``try it!`` button displays all the
 example as it is meant to be processed and checked by Lean.
 
-Incidentally, you can type the ``ℝ`` character as ``\R`` or ``\real``
+You can type the ``ℝ`` character as ``\R`` or ``\real``
 in the VS Code editor.
 The symbol doesn't appear until you hit space or the tab key.
 If you hover over a symbol when reading a Lean file,
