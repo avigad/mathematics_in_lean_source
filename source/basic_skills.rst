@@ -67,7 +67,8 @@ you can change the leading character by changing the
 
 Try proving these identities,
 in each case replacing ``sorry`` by a tactic proof.
-With the ``rw`` tactic, you can use a left arrow to reverse an identity.
+With the ``rw`` tactic, you can use a left arrow (``\l``)
+to reverse an identity.
 For example, ``rw ← mul_assoc a b c``
 replaces ``a * (b * c)`` by ``a * b * c`` in the current goal.
 
