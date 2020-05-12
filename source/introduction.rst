@@ -8,8 +8,8 @@ Getting Started
 
 So, you are ready to formalize some mathematics.
 Maybe you have heard that formalization is the future
-(say, from the article, `The Mechanization of Mathematics`_
-or the talk, `The Future of Mathematics`_),
+(say, from the article `The Mechanization of Mathematics`_,
+or the talk `The Future of Mathematics`_),
 and you want in.
 Or maybe you have played the `Natural Number Game`_ and you are hooked.
 Maybe you have heard about `Lean`_ and its library `mathlib`_
@@ -276,7 +276,7 @@ finding things on your own.
 
 Interactive theorem proving can be frustrating,
 and the learning curve is steep.
-But the *Lean* community is very welcoming to newcomers,
+But the Lean community is very welcoming to newcomers,
 and people are available on the `Lean Zulip chat group`_ round the clock
 to answer questions.
 We hope to see you there, and have no doubt that
@@ -286,7 +286,7 @@ and contribute to the development of *mathlib*.
 So here is your mission, should you choose to accept it:
 dive in, try the exercises, come to Zulip with questions, and have fun.
 But be forewarned:
-interactive theorem prover will challenge you to think about
+interactive theorem proving will challenge you to think about
 mathematics and mathematical reasoning in fundamentally new ways.
 Your life may never be the same.
 

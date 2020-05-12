@@ -56,7 +56,7 @@ is repeated from example to example.
 Clicking the ``try it!`` button displays all the
 example as it is meant to be processed and checked by Lean.
 
-Incidentally, you can type the ``ℝ`` character as ``\R`` or ``\real``
+You can type the ``ℝ`` character as ``\R`` or ``\real``
 in the VS Code editor.
 The symbol doesn't appear until you hit space or the tab key.
 If you hover over a symbol when reading a Lean file,
@@ -67,7 +67,8 @@ you can change the leading character by changing the
 
 Try proving these identities,
 in each case replacing ``sorry`` by a tactic proof.
-With the ``rw`` tactic, you can use a left arrow to reverse an identity.
+With the ``rw`` tactic, you can use a left arrow (``\l``)
+to reverse an identity.
 For example, ``rw ← mul_assoc a b c``
 replaces ``a * (b * c)`` by ``a * b * c`` in the current goal.
 
@@ -242,8 +243,8 @@ it includes them automatically.
 
 We can delimit the scope of the declaration by putting it
 in a ``section ... end`` block.
-Finally, Lean provides us with a means of checking an expression
-and determining its type:
+Finally, Lean provides us with a command
+to determine the type of an expression:
 
 .. code-block:: lean
 
@@ -425,7 +426,7 @@ which is designed to prove identities in any ring.
 
     import data.real.basic
 
-    variables a b c : ℝ
+    variables a b c d : ℝ
 
     -- BEGIN
     example : (c * b) * a = b * (a * c) :=
@@ -437,7 +438,7 @@ which is designed to prove identities in any ring.
     example : (a + b) * (a - b) = a^2 - b^2 :=
     by ring
 
-    example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) :
+    example (hyp : c = d * a + b) (hyp' : b = a * d) :
       c = 2 * a * d :=
     begin
       rw [hyp, hyp'],
@@ -467,7 +468,7 @@ and :math:`1`, and an operation :math:`x \mapsto -x` such that:
 * Multiplication is associative with identity :math:`1`,
   and multiplication distributes over addition.
 
-In Lean, with base our algebraic structures on *types* rather than sets.
+In Lean, we base our algebraic structures on *types* rather than sets.
 Modulo this difference, we can take the ring axioms to be as follows:
 
 .. code-block:: lean
@@ -648,7 +649,7 @@ in your context,
 as well as a hypothesis ``h : a + b = a + c``,
 and you would like to draw the conclusion ``b = c``.
 In Lean, you can apply a theorem to hypotheses and facts just
-the same way that you can apply them the objects,
+the same way that you can apply them to objects,
 so you might think that ``add_left_cancel a b c h`` is a
 proof of the fact ``b = c``.
 But notice that explicitly writing ``a``, ``b``, and ``c``
@@ -665,7 +666,7 @@ The curly brackets in ``{a b c : R}`` do exactly that.
 So, given the statement of the theorem above,
 the correct expression is simply ``add_left_cancel h``.
 
-To illustrate, let's show that ``a * 0 = 0``
+To illustrate, let us show that ``a * 0 = 0``
 follows from the ring axioms.
 
 .. code-block:: lean
@@ -694,7 +695,6 @@ with the same context as the original goal.
 In the next line, we could have omitted the curly brackets,
 which serve as an inner ``begin ... end`` pair.
 Using them promotes a modular style of proof:
-Here the curly brackets could be omitted,
 the part of the proof inside the brackets establishes the goal
 that was introduced by the ``have``.
 After that, we are back to proving the original goal,
@@ -715,7 +715,7 @@ so the following theorem also requires some work.
     variables {R : Type*} [ring R]
 
     -- BEGIN
-    theorem zero_mul (a : R) : 0 * a  = 0 :=
+    theorem zero_mul (a : R) : 0 * a = 0 :=
     sorry
     -- END
 
@@ -1168,7 +1168,7 @@ part of formalization.
 There are a number of strategies you can use:
 
 * You can browse mathlib in its
-  `Github repository <https://github.com/leanprover-community/mathlib>`_.
+  `GitHub repository <https://github.com/leanprover-community/mathlib>`_.
 
 * You can use the API documentation on the mathlib
   `web pages <https://leanprover-community.github.io/mathlib_docs/>`_.
@@ -1495,8 +1495,8 @@ As a hint, you can use the theorem ``add_neg_cancel_right``
 and the ``linarith`` tactic.
 
 For another challenge,
-mathlib's manic naming convention is made manifest by the library's
-name for the triangle inequality:
+mathlib's manic naming convention is on proud display
+in the library's name for the triangle inequality:
 
 .. code-block:: lean
 
@@ -1652,12 +1652,12 @@ for arbitrary types.
 The library often uses letters like ``R`` and ``G``
 for the carries of algebraic structures likes rings and groups,
 respectively,
-but in general greek letters are used for types,
+but in general Greek letters are used for types,
 especially when there is little or no structure
 associated with them.
 
 Associated to any partial order, ``≤``,
-is also a *strict partial order*, ``<``,
+there is also a *strict partial order*, ``<``,
 which acts somewhat like ``<`` on the real numbers.
 Saying that ``x`` is less than ``y`` in this order
 is equivalent to saying that it is less-than-or-equal to ``y``
