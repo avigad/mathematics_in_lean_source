@@ -53,7 +53,7 @@ imports the theory of the real numbers from ``mathlib``.
 For the sake of brevity,
 we generally suppress information like this when it
 is repeated from example to example.
-Clicking the ``try me!`` button displays all the
+Clicking the ``try it!`` button displays all the
 example as it is meant to be processed and checked by Lean.
 
 Incidentally, you can type the ``ℝ`` character as ``\R`` or ``\real``
