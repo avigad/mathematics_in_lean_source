@@ -1104,7 +1104,9 @@ is such an equivalence,
 then ``h.mp`` establishes the forward direction, ``A → B``,
 and ``h.mpr`` establishes the reverse direction, ``B → A``.
 Here, ``mp`` stands for "modus ponens" and
-``mpr`` stands for modus ponens reverse.
+``mpr`` stands for "modus ponens reverse."
+You can also use ``h.1`` and ``h.2`` for ``h.mp`` and ``h.mpr``,
+respectively, if you prefer.
 Thus the following proof works:
 
 .. code-block:: lean
@@ -1157,7 +1159,7 @@ tactic can be used to solve concrete numeric goals.
       { sorry },
       have h₁ : 0 < 1 + exp b,
       { sorry },
-      apply (log_le_log h₀ h₁).2,
+      apply (log_le_log h₀ h₁).mpr,
       sorry
     end
     -- END
