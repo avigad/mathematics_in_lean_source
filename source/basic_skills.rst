@@ -1494,8 +1494,8 @@ As a hint, you can use the theorem ``add_neg_cancel_right``
 and the ``linarith`` tactic.
 
 For another challenge,
-mathlib's manic naming convention is made manifest by the library's
-name for the triangle inequality:
+mathlib's manic naming convention is on proud display
+in the library's name for the triangle inequality:
 
 .. code-block:: lean
 
