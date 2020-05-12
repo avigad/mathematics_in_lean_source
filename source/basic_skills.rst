@@ -468,7 +468,7 @@ and :math:`1`, and an operation :math:`x \mapsto -x` such that:
 * Multiplication is associative with identity :math:`1`,
   and multiplication distributes over addition.
 
-In Lean, with base our algebraic structures on *types* rather than sets.
+In Lean, we base our algebraic structures on *types* rather than sets.
 Modulo this difference, we can take the ring axioms to be as follows:
 
 .. code-block:: lean
@@ -517,7 +517,7 @@ but that does not hold in general.
 If you have taken a course in linear algebra,
 you will recognize that, for every :math:`n`,
 the :math:`n` by :math:`n` matrices of real numbers
-for a ring in which commutativity fails. If we declare ``R`` to be a
+form a ring in which commutativity fails. If we declare ``R`` to be a
 *commutative* ring, in fact, all the theorems
 in the last section continue to hold when we replace
 ``ℝ`` by ``R``.
@@ -649,7 +649,7 @@ in your context,
 as well as a hypothesis ``h : a + b = a + c``,
 and you would like to draw the conclusion ``b = c``.
 In Lean, you can apply a theorem to hypotheses and facts just
-the same way that you can apply them the objects,
+the same way that you can apply them to objects,
 so you might think that ``add_left_cancel a b c h`` is a
 proof of the fact ``b = c``.
 But notice that explicitly writing ``a``, ``b``, and ``c``
