@@ -195,7 +195,7 @@ Try these:
     end
     -- END
 
-For the second one, you can use the the theorem ``sub_self``,
+For the second one, you can use the theorem ``sub_self``,
 where ``sub_self a`` is the identity ``a - a = 0``.
 
 We now introduce some useful features of Lean.
@@ -841,8 +841,8 @@ can be axiomatized as follows:
     #check (zero_add : ∀ a : A, 0 + a = a)
     #check (add_left_neg : ∀ a : A, -a + a = 0)
 
-It is conventional to use additive notation when a group the
-operation is commutative,
+It is conventional to use additive notation when
+the group operation is commutative,
 and multiplicative notation otherwise.
 So Lean defines a multiplicative version as well as the
 additive version (and also their abelian variants,
@@ -1120,7 +1120,7 @@ Thus the following proof works:
     begin
       apply add_lt_add_of_lt_of_le,
       { apply add_lt_add_of_le_of_lt h₀,
-        apply exp_lt_exp.2 h₁ },
+        apply exp_lt_exp.mpr h₁ },
       apply le_refl
     end
     -- END
@@ -1184,7 +1184,8 @@ There are a number of strategies you can use:
   Typing ``add_le`` and hitting tab will give you some helpful choices.
 
 * If you right-click on an existing theorem in VS Code,
-  the editor will jump to the file where it is defined,
+  the editor will show a menu with the option to
+  jump to the file where the theorem is defined,
   and you can find similar theorems nearby.
 
 * You can use the ``library_search`` tactic,
@@ -1781,7 +1782,7 @@ using only those axioms:
 
     -- BEGIN
     example : x ⊓ (x ⊔ y) = x := sorry
-    example : x ⊔ (x ⊔ y) = x := sorry
+    example : x ⊔ (x ⊓ y) = x := sorry
     -- END
 
 These can be found in mathlib with the names ``inf_sup_self`` and ``sup_inf_self``.
