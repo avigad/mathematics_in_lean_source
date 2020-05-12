@@ -286,7 +286,7 @@ and contribute to the development of *mathlib*.
 So here is your mission, should you choose to accept it:
 dive in, try the exercises, come to Zulip with questions, and have fun.
 But be forewarned:
-interactive theorem prover will challenge you to think about
+interactive theorem proving will challenge you to think about
 mathematics and mathematical reasoning in fundamentally new ways.
 Your life may never be the same.
 
