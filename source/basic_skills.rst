@@ -695,7 +695,6 @@ with the same context as the original goal.
 In the next line, we could have omitted the curly brackets,
 which serve as an inner ``begin ... end`` pair.
 Using them promotes a modular style of proof:
-Here the curly brackets could be omitted,
 the part of the proof inside the brackets establishes the goal
 that was introduced by the ``have``.
 After that, we are back to proving the original goal,
