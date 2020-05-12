@@ -276,7 +276,7 @@ finding things on your own.
 
 Interactive theorem proving can be frustrating,
 and the learning curve is steep.
-But the *Lean* community is very welcoming to newcomers,
+But the Lean community is very welcoming to newcomers,
 and people are available on the `Lean Zulip chat group`_ round the clock
 to answer questions.
 We hope to see you there, and have no doubt that
