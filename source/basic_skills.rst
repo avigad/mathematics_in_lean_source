@@ -274,7 +274,7 @@ Lean reports that ``mul_comm a b`` is a proof of the fact ``a + b = b + a``.
 The command ``#check (a : ℝ)`` states our expectation that the
 type of ``a`` is ``ℝ``,
 and Lean will raise an error if that is not the case.
-We will explain the output of the last three ``#check`` command later,
+We will explain the output of the last three ``#check`` commands later,
 but in the meanwhile, you can take a look at them,
 and experiment with some ``#check`` commands of your own.
 
@@ -426,7 +426,7 @@ which is designed to prove identities in any ring.
 
     import data.real.basic
 
-    variables a b c : ℝ
+    variables a b c d : ℝ
 
     -- BEGIN
     example : (c * b) * a = b * (a * c) :=
@@ -438,7 +438,7 @@ which is designed to prove identities in any ring.
     example : (a + b) * (a - b) = a^2 - b^2 :=
     by ring
 
-    example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) :
+    example (hyp : c = d * a + b) (hyp' : b = a * d) :
       c = 2 * a * d :=
     begin
       rw [hyp, hyp'],
