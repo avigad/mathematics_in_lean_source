@@ -1168,7 +1168,7 @@ part of formalization.
 There are a number of strategies you can use:
 
 * You can browse mathlib in its
-  `Github repository <https://github.com/leanprover-community/mathlib>`_.
+  `GitHub repository <https://github.com/leanprover-community/mathlib>`_.
 
 * You can use the API documentation on the mathlib
   `web pages <https://leanprover-community.github.io/mathlib_docs/>`_.
