@@ -1651,14 +1651,14 @@ for arbitrary types.
 The library often uses letters like ``R`` and ``G``
 for the carries of algebraic structures likes rings and groups,
 respectively,
-but in general greek letters are used for types,
+but in general Greek letters are used for types,
 especially when there is little or no structure
 associated with them.
 
 Associated to any partial order, ``≤``,
-this is also a *strict partial order*, ``<``,
+there is also a *strict partial order*, ``<``,
 which acts somewhat like ``<`` on the real numbers.
-Saying the ``x`` is less than ``y`` in this order
+Saying that ``x`` is less than ``y`` in this order
 is equivalent to saying that it is less-than-or-equal to ``y``
 and not equal to ``y``.
 
