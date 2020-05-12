@@ -666,7 +666,7 @@ The curly brackets in ``{a b c : R}`` do exactly that.
 So, given the statement of the theorem above,
 the correct expression is simply ``add_left_cancel h``.
 
-To illustrate, let's show that ``a * 0 = 0``
+To illustrate, let us show that ``a * 0 = 0``
 follows from the ring axioms.
 
 .. code-block:: lean
