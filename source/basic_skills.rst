@@ -243,8 +243,8 @@ it includes them automatically.
 
 We can delimit the scope of the declaration by putting it
 in a ``section ... end`` block.
-Finally, Lean provides us with a means of checking and expression
-and determining its type:
+Finally, Lean provides us with a command
+to determine the type of an expression:
 
 .. code-block:: lean
 
