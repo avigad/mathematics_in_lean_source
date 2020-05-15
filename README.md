@@ -26,6 +26,8 @@ make latexpdf
 
 The call to `make install-deps` is only required the first time, and only if you want to use the bundled version of Sphinx and Pygments with improved syntax highlighting for Lean.
 
+If you have trouble building the pdf file, see <https://github.com/sphinx-doc/sphinx/issues/5823>. In particular, on Ubuntu, you may need to install the package `fonts-freefont-otf`.
+
 ## How to test the Lean code snippets
 
 ```
