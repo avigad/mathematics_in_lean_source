@@ -973,11 +973,16 @@ In Lean, we can render this as follows:
 
     -- BEGIN
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
     -- END
 
-In this section, we'll establish some properties of convergence.
+The notation ``∀ ε > 0, ...`` is a convenient abbreviation
+for ``∀ ε, ε > 0 → ...``, and, similarly,
+``∀ n ≥ N, ...`` abbreviates ``∀ n, n ≥ N →  ...``.
+And remember that ``ε > 0``, in turn, is defined as ``0 < ε``,
+and ``n ≥ N`` is defined as ``N ≤ n``.
 
+In this section, we'll establish some properties of convergence.
 But first, we will discuss three tactics for working equality
 that will prove useful.
 The first, the ``ext`` tactic,
@@ -1053,7 +1058,7 @@ converges.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     variable (a : ℝ)
 
@@ -1067,6 +1072,13 @@ converges.
       apply εpos
     end
     -- END
+
+.. TODO: reference to the simplifier
+
+Lean has a tactic, ``simp``, which can often save you the
+trouble of carrying out steps like ``rw [sub_self, abs_zero]``
+by hand.
+We will tell you more about it soon.
 
 For a more interesting theorem, let's show that if ``s``
 converges to ``a`` and ``t`` converges to ``b``, then
@@ -1091,7 +1103,7 @@ See if you can finish it off.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     -- BEGIN
     variables {s t : ℕ → ℝ} {a b : ℝ}
@@ -1110,7 +1122,7 @@ See if you can finish it off.
     end
     -- END
 
-For hints, you can use ``le_of_max_le_left`` and ``le_of_max_le_right``,
+As hints, you can use ``le_of_max_le_left`` and ``le_of_max_le_right``,
 and ``norm_num`` can prove ``ε / 2 + ε / 2 = ε``.
 Also, it is helpful to use the ``congr`` tactic to
 show that ``abs (s n + t n - (a + b))`` is equal to
@@ -1137,7 +1149,7 @@ the extra assumption that ``c`` is nonzero.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     theorem converges_to_const (a : ℝ) : converges_to (λ x : ℕ, a) a :=
     sorry
@@ -1169,7 +1181,7 @@ We have started you off; see if you can finish it.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     variables {s : ℕ → ℝ} {a : ℝ}
 
@@ -1182,6 +1194,12 @@ We have started you off; see if you can finish it.
       sorry
     end
     -- END
+
+In fact, the theorem could be strengthened to assert
+that there is a bound ``b`` that holds for all values of ``n``.
+But this version is strong enough for our purposes,
+and we will see at the end of this section that it
+holds more generally.
 
 The next lemma is auxiliary: we prove that if
 ``s`` converges to ``a`` and ``t`` converges to ``0``,
@@ -1196,7 +1214,7 @@ and finish the proof.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     variables {s t : ℕ → ℝ} {a : ℝ}
 
@@ -1228,7 +1246,7 @@ The following proof finishes it off.
     import data.real.basic
 
     def converges_to (s : ℕ → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
 
     theorem converges_to_const (a : ℝ) : converges_to (λ x : ℕ, a) a :=
     sorry
@@ -1279,7 +1297,7 @@ everywhere by any linear order ``α``:
     variables {α : Type*} [linear_order α]
 
     def converges_to (s : α → ℝ) (a : ℝ) :=
-    ∀ ε, 0 < ε → ∃ N, ∀ n, N ≤ n → abs (s n - a) < ε
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
     -- END
 
 .. TODO: reference to later chapter
@@ -1288,4 +1306,4 @@ In a later chapter, we will see that mathlib has mechanisms
 for dealing with convergence in vastly more general terms,
 not only abstracting away particular features of the domain
 and codomain,
-but also abstracting over different *modes* of convergence.
+but also abstracting over different types of convergence.
