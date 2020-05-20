@@ -14,7 +14,7 @@ In this chapter, we show you how to work with statements
 that are built up in this way.
 
 
-.. _using_implication_and_the_universal_quantifier:
+.. _implication_and_the_universal_quantifier:
 
 Implication and the Universal Quantifier
 ----------------------------------------
@@ -34,8 +34,12 @@ In words, we would say "for every ``x``, ``y``, and ``ε``,
 if ``0 < ε ≤ 1``, the absolute value of ``x`` is less than ``ε``,
 and the absolute value of ``y`` is less than ``ε``,
 then the absolute value of ``x * y`` is less than ``ε``."
-In Lean, the implication arrows associate to the right,
-making it easy to chain implications in this way.
+In Lean, in a sequence of implications there are
+implicit parentheses grouped to the right.
+So the expression above means
+"if ``0 < ε`` then if ε ≤ 1 then if ``abs x < ε`` ..."
+As a result, the expression says that all the
+assumptions together imply the conclusion.
 
 You have already seen that even though the universal quantifier
 in this statement
@@ -112,8 +116,12 @@ Take a look at what it does in this example:
 
 We can use any names we want for the universally quantified variables;
 they do not have to be ``x``, ``y``, and ``ε``.
-(If there is only one variable, you can use the singular ``intro``
-instead of ``intros``.)
+Notice that we have to introduce the variables
+even though they are marked implicit:
+making them implicit means that we leave them out when
+we write an expression,
+but they are still an essential part of the statement
+that we are proving.
 After the ``intros`` command,
 the goal is what it would have been at the start if we
 listed all the variables and hypotheses *before* the colon,
@@ -132,22 +140,26 @@ To help you prove the lemma, we will start you off:
       0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
     begin
       intros x y ε epos ele1 xlt ylt,
-      suffices h : abs x * abs y < 1 * ε,
-      { rw [←abs_mul, one_mul] at h,
-        apply h },
       calc
-        abs x * abs y ≤ abs x * ε : sorry
-        ... < 1 * ε               : sorry
+        abs (x * y) = abs x * abs y : sorry
+        ... ≤ abs x * ε             : sorry
+        ... < 1 * ε                 : sorry
+        ... = ε                     : sorry
     end
     -- END
 
-We have introduced another new tactic here:
-``suffices`` works like ``have`` in reverse,
-asking you to prove the goal using the
-stated fact,
-and then leaving you the new goal of proving that fact.
-Finish the proof using the theorems ``mul_le_mul``,
-``abs_nonneg``, and ``mul_lt_mul_right``.
+.. TODO: delete this eventually, but remember to
+   introduce ``suffices`` eventually
+
+.. We have introduced another new tactic here:
+   ``suffices`` works like ``have`` in reverse,
+   asking you to prove the goal using the
+   stated fact,
+   and then leaving you the new goal of proving that fact.
+
+Finish the proof using the theorems
+``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
+``mul_lt_mul_right``, and ``one_mul``.
 Remember that you can find theorems like these using
 tab completion.
 Remember also that you can use ``.mp`` and ``.mpr``
@@ -210,6 +222,11 @@ Lean would have to perform that contraction anyhow to make
 sense of the next ``apply``.
 The ``dsimp`` command simply makes the goal more readable
 and helps us figure out what to do next.
+Another option is to use the ``change`` tactic
+by writing ``change f x + g x ≤ a + b``.
+This helps make the proof more readable,
+and gives you more control over how the goal is transformed.
+
 The rest of the proof is routine.
 The last two ``apply`` commands force Lean to unfold the definitions
 of ``fn_ub`` in the hypotheses.
@@ -266,6 +283,9 @@ it will apply in all these instances.
       fn_ub (λ x, f x + g x) (a + b) :=
     λ x, add_le_add (hfa x) (hgb x)
 
+You have already seen square brackets like these in
+Section :numref:`proving_identities_in_algebraic_structures`,
+though we still haven't explained what they mean.
 For concreteness, we will stick to the real numbers
 for most of our examples,
 but it is worth knowing that mathlib contains definitions and theorems
@@ -377,7 +397,12 @@ You can complete the proofs of the others.
     def odd (f : ℝ → ℝ) : Prop := ∀ x, f x = - f (-x)
 
     example (ef : even f) (eg : even g) : even (λ x, f x + g x) :=
-    by { intro x, dsimp, rw [ef, eg] }
+    begin
+      intro x,
+      calc
+        (λ x, f x + g x) x = f x + g x       : rfl
+                       ... = f (-x) + g (-x) : by rw [ef, eg]
+    end
 
     example (of : odd f) (og : odd g) : even (λ x, f x * g x) :=
     sorry
@@ -389,7 +414,14 @@ You can complete the proofs of the others.
     sorry
     -- END
 
-You can find implicit universal quantifiers are all over the place,
+The first proof can be shortened using ``dsimp`` or ``change``
+to get rid of the lambda.
+But you can check that the subsequent ``rw`` won't work
+unless we get rid of the lambda explicitly,
+because otherwise it cannot find the patterns ``f x`` and ``g x``
+in the expression.
+
+You can find implicit universal quantifiers all over the place,
 once you know how to spot them.
 Mathlib includes a good library for rudimentary set theory.
 Lean's logical foundation imposes the restriction that when
