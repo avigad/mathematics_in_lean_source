@@ -794,15 +794,46 @@ and we use ``ring`` to verify that they work.
 
     variables {α : Type*} [comm_ring α]
 
-    def sos (x : α) := ∃ a b, x = a^2 + b^2
+    def sum_of_squares (x : α) := ∃ a b, x = a^2 + b^2
 
-    theorem sos_mul {x y : α} (sosx : sos x) (sosy : sos y) : sos (x * y) :=
+    theorem sum_of_squares_mul {x y : α}
+        (sosx : sum_of_squares x) (sosy : sum_of_squares y) :
+      sum_of_squares (x * y) :=
     begin
       rcases sosx with ⟨a, b, xeq⟩,
       rcases sosy with ⟨c, d, yeq⟩,
+      rw [xeq, yeq],
       use [a*c - b*d, a*d + b*c],
-      rw [xeq, yeq], ring
+      ring
     end
+
+This pattern of unpacking an equation inside a existential quantifier
+and then using it to rewrite an expression in the goal
+come up often,
+so much so that the ``rcases`` tactic provides
+an abbreviation:
+if you use the keyword ``rfl`` in place of a new identifier,
+``rcases`` does the rewriting automatically.
+
+.. code-block:: lean
+
+    import tactic
+
+    variables {α : Type*} [comm_ring α]
+
+    def sum_of_squares (x : α) := ∃ a b, x = a^2 + b^2
+
+    -- BEGIN
+    theorem sum_of_squares_mul {x y : α}
+        (sosx : sum_of_squares x) (sosy : sum_of_squares y) :
+      sum_of_squares (x * y) :=
+    begin
+      rcases sosx with ⟨a, b, rfl⟩,
+      rcases sosy with ⟨c, d, rfl⟩,
+      use [a*c - b*d, a*d + b*c],
+      ring
+    end
+    -- END
 
 As with the universal quantifier,
 you can find existential quantifiers hidden all over
@@ -825,7 +856,12 @@ For example, divisibility is implicitly an "exists" statement.
     end
     -- END
 
-Try proving the following:
+And once again, this provides a nice setting for using
+``rcases`` with ``rfl``.
+Try it out in the proof above.
+It feels pretty good!
+
+Then try proving the following:
 
 .. code-block:: lean
 
