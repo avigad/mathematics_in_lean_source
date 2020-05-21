@@ -973,8 +973,8 @@ then applying ``h`` to ``h'`` yields ``false``.
 
 To illustrate, consider the irreflexivity principle ``lt_irrefl``
 for a strict order,
-which says that it satisfies ``¬ a < a`` for every ``a``.
-The asymmetry principle ``lt_asymm`` says that it satisfies
+which says that we have ``¬ a < a`` for every ``a``.
+The asymmetry principle ``lt_asymm`` says that we have
 ``a < b → ¬ b < a``. Let's show that ``lt_asymm`` follows
 from ``lt_irrefl``.
 
@@ -1393,7 +1393,7 @@ a goal once a contradiction has been reached.
     end
     -- END
 
-The ``exfalso`` tactic simply replaces the current goal with
+The ``exfalso`` tactic replaces the current goal with
 the goal of proving ``false``.
 Given ``h : P`` and ``h' : ¬ P``,
 the term ``absurd h h'`` establishes any proposition.
