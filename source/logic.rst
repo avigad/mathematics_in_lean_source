@@ -1747,6 +1747,81 @@ The following proof finishes it off.
     end
     -- END
 
+For another challenging exercise,
+try filling out the following sketch of a proof that limits
+are unique.
+(If you are feeling bold,
+you can delete the proof sketch and try proving it from scratch.)
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    def converges_to (s : ℕ → ℝ) (a : ℝ) :=
+    ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
+
+    open_locale classical
+
+    -- BEGIN
+    theorem converges_to_unique {s : ℕ → ℝ} {a b : ℝ}
+        (sa : converges_to s a) (sb : converges_to s b) :
+      a = b :=
+    begin
+      by_contradiction abne,
+      have : abs (a - b) > 0,
+      { sorry },
+      let ε := abs (a - b) / 2,
+      have εpos : ε > 0,
+      { change abs (a - b) / 2 > 0, linarith },
+      cases sa ε εpos with Na hNa,
+      cases sb ε εpos with Nb hNb,
+      let N := max Na Nb,
+      have absa : abs (s N - a) < ε,
+      { sorry },
+      have absb : abs (s N - b) < ε,
+      { sorry },
+      have : abs (a - b) < abs (a - b),
+      { sorry },
+      exact lt_irrefl _ this
+    end
+    -- END
+
+.. solution:
+    theorem converges_to_unique {s : ℕ → ℝ} {a b : ℝ}
+        (sa : converges_to s a) (sb : converges_to s b) :
+      a = b :=
+    begin
+      by_contradiction abne,
+      have : abs (a - b) > 0,
+      { apply lt_of_le_of_ne,
+        { apply abs_nonneg },
+          intro h'',
+          apply abne,
+          apply eq_of_abs_sub_eq_zero h''.symm, },
+      let ε := abs (a - b) / 2,
+      have εpos : ε > 0,
+      { change abs (a - b) / 2 > 0, linarith },
+      cases sa ε εpos with Na hNa,
+      cases sb ε εpos with Nb hNb,
+      let N := max Na Nb,
+      have absa : abs (s N - a) < ε,
+      { apply hNa, apply le_max_left },
+      have absb : abs (s N - b) < ε,
+      { apply hNb, apply le_max_right },
+      have : abs (a - b) < abs (a - b),
+        calc
+          abs (a - b) = abs (- (s N - a) + (s N - b)) :
+            by { congr, ring }
+          ... ≤ abs (- (s N - a)) + abs (s N - b) :
+            abs_add_le_abs_add_abs _ _
+          ... = abs (s N - a) + abs (s N - b) :
+            by rw [abs_neg]
+          ... < ε + ε : add_lt_add absa absb
+          ... = abs (a - b) : by norm_num,
+      exact lt_irrefl _ this
+    end
+
+
 We close the section with the observation that our proofs can be generalized.
 For example, the only properties that we have used of the
 natural numbers is that their structure carries a partial order
