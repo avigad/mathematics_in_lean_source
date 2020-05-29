@@ -576,7 +576,7 @@ to construct the proof.
     end
     -- END
 
-The left and right brackets,
+The left and right angle brackets,
 which can be entered as ``\<`` and ``\>`` respectively,
 tell Lean to put together the given data using
 whatever construction is appropriate
@@ -1431,11 +1431,13 @@ by proving ``A`` and then proving ``B``.
     end
     -- END
 
+In this example, the ``assumption`` tactic
+tells Lean to find an assumption that will solve the goal.
 Notice that the final ``rw`` finishes the goal by
 applying the reflexivity of ``≤``.
 The following are alternative ways of carrying out
 the previous examples using the anonymous constructor
-corner brackets.
+angle brackets.
 The first is a slick proof-term version of the
 previous proof,
 which drops into tactic mode at the keyword ``by``.
@@ -1583,7 +1585,7 @@ You have already seen that you can write ``h.mp`` and ``h.mpr``
 or ``h.1`` and ``h.2`` for the two directions of ``h : A ↔ B``.
 You can also use ``cases`` and friends.
 To prove an if-and-only-if statement,
-you can uses ``split`` or corner brackets,
+you can uses ``split`` or angle brackets,
 just as you would if you were proving a conjunction.
 
 .. code-block:: lean
@@ -1648,7 +1650,7 @@ You can treat it like a conjunction and use its two
 parts separately.
 But Lean also knows that it is a reflexive, symmetric,
 and transitive relation between propositions,
-so you can also use it with ``calc`` and ``rw``.
+and you can also use it with ``calc`` and ``rw``.
 It is often convenient to rewrite a statement to
 an equivalent one.
 In the next example, we use ``abs_lt`` to
@@ -1785,7 +1787,7 @@ and the ``right`` tactic chooses ``B``.
 We cannot use an anonymous constructor to construct a proof
 of an "or" because Lean would have to guess
 which disjunct we are trying to prove.
-When we write a proof term we can use
+When we write proof terms we can use
 ``or.inl`` and ``or.inr`` instead
 to make the choice explicitly.
 Here, ``inl`` is short for "insert left" and
@@ -1948,7 +1950,7 @@ and use a semicolon and ``linarith`` to solve each branch.
 On the real numbers, an equation ``x * y = 0``
 tells us that ``x = 0`` or ``y = 0``.
 In mathlib, this fact is known as ``eq_zero_or_eq_zero_of_mul_eq_zero``,
-and it is a nice example of how a disjunction can arise.
+and it is another nice example of how a disjunction can arise.
 See if you can use it to prove the following:
 
 .. code-block:: lean
@@ -1967,6 +1969,7 @@ See if you can use it to prove the following:
 
 Remember that you can use the ``ring`` tactic to help
 with calculations.
+
 In an arbitrary ring :math:`R`, an element :math:`x` such
 that :math:`x y = 0` for some nonzero :math:`y` is called
 a *left zero divisor*,
@@ -2016,8 +2019,6 @@ The name ``em`` is short for "excluded middle."
       contradiction
     end
 
-In this example, the ``assumption`` tactic
-tells Lean to find an assumption that will solve the goal.
 You can shorten ``classical.em`` to ``em``
 by opening the ``classical`` namespace with the command
 ``open classical``.
