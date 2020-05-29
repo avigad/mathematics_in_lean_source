@@ -37,7 +37,7 @@ then the absolute value of ``x * y`` is less than ``ε``."
 In Lean, in a sequence of implications there are
 implicit parentheses grouped to the right.
 So the expression above means
-"if ``0 < ε`` then if ε ≤ 1 then if ``abs x < ε`` ..."
+"if ``0 < ε`` then if ``ε ≤ 1`` then if ``abs x < ε`` ..."
 As a result, the expression says that all the
 assumptions together imply the conclusion.
 
