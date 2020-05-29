@@ -809,9 +809,29 @@ and we use ``ring`` to verify that they work.
       ring
     end
 
-This pattern of unpacking an equation inside a existential quantifier
+This proof doesn't provide much insight,
+but here is one way to motivate it.
+A *Gaussian integer* is a number of the form :math:`a + bi`
+where :math:`a` and :math:`b` are integers and :math:`i = \sqrt{-1}`.
+The *norm* of the Gaussian integer :math:`a + bi` is, by definition,
+:math:`a^2 + b^2`.
+So the norm of a Gaussian integer is a sum of squares,
+and any sum of squares can be expressed in this way.
+The theorem above reflects the fact that norm of a product of
+Gaussian integers is the product of their norms:
+if :math:`x` is the norm of :math:`a + bi` and
+:math:`y` in the norm of :math:`c + di`,
+then :math:`xy` is the norm of :math:`(a + bi) (c + di)`.
+Our cryptic proof illustrates the fact that
+the proof that is easiest to formalize isn't always
+the most perspicuous one.
+In the chapters to come,
+we will provide you with the means to define the Gaussian
+integers and use them to provide an alternative proof.
+
+The pattern of unpacking an equation inside a existential quantifier
 and then using it to rewrite an expression in the goal
-come up often,
+comes up often,
 so much so that the ``rcases`` tactic provides
 an abbreviation:
 if you use the keyword ``rfl`` in place of a new identifier,
@@ -2314,7 +2334,7 @@ The next lemma is auxiliary: we prove that if
 ``s`` converges to ``a`` and ``t`` converges to ``0``,
 then ``λ n, s n * t n`` converges to ``0``.
 To do so, we use the previous theorem to find a ``B``
-on ``s`` beyond some point ``N₀``.
+that bounds ``s`` beyond some point ``N₀``.
 See if you can understand the strategy we have outlined
 and finish the proof.
 
