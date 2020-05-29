@@ -1945,6 +1945,61 @@ and use a semicolon and ``linarith`` to solve each branch.
     sorry
     -- END
 
+On the real numbers, an equation ``x * y = 0``
+tells us that ``x = 0`` or ``y = 0``.
+In mathlib, this fact is known as ``eq_zero_or_eq_zero_of_mul_eq_zero``,
+and it is a nice example of how a disjunction can arise.
+See if you can use it to prove the following:
+
+.. code-block:: lean
+
+    import data.real.basic
+
+    variables (x y : ℝ)
+
+    -- BEGIN
+    example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
+    sorry
+
+    example (h : x^2 = y^2) : x = y ∨ x = -y :=
+    sorry
+    -- END
+
+Remember that you can use the ``ring`` tactic to help
+with calculations.
+In an arbitrary ring :math:`R`, an element :math:`x` such
+that :math:`x y = 0` for some nonzero :math:`y` is called
+a *left zero divisor*,
+an element :math:`x` such
+that :math:`y x = 0` for some nonzero :math:`y` is called
+a *right zero divisor*,
+and an element that is either a left or right zero divisor
+is called simply a *zero divisor*.
+The theorem ``eq_zero_or_eq_zero_of_mul_eq_zero``
+says that the real numbers have no nontrivial zero divisors.
+A commutative ring with this property is called an *integral domain*.
+Your proofs of the two theorems above should work equally well
+in any integral domain:
+
+.. code-block:: lean
+
+    import algebra.group_power tactic
+
+    variables {R : Type*} [integral_domain R]
+
+    variables (x y : R)
+
+    example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
+    sorry
+
+    example (h : x^2 = y^2) : x = y ∨ x = -y :=
+    sorry
+
+In fact, if you are careful, you can prove the first
+theorem without using commutativity of multiplication.
+In that case, it suffices to assume that ``R`` is
+a ``domain`` instead of an ``integral_domain``.
+
 Sometimes in a proof we want to split on cases
 depending on whether some statement is true or not.
 For any proposition ``P``, we can use
