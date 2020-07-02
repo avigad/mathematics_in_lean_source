@@ -112,9 +112,9 @@ by representing them as ordered pairs.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -150,9 +150,9 @@ interpreting them via their binary representation.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -177,37 +177,40 @@ interpreting them via their binary representation.
 The command ``open gaussian_integer`` allows us to write ``ii``
 instead of ``gaussian_integer.ii``.
 
-Lean supports another style of defining
-the functions ``add``, ``mul``, and ``neg``, using
-*pattern matching*.
+.. These are not equivalent, so don't use them.
+.. Introduce pattern matching somewhere else.
+..
+.. Lean supports another style of defining
+.. the functions ``add``, ``mul``, and ``neg``, using
+.. *pattern matching*.
 
-.. code-block:: lean
+.. .. code-block:: lean
 
-    def gaussian_integer := ℤ × ℤ
+..     def gaussian_integer := ℤ × ℤ
 
-    notation `ℤ[i]` := gaussian_integer
+..     notation `ℤ[i]` := gaussian_integer
 
-    namespace gaussian_integer
+..     namespace gaussian_integer
 
-    -- BEGIN
-    def add : ℤ[i] → ℤ[i] → ℤ[i]
-    | (a, b) (c, d) := (a + c, b + d)
+..     -- BEGIN
+..     def add : ℤ[i] → ℤ[i] → ℤ[i]
+..     | (a, b) (c, d) := (a + c, b + d)
 
-    def mul : ℤ[i] → ℤ[i] → ℤ[i]
-    | (a, b) (c, d) := (a*c - b*d, a*d + b*c)
+..     def mul : ℤ[i] → ℤ[i] → ℤ[i]
+..     | (a, b) (c, d) := (a*c - b*d, a*d + b*c)
 
-    def neg : ℤ[i] → ℤ[i]
-    | (a, b) := (-a, -b)
-    -- END
+..     def neg : ℤ[i] → ℤ[i]
+..     | (a, b) := (-a, -b)
+..     -- END
 
-    end gaussian_integer
+..     end gaussian_integer
 
-Notice that the ``:=`` symbol is replaced by a vertical bar.
-Since the arguments to ``add``, which are of type ``ℤ[i]``,
-are ordered pairs,
-they can be assumed to be of the form ``(a, b)`` and ``(c, d)``.
-The return value of the function is then defined in terms of
-``a``, ``b``, ``c``, and ``d``.
+.. Notice that the ``:=`` symbol is replaced by a vertical bar.
+.. Since the arguments to ``add``, which are of type ``ℤ[i]``,
+.. are ordered pairs,
+.. they can be assumed to be of the form ``(a, b)`` and ``(c, d)``.
+.. The return value of the function is then defined in terms of
+.. ``a``, ``b``, ``c``, and ``d``.
 
 When we define a new type of object in a library,
 it is a good idea to design an interface to the library
@@ -245,9 +248,9 @@ for multiplication, neg, and ``ii``.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -268,13 +271,13 @@ for multiplication, neg, and ``ii``.
     by { cases z, refl }
 
     theorem re_add (w z : ℤ[i]) : re (w + z) = re w + re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_add (w z : ℤ[i]) : im (w + z) = im w + im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_mul (w z : ℤ[i]) : re (w * z) = sorry :=
-    by sorry
+    sorry
 
     theorem im_mul (w z : ℤ[i]) : im (w * z) = sorry :=
     sorry
@@ -282,7 +285,7 @@ for multiplication, neg, and ``ii``.
     theorem re_neg (w : ℤ[i]) : re (-w) = sorry :=
     sorry
 
-    theorem im_neg (w : ℤ[i]) : im (-w) = - im w :=
+    theorem im_neg (w : ℤ[i]) : im (-w) = sorry :=
     sorry
 
     theorem re_ii : re ii = sorry :=
@@ -323,9 +326,9 @@ theorem automatically to prove an equation between two Gaussian integers.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -345,22 +348,22 @@ theorem automatically to prove an equation between two Gaussian integers.
     by { cases z, refl }
 
     theorem re_add (w z : ℤ[i]) : re (w + z) = re w + re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_add (w z : ℤ[i]) : im (w + z) = im w + im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_mul (w z : ℤ[i]) : re (w * z) = re w * re z - im w * im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_mul (w z : ℤ[i]) : im (w * z) = re w * im z + im w * re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_neg (w : ℤ[i]) : re (-w) = - re w :=
-    by { cases w, refl }
+    rfl
 
     theorem im_neg (w : ℤ[i]) : im (-w) = - im w :=
-    by { cases w, refl }
+    rfl
 
     theorem re_ii : re ii = 0 := rfl
 
@@ -411,9 +414,9 @@ and declare them to the simplifier.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -433,22 +436,22 @@ and declare them to the simplifier.
     by { cases z, refl }
 
     theorem re_add (w z : ℤ[i]) : re (w + z) = re w + re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_add (w z : ℤ[i]) : im (w + z) = im w + im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_mul (w z : ℤ[i]) : re (w * z) = re w * re z - im w * im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_mul (w z : ℤ[i]) : im (w * z) = re w * im z + im w * re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_neg (w : ℤ[i]) : re (-w) = - re w :=
-    by { cases w, refl }
+    rfl
 
     theorem im_neg (w : ℤ[i]) : im (-w) = - im w :=
-    by { cases w, refl }
+    rfl
 
     theorem re_ii : re ii = 0 := rfl
 
@@ -520,9 +523,9 @@ use subtraction and powers, and so on.
     def one : ℤ[i]  := ⟨1, 0⟩
     def ii : ℤ[i]   := ⟨0, 1⟩
 
-    def add : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a + c, b + d⟩
-    def mul : ℤ[i] → ℤ[i] → ℤ[i] := λ ⟨a, b⟩ ⟨c, d⟩, ⟨a*c - b*d, a*d + b*c⟩
-    def neg : ℤ[i] → ℤ[i]        := λ ⟨a, b⟩, ⟨-a, -b⟩
+    def add (z w : ℤ[i]) : ℤ[i] := ⟨z.1 + w.1, z.2 + w.2⟩
+    def mul (z w : ℤ[i]) : ℤ[i] := ⟨z.1*w.1 - z.2*w.2, z.1*w.2 + z.2*w.1⟩
+    def neg (z : ℤ[i])   : ℤ[i] := ⟨-z.1, -z.2⟩
 
     instance : has_zero ℤ[i] := ⟨zero⟩
     instance : has_one  ℤ[i] := ⟨one⟩
@@ -542,22 +545,22 @@ use subtraction and powers, and so on.
     by { cases z, refl }
 
     theorem re_add (w z : ℤ[i]) : re (w + z) = re w + re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_add (w z : ℤ[i]) : im (w + z) = im w + im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_mul (w z : ℤ[i]) : re (w * z) = re w * re z - im w * im z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem im_mul (w z : ℤ[i]) : im (w * z) = re w * im z + im w * re z :=
-    by { cases w, cases z, refl }
+    rfl
 
     theorem re_neg (w : ℤ[i]) : re (-w) = - re w :=
-    by { cases w, refl }
+    rfl
 
     theorem im_neg (w : ℤ[i]) : im (-w) = - im w :=
-    by { cases w, refl }
+    rfl
 
     theorem re_zero : re 0 = 0 := rfl
 
