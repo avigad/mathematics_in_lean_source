@@ -39,7 +39,6 @@ notational conventions and leave out parentheses when Lean does as well.
 Let's try out ``rw``.
 
 .. code-block:: lean
-  :name: fourtytwo
 
     import data.real.basic
 
