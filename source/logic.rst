@@ -29,7 +29,7 @@ Consider the statement after the ``#check``:
     #check ∀ x : ℝ, 0 ≤ x → abs x = x
     -- END
 
-In words, we would say "for every real number ``x``, if ``0 ≤ x`` then 
+In words, we would say "for every real number ``x``, if ``0 ≤ x`` then
 the absolute value of ``x`` equals ``x``".
 We can also have more complicated statements like:
 
@@ -1719,9 +1719,9 @@ to replace an expression of the form ``m ∣ gcd n k`` by the equivalent express
 
 See if you can use ``rw`` with the theorem below
 to provide a short proof that negation is not a
-nondecreasing function (note that ``push_neg`` won't 
+nondecreasing function. (Note that ``push_neg`` won't
 unfold definitions for you, so the ``rw monotone`` in
-the proof of the theorem is needed).
+the proof of the theorem is needed.)
 
 .. code-block:: lean
 
@@ -1774,8 +1774,9 @@ You do not need anything more than ``le_refl`` and ``le_trans``.
 In the second example,
 for convenience, we use the simplifier rather than ``rw``
 to express ``<`` in terms of ``≤`` and ``¬``.
-We will come back to the simplifier later, but right now we only use
-that it will repeatedly use the indicated lemma, even if it needs
+We will come back to the simplifier later,
+but here we are only relying on the fact that it will
+use the indicated lemma repeatedly, even if it needs
 to be instantiated to different values.
 
 .. code-block:: lean

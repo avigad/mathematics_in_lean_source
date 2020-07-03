@@ -28,9 +28,9 @@ to replace the left-hand side of an identity by the right-hand side
 in the goal. If ``a``, ``b``, and ``c`` are real numbers,
 ``mul_assoc a b c``  is the identity ``a * b * c = a * (b * c)``
 and ``mul_comm a b`` is the identity ``a * b = b * a``.
-Of course Lean provides automation that almost always takes care of
-invoking such lemmas, but here we will explicitly use them for learning
-purposes.
+Lean provides automation that generally eliminates the need
+to refer the facts like these explicitly,
+but they are useful for the purposes of illustration.
 In Lean, multiplication associates to the left,
 so the left-hand side of ``mul_assoc`` could also be written ``(a * b) * c``.
 However, it is generally good style to be mindful of Lean's
@@ -560,7 +560,7 @@ Most of the facts we prove are already in ``mathlib``.
 We will give the versions we prove the same names
 to help you learn the contents of the library
 as well as the naming conventions.
-To avoid error due to names clashes,
+To avoid errors due to name clashes,
 we will put our versions in a new *namespace*
 called ``my_ring.``
 
@@ -771,7 +771,7 @@ established in this section.
 
 We had to use the annotation ``(-0 : R)`` instead of ``0`` in the third theorem
 because without specifying ``R``
-it is impossible for Lean to infer which ``0`` we have in mind, 
+it is impossible for Lean to infer which ``0`` we have in mind,
 and by default it would be interpreted as a natural number.
 
 In Lean, subtraction in a ring is defined to be
@@ -917,11 +917,11 @@ Explicitly invoking those lemmas is tedious, so mathlib provides
 tactics similar to `ring` in order to cover most uses: `group`
 is for non-commutative multiplicative groups, `abel` for abelian
 additive groups, and `noncomm_ring` for non-commutative groups.
-It certainly feels odd that the algebraic structures are called
-`ring` and `comm_ring` while the tactics are named 
+It may seem odd that the algebraic structures are called
+`ring` and `comm_ring` while the tactics are named
 `noncomm_ring` and `ring`. This is partly for historical reasons,
-but also because commutative rings are much more common, so they
-get the short tactic name.
+but also for the convenience of using a shorter name for the
+tactic that deals with commutative rings, since it is used more often.
 
 
 .. _using_theorems_and_lemmas:
@@ -974,7 +974,7 @@ all the following work:
 The ``apply`` tactic takes a proof of a general statement or implication,
 tries to match the conclusion with the current goal,
 and leaves the hypotheses, if any, as new goals.
-If the given proof matches the goal exactly 
+If the given proof matches the goal exactly
 (modulo *definitional* equality),
 you can use the ``exact`` tactic instead of ``apply``.
 So, all of these work:

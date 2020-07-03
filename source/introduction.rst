@@ -93,7 +93,7 @@ Overview
 
 Put simply, Lean is a tool for building complex expressions in a formal language
 known as *dependent type theory*.
-Every expression has a *type*, and you can use the `#check` command to 
+Every expression has a *type*, and you can use the `#check` command to
 print it.
 Some expressions have types like `ℕ` or `ℕ → ℕ`.
 These are mathematical objects.
@@ -246,7 +246,7 @@ In our example, the tactic proof can also be reduced to a one-liner:
 
     -- BEGIN
     example : ∀ m n, even n → even (m * n) :=
-    by {rintros m n ⟨k, hk⟩, use m * k, rw hk, ring}
+    by { rintros m n ⟨k, hk⟩, use m * k, rw hk, ring }
     -- END
 
 Here were have used tactics to carry out small proof steps.
@@ -304,6 +304,7 @@ Bryan Gin-ge Chen, Johan Commelin, and Guilherme Silva.
 .. _`The Mechanization of Mathematics`: https://www.ams.org/journals/notices/201806/rnoti-p681.pdf
 .. _`The Future of Mathematics`: https://www.youtube.com/watch?v=Dp-mQ3HxgDE
 .. _Lean: https://leanprover.github.io/people/
+.. _mathlib: https://leanprover-community.github.io/
 .. _community: https://leanprover-community.github.io/
 .. _`Natural Number Game`: https://wwwf.imperial.ac.uk/~buzzard/xena/natural_number_game/
 .. _`community website`: https://leanprover-community.github.io/
