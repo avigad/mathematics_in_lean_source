@@ -42,4 +42,5 @@ make leantest
 
 ## How to contribute
 
-We are just getting started with this, so extensive feedback is premature. Feel free to contact any of the authors by email or though the [Lean Zulip channel](https://leanprover.zulipchat.com/).
+This project is still a work in progress, but feedback and corrections are welcome.
+You can open a pull request, find us on the [Lean Zulip channel](https://leanprover.zulipchat.com/), or contact any of us by email.
