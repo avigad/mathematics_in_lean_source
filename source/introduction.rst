@@ -212,7 +212,7 @@ In this example, you will then see that
 the first line of the proof introduces ``m`` and ``n``
 (we could have renamed them at that point, if we wanted to),
 and also decomposes the hypothesis ``even n`` to
-a ``k`` and the assumption that ``m = 2 * k``.
+a ``k`` and the assumption that ``n = 2 * k``.
 The second line, ``use m * k``,
 declares that we are going to show that ``m * n`` is even by
 showing ``m * n = 2 * (m * k)``.
