@@ -202,7 +202,7 @@ The following is, instead, a *tactic-style* proof of the same theorem:
       -- We need to prove m*n is twice a natural. Let's show it's twice m*k.
       use m * k,
       -- substitute in for n
-      rw [hk],
+      rw hk,
       -- and now it's obvious
       ring
     end
@@ -246,7 +246,7 @@ In our example, the tactic proof can also be reduced to a one-liner:
 
     -- BEGIN
     example : ∀ m n, even n → even (m * n) :=
-    by rintros m n ⟨k, hk⟩; use m * k; rw [hk, mul_left_comm]
+    by {rintros m n ⟨k, hk⟩, use m * k, rw hk, ring}
     -- END
 
 Here were have used tactics to carry out small proof steps.
