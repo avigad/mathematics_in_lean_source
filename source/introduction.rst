@@ -24,7 +24,7 @@ running Lean from inside the VS Code editor.
 To get started:
 
 #. Install Lean, VS Code, and mathlib following the instructions
-   in the `mathlib repository`_.
+   in the `community website`_.
 
 #. In a terminal, type ``leanproject get mathematics_in_lean``
    to set up a working directory for this tutorial.
@@ -93,7 +93,8 @@ Overview
 
 Put simply, Lean is a tool for building complex expressions in a formal language
 known as *dependent type theory*.
-Every expression has a *type*.
+Every expression has a *type*, and you can use the `#check` command to 
+print it.
 Some expressions have types like `ℕ` or `ℕ → ℕ`.
 These are mathematical objects.
 
@@ -269,7 +270,7 @@ As a result, we can show you how to use some of the mathematical
 objects and theorems in the library,
 and some of the very useful tactics.
 This book is not meant to be used as an overview of the library;
-the mathlib_ web pages contain extensive documentation.
+the community_ web pages contain extensive documentation.
 Rather, our goal is to introduce you to the style of thinking that
 underlies that formalization,
 so that you are comfortable browsing the library and
@@ -299,8 +300,8 @@ Bryan Gin-ge Chen, Johan Commelin, and Guilherme Silva.
 .. _`The Mechanization of Mathematics`: https://www.ams.org/journals/notices/201806/rnoti-p681.pdf
 .. _`The Future of Mathematics`: https://www.youtube.com/watch?v=Dp-mQ3HxgDE
 .. _Lean: https://leanprover.github.io/people/
-.. _mathlib: https://leanprover-community.github.io/
+.. _community: https://leanprover-community.github.io/
 .. _`Natural Number Game`: https://wwwf.imperial.ac.uk/~buzzard/xena/natural_number_game/
-.. _`mathlib repository`: https://github.com/leanprover-community/mathlib
+.. _`community website`: https://leanprover-community.github.io/
 .. _`Theorem Proving in Lean`: https://leanprover.github.io/theorem_proving_in_lean/
 .. _`Lean Zulip chat group`: https://leanprover.zulipchat.com/
