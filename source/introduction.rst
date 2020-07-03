@@ -196,9 +196,14 @@ The following is, instead, a *tactic-style* proof of the same theorem:
 
     example : ∀ m n, even n → even (m * n) :=
     begin
+      -- say m and n are natural numbers, and assume n=2*k
       rintros m n ⟨k, hk⟩,
+      -- We need to prove m*n is twice a natural. Let's show it's twice m*k.
       use m * k,
-      rw [hk, mul_left_comm]
+      -- substitute in for n
+      rw [hk],
+      -- and now it's obvious
+      ring
     end
 
 As you enter each line of such a proof in VS Code,
@@ -216,10 +221,9 @@ a ``k`` and the assumption that ``n = 2 * k``.
 The second line, ``use m * k``,
 declares that we are going to show that ``m * n`` is even by
 showing ``m * n = 2 * (m * k)``.
-The last line uses the ``rewrite`` tactic
-to replace ``n`` by ``2 * k`` in the goal
-and then swap the ``m`` and the ``2`` to show that the two sides
-of the equality are the same.
+The next line uses the ``rewrite`` tactic
+to replace ``n`` by ``2 * k`` in the goal,
+and the `ring` tactic solves the resulting goal ``m * (2 * k) = 2 * (m * k)``.
 
 The ability to build a proof in small steps with incremental feedback
 is extremely powerful. For that reason,
