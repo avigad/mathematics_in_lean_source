@@ -538,7 +538,7 @@ but that does not hold in general.
 If you have taken a course in linear algebra,
 you will recognize that, for every :math:`n`,
 the :math:`n` by :math:`n` matrices of real numbers
-form a ring in which commutativity fails. If we declare ``R`` to be a
+form a ring in which commutativity usually fails. If we declare ``R`` to be a
 *commutative* ring, in fact, all the theorems
 in the last section continue to hold when we replace
 ``ℝ`` by ``R``.
