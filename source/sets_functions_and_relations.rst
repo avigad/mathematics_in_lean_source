@@ -465,6 +465,103 @@ We also recommend using the theorems
 ..   norm_num
 .. end
 
+.. index:: bounded quantifiers
+
+Lean introduces the notation ``∀ x ∈ s, ...``,
+"for every ``x`` in ``s`` ... ,"
+as an abbreviation for  ``∀ x, x ∈ s → ...``.
+It also introduces the notation ``∃ x ∈ s, ...,``
+"there exists an ``x`` in ``s`` such that ... ."
+These are sometimes known as *bounded quantifiers*,
+because the construction serves to restrict their significance
+to the set ``s``.
+As a result, theorems in the library that make use of them
+often contain ``ball`` or ``bex`` in the name.
+The theorem ``bex_def`` asserts that ``∃ x ∈ s, ...`` is equivalent
+to ``∃ x, x ∈ s ∧ ...,``
+but when they are used with ``rintros``, ``use``,
+and anonymous constructors,
+these two expressions behave roughly the same.
+As a result, we usually don't need to use ``bex_def``
+to transform them explicitly.
+Here is are some examples of how they are used:
+
+.. code-block:: lean
+
+    import data.nat.prime data.nat.parity
+
+    open nat
+
+    variable (s : set ℕ)
+
+    example (h₀ : ∀ x ∈ s, ¬ even x) (h₁ : ∀ x ∈ s, prime x) :
+      ∀ x ∈ s, ¬ even x ∧ prime x :=
+    begin
+      intros x xs,
+      split,
+      { apply h₀ x xs },
+      apply h₁ x xs
+    end
+
+    example (h : ∃ x ∈ s, ¬ even x ∧ prime x) :
+      ∃ x ∈ s, prime x :=
+    begin
+      rcases h with ⟨x, xs, _, prime_x⟩,
+      use [x, xs, prime_x]
+    end
+
+See if you can prove these slight variations:
+
+.. code-block:: lean
+
+    import data.nat.prime data.nat.parity
+
+    open nat
+
+    -- BEGIN
+    variables (s t : set ℕ) (ssubt : s ⊆ t)
+
+    include ssubt
+
+    example (h₀ : ∀ x ∈ t, ¬ even x) (h₁ : ∀ x ∈ t, prime x) :
+      ∀ x ∈ s, ¬ even x ∧ prime x :=
+    sorry
+
+    example (h : ∃ x ∈ s, ¬ even x ∧ prime x) :
+      ∃ x ∈ t, prime x :=
+    sorry
+    -- END
+
+.. solutions
+.. example (h₀ : ∀ x ∈ t, ¬ even x) (h₁ : ∀ x ∈ t, prime x) :
+..   ∀ x ∈ s, ¬ even x ∧ prime x :=
+.. begin
+..   intros x xs,
+..   split,
+..   { apply h₀ x (ssubt xs) },
+..   apply h₁ x (ssubt xs)
+.. end
+
+.. example (h : ∃ x ∈ s, ¬ even x ∧ prime x) :
+..   ∃ x ∈ t, prime x :=
+.. begin
+..   rcases h with ⟨x, xs, _, px⟩,
+..   use [x, ssubt xs, px]
+.. end
+
+.. index:: include, commands; include
+
+The ``include`` command is needed because ``ssubt`` does not
+appear in the statement of the theorem.
+Lean does not look inside tactic blocks when it decides
+what variables and hypotheses to include,
+so if you delete that line,
+you will not see the hypothesis within a ``begin ... end`` proof.
+If you are proving theorems in a library,
+you can delimit the scope of and ``include`` by putting it
+between ``section`` and ``end``,
+so that later theorems do not include it as an unnecessary hypothesis.
+
 Indexed unions and intersections are
 another important set-theoretic construction.
 We can model a sequence :math:`A_0, A_1, A_2, \ldots` of sets of
@@ -821,20 +918,6 @@ It is defined as follows:
       ∀ {x₁ x₂}, x₁ ∈ s → x₂ ∈ s → f x₁ = f x₂ → x₁ = x₂ :=
     iff.refl _
     -- END
-
-Lean introduces the notation ``∀ x ∈ s, ...``
-as an abbreviation for  ``∀ x, x ∈ s → ...``.
-It also introduces the notation ``∃ x ∈ s, ...``.
-When this expression is used  with ``rintros``, ``use``,
-and anonymous constructors,
-it behaves roughly the same as ``∃ x, x ∈ s ∧ ...``.
-These are sometimes known as *bounded quantifiers*,
-because the construction serves to restrict their significance
-to the set ``s``.
-As a result, theorems in the library that make use of them
-often contain ``ball`` or ``bexists`` in the name.
-
-.. TODO: see if there is a natural place to introduce these in the previous chapter.
 
 The statement ``injective f`` is provably equivalent
 to ``inj_on f univ``.
