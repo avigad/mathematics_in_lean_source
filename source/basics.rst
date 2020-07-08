@@ -1129,8 +1129,15 @@ The ``linarith`` tactic is designed to handle *linear arithmetic*.
 
 In addition to equations and inequalities in the context,
 ``linarith`` will use additional inequalities that you pass as arguments.
-In the next example, `exp_le_exp.mpr h'` is a proof of
-`exp b ≤ exp c`, as we will explain very soon.
+In the next example, ``exp_le_exp.mpr h'`` is a proof of
+``exp b ≤ exp c``, as we will explain in a moment.
+Notice that, in Lean, we write ``f x`` to denote the application
+of a function ``f`` to the argument ``x``,
+exactly the same we we write ``h x`` to denote the result of
+applying a fact or theorem ``h`` to the argument ``x``.
+Parentheses are only needed for compound arguments,
+as in ``f (x + y)``. Without the parentheses, ``f x + y``
+would be parsed as ``(f x) + y``.
 
 .. code-block:: lean
 
@@ -1427,6 +1434,24 @@ by the following three facts:
 
 Can you guess the names of the theorems that characterize
 ``max`` in a similar way?
+
+Notice that we have to apply ``min`` to a pair of arguments ``a`` and ``b``
+by writing ``min a b`` rather than ``min (a, b)``.
+Formally, ``min`` is a function of type ``ℝ → ℝ → ℝ``.
+When we write a type like this with multiple arrows,
+the convention is that the implicit parentheses associate
+to the right, so the type is interpreted as ``ℝ → (ℝ → ℝ)``.
+The net effect is that if ``a`` and ``b`` have type ``ℝ``
+then ``min a`` has type ``ℝ → ℝ`` and
+``min a b`` has type ``ℝ``, so ``min`` acts like a function
+of two arguments, as we expect. Handling multiple
+arguments in this way is known as *currying*,
+after the logician Haskell Curry.
+
+The order of operations in Lean can also take some getting used to.
+Function application binds tighter than infix operations, so the
+expression ``min a b + c`` is interpreted as ``(min a b) + c``.
+With time, these conventions will become second nature.
 
 Using the theorem ``le_antisymm``, we can show that two
 real numbers are equal if each is less than or equal to the other.
