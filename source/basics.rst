@@ -52,24 +52,58 @@ Let's try out ``rw``.
       rw mul_assoc b a c
     end
 
-As you move your cursor past each step of the proof,
-you can see the goal of the proof change.
 The ``import`` line at the beginning of the example
 imports the theory of the real numbers from ``mathlib``.
 For the sake of brevity,
 we generally suppress information like this when it
 is repeated from example to example.
-Clicking the ``try it!`` button displays all the
+Clicking the ``try it!`` button displays the full
 example as it is meant to be processed and checked by Lean.
 
+You are welcome to make changes to see what happens.
 You can type the ``ℝ`` character as ``\R`` or ``\real``
-in the VS Code editor.
+in VS Code.
 The symbol doesn't appear until you hit space or the tab key.
 If you hover over a symbol when reading a Lean file,
 VS Code will show you the syntax that can be used to enter it.
 If your keyboard does not have an easily accessible backslash,
 you can change the leading character by changing the
-``lean.input.leader`` setting in VS Code.
+``lean.input.leader`` setting.
+
+.. index:: proof state, local context, goal
+
+When a cursor is in the middle of a tactic proof,
+Lean reports on the current *proof state* in the
+*Lean infoview* window.
+As you move your cursor past each step of the proof,
+you can see the state change.
+A typical proof state in Lean might look as follows:
+
+.. code-block::
+
+    1 goal
+    x y : ℕ,
+    h₁ : prime x,
+    h₂ : ¬even x,
+    h₃ : y > x
+    ⊢ y ≥ 4
+
+The lines before the one that begins with ``⊢`` denote the *context*:
+they are the objects and assumptions currently at play.
+In this example, these include two objects, ``x`` and ``y``,
+each a natural number.
+They also include three assumptions,
+labelled ``h₁``, ``h₂``, and ``h₃``.
+In Lean, everything in a context is labelled with an identifier.
+You can type these subscripted labels as ``h\1``, ``h\2``, and ``h\3``,
+but any legal identifiers would do:
+you can use ``h1``, ``h2``, ``h3`` instead,
+or ``foo``, ``bar``, and ``baz``.
+The last line represents the *goal*,
+that is, the fact to be proved.
+Sometimes people use *target* for the fact to be proved,
+and *goal* for the combination of the context and the target.
+In practice, the intended meaning is usually clear.
 
 Try proving these identities,
 in each case replacing ``sorry`` by a tactic proof.
@@ -133,39 +167,6 @@ and the second with only one argument.
       sorry
     end
     -- END
-
-.. index:: proof state, local context, goal
-
-In the Lean editor mode,
-when a cursor is in the middle of a tactic proof,
-Lean reports on the current *proof state*.
-A typical proof state in Lean might look as follows:
-
-.. code-block::
-
-    1 goal
-    x y : ℕ,
-    h₁ : prime x,
-    h₂ : ¬even x,
-    h₃ : y > x
-    ⊢ y ≥ 4
-
-The lines before the one that begins with ``⊢`` denote the *context*:
-they are the objects and assumptions currently at play.
-In this example, these include two objects, ``x`` and ``y``,
-each a natural number.
-They also include three assumptions,
-labelled ``h₁``, ``h₂``, and ``h₃``.
-In Lean, everything in a context is labelled with an identifier.
-You can type these subscripted labels as ``h\1``, ``h\2``, and ``h\3``,
-but any legal identifiers would do:
-you can use ``h1``, ``h2``, ``h3`` instead,
-or ``foo``, ``bar``, and ``baz``.
-The last line represents the *goal*,
-that is, the fact to be proved.
-Sometimes people use *target* for the fact to be proved,
-and *goal* for the combination of the context and the target.
-In practice, the intended meaning is usually clear.
 
 You an also use ``rw`` with facts from the local context.
 
