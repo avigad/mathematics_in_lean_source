@@ -578,9 +578,18 @@ Most of the facts we prove are already in ``mathlib``.
 We will give the versions we prove the same names
 to help you learn the contents of the library
 as well as the naming conventions.
+
+.. index:: namespace, open, command ; open
+
+Lean provides an organizational mechanism similar
+to those used in programming languages:
+when a definition or theorem ``foo`` is introduced in a *namespace*
+``bar``, its full name is ``bar.foo``.
+The command ``open bar`` later *opens* the namespace,
+which allows us to use the shorter name ``foo``.
 To avoid errors due to name clashes,
-we will put our versions in a new *namespace*
-called ``my_ring.``
+in the next example we put our versions of the library
+theorems in a new namespace called ``my_ring.``
 
 The next example shows that we do not need ``add_zero`` or ``add_right_neg``
 as ring axioms, because they follow from the other axioms.
