@@ -748,7 +748,6 @@ having proved it, we are now free to use it.
 At this point, the goal is exactly the result of ``add_left_cancel h``.
 We could equally well have closed the proof with
 ``apply add_left_cancel h`` or ``exact add_left_cancel h``.
-We will discuss ``apply`` and ``exact`` in the next section.
 
 Remember that multiplication is not assumed to be commutative,
 so the following theorem also requires some work.
