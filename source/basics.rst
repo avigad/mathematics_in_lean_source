@@ -913,11 +913,13 @@ additive version (and also their abelian variants,
 
     import algebra.group
 
+    -- BEGIN
     variables (G : Type*) [group G]
 
     #check (mul_assoc : ∀ a b c : G, a * b * c = a * (b * c))
     #check (one_mul : ∀ a : G, 1 * a = a)
     #check (mul_left_inv : ∀ a : G, a⁻¹ * a = 1)
+    -- END
 
 If you are feeling cocky, try proving the following facts about
 groups, using only these axioms.
@@ -928,6 +930,7 @@ The proofs we have carried out in this section provide some hints.
 
     import algebra.group
 
+    -- BEGIN
     variables {G : Type*} [group G]
 
     #check (mul_assoc : ∀ a b c : G, a * b * c = a * (b * c))
@@ -946,6 +949,7 @@ The proofs we have carried out in this section provide some hints.
     sorry
 
     end my_group
+    -- END
 
 .. index:: group (tactic), tactics ; group, tactics ; noncomm_ring, tactics ; abel
 
