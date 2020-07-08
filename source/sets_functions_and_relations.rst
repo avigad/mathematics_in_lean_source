@@ -492,6 +492,7 @@ Here is are some examples of how they are used:
 
     open nat
 
+    -- BEGIN
     variable (s : set ℕ)
 
     example (h₀ : ∀ x ∈ s, ¬ even x) (h₁ : ∀ x ∈ s, prime x) :
@@ -509,6 +510,7 @@ Here is are some examples of how they are used:
       rcases h with ⟨x, xs, _, prime_x⟩,
       use [x, xs, prime_x]
     end
+    -- END
 
 See if you can prove these slight variations:
 
@@ -580,6 +582,7 @@ The following illustrates their use.
 
     open set
 
+    -- BEGIN
     variables α I : Type*
     variables A B : ℕ → set α
     variable  s : set α
@@ -611,6 +614,12 @@ The following illustrates their use.
       { exact h1 i },
       exact h2 i
     end
+    -- END
+
+Parentheses are often needed with an
+indexed union or intersection because,
+as with the quantifiers,
+the scope of the bound variable extends as far as it can.
 
 Try proving the following identity.
 One direction requires classical logic!
@@ -653,7 +662,101 @@ at an appropriate point in the proof.
 ..   contradiction
 .. end
 
-.. TODO: bUnion and sUnion
+Mathlib also has bounded unions and intersections,
+which are analogous to the bounded quantifiers.
+You can unpack their meaning with ``mem_bUnion_iff``
+and ``mem_bInter_iff``.
+As the following examples show,
+Lean's simplifier carries out these replacements as well.
+
+.. code-block:: lean
+
+    import data.set.lattice
+    import data.nat.prime
+
+    open set nat
+
+    -- BEGIN
+    def primes : set ℕ := {x | prime x}
+
+    example : (⋃ p ∈ primes, {x | p^2 ∣ x}) = {x | ∃ p ∈ primes, p^2 ∣ x} :=
+    by { ext, rw mem_bUnion_iff, refl }
+
+    example : (⋃ p ∈ primes, {x | p^2 ∣ x}) = {x | ∃ p ∈ primes, p^2 ∣ x} :=
+    by { ext, simp }
+
+    example : (⋂ p ∈ primes, {x | ¬ p ∣ x}) ⊆ {x | x < 2} :=
+    begin
+      intro x,
+      contrapose!,
+      simp,
+      apply exists_prime_and_dvd
+    end
+    -- END
+
+Try solving the following example, which is similar.
+If you start typing ``eq_univ``,
+tab completion will tell you that ``apply eq_univ_of_forall``
+is a good way to start the proof.
+We also recommend using the theorem ``exists_infinite_primes``.
+
+.. code-block:: lean
+
+    import data.set.lattice
+    import data.nat.prime
+
+    open set nat
+
+    def primes : set ℕ := {x | prime x}
+
+    -- BEGIN
+    example : (⋃ p ∈ primes, {x | x ≤ p}) = univ :=
+    sorry
+    -- END
+
+.. solution
+.. example : (⋃ p ∈ primes, {x | x ≤ p}) = univ :=
+.. begin
+..   apply eq_univ_of_forall,
+..   intro x,
+..   simp,
+..   rcases exists_infinite_primes x with ⟨p, primep, pge⟩,
+..   use [p, pge, primep]
+.. end
+
+Mathlib has yet another form of the union,
+``⋃₀ s``, called ``sUnion`` and defined to be equal to
+``{x | ∃ t ∈ s, x ∈ y}``.
+Similarly, the set intersection ``⋂₀ s`` is defined to be
+``{x | ∀ t ∈ s, x ∈ y}``.
+The following examples show the relationship to bounded union
+and intersection, respectively.
+In the library, they are called ``sUnion_eq_bUnion`` and ``sInter_eq_bInter``.
+
+.. code-block:: lean
+
+    import data.set.lattice
+
+    open set
+
+    -- BEGIN
+    variables {α : Type*} (s : set (set α))
+
+    example : ⋃₀ s = ⋃ t ∈ s, t :=
+    begin
+      ext x,
+      rw mem_bUnion_iff,
+      refl
+    end
+
+    example : ⋂₀ s = ⋂ t ∈ s, t :=
+    begin
+      ext x,
+      rw mem_bInter_iff,
+      refl
+    end
+    -- END
+
 
 .. _functions:
 
@@ -663,7 +766,7 @@ Functions
 If ``f : α → β`` is a function and  ``p`` is a set of
 elements of type ``β``,
 the library defines ``preimage f p``, written ``f ⁻¹' p``,
-to be ``{ x | f x ∈ p }``.
+to be ``{x | f x ∈ p}``.
 The expression ``x ∈ f ⁻¹' p`` reduces to ``f x ∈ s``.
 This is often convenient, as in the following example:
 
