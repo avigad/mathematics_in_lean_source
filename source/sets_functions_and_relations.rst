@@ -728,7 +728,7 @@ Mathlib has yet another form of the union,
 ``⋃₀ s``, called ``sUnion`` and defined to be equal to
 ``{x | ∃ t ∈ s, x ∈ y}``.
 Similarly, the set intersection ``⋂₀ s`` is defined to be
-``{x | ∀ t ∈ s, x ∈ y}``.
+``{x | ∀ t ∈ s, x ∈ t}``.
 The following examples show the relationship to bounded union
 and intersection, respectively.
 In the library, they are called ``sUnion_eq_bUnion`` and ``sInter_eq_bInter``.
@@ -1124,27 +1124,10 @@ operator, illustrated below.
 
     example : P (classical.some h) := classical.some_spec h
 
-.. TODO: comments from Patrick.
-.. This whole discussion may be a bit too implicit. We could spell out what classical.some and classical.some_spec do. It may be a good place to also introduce a discussion of the choose tactic, and explain why you chose (!) not to use it here.
-
-.. Typically, you can include:
-
-.. example {α β : Type*} {f : α → β} : surjective f ↔ ∃ g : β → α, ∀ b, f (g b) = b :=
-.. begin
-..   split,
-..   { intro h,
-..     dsimp [surjective] at h, -- this line is optional
-..     choose g hg using h,
-..     use g,
-..     exact hg },
-..   { rintro ⟨g, hg⟩,
-..     intros b,
-..     use g b,
-..     exact hg b },
-.. end
-.. Then contrast this to a situation where we really want a def outputting an element or a function, maybe with a less artificial example than your inverse.
-
-.. We should also tie this to the "function are global" discussion, and the whole thread of deferring proofs to lemmas instead of definitions. There is a lot going on here, and all of it is crucial for formalization.
+Given ``h : ∃ x, P x``, the value of ``classical.some h``
+is some ``x`` satisfying ``P x``.
+The theorem ``classical.some_spec h`` says that ``classical.some h``
+meets this specification.
 
 With these in hand, we can define the inverse function
 as follows:
@@ -1173,6 +1156,12 @@ are needed because we are using classical logic in an essential way.
 On input ``y``, the function ``inverse f``
 returns some value of ``x`` satisfying ``f x = y`` if there is one,
 and a default element of ``α`` otherwise.
+This is an instance of a *dependent if* construction,
+since in the positive case, the value returned,
+``classical.some h``, depends on the assumption ``h``.
+The identity ``dif_pos h`` rewrites ``if h : e then a else b``
+to ``a`` given ``h : e``,
+and, similarly, ``dif_neg h`` rewrites it to ``b`` given ``h : ¬ e``.
 The theorem ``inverse_spec`` says that ``inverse f``
 meets the first part of this specification.
 
@@ -1251,6 +1240,33 @@ try to condense each proof to a single-line proof term.
 
 .. example : surjective f ↔ right_inverse (inverse f) f :=
 .. ⟨λ h y, inverse_spec _ (h _), λ h y, ⟨inverse f y, h _⟩⟩
+
+.. TODO: These comments after this paragraph are from Patrick.
+.. We should decide whether we want to do this here.
+.. Another possibility is to wait until later.
+.. There may be good examples for the topology chapter,
+.. at which point, the reader will be more of an expert.
+
+.. This may be a good place to also introduce a discussion of the choose tactic, and explain why you choose (!) not to use it here.
+
+.. Typically, you can include:
+
+.. example {α β : Type*} {f : α → β} : surjective f ↔ ∃ g : β → α, ∀ b, f (g b) = b :=
+.. begin
+..   split,
+..   { intro h,
+..     dsimp [surjective] at h, -- this line is optional
+..     choose g hg using h,
+..     use g,
+..     exact hg },
+..   { rintro ⟨g, hg⟩,
+..     intros b,
+..     use g b,
+..     exact hg b },
+.. end
+.. Then contrast this to a situation where we really want a def outputting an element or a function, maybe with a less artificial example than your inverse.
+
+.. We should also tie this to the "function are global" discussion, and the whole thread of deferring proofs to lemmas instead of definitions. There is a lot going on here, and all of it is crucial for formalization.
 
 We close this section with a type-theoretic statement of Cantor's
 famous theorem that there is no surjective function from a set
