@@ -939,10 +939,10 @@ The proofs we have carried out in this section provide some hints.
 
     namespace my_group
 
-    theorem mul_one (a : G) : a * 1 = a :=
+    theorem mul_right_inv (a : G) : a * a⁻¹ = 1 :=
     sorry
 
-    theorem mul_right_inv (a : G) : a * a⁻¹ = 1 :=
+    theorem mul_one (a : G) : a * 1 = a :=
     sorry
 
     theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a ⁻¹ :=
@@ -1200,7 +1200,7 @@ an equivalent one:
     end
     -- END
 
-In this section, however, we will use that fact that if ``h : A ↔ B``
+In this section, however, we will use the fact that if ``h : A ↔ B``
 is such an equivalence,
 then ``h.mp`` establishes the forward direction, ``A → B``,
 and ``h.mpr`` establishes the reverse direction, ``B → A``.
@@ -1702,7 +1702,7 @@ you need to prove the following:
 
     variables w x y z : ℕ
 
-    example (h : x ∣ w): x ∣ y * (x * z) + x^2 + w^2 :=
+    example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 :=
     begin
       sorry
     end
@@ -1786,7 +1786,7 @@ letters like ``α``, ``β``, and ``γ``
 (entered as ``\a``, ``\b``, and ``\g``)
 for arbitrary types.
 The library often uses letters like ``R`` and ``G``
-for the carries of algebraic structures likes rings and groups,
+for the carries of algebraic structures like rings and groups,
 respectively,
 but in general Greek letters are used for types,
 especially when there is little or no structure
