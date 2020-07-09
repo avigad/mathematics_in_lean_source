@@ -57,6 +57,12 @@ and union can be typed with ``\un`` or ``\cup``.
 The library also defines the set ``univ``,
 which consists of all the elements of type ``α``,
 and the empty set, ``∅``, which can be typed as ``\empty``.
+Given ``x : α`` and ``s : set α``,
+the expression ``x ∈ s`` says that ``x`` is a member of ``s``.
+Theorems that mention set membership often include ``mem``
+in their name.
+The expression ``x ∉ s`` abbreviates ``¬ x ∈ s``.
+You can type ``∈`` as ``\in`` and ``∉`` as ``\notin``.
 
 .. index:: simp, tactics ; simp
 
@@ -436,6 +442,32 @@ You should step through this proof and make sure
 you understand what is going on.
 Try deleting the line ``rw [evens, odds]``
 and confirm that the proof still works.
+
+In fact, set-builder notation is used to define
+
+- ``s ∩ t`` as ``{x | x ∈ s ∧ x ∈ t}``,
+- ``s ∪ t`` as ``{x | x ∈ s ∨ x ∈ t}``,
+- ``∅`` as ``{x | false}``, and
+- ``univ`` as ``{x | true}``.
+
+We often need to indicate the type of ``∅`` and ``univ``
+explicitly,
+because Lean has trouble guessing which ones we mean.
+The following examples show how Lean unfolds the last
+two definitions when needed. In the second one,
+``trivial`` is the canonical proof of ``true`` in the library.
+
+.. code-block:: lean
+
+    open set
+
+    -- BEGIN
+    example (x : ℕ) (h : x ∈ (∅ : set ℕ)) : false :=
+    h
+
+    example (x : ℕ) : x ∈ (univ : set ℕ) :=
+    trivial
+    -- END
 
 As an exercise, prove the following inclusion.
 Use ``intro n`` to unfold the definition of subset,
