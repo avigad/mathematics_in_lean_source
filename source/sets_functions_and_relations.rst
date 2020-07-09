@@ -1,7 +1,7 @@
 .. _sets_functions_and_relations:
 
-Sets, Functions, and Relations
-==============================
+Sets and Functions
+==================
 
 The vocabulary of sets, relations, and functions provides a uniform
 language for carrying out constructions in all the branches of
