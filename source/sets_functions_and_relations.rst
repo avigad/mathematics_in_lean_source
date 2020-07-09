@@ -62,7 +62,7 @@ the expression ``x ∈ s`` says that ``x`` is a member of ``s``.
 Theorems that mention set membership often include ``mem``
 in their name.
 The expression ``x ∉ s`` abbreviates ``¬ x ∈ s``.
-You can type ``∈`` as ``\in`` and ``∉`` as ``\notin``.
+You can type ``∈`` as ``\in`` or ``\mem`` and ``∉`` as ``\notin``.
 
 .. index:: simp, tactics ; simp
 
@@ -616,7 +616,7 @@ The following illustrates their use.
 
     -- BEGIN
     variables α I : Type*
-    variables A B : ℕ → set α
+    variables A B : I → set α
     variable  s : set α
 
     example : s ∩ (⋃ i, A i) = ⋃ i, (A i ∩ s) :=
@@ -665,7 +665,7 @@ at an appropriate point in the proof.
     open set
 
     variables α I : Type*
-    variable  A : ℕ → set α
+    variable  A : I → set α
     variable  s : set α
 
     -- BEGIN
