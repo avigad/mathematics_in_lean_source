@@ -990,6 +990,9 @@ Consider the library theorems ``le_refl`` and ``le_trans``:
     #check (le_refl : ∀ a : ℝ, a ≤ a)
     #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
 
+As we explain in more detail in  :numref:`implication_and_the_universal_quantifier`,
+the implicit parentheses in the statement of ``le_trans``
+associate to the right, so it should be interpreted as ``a ≤ b → (b ≤ c → a ≤ c)``.
 The library designers have set the arguments to ``le_trans`` implicit,
 so that Lean will *not* let you provide them explicitly (unless you
 really insist, as we will discuss later).
@@ -1356,7 +1359,7 @@ Here is another example of an inequality:
 
 Mathlib tends to put spaces around binary operations like ``*`` and ``^``,
 but in this example, the more compressed format increases readability.
-There are a number of things worth noticing in this example.
+There are a number of things worth noticing.
 First, an expression ``s ≥ t`` is definitionally equivalent to ``t ≤ s``.
 In principle, this means one should be able to use them interchangeably.
 But some of Lean's automation does not recognize the equivalence,
@@ -1518,10 +1521,8 @@ is to state a local lemma and then use it:
     end
     -- END
 
-.. TODO: add reference to the logic chapter
-
 We will say more about the universal quantifier in
-a later chapter,
+:numref:`implication_and_the_universal_quantifier`,
 but suffice it to say here that the hypothesis
 ``h`` says that the desired inequality holds for
 any ``x`` and ``y``,
@@ -1575,8 +1576,6 @@ we encourage you to prove the following:
 
 Of course, you are welcome to prove the associativity of ``max`` as well.
 
-.. TODO: add reference to logic chapter
-
 It is an interesting fact that ``min`` distributes over ``max``
 the way that multiplication distributes over addition,
 and vice-versa.
@@ -1593,8 +1592,8 @@ it satisfies ``∀ x y, x ≤ y ∨ y ≤ x``.
 Here the disjunction symbol, ``∨``, represents "or".
 In the first case, we have ``min x y = x``,
 and in the second case, we have ``min x y = y``.
-We will learn how to reason by cases in a later chapter,
-so for now we will stick to examples that don't require the case split.
+We will learn how to reason by cases in :numref:`disjunction`,
+but for now we will stick to examples that don't require the case split.
 
 Here is one such example:
 
@@ -1761,7 +1760,7 @@ Proving Facts about Algebraic Structures
 
 .. index:: order relation, partial order
 
-In Section :numref:`proving_identities_in_algebraic_structures`,
+In :numref:`proving_identities_in_algebraic_structures`,
 we saw that many common identities governing the real numbers hold
 in more general classes of algebraic structures,
 such as commutative rings.
@@ -1817,12 +1816,10 @@ and not equal to ``y``.
     lt_iff_le_and_ne
     -- END
 
-.. TODO: add reference to logic chapter
-
 In this example, the symbol ``∧`` stands for "and,"
 the symbol ``¬`` stands for "not," and
 ``x ≠ y`` abbreviates ``¬ (x = y)``.
-In a later chapter, you will learn how to use
+In :numref:`Chapter %s <logic>`, you will learn how to use
 these logical connectives to *prove* that ``<``
 has the properties indicated.
 
@@ -1983,9 +1980,7 @@ are compatible with the order:
     #check (mul_pos : 0 < a → 0 < b → 0 < a * b)
     #check (zero_ne_one : (0 : R) ≠ 1)
 
-.. TODO: add reference to logic chapter
-
-In a later chapter, we will see how to derive the following from ``mul_pos``
+:numref:`Chapter %s <logic>` will provide the means to derive the following from ``mul_pos``
 and the definition of ``<``:
 
 .. code-block:: lean
