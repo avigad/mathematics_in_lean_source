@@ -879,7 +879,7 @@ In the chapters to come,
 we will provide you with the means to define the Gaussian
 integers and use them to provide an alternative proof.
 
-The pattern of unpacking an equation inside a existential quantifier
+The pattern of unpacking an equation inside an existential quantifier
 and then using it to rewrite an expression in the goal
 comes up often,
 so much so that the ``rcases`` tactic provides
