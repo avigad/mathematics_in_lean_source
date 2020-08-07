@@ -1241,7 +1241,7 @@ as follows:
 
 .. code-block:: lean
 
-    import data.set.function
+    import data.set.function tactic
 
     variables {α β : Type*} [inhabited α]
 
@@ -1290,7 +1290,7 @@ try to condense each proof to a single-line proof term.
 
 .. code-block:: lean
 
-    import data.set.function
+    import data.set.function tactic
 
     open set function
 

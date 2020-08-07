@@ -486,14 +486,14 @@ and asks you to do the same for transitivity.
     example : s ⊆ s :=
     by { intros x xs, exact xs }
 
-    example : s ⊆ s := λ x xs, xs
+    theorem subset.refl : s ⊆ s := λ x xs, xs
 
     example : r ⊆ s → s ⊆ t → r ⊆ t :=
     begin
       sorry
     end
 
-    example : r ⊆ s → s ⊆ t → r ⊆ t :=
+    theorem subset.trans : r ⊆ s → s ⊆ t → r ⊆ t :=
     sorry
 
 Just as we defined ``fn_ub`` for functions,
