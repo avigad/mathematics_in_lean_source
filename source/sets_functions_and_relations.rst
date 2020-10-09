@@ -1182,13 +1182,13 @@ Try proving these:
     example : inj_on sqrt { x | x ≥ 0 } :=
     sorry
 
-    example : inj_on (λ x, x^2) { x | x ≥ 0 } :=
+    example : inj_on (λ x, x^2) { x : ℝ | x ≥ 0 } :=
     sorry
 
     example : sqrt '' { x | x ≥ 0 } = {y | y ≥ 0} :=
     sorry
 
-    example : range (λ x, x^2) = {y | y ≥ 0} :=
+    example : range (λ x, x^2) = {y : ℝ  | y ≥ 0} :=
     sorry
 
 .. solution to the first:
