@@ -1191,7 +1191,7 @@ Try proving these:
     example : range (λ x, x^2) = {y : ℝ  | y ≥ 0} :=
     sorry
 
-.. solution to the first:
+.. solutions:
 .. example : inj_on sqrt { x | x ≥ 0 } :=
 .. begin
 ..   intros x xnonneg y ynonneg,
@@ -1200,6 +1200,47 @@ Try proving these:
 ..     x   = (sqrt x)^2 : by rw sqr_sqrt xnonneg
 ..     ... = (sqrt y)^2 : by rw e
 ..     ... = y          : by rw sqr_sqrt ynonneg
+.. end
+..
+.. example : inj_on (λ x, x^2) { x : ℝ | x ≥ 0 } :=
+.. begin
+..     intros x xnonneg y ynonneg,
+..     intro e,
+..     dsimp at *,
+..     calc
+..       x   = sqrt (x^2) : by rw sqrt_sqr xnonneg
+..       ... = sqrt (y^2) : by rw e
+..       ... = y          : by rw sqrt_sqr ynonneg,
+.. end
+..
+.. example : sqrt '' { x | x ≥ 0 } = {y | y ≥ 0} :=
+.. begin
+..     ext y, split,
+..     {
+..       rintros ⟨x, ⟨xnonneg, rfl⟩⟩,
+..       apply sqrt_nonneg,
+..     },
+..     intro ynonneg,
+..     use y^2,
+..     dsimp at *,
+..     split,
+..     apply pow_nonneg ynonneg,
+..     apply sqrt_sqr,
+..     assumption,
+.. end
+..
+.. example : range (λ x, x^2) = {y : ℝ | y ≥ 0} :=
+.. begin
+..     ext y,
+..     split,
+..     {
+..         rintros ⟨x, rfl⟩,
+..         dsimp at *,
+..         apply pow_two_nonneg,
+..     },
+..     intro ynonneg,
+..     use sqrt y,
+..     exact sqr_sqrt ynonneg,
 .. end
 
 To define the inverse of a function ``f : α → β``,
