@@ -1194,7 +1194,7 @@ Try proving these:
 .. solution to the first:
 .. example : inj_on sqrt { x | x ≥ 0 } :=
 .. begin
-..   intros x y xnonneg ynonneg,
+..   intros x xnonneg y ynonneg,
 ..   intro e,
 ..   calc
 ..     x   = (sqrt x)^2 : by rw sqr_sqrt xnonneg
