@@ -1216,10 +1216,8 @@ Try proving these:
 .. example : sqrt '' { x | x ≥ 0 } = {y | y ≥ 0} :=
 .. begin
 ..     ext y, split,
-..     {
-..       rintros ⟨x, ⟨xnonneg, rfl⟩⟩,
-..       apply sqrt_nonneg,
-..     },
+..     { rintros ⟨x, ⟨xnonneg, rfl⟩⟩,
+..       apply sqrt_nonneg },
 ..     intro ynonneg,
 ..     use y^2,
 ..     dsimp at *,
@@ -1233,11 +1231,9 @@ Try proving these:
 .. begin
 ..     ext y,
 ..     split,
-..     {
-..         rintros ⟨x, rfl⟩,
-..         dsimp at *,
-..         apply pow_two_nonneg,
-..     },
+..     { rintros ⟨x, rfl⟩,
+..        dsimp at *,
+..        apply pow_two_nonneg },
 ..     intro ynonneg,
 ..     use sqrt y,
 ..     exact sqr_sqrt ynonneg,
