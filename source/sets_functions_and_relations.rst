@@ -1175,7 +1175,7 @@ Try proving these:
 
 .. code-block:: lean
 
-    import data.real.basic
+    import data.real.sqrt
 
     open set real
 
