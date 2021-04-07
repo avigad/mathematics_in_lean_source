@@ -256,7 +256,7 @@ In our example, the tactic proof can also be reduced to a one-liner:
     by { rintros m n ⟨k, hk⟩, use m * k, rw hk, ring }
     -- END
 
-Here were have used tactics to carry out small proof steps.
+Here we have used tactics to carry out small proof steps.
 But they can also provide substantial automation,
 and justify longer calculations and bigger inferential steps.
 For example, we can invoke Lean's simplifier with
