@@ -163,7 +163,7 @@ it makes more sense to start here and refer back to
 Another thing that distinguishes *Mathematics in Lean* from
 *Theorem Proving in Lean* is that here we place a much greater
 emphasis on the use of *tactics*.
-Given that were are trying to build complex expressions,
+Given that we are trying to build complex expressions,
 Lean offers two ways of going about it:
 we can write down the expressions themselves
 (that is, suitable text descriptions thereof),
