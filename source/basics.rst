@@ -285,7 +285,7 @@ but in the meanwhile, you can take a look at them,
 and experiment with some ``#check`` commands of your own.
 
 Let's try some more examples. The theorem ``two_mul a`` says
-that ``a + a = 2 * a``. The theorems ``add_mul`` and ``mul_add``
+that ``2 * a = a + a``. The theorems ``add_mul`` and ``mul_add``
 express the distributivity of multiplication over addition,
 and the theorem ``add_assoc`` expresses the associativity of addition.
 Use the ``#check`` command to see the precise statements.
