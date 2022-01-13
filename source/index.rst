@@ -7,10 +7,12 @@ Mathematics in Lean
    :numbered:
    :maxdepth: 2
 
-   introduction
-   basics
-   logic
-   sets_functions_and_relations
+   01_Introduction
+   02_Basics
+   03_Logic
+   04_Sets_and_Functions
 
+.. toctree::
+   :hidden:
 
-.. :ref:`genindex`
+   genindex
