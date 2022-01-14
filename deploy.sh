@@ -1,4 +1,3 @@
-# Don't use! This is the old deploy script.
 #!/usr/bin/env bash
 set -e
 if [ "$#" -ne 2 ]; then
@@ -7,7 +6,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 # Build
-make clean html examples latexpdf
+make clean html latexpdf
 
 # 3. Deploy
 rm -rf deploy

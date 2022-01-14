@@ -1,0 +1,15 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: |
+      python3 -m pip install --user pipx
+      python3 -m pipx ensurepath
+      source ~/.profile
+      pipx install mathlibtools
+      leanproject get-mathlib
+
+
+vscode:
+  extensions:
+    - jroesch.lean
