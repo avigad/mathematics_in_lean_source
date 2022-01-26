@@ -51,7 +51,7 @@ variables (s t u : set α)
 
 open set
 
--- MAIN:
+-- EXAMPLES:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
 begin
   rw [subset_def, inter_def, inter_def],
@@ -416,10 +416,13 @@ by { rw nat.prime_iff, exact h }
 
 /- TEXT:
 .. index:: rwa, tactics ; rwa
+
 The `rwa` tactic follows a rewrite with the assumption tactic.
 TEXT. -/
+-- QUOTE:
 example (n : ℕ) (h : prime n) : nat.prime n :=
 by rwa nat.prime_iff
+-- QUOTE.
 
 -- BOTH:
 end
@@ -450,7 +453,7 @@ section
 -- QUOTE:
 variables (s t : set ℕ)
 
--- MAIN:
+-- EXAMPLES:
 example (h₀ : ∀ x ∈ s, ¬ even x) (h₁ : ∀ x ∈ s, prime x) :
   ∀ x ∈ s, ¬ even x ∧ prime x :=
 begin
@@ -549,7 +552,7 @@ variables A B : I → set α
 variable  s : set α
 open set
 
--- MAIN:
+-- EXAMPLES:
 example : s ∩ (⋃ i, A i) = ⋃ i, (A i ∩ s) :=
 begin
   ext x,
@@ -628,7 +631,7 @@ TEXT. -/
 -- BOTH:
 def primes : set ℕ := {x | nat.prime x}
 
--- MAIN:
+-- EXAMPLES:
 example : (⋃ p ∈ primes, {x | p^2 ∣ x}) = {x | ∃ p ∈ primes, p^2 ∣ x} :=
 by { ext, rw mem_bUnion_iff, refl }
 

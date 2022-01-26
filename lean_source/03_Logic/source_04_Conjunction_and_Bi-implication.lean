@@ -306,7 +306,7 @@ section
 variables {α : Type*} [partial_order α]
 variables a b : α
 
--- MAIN:
+-- EXAMPLES:
 example : a < b ↔ a ≤ b ∧ a ≠ b :=
 begin
   rw lt_iff_le_not_le,
@@ -348,7 +348,7 @@ section
 variables {α : Type*} [preorder α]
 variables a b c : α
 
--- MAIN:
+-- EXAMPLES:
 example : ¬ a < a :=
 begin
   rw lt_iff_le_not_le,

@@ -395,7 +395,7 @@ TEXT. -/
 def fn_even (f : ℝ → ℝ) : Prop := ∀ x, f x = f (-x)
 def fn_odd (f : ℝ → ℝ) : Prop := ∀ x, f x = - f (-x)
 
--- MAIN:
+-- EXAMPLES:
 example (ef : fn_even f) (eg : fn_even g) : fn_even (λ x, f x + g x) :=
 begin
   intro x,
@@ -477,7 +477,7 @@ section
 -- QUOTE:
 variables {α : Type*} (r s t : set α)
 
--- MAIN:
+-- EXAMPLES:
 example : s ⊆ s :=
 by { intros x xs, exact xs }
 
@@ -521,7 +521,7 @@ variables (s : set α) (a b : α)
 
 def set_ub (s : set α) (a : α) := ∀ x, x ∈ s → x ≤ a
 
--- MAIN:
+-- EXAMPLES:
 example (h : set_ub s a) (h' : a ≤ b) : set_ub s b :=
 sorry
 -- QUOTE.
@@ -558,7 +558,7 @@ section
 -- QUOTE:
 open function
 
--- MAIN:
+-- EXAMPLES:
 example (c : ℝ) : injective (λ x, x + c) :=
 begin
   intros x₁ x₂ h',

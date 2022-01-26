@@ -13,7 +13,7 @@ rm -rf deploy
 git clone git@github.com:$1/$2 deploy
 cd deploy
 rm -rf * .gitignore
-cp -Lr ../to-be-deployed/./ .
+cp -Lr ../user_repo/./ .
 git add .
 git commit -m "Update `date`"
 git push
@@ -22,6 +22,7 @@ git checkout gh-pages
 rm -rf * .gitignore .buildinfo .nojekyll
 cp -r ../build/html/./ .
 cp ../build/latex/mathematics_in_lean.pdf .
+touch .nojekyll
 git add .
 git commit -m "Update `date`"
 git push

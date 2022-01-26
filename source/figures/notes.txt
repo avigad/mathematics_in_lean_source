@@ -1,0 +1,7 @@
+The tex files here need to be compiled and converted to png.
+
+On Ubuntu, I (Jeremy) use
+
+  pdftoppm foo.pdf foo -png -rx 300 -ry 300
+
+to convert the pdf to a png.

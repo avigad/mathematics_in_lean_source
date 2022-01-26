@@ -33,7 +33,7 @@ TEXT. -/
 section
 variables a b : ℝ
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 example (h : a < b) : ¬ b < a :=
 begin
@@ -74,7 +74,7 @@ def fn_has_lb (f : ℝ → ℝ) := ∃ a, fn_lb f a
 
 variable f : ℝ → ℝ
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 example (h : ∀ a, ∃ x, f x > a) : ¬ fn_has_ub f :=
 begin
@@ -217,7 +217,7 @@ section
 -- QUOTE:
 variables {α : Type*} (P : α → Prop) (Q : Prop)
 
--- MAIN:
+-- EXAMPLES:
 example (h : ¬ ∃ x, P x) : ∀ x, ¬ P x :=
 sorry
 
@@ -311,7 +311,7 @@ open_locale classical
 section
 variable (f : ℝ → ℝ)
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
 sorry

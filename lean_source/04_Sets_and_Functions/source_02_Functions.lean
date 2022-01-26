@@ -27,7 +27,7 @@ variables u v : set β
 open function
 open set
 
--- MAIN:
+-- EXAMPLES:
 example : f ⁻¹' (u ∩ v) = f ⁻¹' u ∩ f ⁻¹' v :=
 by { ext, refl }
 -- QUOTE.
@@ -369,7 +369,7 @@ section
 -- QUOTE:
 open set real
 
--- MAIN:
+-- EXAMPLES:
 example : inj_on log { x | x > 0 } :=
 begin
   intros x xpos y ypos,
@@ -483,7 +483,7 @@ section
 -- QUOTE:
 variables {α β : Type*} [inhabited α]
 
--- MAIN:
+-- EXAMPLES:
 #check (default : α)
 
 variables (P : α → Prop) (h : ∃ x, P x)

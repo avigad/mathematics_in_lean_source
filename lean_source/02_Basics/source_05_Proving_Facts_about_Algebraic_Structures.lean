@@ -25,7 +25,7 @@ section
 variables {α : Type*} [partial_order α]
 variables x y z : α
 
--- MAIN:
+-- EXAMPLES:
 #check x ≤ y
 #check (le_refl x : x ≤ x)
 #check (le_trans : x ≤ y → y ≤ z → x ≤ z)
@@ -83,7 +83,7 @@ section
 variables {α : Type*} [lattice α]
 variables x y z : α
 
--- MAIN:
+-- EXAMPLES:
 #check x ⊓ y
 #check (inf_le_left : x ⊓ y ≤ x)
 #check (inf_le_right : x ⊓ y ≤ y)
@@ -282,7 +282,7 @@ section
 variables {α : Type*} [lattice α]
 variables a b c : α
 
--- MAIN:
+-- EXAMPLES:
 example (h : ∀ x y z : α, x ⊓ (y ⊔ z) = (x ⊓ y) ⊔ (x ⊓ z)) :
   a ⊔ (b ⊓ c) = (a ⊔ b) ⊓ (a ⊔ c) :=
 sorry
@@ -319,7 +319,7 @@ section
 variables {R : Type*} [ordered_ring R]
 variables a b c : R
 
--- MAIN:
+-- EXAMPLES:
 #check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
 #check (mul_pos : 0 < a → 0 < b → 0 < a * b)
 -- QUOTE.
@@ -389,7 +389,7 @@ section
 variables {X : Type*} [metric_space X]
 variables x y z : X
 
--- MAIN:
+-- EXAMPLES:
 #check (dist_self x : dist x x = 0)
 #check (dist_comm x y : dist x y = dist y x)
 #check (dist_triangle x y z : dist x z ≤ dist x y + dist y z)

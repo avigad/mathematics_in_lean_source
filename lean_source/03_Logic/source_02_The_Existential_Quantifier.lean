@@ -100,7 +100,7 @@ section
 -- QUOTE:
 variables {f g : ℝ → ℝ}
 
--- MAIN:
+-- EXAMPLES:
 example (ubf : fn_has_ub f) (ubg : fn_has_ub g) :
   fn_has_ub (λ x, f x + g x) :=
 begin
@@ -308,7 +308,7 @@ TEXT. -/
 section
 variables {a b c : ℕ}
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c :=
 begin
@@ -366,7 +366,7 @@ TEXT. -/
 section
 open function
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 example {c : ℝ} : surjective (λ x, x + c) :=
 begin

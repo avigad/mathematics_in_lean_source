@@ -18,7 +18,7 @@ section
 -- QUOTE:
 variables {x y : ℝ}
 
--- MAIN:
+-- EXAMPLES:
 example (h : y > x^2) : y > 0 ∨ y < -1 :=
 by { left, linarith [pow_two_nonneg x] }
 
@@ -91,7 +91,7 @@ TEXT. -/
 -- QUOTE:
 namespace my_abs
 
--- MAIN:
+-- EXAMPLES:
 theorem le_abs_self : x ≤ abs x :=
 sorry
 
@@ -228,7 +228,7 @@ section
 variables {R : Type*} [comm_ring R] [is_domain R]
 variables (x y : R)
 
--- MAIN:
+-- EXAMPLES:
 example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
 sorry
 
@@ -285,7 +285,7 @@ section
 -- QUOTE:
 open_locale classical
 
--- MAIN:
+-- EXAMPLES:
 example (P : Prop) : ¬ ¬ P → P :=
 begin
   intro h,

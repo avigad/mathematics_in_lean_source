@@ -167,7 +167,7 @@ TEXT. -/
 namespace my_ring
 variables {R : Type*} [ring R]
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b :=
 by rw [←add_assoc, add_left_neg, zero_add]
@@ -385,7 +385,7 @@ namespace my_ring
 
 variables {R : Type*} [ring R]
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 theorem self_sub (a : R) : a - a = 0 :=
 sorry
@@ -457,7 +457,7 @@ section
 -- QUOTE:
 variables {G : Type*} [group G]
 
--- MAIN:
+-- EXAMPLES:
 #check (mul_assoc : ∀ a b c : G, a * b * c = a * (b * c))
 #check (one_mul : ∀ a : G, 1 * a = a)
 #check (mul_left_inv : ∀ a : G, a⁻¹ * a = 1)
@@ -472,7 +472,7 @@ TEXT. -/
 -- BOTH:
 namespace my_group
 
--- MAIN:
+-- EXAMPLES:
 -- QUOTE:
 theorem mul_right_inv (a : G) : a * a⁻¹ = 1 :=
 sorry
