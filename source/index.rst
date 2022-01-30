@@ -11,6 +11,7 @@ Mathematics in Lean
    02_Basics
    03_Logic
    04_Sets_and_Functions
+   05_Number_Theory
 
 .. toctree::
    :hidden:

@@ -1,4 +1,4 @@
-.. _sets_functions_and_relations:
+.. _sets_and_functions:
 
 Sets and Functions
 ==================
