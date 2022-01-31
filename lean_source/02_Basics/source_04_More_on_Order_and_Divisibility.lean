@@ -2,7 +2,7 @@
 import data.real.basic
 
 /- TEXT:
-.. more_on_order_and_divisibility:
+.. _more_on_order_and_divisibility:
 
 More on Order and Divisibility
 ------------------------------
