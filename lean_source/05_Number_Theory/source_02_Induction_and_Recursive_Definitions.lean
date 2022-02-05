@@ -239,6 +239,16 @@ example (a b c d e f : ℕ) :
 by simp [mul_assoc, mul_comm, mul_left_comm]
 -- QUOTE.
 
+/- TEXT:
+Returning to summation identities, we suggest stepping through the following proof
+that the sum of the natual numbers up to an including :math:`n` is
+:math:`n (n + 1) / 2`.
+The first step of the proof clears the denominator.
+This is generally useful when formalizing identities,
+because calculations with division generally have side conditions.
+(It is similarly useful to avoid using subtraction on the natural numbers when possible.)
+EXAMPLES: -/
+-- QUOTE:
 theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 :=
 begin
   symmetry, apply nat.div_eq_of_eq_mul_right,
@@ -248,8 +258,17 @@ begin
   rw [finset.sum_range_succ, mul_add 2, ←ih, nat.succ_eq_add_one],
   ring
 end
+-- QUOTE.
 
+/- TEXT:
+We encourage you to prove the analogous identity for sums of squares,
+and other identities you can find on the web.
+BOTH: -/
+-- QUOTE:
 theorem sum_sqr (n : ℕ) : ∑ i in range (n + 1), i^2 = n * (n + 1) * (2 *n + 1) / 6 :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
 begin
   symmetry, apply nat.div_eq_of_eq_mul_right,
   { by norm_num },
@@ -258,10 +277,154 @@ begin
   rw [finset.sum_range_succ, mul_add 6, ←ih, nat.succ_eq_add_one],
   ring
 end
+-- QUOTE.
+-- BOTH:
 
+/- TEXT:
+In Lean's core library, addition and multiplication are themselves defined
+using recursive definitions,
+and their fundamental properties are established using induction.
+If you like thinking about foundations topics like that,
+you might enjoy working through proofs
+of the commutativity and associativity of multiplication and addition
+and the distributivity of multiplication over addition.
+You can do this on a copy of the natural numbers
+following the outline below.
+Notice that we can use the ``induction`` tactic with ``my_nat``;
+Lean is smart enough to know to
+use the relevant induction principle (which is, of course,
+the same as that for ``nat``).
 
+We start you off with the commutativity of addition.
+A good rule of thumb is that because addition and multiplication
+are defined by recursion on the second argument,
+it is generally advantageous to do proofs by induction on a variable
+that occurs in that position.
+It is a bit tricky to decide which variable to do induction on
+to prove associativity.
+
+It can be confusing to write things without the usual notation
+for zero, one, addition, and multiplication.
+We will learn how to define such notation later.
+Working in the namespace ``my_nat`` means that we can write
+``zero`` and ``succ`` rather than ``my_nat.zero`` and ``my_nat.succ``,
+and that these interpretations of the names take precedence over
+others.
+Outside the namespace, the full name of the ``add`` defined below,
+for example, is ``my_nat.add``.
+
+If you find that you *really* enjoy this sort of thing, try defining
+truncated subtraction and exponentiation and proving some of their
+properties as well.
+Remember that truncated subtraction cuts off at zero.
+To define that, it is useful to define a predecessor function, ``pred``,
+that subtracts one from any nonzero number and fixes zero.
+The function ``pred`` can be defined by a simple instance of recursion.
+BOTH: -/
+-- QUOTE:
+inductive my_nat
+| zero : my_nat
+| succ : my_nat → my_nat
+
+namespace my_nat
+
+def add : my_nat → my_nat → my_nat
+| x zero     := x
+| x (succ y) := succ (add x y)
+
+def mul : my_nat → my_nat → my_nat
+| x zero     := zero
+| x (succ y) := add (mul x y) x
+
+theorem zero_add (n : my_nat) : add zero n = n :=
+begin
+  induction n with n ih,
+  { refl },
+  rw [add, ih]
+end
+
+theorem succ_add (m n : my_nat) : add (succ m) n = succ (add m n) :=
+begin
+  induction n with n ih,
+  { refl },
+  rw [add, ih],
+  refl
+end
+
+theorem add_comm (m n : my_nat) : add m n = add n m :=
+begin
+  induction n with n ih,
+  { rw zero_add, refl },
+  rw [add, succ_add, ih]
+end
+
+theorem add_assoc (m n k : my_nat) : add (add m n) k = add m (add n k) :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
+begin
+  induction k with k ih,
+  { refl },
+  rw [add, ih],
+  refl
+end
+-- BOTH:
+
+theorem mul_add  (m n k : my_nat) : mul m (add n k) = add (mul m n) (mul m k) :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
+begin
+  induction k with k ih,
+  { refl },
+  rw [add, mul, mul, ih, add_assoc]
+end
+-- BOTH:
+
+theorem zero_mul (n : my_nat) : mul zero n = zero :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
+begin
+  induction n with n ih,
+  { refl },
+  rw [mul, ih],
+  refl
+end
+-- BOTH:
+
+theorem succ_mul (m n : my_nat) : mul (succ m) n = add (mul m n) n :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
+begin
+  induction n with n ih,
+  { refl },
+  rw [mul, mul, ih, add_assoc, add_assoc, add_comm n, succ_add],
+  refl
+end
+-- BOTH:
+
+theorem mul_comm (m n : my_nat) : mul m n = mul n m :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
+begin
+  induction n with n ih,
+  { rw [zero_mul], refl },
+  rw [mul, ih, succ_mul]
+end
+-- BOTH:
+
+-- QUOTE.
+
+/- TEXT:
+
+EXAMPLES: -/
 example {m : ℕ} (h : m < 2) : m = 0 ∨ m = 1 :=
 by dec_trivial!
+
+#check nat.min_fac
 
 theorem exists_prime_factor {n : nat} (h : 2 ≤ n) :
   ∃ p : nat, p.prime ∧ p ∣ n :=
