@@ -141,7 +141,8 @@ end
 -- QUOTE.
 
 /- TEXT:
-With that in hand, we can prove the following formulation of our theorem. See if you can fill out the following sketch.
+With that in hand, we can prove the following formulation of our theorem.
+See if you can fill out the following sketch.
 You can use ``nat.factorial_pos``, ``nat.dvd_factorial``,
 and ``nat.dvd_sub``.
 EXAMPLE: -/
@@ -299,49 +300,36 @@ EXAMPLE: -/
 theorem nat.prime.eq_of_dvd_of_prime {p q : ℕ}
     (prime_p : nat.prime p) (prime_q : nat.prime q) (h : p ∣ q) :
   p = q :=
+/- EXAMPLES:
+sorry
+SOLUTIONS: -/
 begin
   cases prime_q.eq_one_or_self_of_dvd _ h,
   { linarith [prime_p.two_le] },
   assumption
 end
 -- QUOTE.
-
-example (x y z : ℕ)
-    (h1 : y ≤ x) (h2 : z ≤ y) (h3 : x + y + z = 13) (h4 : x * y * z = 36) :
-  (x = 9 ∧ y = 2 ∧ y = 2) ∨ (x = 6 ∧ y = 6 ∧ z = 1) :=
-begin
-  have : x ≤ 13, { linarith },
-  revert z, revert y, revert x,
-  dec_trivial
-end
-
+-- BOTH:
 
 /- TEXT:
-
-
+We can use that to show that if a prime ``p`` divides a product of a finite
+set of primes, then it divides one of them.
+Mathlib provides a useful principle of induction on finite sets:
+to show that a property holds of an arbitrary finite set ``s``,
+show that it holds of the empty set, and show that it is preserved
+when we add a single new element ``a ∉ s``.
+The principle is known as ``finset.induction_on``.
+When we tell the induction tactic to use it, we can also specify the names
+``a`` and ``s``, the name for the assumption ``a ∉ s`` in the inductive step,
+and the name of the inductive hypothesis.
+The expression ``finset.insert a s`` denotes the union of ``s`` with the singleton ``a``.
+The identities ``finset.prod_empty`` and ``finset.prod_insert`` then provide
+the relevant rewrite rules for the product.
+In the proof below, the first ``simp`` applies ``finset.prod_empty``.
+Step through the beginning of the proof to see the induction unfold,
+and then finish it off.
 EXAMPLE: -/
 -- QUOTE:
-
--- QUOTE.
-
-/- TEXT:
-
-
-EXAMPLE: -/
--- QUOTE:
-
--- QUOTE.
-
-
-/- TEXT:
-
-EXAMPLE: -/
-
--- QUOTE:
-
-
-
-
 theorem mem_of_dvd_prod_primes {s : finset ℕ} {p : ℕ} (prime_p : p.prime) :
   (∀ n ∈ s, nat.prime n) →  (p ∣ ∏ n in s, n) → p ∈ s :=
 begin
@@ -351,13 +339,46 @@ begin
     linarith [prime_p.two_le] },
   simp [finset.prod_insert ans, prime_p.dvd_mul] at h₀ h₁,
   rw mem_insert,
-  -- finish off
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   cases h₁ with h₁ h₁,
   { left, exact prime_p.eq_of_dvd_of_prime h₀.1 h₁ },
   right,
   exact ih h₀.2 h₁
+-- BOTH:
+end
+-- QUOTE.
+
+section
+variables {α : Type*} (s : set α) (P : α → Prop)
+#check { x ∈ s | P x }
+
 end
 
+/- TEXT:
+We need one last property of finsets. Given an element ``s : set α`` and a predicate
+``P`` on ``α``, we wrote ``{ x ∈ s | P x }`` for the subset of the elements of ``s``
+satisfying ``P``. Given ``s : finset α``, the analogous notion is written ``s.filter P``.
+EXAMPLE: -/
+-- QUOTE:
+example (s : finset ℕ) (x : ℕ) : x ∈ s.filter nat.prime ↔ x ∈ s ∧ x.prime :=
+mem_filter
+-- QUOTE.
+
+
+/- TEXT:
+We can prove an alterantive formulation of the statement that there are infinitely many
+primes, namely, that given any ``s : finset ℕ``, there is a prime ``p`` that is not
+an element of ``s``.
+Aiming for a contradiction, we assume that all the primes are in ``s``, and then
+cut down to a set ``s'`` that contains all and only the primes.
+Taking the product of that set, adding one, and finding a prime factor
+leads to the contradiction we are looking for.
+See if you can complete the sketch below, in a manner analogous to the previous proof.
+You can use ``finset.prod_pos`` in the proof of the first ``have``.
+EXAMPLE: -/
+-- QUOTE:
 theorem primes_infinite' : ∀ (s : finset nat), ∃ p, nat.prime p ∧ p ∉ s :=
 begin
   intro s,
@@ -369,23 +390,54 @@ begin
     simp [s'_def],
     apply h },
   have : 2 ≤ (∏ i in s', i) + 1,
+/- EXAMPLES:
+    sorry,
+SOLUTIONS: -/
   { apply nat.succ_le_succ,
     apply nat.succ_le_of_lt,
     apply finset.prod_pos,
     intros n ns',
     apply (mem_s'.mp ns').pos },
+-- BOTH:
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩,
   have : p ∣ (∏ i in s', i),
+/- EXAMPLES:
+    sorry,
+SOLUTIONS: -/
   { apply dvd_prod_of_mem,
     rw mem_s',
     apply pp },
+-- BOTH:
   have : p ∣ 1,
   { convert nat.dvd_sub' pdvd this, simp },
+  show false,
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
   have := nat.le_of_dvd zero_lt_one this,
   linarith [pp.two_le]
+-- BOTH:
 end
+-- QUOTE.
 
-theorem bounded_of_ex_finset (Q : ℕ → Prop) [decidable_pred Q]:
+/- TEXT:
+We have thus seen two ways of saying that there are infinitely many primes:
+saying that they are not bounded by ant ``n``, and saying that they are
+not contained in any finite set ``s``.
+The two proofs below show that these formulations are equivalent.
+In the second, in order to form ``s.filter Q``, we have to assume that there
+is a procedure for deciding whether or not ``Q`` holds. Lean knows that there
+is a procedure for ``nat.prime``. If we use classical logic
+by writing ``open_locale classical``,
+we can dispense with the assumption.
+
+``finset.sup s f`` is the supremum of the values of ``f x`` as ``x``
+ranges over ``s``, returning ``0`` in the case where ``s`` is empty and
+the codomain of ``f`` is ``ℕ``. In the first proof, we use ``s.sup id``,
+where ``id`` is the identity function, to refer to the maximum value in ``s``.
+EXAMPLE: -/
+-- QUOTE:
+theorem bounded_of_ex_finset (Q : ℕ → Prop):
   (∃ s : finset ℕ, ∀ k, Q k → k ∈ s) → ∃ n, ∀ k, Q k → k < n :=
 begin
   rintros ⟨s, hs⟩,
@@ -396,7 +448,7 @@ begin
   apply le_sup (hs k Qk)
 end
 
-theorem ex_finset_of_bounded (Q : ℕ → Prop) [decidable_pred Q]:
+theorem ex_finset_of_bounded (Q : ℕ → Prop) [decidable_pred Q] :
   (∃ n, ∀ k, Q k → k ≤ n) → (∃ s : finset ℕ, ∀ k, Q k ↔ k ∈ s) :=
 begin
   rintros ⟨n, hn⟩,
@@ -409,20 +461,6 @@ end
 -- QUOTE.
 
 /- TEXT:
-
-EXAMPLE: -/
--- QUOTE:
-
--- QUOTE.
-
-/- TEXT:
-
-EXAMPLE: -/
--- QUOTE:
-
--- QUOTE.
-
-/- TEXT:
 A small variation on this argument shows that there are,
 in fact, infinitely many primes congruent to 3 modulo 4.
 EXAMPLE: -/
@@ -430,6 +468,20 @@ EXAMPLE: -/
 example : 27 % 4 = 3 := by norm_num
 -- QUOTE.
 
+
+/- TEXT:
+
+EXAMPLE: -/
+-- QUOTE:
+
+-- QUOTE.
+
+/- TEXT:
+
+EXAMPLE: -/
+-- QUOTE:
+
+-- QUOTE.
 
 example (n : ℕ) : (4 * n + 3) % 4 = 3 :=
 by { rw [add_comm, nat.add_mul_mod_self_left], norm_num }
@@ -449,6 +501,19 @@ end
 /- TEXT:
 
 EXAMPLE: -/
+
+example {m n : ℕ} (h₀ : m ∣ n) (h₁ : 2 ≤ m) (h₂ : m < n) :
+  (n / m) ∣ n ∧ 2 ≤ n / m ∧ n / m < n :=
+begin
+  split,
+  { apply nat.div_dvd_of_dvd h₀ },
+  split,
+  { rw ←nat.mul_div_cancel' h₀ at h₂,
+    apply two_le; intro h₃; simp [h₃] at h₂; assumption },
+  apply nat.div_lt_self _ h₁,
+  linarith
+end
+
 theorem exists_prime_factor_mod_4_eq_3 {n : nat} (h : 2 ≤ n) (h' : n % 4 = 3) :
   ∃ p : nat, p.prime ∧ p ∣ n ∧ p % 4 = 3 :=
 begin
