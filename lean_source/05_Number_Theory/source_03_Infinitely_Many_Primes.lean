@@ -31,7 +31,7 @@ Here we consider a few ways to do it.
 
 To start with, we can use the ``cases`` tactic and the fact that the
 successor function respects the ordering on the natural numbers.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 theorem two_le {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m :=
 begin
@@ -59,7 +59,7 @@ end
 -- QUOTE.
 
 /- TEXT:
-Remember that the semicolon after ``interval_cases m`` means
+Recall that the semicolon after ``interval_cases m`` means
 that the next tactic is applied to each of the cases that it generates.
 Yet another option is to use the tactic, ``dec_trivial``, which tries
 to find a decision procedure to solve the problem.
@@ -96,10 +96,10 @@ by omega
 -- QUOTE.
 
 /- TEXT:
-With those options in hand, let's start by showing that every
+With the theorem ``two_le`` in hand, let's start by showing that every
 natural number greater than two has a prime divisor.
 Mathlib contains a function ``nat.min_fac`` that
-returns the smallest such prime divisor,
+returns the smallest prime divisor,
 but for the sake of learning new parts of the library,
 we'll avoid using it and prove the theorem directly.
 
@@ -146,8 +146,8 @@ end
 -- QUOTE.
 
 /- TEXT:
-With that in hand, we can prove the following formulation of our theorem.
-See if you can fill out the following sketch.
+We can now prove the following formulation of our theorem.
+See if you can fill out the sketch.
 You can use ``nat.factorial_pos``, ``nat.dvd_factorial``,
 and ``nat.dvd_sub``.
 BOTH: -/
@@ -191,7 +191,7 @@ end
 -- QUOTE.
 
 /- TEXT:
-Let's consider a variation of the proof above. Instead
+Let's consider a variation of the proof above, where instead
 of using the factorial function,
 we suppose that we are given by a finite set
 :math:`\{ p_1, \ldots, p_n \}` and we consider a prime factor of
@@ -219,10 +219,11 @@ so they need to be expanded manually using equivalances like
 and ``finset.mem_sdiff``. The ``ext`` tactic can still be used
 to reduce show that two finite sets are equal by showing
 that every element of one is an element of the other.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 open finset
 
+-- EXAMPLES:
 section
 variables {α : Type*} [decidable_eq α] (r s t : finset α)
 
@@ -250,7 +251,7 @@ end
 We have used a new trick: the ``tauto`` tactic (and a strengthened
 version, ``tauto!``, which uses classical logic) can be used to
 dispense with propositional tautologies. See if you can use
-similar methods to prove the two examples below.
+these methods to prove the two examples below.
 BOTH: -/
 section
 variables {α : Type*} [decidable_eq α] (r s t : finset α)
@@ -318,7 +319,7 @@ end
 -- BOTH:
 
 /- TEXT:
-We can use that to show that if a prime ``p`` divides a product of a finite
+We can use this lemma to show that if a prime ``p`` divides a product of a finite
 set of primes, then it divides one of them.
 Mathlib provides a useful principle of induction on finite sets:
 to show that a property holds of an arbitrary finite set ``s``,
@@ -371,7 +372,7 @@ mem_filter
 -- QUOTE.
 
 /- TEXT:
-We can prove an alternative formulation of the statement that there are infinitely many
+We now prove an alternative formulation of the statement that there are infinitely many
 primes, namely, that given any ``s : finset ℕ``, there is a prime ``p`` that is not
 an element of ``s``.
 Aiming for a contradiction, we assume that all the primes are in ``s``, and then
@@ -379,7 +380,7 @@ cut down to a set ``s'`` that contains all and only the primes.
 Taking the product of that set, adding one, and finding a prime factor
 of the result
 leads to the contradiction we are looking for.
-See if you can complete the sketch below, in a manner analogous to the previous proof.
+See if you can complete the sketch below.
 You can use ``finset.prod_pos`` in the proof of the first ``have``.
 BOTH: -/
 -- QUOTE:
@@ -426,7 +427,7 @@ end
 
 /- TEXT:
 We have thus seen two ways of saying that there are infinitely many primes:
-saying that they are not bounded by ant ``n``, and saying that they are
+saying that they are not bounded by any ``n``, and saying that they are
 not contained in any finite set ``s``.
 The two proofs below show that these formulations are equivalent.
 In the second, in order to form ``s.filter Q``, we have to assume that there
@@ -487,7 +488,6 @@ were equal to 3 then it would also divide :math:`\prod_{i = 2}^k p_i`,
 which implies that :math:`p` is equal to
 one of the :math:`p_i` for :math:`i = 2, \ldots, k`;
 and we have excluded 3 from this list.
-
 So :math:`p` has to be one of the other elements :math:`p_i`.
 But in that case, :math:`p` divides :math:`4 \prod_{i = 2}^k p_i`
 and hence 3, which contradicts the fact that it is not 3.
@@ -501,11 +501,11 @@ example : 27 % 4 = 3 := by norm_num
 
 /- TEXT:
 We can then render the statment "``n`` is congruent to 3 modulo 4"
-as ``n % 4 = 3``. The following example and theorems sum up what
-we will need to use below.
-The first theorem is another illustration of reasoning by
+as ``n % 4 = 3``. The following example and theorems sum up
+the facts about this function that we will need to use below.
+The first named theorem is another illustration of reasoning by
 a small number of cases.
-In the second theorem, remember that the semicolon means that
+In the second named theorem, remember that the semicolon means that
 the subsequent tactic block is applied to both of the goals
 that result from the application of ``two_le``.
 EXAMPLES: -/
@@ -586,9 +586,9 @@ SOLUTIONS: -/
     { use [n / m, nmp, nmdvdn, h1] },
     rcases ih (n / m) nmltn h1 nmp with ⟨p, pp, pdvd, p4eq⟩,
     use [p, pp, pdvd.trans nmdvdn, p4eq]
+-- BOTH:
 end
 -- QUOTE.
--- BOTH:
 
 /- TEXT:
 We are in the home stretch. Given a set ``s`` of prime
@@ -604,7 +604,7 @@ by { simp at h, assumption }
 -- QUOTE.
 
 /- TEXT:
-We are not ready to prove that there are infinitely many primes
+We are now ready to prove that there are infinitely many primes
 congruent to 3 modulo 4.
 Fill in the missing parts below.
 Our solution uses ``nat.dvd_add_iff_left`` and ``nat.dvd_sub'``
@@ -681,7 +681,7 @@ end
 -- QUOTE.
 
 /- TEXT:
-If you managed to do it, congratulations! This has been a serious
+If you managed to complete the proof, congratulations! This has been a serious
 feat of formalization.
 TEXT. -/
 
