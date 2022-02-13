@@ -136,7 +136,9 @@ begin
   push_neg at np,
   rcases np h with ⟨m, mltn, mdvdn, mne1⟩,
   have : m ≠ 0,
-  { intro mz, rw [mz, zero_dvd_iff] at mdvdn, linarith },
+  { intro mz, 
+    rw [mz, zero_dvd_iff] at mdvdn, 
+    linarith },
   have mgt2 : 2 ≤ m := two_le this mne1,
   by_cases mp : m.prime,
   { use [m, mp, mdvdn] },
@@ -202,7 +204,7 @@ all the prime numbers.
 
 Formalizing this argument requires us to reason about finite
 sets. In Lean, for any type ``α``, the type ``finset α``
-represents the set of finite elements of type ``α``.
+represents finite sets of elements of type ``α``.
 Reasoning about finite sets computationally requires having
 a procedure to test equality on ``α``, which is why the snippet
 below includes the assumption ``[decidable_eq α]``.

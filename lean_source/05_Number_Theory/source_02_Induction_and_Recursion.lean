@@ -103,7 +103,7 @@ EXAMPLES: -/
 theorem fac_pos (n : ℕ) : 0 < fac n :=
 begin
   induction n with n ih,
-  { rw fac, apply zero_lt_one },
+  { rw fac, exact zero_lt_one },
   rw fac,
   exact mul_pos n.succ_pos ih,
 end
@@ -260,8 +260,7 @@ EXAMPLES: -/
 -- QUOTE:
 theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 :=
 begin
-  symmetry, apply nat.div_eq_of_eq_mul_right,
-  { by norm_num },
+  symmetry, apply nat.div_eq_of_eq_mul_right (by norm_num : 0 < 2),
   induction n with n ih,
   { simp },
   rw [finset.sum_range_succ, mul_add 2, ←ih, nat.succ_eq_add_one],
@@ -279,8 +278,7 @@ theorem sum_sqr (n : ℕ) : ∑ i in range (n + 1), i^2 = n * (n + 1) * (2 *n + 
 sorry
 SOLUTIONS: -/
 begin
-  symmetry, apply nat.div_eq_of_eq_mul_right,
-  { by norm_num },
+  symmetry, apply nat.div_eq_of_eq_mul_right (by norm_num : 0 < 6),
   induction n with n ih,
   { simp },
   rw [finset.sum_range_succ, mul_add 6, ←ih, nat.succ_eq_add_one],
