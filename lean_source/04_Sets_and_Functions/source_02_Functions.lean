@@ -87,7 +87,17 @@ sorry
 
 -- SOLUTIONS:
 example : f '' s ⊆ v ↔ s ⊆ f ⁻¹' v :=
-sorry
+begin
+  split,
+  { intros h x xs,
+    have : f x ∈ f '' s,
+    from mem_image_of_mem _ xs,
+    exact h this },
+  intros h y ymem,
+  rcases ymem with ⟨x, xs, fxeq⟩,
+  rw ← fxeq,
+  apply h xs
+end
 
 /- TEXT:
 It shows that ``image f`` and ``preimage f`` are
@@ -154,46 +164,94 @@ sorry
 
 -- SOLUTIONS:
 example (h : injective f) : f ⁻¹' (f '' s) ⊆ s :=
-sorry
+begin
+  rintros x ⟨y, ys, fxeq⟩,
+  rw ← h fxeq,
+  exact ys
+end
 
 example : f '' (f⁻¹' u) ⊆ u :=
-sorry
+begin
+  rintros y ⟨x, xmem, rfl⟩,
+  exact xmem
+end
 
 example (h : surjective f) : u ⊆ f '' (f⁻¹' u) :=
-sorry
+begin
+  intros y yu,
+  rcases h y with ⟨x, fxeq⟩,
+  use x,
+  split,
+  { show f x ∈ u,
+    rw fxeq, exact yu },
+  exact fxeq
+end
 
 example (h : s ⊆ t) : f '' s ⊆ f '' t :=
-sorry
+begin
+  rintros y ⟨x, xs, fxeq⟩,
+  use [x, h xs, fxeq]
+end
 
 example (h : u ⊆ v) : f ⁻¹' u ⊆ f ⁻¹' v :=
-sorry
+by intro x; apply h
 
 example : f ⁻¹' (u ∪ v) = f ⁻¹' u ∪ f ⁻¹' v :=
-sorry
+by ext x; refl
 
 example : f '' (s ∩ t) ⊆ f '' s ∩ f '' t :=
-sorry
+begin
+  rintros y ⟨x, ⟨xs, xt⟩, rfl⟩,
+  use [x, xs, rfl, x, xt, rfl]
+end
 
 example (h : injective f) : f '' s ∩ f '' t ⊆ f '' (s ∩ t) :=
-sorry
+begin
+  rintros y ⟨⟨x₁, x₁s, rfl⟩, ⟨x₂, x₂t, fx₂eq⟩⟩,
+  use [x₁, x₁s],
+  rw ← h fx₂eq,
+  exact x₂t
+end
 
 example : f '' s \ f '' t ⊆ f '' (s \ t) :=
-sorry
+begin
+  rintros y ⟨⟨x₁, x₁s, rfl⟩, h⟩,
+  use [x₁, x₁s],
+  intro h',
+  apply h,
+  use [x₁, h', rfl]
+end
 
 example : f ⁻¹' u \ f ⁻¹' v ⊆ f ⁻¹' (u \ v) :=
-sorry
+λ x, id
 
 example : f '' s ∩ v = f '' (s ∩ f ⁻¹' v) :=
-sorry
+begin
+  ext y, split,
+  { rintros ⟨⟨x, xs, rfl⟩, fxv⟩,
+    use [x, xs, fxv] },
+  rintros ⟨x, ⟨⟨xs, fxv⟩, rfl⟩⟩,
+  use [x, xs, rfl, fxv],
+end
 
-example : f '' (s ∩ f ⁻¹' u) ⊆ f '' s ∪ u :=
-sorry
+example : f '' (s ∩ f ⁻¹' u) ⊆ f '' s ∩ u :=
+begin
+  rintros y ⟨x, ⟨xs, fxu⟩, rfl⟩,
+  use [x, xs, rfl, fxu],
+end
 
 example : s ∩ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∩ u) :=
-sorry
+begin
+  rintros x ⟨xs, fxu⟩,
+  use [x, xs, rfl, fxu],
+end
 
 example : s ∪ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∪ u) :=
-sorry
+begin
+  rintros x (xs | fxu),
+  { left, use [x, xs, rfl] },
+  right, use fxu
+end
 
 /- TEXT:
 You can also try your hand at the next group of exercises,
@@ -204,25 +262,49 @@ to guarantee that the index set is nonempty.
 To prove any of these, we recommend using ``ext`` or ``intro``
 to unfold the meaning of an equation or inclusion between sets,
 and then calling ``simp`` to unpack the conditions for membership.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 variables {I : Type*} (A : I → set α) (B : I → set β)
 
+-- EXAMPLES:
 example : f '' (⋃ i, A i) = ⋃ i, f '' A i :=
-sorry
+begin
+  ext y, simp,
+  split,
+  { rintros ⟨x, ⟨i, xAi⟩, fxeq⟩,
+    use [i, x, xAi, fxeq] },
+  rintros ⟨i, x, xAi, fxeq⟩,
+  exact ⟨x, ⟨i, xAi⟩, fxeq⟩
+end
 
 example : f '' (⋂ i, A i) ⊆ ⋂ i, f '' A i :=
-sorry
+begin
+  intro y, simp,
+  intros x h fxeq i,
+  use [x, h i, fxeq],
+end
 
 example (i : I) (injf : injective f) :
   (⋂ i, f '' A i) ⊆ f '' (⋂ i, A i) :=
-sorry
+begin
+  intro y, simp,
+  intro h,
+  rcases h i with ⟨x, xAi, fxeq⟩,
+  use x, split,
+  { intro i',
+    rcases h i' with ⟨x', x'Ai, fx'eq⟩,
+    have : f x = f x', by rw [fxeq, fx'eq],
+    have : x = x', from injf this,
+    rw this,
+    exact x'Ai },
+  exact fxeq
+end
 
 example : f ⁻¹' (⋃ i, B i) = ⋃ i, f ⁻¹' (B i) :=
-sorry
+by { ext x, simp }
 
 example : f ⁻¹' (⋂ i, B i) = ⋂ i, f ⁻¹' (B i) :=
-sorry
+by { ext x, simp }
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -363,8 +445,7 @@ there are often relativized versions that restrict
 the statements to a subset of the domain type.
 
 Here is are some examples of ``inj_on`` and ``range`` in use:
-TEXT. -/
--- BOTH:
+BOTH: -/
 section
 -- QUOTE:
 open set real
@@ -393,7 +474,7 @@ end
 
 /- TEXT:
 Try proving these:
-TEXT. -/
+EXAMPLES: -/
 -- QUOTE:
 example : inj_on sqrt { x | x ≥ 0 } :=
 sorry
@@ -501,7 +582,7 @@ meets this specification.
 
 With these in hand, we can define the inverse function
 as follows:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 noncomputable theory
 open_locale classical
@@ -547,12 +628,12 @@ You should be able to prove each of them with about a half-dozen
 short lines.
 If you are looking for an extra challenge,
 try to condense each proof to a single-line proof term.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 variable  f : α → β
-
 open function
 
+-- EXAMPLES:
 example : injective f ↔ left_inverse (inverse f) f  :=
 sorry
 
@@ -634,6 +715,7 @@ section
 variable {α : Type*}
 open function
 
+-- EXAMPLES:
 -- QUOTE:
 theorem Cantor : ∀ f : α → set α, ¬ surjective f :=
 begin

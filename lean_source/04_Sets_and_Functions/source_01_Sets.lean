@@ -142,15 +142,19 @@ end
 
 /- TEXT:
 As an exercise, try proving the other inclusion:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 example : (s ∩ t) ∪ (s ∩ u) ⊆ s ∩ (t ∪ u):=
+/- EXAMPLES:
 sorry
+SOLUTIONS: -/
+begin
+  rintros x (⟨xs, xt⟩ | ⟨xs, xu⟩),
+  { use xs, left, exact xt },
+  use xs, right, exact xu
+end
 -- QUOTE.
-
--- SOLUTIONS:
-example : (s ∩ t) ∪ (s ∩ u) ⊆ s ∩ (t ∪ u):=
-sorry
+-- BOTH:
 
 /- TEXT:
 It might help to know that when using ``rintros``,
@@ -192,14 +196,12 @@ end
 
 /- TEXT:
 As an exercise, prove the reverse inclusion:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 example : s \ (t ∪ u) ⊆ s \ t \ u :=
+/- EXAMPLES:
 sorry
--- QUOTE.
-
--- SOLUTIONS:
-example : s \ (t ∪ u) ⊆ s \ t \ u :=
+SOLUTIONS: -/
 begin
   rintros x ⟨xs, xntu⟩,
   use xs,
@@ -207,6 +209,8 @@ begin
   intro xu,
   apply xntu (or.inr xu)
 end
+-- QUOTE.
+-- BOTH:
 
 /- TEXT:
 To prove that two sets are equal,
@@ -269,15 +273,15 @@ end
 
 /- TEXT:
 Try finishing this proof term:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
+/- EXAMPLES:
 subset.antisymm sorry sorry
--- QUOTE.
-
--- SOLUTIONS:
-example : s ∩ t = t ∩ s :=
+SOLUTIONS: -/
 subset.antisymm (λ x ⟨xs, xt⟩, ⟨xt, xs⟩) (λ x ⟨xt, xs⟩, ⟨xs, xt⟩)
+-- QUOTE.
+-- BOTH:
 
 /- TEXT:
 Remember that you can replace `sorry` by an underscore,
@@ -302,16 +306,49 @@ sorry
 
 -- SOLUTIONS:
 example : s ∩ (s ∪ t) = s :=
-sorry
+begin
+  ext x, split,
+  { rintros ⟨xs, _⟩, exact xs },
+  intro xs,
+  use xs, left, exact xs
+end
 
 example : s ∪ (s ∩ t) = s :=
-sorry
+begin
+  ext x, split,
+  { rintros (xs | ⟨xs, xt⟩); exact xs },
+  intro xs, left, exact xs
+end
 
 example : (s \ t) ∪ t = s ∪ t :=
-sorry
+begin
+  ext x, split,
+  { rintros (⟨xs, nxt⟩ | xt),
+    { left, exact xs},
+    right, exact xt },
+  by_cases h : x ∈ t,
+  { intro _, right, exact h },
+  rintros (xs | xt),
+  { left, use [xs, h] },
+  right, use xt
+end
 
 example : (s \ t) ∪ (t \ s) = (s ∪ t) \ (s ∩ t) :=
-sorry
+begin
+  ext x, split,
+  { rintros (⟨xs, xnt⟩ | ⟨xt, xns⟩),
+    { split, left, exact xs,
+      rintros ⟨_, xt⟩, contradiction },
+    split , right, exact xt,
+    rintros ⟨xs, _⟩, contradiction },
+  rintros ⟨xs | xt, nxst⟩,
+  { left, use xs, intro xt,
+    apply nxst,
+    split; assumption },
+  right, use xt, intro xs,
+  apply nxst,
+  split; assumption
+end
 
 /- TEXT:
 When it comes to representing sets,
@@ -622,8 +659,8 @@ end
 /- TEXT:
 Mathlib also has bounded unions and intersections,
 which are analogous to the bounded quantifiers.
-You can unpack their meaning with ``mem_bUnion_iff``
-and ``mem_bInter_iff``.
+You can unpack their meaning with ``mem_Union₂``
+and ``mem_Inter₂``.
 As the following examples show,
 Lean's simplifier carries out these replacements as well.
 TEXT. -/
@@ -633,7 +670,7 @@ def primes : set ℕ := {x | nat.prime x}
 
 -- EXAMPLES:
 example : (⋃ p ∈ primes, {x | p^2 ∣ x}) = {x | ∃ p ∈ primes, p^2 ∣ x} :=
-by { ext, rw mem_bUnion_iff, refl }
+by { ext, rw mem_Union₂, refl }
 
 example : (⋃ p ∈ primes, {x | p^2 ∣ x}) = {x | ∃ p ∈ primes, p^2 ∣ x} :=
 by { ext, simp }
@@ -691,14 +728,14 @@ variables {α : Type*} (s : set (set α))
 example : ⋃₀ s = ⋃ t ∈ s, t :=
 begin
   ext x,
-  rw mem_bUnion_iff,
+  rw mem_Union₂,
   refl
 end
 
 example : ⋂₀ s = ⋂ t ∈ s, t :=
 begin
   ext x,
-  rw mem_bInter_iff,
+  rw mem_Inter₂,
   refl
 end
 -- QUOTE.
