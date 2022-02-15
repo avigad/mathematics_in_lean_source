@@ -11,9 +11,10 @@ Induction and Recursion
 The set of natural numbers :math:`\mathbb{N} = \{ 0, 1, 2, \ldots \}`
 is not only fundamentally important in its own right,
 but also a plays a central role in the construction of new mathematical objects.
-In Lean, the natural numbers are given axiomatically, as part
-of the logical foundation,
-via the following declaration.
+Lean's foundation allows us to declare *inductive types*,
+which are types generated inductively by a given list of
+*constructors*.
+In Lean, the natural numbers are declared as follows.
 OMIT: -/
 namespace hidden
 -- QUOTE:
@@ -24,7 +25,7 @@ inductive nat
 end hidden
 
 /- TEXT:
-You can find the declaration in the library by writting ``#check nat`` and
+You can find this in the library by writting ``#check nat`` and
 then using ``ctrl-click`` on the identifier ``nat``.
 The command specifies that ``nat`` is the datatype generated
 freely and inductively by the two constructors ``zero : nat`` and
@@ -217,11 +218,8 @@ The first identity in each pair holds definitionally, which is to say,
 you can replace the proofs by ``rfl``.
 
 The following expresses the factorial function that we defined as a product.
-The first command turns off a simplification rule that would rewrite
-the product to ``nat.factorial``.
 EXAMPLES: -/
 -- QUOTE:
-local attribute [-simp] prod_range_add_one_eq_factorial
 
 example (n : ℕ) : fac n = ∏ i in range n, (i + 1) :=
 begin
@@ -241,7 +239,8 @@ only in the case where the resulting term has a smaller value in some
 fixed but arbitrary ordering of the terms.
 The following example shows that simplifying using the three rules
 ``mul_assoc``, ``mul_comm``, and ``mul_left_comm``
-has the net effect of putting terms in a canonical form.
+manages to identify products that are the same up to the
+placement of parentheses and ordering of variables.
 EXAMPLES: -/
 -- QUOTE:
 example (a b c d e f : ℕ) : a * ((b * c) * f * (d * e)) = d * (a * f * e) * (c * b) :=
@@ -249,6 +248,11 @@ by simp [mul_assoc, mul_comm, mul_left_comm]
 -- QUOTE.
 
 /- TEXT:
+Roughly, the rules work by pushing parentheses to the right
+and then re-ordering the expressions on both sides until they
+both follow the same canonical order. Simplifying with these
+rules, and the corresponding rules for addition, is a handy trick.
+
 Returning to summation identities, we suggest stepping through the following proof
 that the sum of the natual numbers up to an including :math:`n` is
 :math:`n (n + 1) / 2`.
