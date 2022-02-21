@@ -16,7 +16,7 @@ remains within :math:`\varepsilon` of :math:`a`,
 that is, there is a number :math:`N` such that for every
 :math:`n \ge N`, :math:`| s_n - a | < \varepsilon`.
 In Lean, we can render this as follows:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 def converges_to (s : ℕ → ℝ) (a : ℝ) :=
 ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
@@ -100,7 +100,7 @@ it simply leaves it for us as another goal.
 
 The following shows that any constant sequence :math:`a, a, a, \ldots`
 converges.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 theorem converges_to_const (a : ℝ) : converges_to (λ x : ℕ, a) a :=
 begin
@@ -164,7 +164,16 @@ begin
   cases cs (ε / 2) ε2pos with Ns hs,
   cases ct (ε / 2) ε2pos with Nt ht,
   use max Ns Nt,
-  sorry
+  intros n hn,
+  have ngeNs : n ≥ Ns := le_of_max_le_left hn,
+  have ngeNt : n ≥ Nt := le_of_max_le_right hn,
+  calc
+    |s n + t n - (a + b)| = | s n - a + (t n - b) | :
+      by { congr, ring }
+    ... ≤  | s n - a | + | (t n - b) | :
+      abs_add _ _
+    ... < ε / 2 + ε / 2 : add_lt_add (hs n ngeNs) (ht n ngeNt)
+    ... = ε : by norm_num
 end
 
 /- TEXT:
@@ -215,7 +224,18 @@ begin
     rw [h, zero_mul] },
   have acpos : 0 < abs c,
     from abs_pos.mpr h,
-  sorry
+  intros ε εpos, dsimp,
+  have εcpos : 0 < ε / abs c,
+  { apply div_pos εpos acpos },
+  cases cs (ε / abs c) εcpos with Ns hs,
+  use Ns,
+  intros n ngt,
+  calc
+    |c * s n - c * a| = |c| * |s n - a| :
+      by { rw [←abs_mul, mul_sub] }
+    ... < |c| * (ε / |c|) :
+      mul_lt_mul_of_pos_left (hs n ngt) acpos
+    ... = ε : mul_div_cancel' _ (ne_of_lt acpos).symm
 end
 
 /- TEXT:
@@ -242,7 +262,11 @@ theorem exists_abs_le_of_converges_toαα {s : ℕ → ℝ} {a : ℝ}
 begin
   cases cs 1 zero_lt_one with N h,
   use [N, abs a + 1],
-  sorry
+  intros n ngt,
+  calc
+    |s n| = |s n - a + a| : by { congr, abel }
+    ... ≤ |s n - a| + |a| : abs_add _ _
+    ... < |a| + 1 : by linarith [h n ngt]
 end
 
 /- TEXT:
@@ -288,7 +312,16 @@ begin
   have pos₀ : ε / B > 0,
     from div_pos εpos Bpos,
   cases ct _ pos₀ with N₁ h₁,
-  sorry
+  use max N₀ N₁,
+  intros n ngt,
+  have ngeN₀ : n ≥ N₀ := le_of_max_le_left ngt,
+  have ngeN₁ : n ≥ N₁ := le_of_max_le_right ngt,
+  calc
+    |s n * t n - 0| = |s n| * |t n - 0| :
+      by rw [sub_zero, abs_mul, sub_zero]
+    ... < B * (ε / B) :
+      mul_lt_mul'' (h₀ n ngeN₀) (h₁ n ngeN₁) (abs_nonneg _) (abs_nonneg _)
+    ... = ε : mul_div_cancel' _ (ne_of_lt Bpos).symm
 end
 
 /- TEXT:

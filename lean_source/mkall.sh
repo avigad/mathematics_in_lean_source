@@ -9,6 +9,7 @@ lean_source/mkdoc.py 03_Logic 01_Implication_and_the_Universal_Quantifier
 lean_source/mkdoc.py 03_Logic 02_The_Existential_Quantifier
 lean_source/mkdoc.py 03_Logic 03_Negation
 lean_source/mkdoc.py 03_Logic 04_Conjunction_and_Bi-implication
+lean_source/mkdoc.py 03_Logic 05_Disjunction
 lean_source/mkdoc.py 03_Logic 06_Sequences_and_Convergence
 lean_source/mkdoc.py 04_Sets_and_Functions 01_Sets
 lean_source/mkdoc.py 04_Sets_and_Functions 02_Functions

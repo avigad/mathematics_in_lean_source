@@ -1,15 +1,8 @@
-image:
-  file: .gitpod.Dockerfile
-
-tasks:
-  - init: |
-      python3 -m pip install --user pipx
-      python3 -m pipx ensurepath
-      source ~/.profile
-      pipx install mathlibtools
-      leanproject get-mathlib
-
+image: leanprovercommunity/mathlib:gitpod
 
 vscode:
   extensions:
     - jroesch.lean
+
+tasks:
+  - init: . /home/gitpod/.profile && leanpkg configure && leanproject get-mathlib-cache && leanproject build

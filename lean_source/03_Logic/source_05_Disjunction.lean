@@ -92,25 +92,41 @@ TEXT. -/
 namespace my_abs
 
 -- EXAMPLES:
-theorem le_abs_self : x ≤ abs x :=
+theorem le_abs_self (x : ℝ) : x ≤ abs x :=
 sorry
 
-theorem neg_le_abs_self : -x ≤ abs x :=
+theorem neg_le_abs_self (x : ℝ) : -x ≤ abs x :=
 sorry
 
-theorem abs_add : abs (x + y) ≤ abs x + abs y :=
+theorem abs_add (x y : ℝ) : abs (x + y) ≤ abs x + abs y :=
 sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem le_abs_selfαα : x ≤ abs x :=
-sorry
+theorem le_abs_selfαα (x : ℝ) : x ≤ abs x :=
+begin
+  cases le_or_gt 0 x with h h,
+  { rw abs_of_nonneg h },
+  rw abs_of_neg h,
+  linarith
+end
 
-theorem neg_le_abs_selfαα : -x ≤ abs x :=
-sorry
+theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ abs x :=
+begin
+  cases le_or_gt 0 x with h h,
+  { rw abs_of_nonneg h,
+    linarith },
+  rw abs_of_neg h
+end
 
-theorem abs_addαα : abs (x + y) ≤ abs x + abs y :=
-sorry
+theorem abs_addαα (x y : ℝ) : abs (x + y) ≤ abs x + abs y :=
+begin
+  cases le_or_gt 0 (x + y) with h h,
+  { rw abs_of_nonneg h,
+    linarith [le_abs_self x, le_abs_self y] },
+  rw abs_of_neg h,
+  linarith [neg_le_abs_self x, neg_le_abs_self y]
+end
 
 /- TEXT:
 In case you enjoyed these (pun intended) and
@@ -127,10 +143,45 @@ sorry
 
 -- SOLUTIONS:
 theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y :=
-sorry
+begin
+  cases le_or_gt 0 y with h h,
+  { rw abs_of_nonneg h,
+    split,
+    { intro h', left, exact h' },
+    intro h',
+    cases h' with h' h',
+    { exact h' },
+    linarith },
+  rw abs_of_neg h,
+  split,
+  { intro h', right, exact h' },
+  intro h',
+  cases h' with h' h',
+  { linarith },
+  exact h'
+end
 
 theorem abs_ltαα : abs x < y ↔ - y < x ∧ x < y :=
-sorry
+begin
+  cases le_or_gt 0 x with h h,
+  { rw abs_of_nonneg h,
+    split,
+    { intro h',
+      split,
+      { linarith },
+      exact h' },
+    intro h',
+    cases h' with h1 h2,
+    exact h2 },
+  rw abs_of_neg h,
+  split,
+  { intro h',
+    split,
+    { linarith },
+    linarith },
+  intro h',
+  linarith
+end
 
 -- BOTH:
 end my_abs
@@ -180,7 +231,7 @@ sorry
 -- SOLUTIONS:
 example {z : ℝ} (h : ∃ x y, z = x^2 + y^2 ∨ z = x^2 + y^2 + 1) :
   z ≥ 0 :=
-sorry
+by { rcases h with ⟨x, y, rfl | rfl⟩; linarith [sq_nonneg x, sq_nonneg y] }
 
 /- TEXT:
 On the real numbers, an equation ``x * y = 0``
@@ -199,10 +250,32 @@ sorry
 
 -- SOLUTIONS:
 example {x : ℝ} (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-sorry
+begin
+  have h' : x^2 - 1 = 0,
+  { rw [h, sub_self] },
+  have h'' : (x + 1) * (x - 1) = 0,
+  { rw ← h',
+    ring },
+  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
+  { right,
+    exact eq_neg_of_add_eq_zero h1 },
+  left,
+  exact eq_of_sub_eq_zero h1
+end
 
 example {x y : ℝ} (h : x^2 = y^2) : x = y ∨ x = -y :=
-sorry
+begin
+  have h' : x^2 - y^2 = 0,
+  { rw [h, sub_self] },
+  have h'' : (x + y) * (x - y) = 0,
+  { rw ← h',
+    ring },
+  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
+  { right,
+    exact eq_neg_of_add_eq_zero h1 },
+  left,
+  exact eq_of_sub_eq_zero h1
+end
 
 /- TEXT:
 Remember that you can use the ``ring`` tactic to help
@@ -238,10 +311,32 @@ sorry
 
 -- SOLUTIONS:
 example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-sorry
+begin
+  have h' : x^2 - 1 = 0,
+  { rw [h, sub_self] },
+  have h'' : (x + 1) * (x - 1) = 0,
+  { rw ← h',
+    ring },
+  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
+  { right,
+    exact eq_neg_of_add_eq_zero h1 },
+  left,
+  exact eq_of_sub_eq_zero h1
+end
 
 example (h : x^2 = y^2) : x = y ∨ x = -y :=
-sorry
+begin
+  have h' : x^2 - y^2 = 0,
+  { rw [h, sub_self] },
+  have h'' : (x + y) * (x - y) = 0,
+  { rw ← h',
+    ring },
+  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
+  { right,
+    exact eq_neg_of_add_eq_zero h1 },
+  left,
+  exact eq_of_sub_eq_zero h1
+end
 
 -- BOTH:
 end
@@ -313,7 +408,20 @@ sorry
 
 -- SOLUTIONS:
 example (P Q : Prop) : (P → Q) ↔ ¬ P ∨ Q :=
-sorry
+begin
+  split,
+  { intro h,
+    by_cases h' : P,
+    { right,
+      exact h h'},
+    left,
+    exact h' },
+  rintros (h | h),
+  { intro h',
+    exact absurd h' h },
+  intro _,
+  exact h
+end
 
 -- BOTH:
 end
