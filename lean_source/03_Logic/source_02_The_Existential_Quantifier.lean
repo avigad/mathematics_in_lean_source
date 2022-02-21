@@ -442,7 +442,7 @@ open function
 variables {α : Type*} {β : Type*} {γ : Type*}
 variables {g : β → γ} {f : α → β}
 
--- MAIN
+-- EXAMPLES:
 example (surjg : surjective g) (surjf : surjective f) :
   surjective (λ x, g (f x)) :=
 sorry

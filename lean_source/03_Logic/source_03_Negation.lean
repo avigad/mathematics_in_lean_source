@@ -100,10 +100,19 @@ sorry
 
 -- SOLUTIONS:
 example (h : ∀ a, ∃ x, f x < a) : ¬ fn_has_lb f :=
-sorry
+begin
+  rintros ⟨a, ha⟩,
+  rcases h a with ⟨x, hx⟩,
+  have := ha x,
+  linarith
+end
 
 example : ¬ fn_has_ub (λ x, x) :=
-sorry
+begin
+  rintros ⟨a, ha⟩,
+  have : a + 1 ≤ a := ha (a + 1),
+  linarith
+end
 
 /- TEXT:
 Mathlib offers a number of useful theorems for relating orders
@@ -131,10 +140,20 @@ sorry
 
 -- SOLUTIONS:
 example (h : monotone f) (h' : f a < f b) : a < b :=
-sorry
+begin
+  apply lt_of_not_ge,
+  intro h'',
+  apply absurd h',
+  apply not_lt_of_ge (h h'')
+end
 
 example (h : a ≤ b) (h' : f b < f a) : ¬ monotone f :=
-sorry
+begin
+  intro h'',
+  apply absurd h',
+  apply not_lt_of_ge,
+  apply h'' h
+end
 
 /- TEXT:
 Remember that it is often convenient to use ``linarith``
@@ -168,10 +187,12 @@ begin
   intro h,
   let f := λ x : ℝ, (0 : ℝ),
   have monof : monotone f,
-  { sorry },
+  { intros a b leab,
+    refl },
   have h' : f 1 ≤ f 0,
     from le_refl _,
-  sorry
+  have : (1 : ℝ) ≤ 0 := h monof h',
+  linarith
 end
 
 /- TEXT:
@@ -189,13 +210,17 @@ Lean reduces ``f 1`` and ``f 0`` to ``0``.
 Use ``le_of_not_gt`` to prove the following:
 TEXT. -/
 -- QUOTE:
-example (x : ℝ) (h : ∀ ε > 0, x ≤ ε) : x ≤ 0 :=
+example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 :=
 sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (x : ℝ) (h : ∀ ε > 0, x ≤ ε) : x ≤ 0 :=
-sorry
+example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 :=
+begin
+  apply le_of_not_gt,
+  intro h',
+  linarith [h _ h']
+end
 
 -- BOTH:
 end
@@ -233,13 +258,26 @@ sorry
 
 -- SOLUTIONS:
 example (h : ¬ ∃ x, P x) : ∀ x, ¬ P x :=
-sorry
+begin
+  intros x Px,
+  apply h,
+  use [x, Px]
+end
 
 example (h : ∀ x, ¬ P x) : ¬ ∃ x, P x :=
-sorry
+begin
+  rintros ⟨x, Px⟩,
+  exact h x Px
+end
 
 example (h : ∃ x, ¬ P x) : ¬ ∀ x, P x :=
-sorry
+begin
+  intro h',
+  rcases h with ⟨x, nPx⟩,
+  apply nPx,
+  apply h'
+end
+
 
 /- TEXT:
 The first, second, and fourth are straightforward to
@@ -293,10 +331,16 @@ sorry
 
 -- SOLUTIONS:
 example (h : ¬ ¬ Q) : Q :=
-sorry
+begin
+  by_contradiction h',
+  exact h h'
+end
 
 example (h : Q) : ¬ ¬ Q :=
-sorry
+begin
+  intro h',
+  exact h' h
+end
 
 -- BOTH:
 end
@@ -319,7 +363,17 @@ sorry
 
 -- SOLUTIONS:
 example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
-sorry
+begin
+  intro a,
+  by_contradiction h',
+  apply h,
+  use a,
+  intro x,
+  apply le_of_not_gt,
+  intro h'',
+  apply h',
+  use [x, h'']
+end
 
 /- TEXT:
 .. index:: push_neg, tactics ; push_neg
@@ -369,7 +423,11 @@ sorry
 
 -- SOLUTIONS:
 example (h : ¬ monotone f) : ∃ x y, x ≤ y ∧ f y < f x :=
-sorry
+begin
+  rw [monotone] at h,
+  push_neg at h,
+  exact h
+end
 
 /- TEXT:
 .. index:: contrapose, tactics ; contrapose

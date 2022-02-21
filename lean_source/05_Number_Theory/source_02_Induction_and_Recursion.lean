@@ -52,7 +52,7 @@ This section will show you how to use these.
 
 Here is an example of a recursive definition of the factorial
 function.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 def fac : ℕ → ℕ
 | 0       := 1
@@ -138,7 +138,7 @@ so that the remainder of the proof starts with the case
 See if you can complete the argument with a proof by induction.
 BOTH: -/
 -- QUOTE:
-theorem pow_two_le_fact (n : ℕ) : 2^(n-1) ≤ fac n :=
+theorem pow_two_le_fac (n : ℕ) : 2^(n-1) ≤ fac n :=
 begin
   cases n with n,
   { simp [fac] },
@@ -165,7 +165,7 @@ Mathlib defines the expressions ``finset.sum s f`` where
 The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
 If you import ``algebra.big_operators`` and issue the command
-``open_local big_operators``, you can use the more suggestive notation
+``open_locale big_operators``, you can use the more suggestive notation
 ``∑ x in s, f x``. Of course, there is are an analogous operation and
 notation for finite products.
 
@@ -174,21 +174,23 @@ it supports in the next section, and again in a later chapter.
 For now, we will only make use
 of ``finset.range n``, which is the finite set of natural numbers
 less than ``n``.
-EXAMPLES: -/
+BOTH: -/
 section
 
 -- QUOTE:
 variables {α : Type*} (s : finset ℕ) (f : ℕ → ℕ) (n : ℕ)
 
+-- EXAMPLES:
 #check finset.sum s f
 #check finset.prod s f
 
+-- BOTH:
 open_locale big_operators
+open finset
 
+-- EXAMPLES:
 example : s.sum f = ∑ x in s, f x := rfl
 example : s.prod f = ∏ x in s, f x := rfl
-
-open finset
 
 example : (range n).sum f = ∑ x in range n, f x := rfl
 example : (range n).prod f = ∏ x in range n, f x := rfl

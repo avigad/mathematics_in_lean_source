@@ -130,7 +130,7 @@ begin
 end
 -- QUOTE.
 
--- OMIT
+-- OMIT:
 /- TODO : remember to introduce ``suffices`` eventually
 
    We have introduced another new tactic here:
@@ -159,7 +159,7 @@ The first says that ``a`` is an upper bound on the
 values of ``f``,
 and the second says that ``a`` is a lower bound
 on the values of ``f``.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 def fn_ub (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, f x ≤ a
 def fn_lb (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, a ≤ f x
@@ -173,10 +173,11 @@ function that maps ``x`` to ``f x + g x``.
 Computer scientists refer to this as "lambda abstraction,"
 whereas a mathematician might describe it as the function
 :math:`x \mapsto f(x) + g(x)`.
-TEXT. -/
+BOTH: -/
 section
 variables (f g : ℝ → ℝ) (a b : ℝ)
 
+-- EXAMPLES:
 -- QUOTE:
 example (hfa : fn_ub f a) (hgb : fn_ub g b) :
   fn_ub (λ x, f x + g x) (a + b) :=
@@ -230,6 +231,35 @@ sorry
 -- QUOTE.
 
 -- SOLUTIONS:
+example (hfa : fn_lb f a) (hgb : fn_lb g b) :
+  fn_lb (λ x, f x + g x) (a + b) :=
+begin
+  intro x,
+  apply add_le_add,
+  apply hfa,
+  apply hgb
+end
+
+example (nnf : fn_lb f 0) (nng : fn_lb g 0) :
+  fn_lb (λ x, f x * g x) 0 :=
+begin
+  intro x,
+  apply mul_nonneg,
+  apply nnf,
+  apply nng
+end
+
+example (hfa : fn_ub f a) (hfb : fn_ub g b)
+    (nng : fn_lb g 0) (nna : 0 ≤ a) :
+  fn_ub (λ x, f x * g x) (a * b) :=
+begin
+  intro x,
+  apply mul_le_mul,
+  apply hfa,
+  apply hfb,
+  apply nng,
+  apply nna
+end
 
 -- BOTH:
 end
@@ -294,10 +324,11 @@ and then apply the resulting expression to the goal.
 Or you can apply it to the goal and let Lean help you
 work backwards by displaying the remaining hypotheses
 as new subgoals.
-TEXT. -/
+BOTH: -/
 section
 variables (f g : ℝ → ℝ)
 
+-- EXAMPLES:
 -- QUOTE:
 example (mf : monotone f) (mg : monotone g) :
   monotone (λ x, f x + g x) :=
@@ -578,12 +609,12 @@ end
 
 /- TEXT:
 Finally, show that the composition of two injective functions is injective:
-TEXT. -/
+BOTH: -/
 -- QUOTE:
-
 variables {α : Type*} {β : Type*} {γ : Type*}
 variables {g : β → γ} {f : α → β}
 
+-- EXAMPLES:
 example (injg : injective g) (injf : injective f) :
   injective (λ x, g (f x)) :=
 sorry

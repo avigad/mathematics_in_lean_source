@@ -5,3 +5,13 @@
 *.olean
 /_target
 /leanpkg.path
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+source/01_Introduction/
+source/02_Basics/
+source/03_Logic/
+source/04_Sets_and_Functions/
+source/05_Number_Theory/
