@@ -17,3 +17,4 @@ lean_source/mkdoc.py 04_Sets_and_Functions 03_The_Schroeder_Bernstein_Theorem
 lean_source/mkdoc.py 05_Number_Theory 01_Irrational_Roots
 lean_source/mkdoc.py 05_Number_Theory 02_Induction_and_Recursion
 lean_source/mkdoc.py 05_Number_Theory 03_Infinitely_Many_Primes
+lean_source/mkdoc.py 06_Abstract_Algebra 01_Structures

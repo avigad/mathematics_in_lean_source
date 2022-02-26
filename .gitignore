@@ -10,8 +10,10 @@
 *.fls
 *.log
 *.synctex.gz
+src/
 source/01_Introduction/
 source/02_Basics/
 source/03_Logic/
 source/04_Sets_and_Functions/
 source/05_Number_Theory/
+source/06_Abstract_Algebra/
