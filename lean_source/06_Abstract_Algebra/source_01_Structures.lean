@@ -96,13 +96,13 @@ BOTH: -/
 -- QUOTE:
 namespace point
 
--- EXAMPLES:
 def add (a b : point) : point := ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
 
+-- EXAMPLES:
 def add' (a b : point) : point :=
-  { x := a.x + b.x,
-    y := a.y + b.y,
-    z := a.z + b.z }
+{ x := a.x + b.x,
+  y := a.y + b.y,
+  z := a.z + b.z }
 
 #check add my_point1 my_point2
 #check my_point1.add my_point2
@@ -207,22 +207,21 @@ of doing this efficiently.
 As an exercise, try proving that ``point.add`` is associative.
 Then define scalar multiplication for a point and show that it
 distributes over addition.
-You can use pattern matching or projections in the definition,
-as you prefer.
 BOTH: -/
 -- QUOTE:
-protected theorem add_assoc (a b c : point) : (a.add b).add c = a.add (b.add c) :=
+protected theorem add_assoc (a b c : point) :
+  (a.add b).add c = a.add (b.add c) :=
 /- EXAMPLES:
 sorry
 SOLUTIONS: -/
-by { cases a, cases b, cases c, simp [add, add_assoc] }
+by { simp [add, add_assoc] }
 -- BOTH:
 
+def smul (r : ℝ) (a : point) : point :=
 /- EXAMPLES:
-def smul (r : ℝ) : point → point := sorry
+sorry
 SOLUTIONS: -/
-def smul (r : ℝ) : point → point
-| ⟨x, y, z⟩ := ⟨r * x, r * y, r * z⟩
+⟨r * a.x, r * a.y, r * a.z⟩
 -- BOTH:
 
 theorem smul_distrib (r : ℝ) (a b : point) :
@@ -230,7 +229,7 @@ theorem smul_distrib (r : ℝ) (a b : point) :
 /- EXAMPLES:
 sorry
 SOLUTIONS: -/
-by { cases a, cases b, simp [add, smul, mul_add] }
+by { simp [add, smul, mul_add] }
 -- BOTH:
 -- QUOTE.
 
@@ -280,15 +279,14 @@ namespace standard_two_simplex
 
 -- EXAMPLES:
 -- QUOTE:
-def swap_xy : standard_two_simplex → standard_two_simplex
-| ⟨x, y, z, xnn, ynn, znn, hsum⟩ :=
-  { x := y,
-    y := x,
-    z := z,
-    x_nonneg := ynn,
-    y_nonneg := xnn,
-    z_nonneg := znn,
-    sum_eq   := by rwa add_comm y x }
+def swap_xy (a : standard_two_simplex) : standard_two_simplex :=
+{ x := a.y,
+  y := a.x,
+  z := a.z,
+  x_nonneg := a.y_nonneg,
+  y_nonneg := a.x_nonneg,
+  z_nonneg := a.z_nonneg,
+  sum_eq   := by rw [add_comm a.y a.x, a.sum_eq] }
 -- QUOTE.
 
 -- OMIT: (TODO) add a link when we have a good explanation of noncomputable theory.
@@ -301,15 +299,14 @@ BOTH: -/
 noncomputable theory
 
 -- EXAMPLES:
-def midpoint : standard_two_simplex → standard_two_simplex → standard_two_simplex
-| ⟨x1, y1, z1, xnn1, ynn1, znn1, hsum1⟩ ⟨x2, y2, z2, xnn2, ynn2, znn2, hsum2⟩ :=
-  { x        := (x1 + x2) / 2,
-    y        := (y1 + y2) / 2,
-    z        := (z1 + z2) / 2,
-    x_nonneg := div_nonneg (add_nonneg xnn1 xnn2) (by norm_num),
-    y_nonneg := div_nonneg (add_nonneg ynn1 ynn2) (by norm_num),
-    z_nonneg := div_nonneg (add_nonneg znn1 znn2) (by norm_num),
-    sum_eq   := by { field_simp, linarith } }
+def midpoint (a b : standard_two_simplex) : standard_two_simplex :=
+{ x        := (a.x + b.x) / 2,
+  y        := (a.y + b.y) / 2,
+  z        := (a.z + b.z) / 2,
+  x_nonneg := div_nonneg (add_nonneg a.x_nonneg b.x_nonneg) (by norm_num),
+  y_nonneg := div_nonneg (add_nonneg a.y_nonneg b.y_nonneg) (by norm_num),
+  z_nonneg := div_nonneg (add_nonneg a.z_nonneg b.z_nonneg) (by norm_num),
+  sum_eq   := by { field_simp, linarith [a.sum_eq, b.sum_eq]} }
 -- QUOTE.
 
 /- TEXT:
@@ -323,31 +320,30 @@ we can take the weighted average :math:`\lambda a + (1 - \lambda) b`
 of two points :math:`a` and :math:`b` in the standard 2-simplex.
 We challenge you to define that function, in analogy to the ``midpoint``
 function above.
-Once again, you can use pattern matching or projections, as you prefer.
 BOTH: -/
 -- QUOTE:
 def weighted_average (lambda : real)
-    (lambda_nonneg : 0 ≤ lambda) (lambda_le : lambda ≤ 1)  :
+    (lambda_nonneg : 0 ≤ lambda) (lambda_le : lambda ≤ 1)
+    (a b : standard_two_simplex) :
+  standard_two_simplex :=
 /- EXAMPLES:
-  standard_two_simplex → standard_two_simplex → standard_two_simplex := sorry
+sorry
 SOLUTIONS: -/
-  standard_two_simplex → standard_two_simplex → standard_two_simplex
-| ⟨x1, y1, z1, xnn1, ynn1, znn1, hsum1⟩ ⟨x2, y2, z2, xnn2, ynn2, znn2, hsum2⟩ :=
-  { x        := lambda * x1 + (1 - lambda) * x2,
-    y        := lambda * y1 + (1 - lambda) * y2,
-    z        := lambda * z1 + (1 - lambda) * z2,
-    x_nonneg := add_nonneg (mul_nonneg lambda_nonneg xnn1)
-                  (mul_nonneg (by linarith) xnn2),
-    y_nonneg := add_nonneg (mul_nonneg lambda_nonneg ynn1)
-                  (mul_nonneg (by linarith) ynn2),
-    z_nonneg := add_nonneg (mul_nonneg lambda_nonneg znn1)
-                  (mul_nonneg (by linarith) znn2),
-    sum_eq   :=
-      begin
-        transitivity (x1 + y1 + z1) * lambda + (x2 + y2 + z2) * (1 - lambda),
-        { ring },
-        simp [hsum1, hsum2]
-      end }
+{ x        := lambda * a.x + (1 - lambda) * b.x,
+  y        := lambda * a.y + (1 - lambda) * b.y,
+  z        := lambda * a.z + (1 - lambda) * b.z,
+  x_nonneg := add_nonneg (mul_nonneg lambda_nonneg a.x_nonneg)
+                (mul_nonneg (by linarith) b.x_nonneg),
+  y_nonneg := add_nonneg (mul_nonneg lambda_nonneg a.y_nonneg)
+                (mul_nonneg (by linarith) b.y_nonneg),
+  z_nonneg := add_nonneg (mul_nonneg lambda_nonneg a.z_nonneg)
+                (mul_nonneg (by linarith) b.z_nonneg),
+  sum_eq   :=
+    begin
+      transitivity (a.x + a.y + a.z) * lambda + (b.x + b.y + b.z) * (1 - lambda),
+      { ring },
+      simp [a.sum_eq, b.sum_eq]
+    end }
 -- QUOTE.
 -- BOTH:
 
@@ -371,20 +367,19 @@ structure standard_simplex (n : ℕ) :=
 
 namespace standard_simplex
 
-def midpoint (n : ℕ): standard_simplex n → standard_simplex n → standard_simplex n
-| ⟨v1, nonneg1, sum1⟩ ⟨v2, nonneg2, sum2⟩ :=
-  { v := λ i, (v1 i + v2 i) / 2,
-    nonneg :=
-      begin
-        intro i,
-        apply div_nonneg,
-        { linarith [nonneg1 i, nonneg2 i] },
-        norm_num
-      end,
-    sum_eq_one :=
+def midpoint (n : ℕ) (a b : standard_simplex n) : standard_simplex n :=
+{ v := λ i, (a.v i + b.v i) / 2,
+  nonneg :=
+    begin
+      intro i,
+      apply div_nonneg,
+      { linarith [a.nonneg i, b.nonneg i] },
+      norm_num
+    end,
+  sum_eq_one :=
     begin
       simp [div_eq_mul_inv, ←finset.sum_mul, finset.sum_add_distrib,
-        sum1, sum2],
+        a.sum_eq_one, b.sum_eq_one],
       field_simp
     end  }
 
@@ -401,18 +396,17 @@ SOLUTIONS: -/
 namespace standard_simplex
 
 def weighted_average {n : ℕ} (lambda : real)
-    (lambda_nonneg : 0 ≤ lambda) (lambda_le : lambda ≤ 1)  :
-  standard_simplex n → standard_simplex n → standard_simplex n
-| ⟨v1, nonneg1, sum1⟩ ⟨v2, nonneg2, sum2⟩ :=
-  { v        := λ i, lambda * v1 i + (1 - lambda) * v2 i,
-    nonneg   := λ i, add_nonneg (mul_nonneg lambda_nonneg (nonneg1 i))
-                  (mul_nonneg (by linarith) (nonneg2 i)),
-    sum_eq_one :=
-      begin
-        transitivity lambda * (∑ i, v1 i) + (1 - lambda) * (∑ i, v2 i),
-        { rw [finset.sum_add_distrib, finset.mul_sum, finset.mul_sum] },
-        simp [sum1, sum2]
-      end }
+    (lambda_nonneg : 0 ≤ lambda) (lambda_le : lambda ≤ 1)
+    (a b : standard_simplex n) : standard_simplex n :=
+{ v          := λ i, lambda * a.v i + (1 - lambda) * b.v i,
+  nonneg     := λ i, add_nonneg (mul_nonneg lambda_nonneg (a.nonneg i))
+                  (mul_nonneg (by linarith) (b.nonneg i)),
+  sum_eq_one :=
+    begin
+      transitivity lambda * (∑ i, a.v i) + (1 - lambda) * (∑ i, b.v i),
+      { rw [finset.sum_add_distrib, finset.mul_sum, finset.mul_sum] },
+      simp [a.sum_eq_one, b.sum_eq_one]
+    end }
 
 end standard_simplex
 
