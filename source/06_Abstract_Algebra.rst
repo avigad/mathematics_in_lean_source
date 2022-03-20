@@ -25,3 +25,4 @@ For more technical detail, you can consult `Theorem Proving in Lean <https://lea
 and a paper by Anne Baanen, `Use and abuse of instance parameters in the Lean mathematical library <https://arxiv.org/abs/2202.01629>`_.
 
 .. include:: 06_Abstract_Algebra/01_Structures.inc
+.. include:: 06_Abstract_Algebra/02_Algebraic_Structures.inc

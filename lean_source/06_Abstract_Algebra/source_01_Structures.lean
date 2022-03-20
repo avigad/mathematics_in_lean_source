@@ -2,7 +2,6 @@ import algebra.big_operators.ring
 import data.real.basic
 
 /- TEXT:
-
 .. _section_structures:
 
 Structures
@@ -22,7 +21,7 @@ BOTH: -/
 /- TEXT:
 The ``@[ext]`` annotation tells Lean to automatically generate theorems
 that can be used to prove that two instances of a structure are equal
-when their components are equal.
+when their components are equal, a property known as *extensionality*.
 EXAMPLES: -/
 -- QUOTE:
 #check point.ext
@@ -61,13 +60,15 @@ In the first two examples, the fields of the structure are named
 explicitly.
 In the first case, because Lean knows that the expected type of
 ``my_point1`` is a ``point``, you can start the definition by
-writing ``{! !}``. Clicking on the light bulb
+writing an underscore, ``_``. Clicking on the light bulb
 that appears nearby in VS Code will then
 give you the option of inserting a template definition
 with the field names listed for you.
 
-By default, the *constructor* for the ``point`` structure is named
-``point.mk``. You can specify a different name if you want.
+The function ``point.mk`` referred to in the definition of ``my_point4``
+is known as the *constructor* for the ``point`` structure, because
+it serves to construct instances.
+You can specify a different name if you want, like ``build``.
 EXAMPLES: -/
 -- QUOTE:
 structure point' := build :: (x : ℝ) (y : ℝ) (z : ℝ)
@@ -76,8 +77,7 @@ structure point' := build :: (x : ℝ) (y : ℝ) (z : ℝ)
 -- QUOTE.
 
 /- TEXT:
-The next two examples show how to define functions
-on structures using pattern matching.
+The next two examples show how to define functions on structures.
 Whereas the second example makes the ``point.mk``
 constructor explicit, the first example uses anonymous constructors
 for brevity.
@@ -85,21 +85,24 @@ Lean can infer the relevant constructor from the indicated type of
 ``add``.
 It is conventional to put definitions and theorems associated
 with a structure like ``point`` in a namespace with the same name.
-In the example below, the full name of ``add`` is ``point.add``,
-which allows us to use the anonymous projection notation.
+In the example below, because we have opened the ``point``
+namespace, the full name of ``add`` is ``point.add``.
+When the namespace is not open, we have to use the full name.
+But remember that it is often convenient to use
+anonymous projection notation,
+which allows us to write ``a.add b`` instead of ``point.add a b``.
+Lean interprets the former as the latter because ``a`` has type ``point``.
 BOTH: -/
 -- QUOTE:
 namespace point
 
-def add : point → point → point
-| ⟨x₁, y₁, z₁⟩ ⟨x₂, y₂, z₂⟩ := ⟨x₁ + x₂, y₁ + y₂, z₁ + z₂⟩
-
 -- EXAMPLES:
-def add' : point → point → point
-| (point.mk x₁ y₁ z₁) (point.mk x₂ y₂ z₂) :=
-  { x := x₁ + x₂,
-    y := y₁ + y₂,
-    z := z₁ + z₂ }
+def add (a b : point) : point := ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
+
+def add' (a b : point) : point :=
+  { x := a.x + b.x,
+    y := a.y + b.y,
+    z := a.z + b.z }
 
 #check add my_point1 my_point2
 #check my_point1.add my_point2
@@ -113,62 +116,87 @@ end point
 /- TEXT:
 Below we will continue to put definitions in the relevant
 namespace, but we will leave the namespacing commands out of the quoted
-snippets.
-
-Within a proof, structures can be decomposed with the ``cases`` or ``rcases``
-tactics. You can also use ``rintros`` or a pattern-matching
-lambda.
-
+snippets. To prove properties of the addition function,
+we can use ``rw`` to expand the definition and ``ext`` to
+reduce an equation between two elements of the structure to equations
+between the components.
+Below we use the ``protected`` keyword so that the name of the
+theorem is ``point.add_comm``, even when the namespace is open.
+This is helpful when we want to avoid ambiguity with a generic
+theorem like ``add_comm``.
 EXAMPLES: -/
 namespace point
 
 -- QUOTE:
-theorem add_comm (a b : point) : add a b = add b a :=
+protected theorem add_comm (a b : point) : add a b = add b a :=
 begin
-  cases a with xa ya za,
-  cases b with xb yb zb,
   rw [add, add],
   ext; dsimp,
   repeat { apply add_comm }
 end
 
 example (a b : point) : add a b = add b a :=
+by simp [add, add_comm]
+-- QUOTE.
+
+/- TEXT:
+Because Lean can unfold definitions and simplify projections
+internally, sometimes the equations we want hold definitionally.
+EXAMPLES: -/
+-- QUOTE:
+theorem add_x (a b : point) : (a.add b).x = a.x + b.x := rfl
+-- QUOTE.
+
+/- TEXT:
+It is also possible to define functions on structures using
+pattern matching,
+in a manner similar to the way we defined recursive functions in
+:numref:`section_induction_and_recursion`.
+The definitions ``add_alt`` and ``add_alt'`` below are essentially the
+same; the only difference is that we use anonymous constructor notation
+in the second.
+Although it is sometimes convenient to define functions this way,
+the definitional properties are not as convenient.
+For example, the expressions ``add_alt a b`` and ``add_alt' a b``
+cannot be simplified until we decompose ``a`` and ``b`` into
+components, which we can do with ``cases``, ``rcases``, etc.
+
+EXAMPLES: -/
+-- QUOTE:
+def add_alt : point → point → point
+| (point.mk x₁ y₁ z₁) (point.mk x₂ y₂ z₂) := ⟨x₁ + x₂, y₁ + y₂, z₁ + z₂⟩
+
+def add_alt' : point → point → point
+| ⟨x₁, y₁, z₁⟩ ⟨x₂, y₂, z₂⟩ := ⟨x₁ + x₂, y₁ + y₂, z₁ + z₂⟩
+
+theorem add_alt_x (a b : point) : (a.add_alt b).x = a.x + b.x :=
+by { cases a, cases b, refl }
+
+theorem add_alt_comm (a b : point) : add_alt a b = add_alt b a :=
 begin
   rcases a with ⟨xa, ya, za⟩,
   rcases b with ⟨xb, yb, zb⟩,
-  simp [add, add_comm]
+  rw [add_alt, add_alt],
+  ext; dsimp,
+  apply add_comm,
+  repeat { apply add_comm },
 end
 
-example : ∀ a b : point, add a b = add b a :=
+example (a b : point) : add_alt a b = add_alt b a :=
+begin
+  rcases a with ⟨xa, ya, za⟩,
+  rcases b with ⟨xb, yb, zb⟩,
+  simp [add_alt, add_comm]
+end
+
+example : ∀ a b : point, add_alt a b = add_alt b a :=
 begin
   rintros ⟨xa, ya, za⟩ ⟨xb, yb, zb⟩,
-  simp [add, add_comm]
+  simp [add_alt, add_comm]
 end
 
 example : ∀ a b : point, add a b = add b a :=
 λ ⟨xa, ya, za⟩ ⟨xb, yb, zb⟩, by simp [add, add_comm]
--- QUOTE.
-
-/- TEXT:
-In fact, even proving that the addition function does
-the right thing on the ``x`` coordinate
-requires decomposing the instances with ``cases``.
-EXAMPLES: -/
--- QUOTE:
-theorem add_x (a b : point) : (a.add b).x = a.x + b.x :=
-by { cases a, cases b, refl }
--- QUOTE.
-
-/- TEXT:
-Starting a proof with ``cases`` is a common pattern when dealing with functions
-that were defined by pattern matching.
-An alternative is to define functions using projections,
-in which case, the relevant equations often hold definitionally.
-EXAMPLES: -/
--- QUOTE:
-def add'' (a b : point) : point := ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
-
-theorem add''_x (a b : point) : (a.add'' b).x = a.x + b.x := rfl
 -- QUOTE.
 
 /- TEXT:
@@ -183,7 +211,7 @@ You can use pattern matching or projections in the definition,
 as you prefer.
 BOTH: -/
 -- QUOTE:
-theorem add_assoc (a b c : point) : (a.add b).add c = a.add (b.add c) :=
+protected theorem add_assoc (a b c : point) : (a.add b).add c = a.add (b.add c) :=
 /- EXAMPLES:
 sorry
 SOLUTIONS: -/
@@ -263,6 +291,7 @@ def swap_xy : standard_two_simplex → standard_two_simplex
     sum_eq   := by rwa add_comm y x }
 -- QUOTE.
 
+-- OMIT: (TODO) add a link when we have a good explanation of noncomputable theory.
 /- TEXT:
 More interestingly, we can compute the midpoint of two points on
 the simplex. We need to add ``noncomputable theory`` in order to
@@ -294,7 +323,7 @@ we can take the weighted average :math:`\lambda a + (1 - \lambda) b`
 of two points :math:`a` and :math:`b` in the standard 2-simplex.
 We challenge you to define that function, in analogy to the ``midpoint``
 function above.
-Onec again, you can use pattern matching or projections, as you prefer.
+Once again, you can use pattern matching or projections, as you prefer.
 BOTH: -/
 -- QUOTE:
 def weighted_average (lambda : real)
@@ -501,3 +530,9 @@ weaving structures together into a rich, interconnected hierarchy,
 and for managing the interactions between them.
 TEXT. -/
 
+/- OMIT: (TODO)
+Comments from Patrick:
+We could make this paragraph much less abstract by showing how to access the components of a point with the definition def point'' := ℝ × ℝ × ℝ. However if we do that it would probably be honest to also mention the possibility of using fin 3 → ℝ as the definition. This interesting anyhow, because I think very few mathematician realize that defining ℝ^n as an iterated cartesian product is a polite lie that would be a nightmare if taken seriously.
+
+By the way, should be include some comment about similarities and differences with object-oriented programming? All the examples from that page would clearly fit very well with classes in python say. And we'll have to face the name-clash between classes in Lean and classes in C++ or python sooner or later. Life would be so much simpler if classes in Lean could use another name...
+OMIT. -/
