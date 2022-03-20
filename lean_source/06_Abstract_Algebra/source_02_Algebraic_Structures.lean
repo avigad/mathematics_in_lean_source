@@ -307,7 +307,8 @@ BOTH: -/
 -- QUOTE:
 structure add_group₁ (α : Type*) :=
 /- EXAMPLES:
-sorry
+(add : α → α → α)
+-- fill in the rest
 SOLUTIONS: -/
 (add: α → α → α)
 (zero: α)
@@ -624,7 +625,8 @@ BOTH: -/
 -- QUOTE:
 class add_group₂ (α : Type*) :=
 /- EXAMPLES:
-sorry
+(add : α → α → α)
+-- fill in the rest
 -- QUOTE.
 SOLUTIONS: -/
 (add: α → α → α)
