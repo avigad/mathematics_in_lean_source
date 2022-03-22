@@ -16,7 +16,7 @@ if not rst_chapter_path.exists():
 rst_path = rst_chapter_path/(section_name + '.inc')
 lean_chapter_path = root.resolve().parent/'src'/chapter_name
 if not lean_chapter_path.exists():
-    lean_chapter_path.mkdir()
+    lean_chapter_path.mkdir(parents=True)
 lean_solutions_path = lean_chapter_path/'solutions'
 if not lean_solutions_path.exists():
     lean_solutions_path.mkdir()
