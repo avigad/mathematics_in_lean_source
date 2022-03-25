@@ -225,7 +225,7 @@ variables (f : α ≃ β) (g : β ≃ γ)
 Notice the creative naming of the last three constructions. We think of the
 identity function ``equiv.refl``, the inverse operation ``equiv.symm``,
 and the composition operation ``equiv.trans`` as explicit evidence
-that ``equiv`` is an equivalence relation.
+that the property of being in bijective correspondence is an equivalence relation.
 
 Notice also that ``f.trans g`` requires composing the forward functions
 in reverse order. Mathlib has declared a *coercion* from ``equiv α β``
@@ -407,9 +407,9 @@ The magic is achieved with a combination of three things.
 
 #. *Logic.* A definition that should be interpreted in any group takes, as
    arguments, the type of the group and the group structure as arguments.
-   Similarly, a theorem
-   that holds of any group begins with universal quantifiers over
-   the type the of group and the group structure.
+   Similarly, a theorem about the elements of an arbitrary group
+   begins with universal quantifiers over
+   the type of the group and the group structure.
 
 #. *Implicit arguments.* The arguments for the type and the structure
    are generally left implicit, so that we do not have to write them
@@ -434,7 +434,7 @@ we generally do not need to refer to them explicitly,
 Lean allows us to write ``[group G]`` and leave the name anonymous.
 You have probably already noticed that Lean chooses names like ``_inst_1``
 automatically.
-When we use the square-bracket annotation with the ``variables`` command,
+When we use the anonymous square-bracket annotation with the ``variables`` command,
 then as long as the variables are still in scope,
 Lean automatically adds the argument ``[group G]`` to any definition or
 theorem that mentions ``G``.

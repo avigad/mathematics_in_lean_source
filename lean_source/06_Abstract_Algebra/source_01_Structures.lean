@@ -67,7 +67,7 @@ with the field names listed for you.
 
 The function ``point.mk`` referred to in the definition of ``my_point4``
 is known as the *constructor* for the ``point`` structure, because
-it serves to construct instances.
+it serves to construct elements.
 You can specify a different name if you want, like ``build``.
 EXAMPLES: -/
 -- QUOTE:
