@@ -194,7 +194,7 @@ into one structure. It is common in mathlib
 to use capital roman letters like ``G`` for a type
 when it is used as the carrier type for a group.
 
-Let's construct a group, which is to say, an instance of a ``group₁`` structure.
+Let's construct a group, which is to say, an element of the ``group₁`` type.
 For any pair of types ``α`` and ``β``, Mathlib defines the type ``equiv α β``
 of *equivalences* between ``α`` and ``β``.
 Mathlib also defines the suggestive notation ``α ≃ β`` for this type.
@@ -255,8 +255,7 @@ It should be clear that ``perm α`` forms a group under composition
 of equivalences. We orient things so that ``mul f g`` is
 equal to ``g.trans f``, whose forward function is ``f ∘ g``.
 In other words, multiplication is what we ordinarily think of as
-composition of the bijections. Here we define this particular
-group instance:
+composition of the bijections. Here we define this group:
 EXAMPLES: -/
 -- QUOTE:
 def perm_group {α : Type*} : group₁ (equiv.perm α) :=

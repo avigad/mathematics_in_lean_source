@@ -50,7 +50,7 @@ book in a VS Code window. You can update to a newer version by tying
 the ``mathematics_in_lean`` folder.
 
 Alternatively, you can run Lean and VS Code in the cloud,
-using `Gitpod <https://gitpod.io/>`.
+using `Gitpod <https://gitpod.io/>`_.
 You can find instructions as to how to do that on the Mathematics in Lean
 `project page <https://github.com/leanprover-community/mathematics_in_lean>`_
 on Github.
