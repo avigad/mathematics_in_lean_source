@@ -22,7 +22,7 @@ The examples of filters appearing in these descriptions will be described in det
 
 * ``(at_top : filter ℕ)`` : made of sets of ``ℕ`` containing ``{n | n ≥ N}`` for some ``N``
 * ``𝓝 x`` : made of neighborhoods of ``x`` in a topological space
-* ``𝓤 X`` : made of entourages of a uniform space (those space are generalizations of metric spaces and topological groups)
+* ``𝓤 X`` : made of entourages of a uniform space (uniform spaces generalize metric spaces and topological groups)
 * ``μ.a_e`` : made of sets whose complement has zero measure with respect to a measure ``μ``.
 
 The general definition is as follows: a filter ``F : filter X`` is a
