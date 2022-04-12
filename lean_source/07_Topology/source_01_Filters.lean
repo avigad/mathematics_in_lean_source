@@ -4,9 +4,9 @@ open set filter
 open_locale topological_space filter
 
 /- TEXT:
-.. _filters:
-
 .. index:: filter
+
+.. _filters:
 
 Filters
 -------
