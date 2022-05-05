@@ -129,9 +129,9 @@ theorems in a new namespace called ``my_ring.``
 
 The next example shows that we do not need ``add_zero`` or ``add_right_neg``
 as ring axioms, because they follow from the other axioms.
-import tactic
 TEXT. -/
 -- QUOTE:
+import tactic
 namespace my_ring
 variables {R : Type*} [ring R]
 

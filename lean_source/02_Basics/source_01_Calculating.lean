@@ -36,6 +36,7 @@ TEXT. -/
 /- An example. -/
 
 -- QUOTE:
+import data.real.basic
 example (a b c : ℝ) : (a * b) * c = b * (a * c) :=
 begin
   rw mul_comm a b,
