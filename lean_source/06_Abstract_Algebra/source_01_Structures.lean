@@ -450,7 +450,7 @@ Generic type constructions can even be used in place of structures
 with dependencies between their components.
 For example, the *subtype* construction combines a piece of data with
 a property.
-You can think of of the type ``preal`` in the next example as being
+You can think of the type ``preal`` in the next example as being
 the type of positive real numbers.
 Any ``x : preal`` has two components: the value, and the property of being
 positive.
