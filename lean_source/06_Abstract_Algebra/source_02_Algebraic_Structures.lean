@@ -70,7 +70,7 @@ The number systems :math:`\mathbb{Z}`, :math:`\mathbb{Q}`,
 and :math:`\mathbb{R}` are all ordered rings,
 and we should be able to apply a generic theorem about ordered rings
 in any of these instances.
-Sometimes a concrete set may the an instance of a structure in more than one way.
+Sometimes a concrete set may be an instance of a structure in more than one way.
 For example, in addition to the usual topology on :math:`\mathbb{R}`,
 which forms the basis for real analysis,
 we can also consider the *discrete* topology on :math:`\mathbb{R}`,
