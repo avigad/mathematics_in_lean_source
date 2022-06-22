@@ -124,9 +124,9 @@ how to use them.
 
 The first ingredient is almost too obvious to mention:
 formally speaking, algebraic structures are structures in the sense
-of the :numref:`section_structures`.
+of :numref:`section_structures`.
 An algebraic structure is a specification of a bundle of data satisfying
-some axiomatic hypotheses, and we saw in the :numref:`section_structures` that
+some axiomatic hypotheses, and we saw in :numref:`section_structures` that
 this is exactly what the ``structure`` command is designed to accommodate.
 It's a marriage made in heaven!
 
