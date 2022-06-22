@@ -29,7 +29,7 @@ it will help to consider some examples.
    A ring is *commutative* if the multiplication is commutative.
 
 #. An *ordered ring* :math:`(R, +, 0, -, \cdot, 1, \le)` consists of a ring
-   together with a partial order on its elements, such that `a \le b` implies
+   together with a partial order on its elements, such that :math:`a \le b` implies
    :math:`a + c \le b + c` for every :math:`a`, :math:`b`, and :math:`c` in :math:`R`,
    and :math:`0 \le a` and :math:`0 \le b` implies :math:`0 \le a b` for
    every :math:`a` and :math:`b` in :math:`R`.
