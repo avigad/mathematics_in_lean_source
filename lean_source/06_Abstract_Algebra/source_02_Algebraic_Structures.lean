@@ -251,7 +251,7 @@ example (α : Type*) : equiv.perm α = (α ≃ α) := rfl
 -- QUOTE.
 
 /- TEXT:
-It should be clear that ``perm α`` forms a group under composition
+It should be clear that ``equiv.perm α`` forms a group under composition
 of equivalences. We orient things so that ``mul f g`` is
 equal to ``g.trans f``, whose forward function is ``f ∘ g``.
 In other words, multiplication is what we ordinarily think of as
