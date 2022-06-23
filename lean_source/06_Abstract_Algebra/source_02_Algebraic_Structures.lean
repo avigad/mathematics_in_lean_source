@@ -201,7 +201,7 @@ Mathlib also defines the suggestive notation ``α ≃ β`` for this type.
 An element ``f : α ≃ β`` is a bijection between ``α`` and ``β``
 represented by four components:
 a function ``f.to_fun`` from ``α`` to ``β``,
-the inverse function ``f.inv`` from ``β`` to ``α``,
+the inverse function ``f.inv_fun`` from ``β`` to ``α``,
 and two properties that specify these functions are indeed inverse
 to one another.
 EXAMPLES: -/
