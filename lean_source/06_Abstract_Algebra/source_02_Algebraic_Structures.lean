@@ -47,7 +47,7 @@ it will help to consider some examples.
    of subsets of :math:`X`, called the *open subsets of* :math:`X`, such that
    the following hold:
 
-   - The empty set is open.
+   - The empty set and :math:`X` are open.
    - The intersection of two open sets is open.
    - An arbitrary union of open sets is open.
 
