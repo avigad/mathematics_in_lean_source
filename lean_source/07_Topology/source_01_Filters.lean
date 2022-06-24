@@ -31,7 +31,7 @@ collection of sets ``F.sets : set (set X)`` satisfying the following:
 
 * ``F.univ_sets : univ ∈ F.sets``
 * ``F.sets_of_superset : ∀ {U V}, U ∈ F.sets → U ⊆ V → V ∈ F.sets``
-* ``F.inter_sets : ∀ {U V}, U ∈ sets → V ∈ sets → U ∩ V ∈ sets``.
+* ``F.inter_sets : ∀ {U V}, U ∈ F.sets → V ∈ F.sets → U ∩ V ∈ F.sets``.
 
 The first condition says that the set of all elements of ``X`` belongs to ``F.sets``.
 The second condition says that if ``U`` belongs to ``F.sets`` then anything
