@@ -468,7 +468,7 @@ used with ``eventually`` to say that a property holds for almost every point.
 
 There is a dual version of ``∀ᶠ x in F, P x``, which is occasionally useful:
 ``∃ᶠ x in F, P x`` means
-``{x | ¬P x} ∉ f``. For example, ``∃ᶠ n in at_top, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
+``{x | ¬P x} ∉ F``. For example, ``∃ᶠ n in at_top, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
 The ``∃ᶠ`` notation stands for ``filter.frequently``.
 
 For a more sophisticated example, consider the following statement about a sequence
