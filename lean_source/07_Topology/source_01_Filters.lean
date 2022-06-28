@@ -422,7 +422,7 @@ tendsto_congr' h
 -- QUOTE.
 
 /- TEXT:
-It instructive to review the definition of filters in terms of ``eventually``.
+It is instructive to review the definition of filters in terms of ``eventually``.
 Given ``F : filter X``, for any predicates ``P`` and ``Q`` on ``X``,
 
 * the condition ``univ ∈ F`` ensures ``(∀ x, P x) → ∀ᶠ x in F, P x``,
