@@ -393,7 +393,7 @@ is again in ``at_top``, so we have ``{n | P n ∧ Q n} ∈ at_top``.
 Writing ``{n | P n} ∈ at_top`` is unpleasant,
 but we can use the more suggestive notation ``∀ᶠ n in at_top, P n``.
 Here the superscripted ``f`` stands for "filter."
-You can think of the notation as saying that for all ``n`` in the "set of very large numbers," ``P n`` holds. The ``∀ᶠ''
+You can think of the notation as saying that for all ``n`` in the "set of very large numbers," ``P n`` holds. The ``∀ᶠ``
 notation stands for ``filter.eventually``, and the lemma ``filter.eventually.and`` uses the intersection property of filters to do what we just described:
 EXAMPLES: -/
 -- QUOTE:
