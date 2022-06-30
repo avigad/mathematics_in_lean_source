@@ -220,7 +220,7 @@ These are power-user moves, and there is no harm
 in favoring the use of ``cases`` until you are more comfortable
 with the existential quantifier.
 But we will come to learn that all of these tools,
-including ``cases``, use, and the anonymous constructors,
+including ``cases``, ``use``, and the anonymous constructors,
 are like Swiss army knives when it comes to theorem proving.
 They can be used for a wide range of purposes,
 not just for unpacking exists statements.
