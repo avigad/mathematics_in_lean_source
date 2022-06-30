@@ -57,7 +57,7 @@ end
 /- TEXT:
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
-You can uses the ``cases`` tactic for that,
+You can use the ``cases`` tactic for that,
 as well as ``rcases``, ``rintros``, or a pattern-matching lambda,
 all in a manner similar to the way they are used with
 the existential quantifier.
