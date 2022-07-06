@@ -94,10 +94,10 @@ TEXT. -/
 
 -- QUOTE:
 example : ∀ m n : nat, even n → even (m * n) :=
-assume m n ⟨k, (hk : n = 2 * k)⟩,
-have hmn : m * n = 2 * (m * k),
-  by rw [hk, mul_left_comm],
-show ∃ l, m * n = 2 * l,
+assume m n ⟨k, (hk : n = k + k)⟩,
+have hmn : m * n = m * k + m * k,
+  by rw [hk, mul_add],
+show ∃ l, m * n = l + l,
   from ⟨_, hmn⟩
 -- QUOTE.
 
@@ -106,7 +106,7 @@ The *proof term* can be compressed to a single line:
 TEXT. -/
 -- QUOTE:
 example : ∀ m n : nat, even n → even (m * n) :=
-λ m n ⟨k, hk⟩, ⟨m * k, by rw [hk, mul_left_comm]⟩
+λ m n ⟨k, hk⟩, ⟨m * k, by rw [hk, mul_add]⟩
 -- QUOTE.
 
 /- TEXT:

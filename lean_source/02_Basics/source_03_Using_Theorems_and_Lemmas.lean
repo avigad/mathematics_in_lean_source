@@ -1,5 +1,5 @@
 -- BOTH:
-import analysis.special_functions.log
+import analysis.special_functions.log.basic
 
 variables a b c d e : ℝ
 open real

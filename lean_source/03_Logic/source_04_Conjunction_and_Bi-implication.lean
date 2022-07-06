@@ -273,11 +273,10 @@ an equivalent one.
 In the next example, we use ``abs_lt`` to
 replace an expression of the form ``abs x < y``
 by the equivalent expression ``- y < x ∧ x < y``,
-and in the one after that we use ``dvd_gcd_iff``
-to replace an expression of the form ``m ∣ gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
+and in the one after that we use ``nat.dvd_gcd_iff``
+to replace an expression of the form ``m ∣ nat.gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
 TEXT. -/
 section
-open nat
 
 -- QUOTE:
 example (x y : ℝ) : abs (x + 3) < 5 → -8 < x ∧ x < 2 :=
@@ -287,9 +286,9 @@ begin
   split; linarith
 end
 
-example : 3 ∣ gcd 6 15 :=
+example : 3 ∣ nat.gcd 6 15 :=
 begin
-  rw dvd_gcd_iff,
+  rw nat.dvd_gcd_iff,
   split; norm_num
 end
 -- QUOTE.

@@ -1,7 +1,7 @@
 -- BOTH:
 import data.set.lattice
 import data.set.function
-import analysis.special_functions.log
+import analysis.special_functions.log.basic
 
 /- TEXT:
 .. _functions:

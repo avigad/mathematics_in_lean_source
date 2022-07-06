@@ -268,41 +268,34 @@ EXAMPLES: -/
 You can browse these theorems and others nearby, even though we have not
 talked about list membership, products, or permutations yet.
 We won't need any of that for the task at hand.
-We will instead use the fact that Mathlib has a function ``list.count``
-that counts the number of times an element occurs in a list.
-Counting the number of times that a prime ``p`` occurs in ``n.factors``
-yields the multiplicity of ``p`` in the prime factorization of ``n``,
-and the library contains some key identities.
-
-EXAMPLES: -/
+We will instead use the fact that Mathlib has a function ``nat.factorization``,
+that represents the same data as a function.
+Specifically, ``nat.factorization n p``, which we can also write
+``n.factorization p``, returns the multiplicity of ``p`` in the prime
+factorization of ``n``. We will use the following three facts.
+BOTH: -/
 -- QUOTE:
-#check @nat.count_factors_mul_of_pos
-#check @nat.factors_count_pow
-#check @nat.factors_prime
 
-example (m n p : ℕ) (mpos : 0 < m) (npos : 0 < n) :
-  (m * n).factors.count p = m.factors.count p + n.factors.count p :=
-nat.count_factors_mul_of_pos mpos npos
+theorem factorization_mul' {m n : ℕ} (mnez : m ≠ 0) (nnez : n ≠ 0) (p : ℕ) :
+  (m * n).factorization p = m.factorization p + n.factorization p :=
+by { rw nat.factorization_mul mnez nnez, refl }
 
-example (n k p : ℕ) : (n^k).factors.count p = k * n.factors.count p :=
-nat.factors_count_pow
+theorem factorization_pow' (n k p : ℕ) :
+  (n^k).factorization p = k * n.factorization p :=
+by { rw nat.factorization_pow, refl }
 
-example (p : ℕ) (prime_p : p.prime) : p.factors.count p = 1 :=
-begin
-  rw nat.factors_prime prime_p,
-  simp
-end
+theorem nat.prime.factorization' {p : ℕ} (prime_p : p.prime) :
+  p.factorization p = 1 :=
+by { rw prime_p.factorization, simp }
 -- QUOTE.
 
 /- TEXT:
-Notice that in the third example, we use the simplifier to close the goal
-``list.count p [p] = 1``. This is the sort of thing that the simplifier
-is good for.
-In fact, the equation ``list.count_singleton`` would do the trick.
-If you replace ``simp`` by ``squeeze_simp``,
-the information window will show you that the simplifier has found a more
-roundabout way of discharging the goal.
-The next example shows that the simplifier is also smart enough to replace
+In fact, ``n.factorization`` is defined in Lean as a function of finite support,
+which explains the strange notation you will see as you step through the
+proofs above. Don't worry about this now. For our purposes here, we can use
+the three theorems above as a black box.
+
+The next example shows that the simplifier is smart enough to replace
 ``n^2 ≠ 0`` by ``n ≠ 0``. The tactic ``simpa`` just calls ``simp``
 followed by ``assumption``.
 
@@ -310,26 +303,26 @@ See if you can use the identities above to fill in the missing parts
 of the proof.
 BOTH: -/
 -- QUOTE:
+
 example {m n p : ℕ} (nnz : n ≠ 0) (prime_p : p.prime) : m^2 ≠ p * n^2 :=
 begin
   intro sqr_eq,
   have nsqr_nez : n^2 ≠ 0,
     by simpa,
-  have eq1 : (m^2).factors.count p = 2 * m.factors.count p,
+  have eq1 : nat.factorization (m^2) p = 2 * m.factorization p,
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
-    by rw nat.factors_count_pow,
+    by { rw factorization_pow' },
 -- BOTH:
-  have eq2 : (p * n^2).factors.count p = 2 * n.factors.count p + 1,
+  have eq2 : (p * n^2).factorization p = 2 * n.factorization p + 1,
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
-  { rw [nat.count_factors_mul_of_pos prime_p.pos (nat.pos_of_ne_zero nsqr_nez),
-      nat.factors_prime prime_p, nat.factors_count_pow],
-    simp [add_comm] },
+  { rw [factorization_mul' prime_p.ne_zero nsqr_nez, prime_p.factorization',
+        factorization_pow', add_comm] },
 -- BOTH:
-  have : (2 * m.factors.count p) % 2 = (2 * n.factors.count p + 1) % 2,
+  have : (2 * m.factorization p) % 2 = (2 * n.factorization p + 1) % 2,
   { rw [←eq1, sqr_eq, eq2] },
   rw [add_comm, nat.add_mul_mod_self_left, nat.mul_mod_right] at this,
   norm_num at this
@@ -351,8 +344,8 @@ The line ``cases r with r`` replaces the goal with two versions:
 one in which ``r`` is replaced by ``0``,
 and the other in which ``r`` is replaces by ``r.succ``,
 the successor of ``r``.
-In the second case, we can use the theorem ``r.succ_pos``, which
-establishes ``0 < r.succ``.
+In the second case, we can use the theorem ``r.succ_ne_zero``, which
+establishes ``r.succ ≠ 0``.
 
 Notice also that the line that begins ``have : npow_nz`` provides a
 short proof-term proof of ``n^k ≠ 0``.
@@ -364,29 +357,27 @@ At the very end, you can use ``nat.dvd_sub'`` and ``nat.dvd_mul_right``
 to finish it off.
 BOTH: -/
 -- QUOTE:
-example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m^k = r * n^k) :
-  ∀ p : ℕ, p.prime → k ∣ r.factors.count p :=
+example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m^k = r * n^k)
+  {p : ℕ} (prime_p : p.prime) : k ∣ r.factorization p :=
 begin
-  intros p prime_p,
   cases r with r,
   { simp },
   have npow_nz : n^k ≠ 0 := λ npowz, nnz (pow_eq_zero npowz),
-  have eq1 : (m^k).factors.count p = k * m.factors.count p,
+  have eq1 : (m^k).factorization p = k * m.factorization p,
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
-    by rw nat.factors_count_pow,
+    by rw factorization_pow',
 -- BOTH:
-  have eq2 : (r.succ * n^k).factors.count p =
-      k * n.factors.count p + r.succ.factors.count p,
+  have eq2 : (r.succ * n^k).factorization p =
+      k * n.factorization p + r.succ.factorization p,
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
-  { rw [nat.count_factors_mul_of_pos (r.succ_pos) (nat.pos_of_ne_zero npow_nz),
-      nat.factors_count_pow],
-    simp [add_comm] },
+  { rw [factorization_mul' r.succ_ne_zero npow_nz, factorization_pow',
+         add_comm] },
 -- BOTH:
-  have : r.succ.factors.count p = k * m.factors.count p - k * n.factors.count p,
+  have : r.succ.factorization p = k * m.factorization p - k * n.factorization p,
   { rw [←eq1, pow_eq, eq2, add_comm, nat.add_sub_cancel] },
   rw this,
 /- EXAMPLES:

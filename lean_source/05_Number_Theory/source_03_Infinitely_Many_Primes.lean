@@ -136,8 +136,8 @@ begin
   push_neg at np,
   rcases np h with ⟨m, mltn, mdvdn, mne1⟩,
   have : m ≠ 0,
-  { intro mz, 
-    rw [mz, zero_dvd_iff] at mdvdn, 
+  { intro mz,
+    rw [mz, zero_dvd_iff] at mdvdn,
     linarith },
   have mgt2 : 2 ≤ m := two_le this mne1,
   by_cases mp : m.prime,
@@ -629,7 +629,7 @@ begin
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
-  { linarith },
+  { apply le_add_left, norm_num },
 -- BOTH:
   have h₁ : (4 * (∏ i in erase s 3, i) + 3) % 4 = 3,
 /- EXAMPLES:
