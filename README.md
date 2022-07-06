@@ -1,46 +1,49 @@
 
-Mathematics in Lean
-===================
+Mathematics in Lean Source
+==========================
 
-Built using Sphinx and restructured text.
+This is the source code for
+[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
 
-## How to build
+Our build process is rudimentary and not ready for prime time, but it is fairly
+convenient to use. Most of the source is written directly in the `.lean` files
+in `lean_source` using some simple markup. The Python script
+`lean_source/mkall.sh` then generates the `.rst` source for the textbook and
+an exercise file and a solution file for each section.
 
-The project requires a Lean installation to test the snippets. Install the project with
-```
-leanproject new mathematics_in_lean
-```
-and use
-```
-leanproject up
-```
-to update.
+To build the textbook, you need to have
+[Sphinx and ReadTheDocs installed](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html).
+The following files are maintained by hand:
+- The file `source/index.rst` should have an entry for each chapter.
+- For each chapter, there should be a `.rst` file in `source`. It should include
+  each of the sections.
+- For each section, there should be a `.lean` file in the appropriate place
+  in `lean_source`.
+- Each section should have a corresponding line in `lean_source/mk_all.sh`.
 
-The build requires python 3 (install `python3-venv` on ubuntu).
-
+Is everything is set up right, the command
 ```
-make install-deps
+lean_source/mkall.sh
+```
+from the top level should build the restructured text files, the exercise files,
+and the solutions. The command
+```
 make html
+```
+builds the html textbook and puts it in the `build` folder. The command
+```
 make latexpdf
 ```
+builds the pdf textbook instead.
 
-The call to `make install-deps` is only required the first time, and only if you want to use the bundled version of Sphinx and Pygments with improved syntax highlighting for Lean.
-
-If you have trouble building the pdf file, see <https://github.com/sphinx-doc/sphinx/issues/5823>. In particular, on Ubuntu, you may need to install the package `fonts-freefont-otf`.
-
-## How to test the Lean code snippets
-
-```
-make leantest
-```
-
-## How to deploy
-
+The script `deploy.sh` is used to deploy everything (the textbook and the
+user's version of the example and solution files) to an arbitrary repository, set up to use the `gh-pages` branch
+to display the html. Specifically, we use the following:
 ```
 ./deploy.sh leanprover-community mathematics_in_lean
 ```
 
 ## How to contribute
 
-This project is still a work in progress, but feedback and corrections are welcome.
+The textbook is still a work in progress, but feedback and corrections are welcome.
 You can open a pull request, find us on the [Lean Zulip channel](https://leanprover.zulipchat.com/), or contact any of us by email.
