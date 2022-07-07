@@ -345,7 +345,7 @@ This observation leads to the notion of a *filter basis*.
 
 Given ``F : filter X``,
 a family of sets `s : ι → set X` is a basis for ``F`` if for every set ``U``,
-we have ``s i ⊆ U`` for some ``i``. In other words, formally speaking,
+we have ``U ∈ F`` if and only if it contains some ``s i``. In other words, formally speaking,
 ``s`` is a basis if it satisfies
 ``∀ U : set X, U ∈ F ↔ ∃ i, s i ⊆ U``. It is even more flexible to consider
 a predicate on ``ι`` that selects only some of the values ``i`` in the indexing type.
