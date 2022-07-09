@@ -70,6 +70,9 @@ metric.continuous_iff
 -- QUOTE.
 
 /- TEXT:
+.. index:: continuity, tactics ; continuity
+
+
 A *lot* of lemmas have some continuity assumptions, no we end up proving a lot of continuity results and there 
 is a ``continuity`` tactic devoted to this task. Let's prove a continuity statement that will be needed
 in an exercise below. Notice that Lean knows how to treat a product of two metric spaces as a metric space, so
