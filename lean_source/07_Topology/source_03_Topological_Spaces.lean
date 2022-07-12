@@ -264,11 +264,10 @@ a function :math:`g : Y → Z` is continuous for the topology :math:`f_*T_X` if 
 :math:`g ∘ f` is continuous.
 
 .. math::
-  \begin{align*}
-  g \text{ continuous } &⇔ g_*(f_*T_X) ≤ T_Z \\\\
-  &⇔ (g ∘ f)_* T_X ≤ T_Z \\\\
+  g \text{ continuous } &⇔ g_*(f_*T_X) ≤ T_Z \\
+  &⇔ (g ∘ f)_* T_X ≤ T_Z \\
   &⇔ g ∘ f \text{ continuous}
-  \end{align*}
+
 
 TEXT. -/
 
@@ -293,12 +292,10 @@ Let us explore that constraint "on papar" using notation :math:`p_i` for the pro
 ``(λ (x : Π i, X i), x i)``:
 
 .. math::
-  \begin{align*}
-  (∀ i, p_i ∘ f \text{ continuous}) &⇔ ∀ i, (p_i ∘ f)_* T_Z ≤ T_{X_i} \\\\
-  &⇔ ∀ i, (p_i)_* f_* T_Z ≤ T_{X_i}\\\\
-  &⇔ ∀ i, f_* T_Z ≤ (p_i)^*T_{X_i}\\\\ 
+  (∀ i, p_i ∘ f \text{ continuous}) &⇔ ∀ i, (p_i ∘ f)_* T_Z ≤ T_{X_i} \\
+  &⇔ ∀ i, (p_i)_* f_* T_Z ≤ T_{X_i}\\
+  &⇔ ∀ i, f_* T_Z ≤ (p_i)^*T_{X_i}\\ 
   &⇔  f_* T_Z ≤ \inf \left[(p_i)^*T_{X_i}\right]
-  \end{align*}
 
 So we see that what is the topology we want on ``Π i, X i``:
 TEXT. -/
