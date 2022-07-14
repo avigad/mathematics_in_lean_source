@@ -17,7 +17,7 @@ metric spaces. A metric space is a type ``X`` equipped with a distance function 
 the function ``λ x y, |x - y|`` from the case where ``X = ℝ``.
 
 Introducing such a space is easy and we will check all properties required from the distance function.
-EXAMPLES: -/
+TEXT. -/
 -- QUOTE:
 
 variables {X : Type*} [metric_space X] (a b c : X)
@@ -55,7 +55,7 @@ Convergence and continuity
 Using distance functions, we can already define convergent sequences and continuous functions between metric spaces. 
 They are actually defined in a more general setting covered in the next section,
 but we have lemmas recasting the definition is terms of distances.
-EXAMPLES: -/
+TEXT. -/
 -- QUOTE:
 
 example {u : ℕ → X} {a : X} : 
@@ -99,7 +99,7 @@ We can do the same for the second component to get continuity of ``λ p : X × X
 those two continuities using ``continuous.prod_mk`` to get
 ``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : continuous (λ p : X × X, (f p.1, f p.2))``
 and compose once more to get our full proof.
-EXAMPLES: -/
+TEXT. -/
 -- QUOTE:
 
 example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
@@ -196,7 +196,7 @@ Balls, open sets and closed sets
 
 Once we have a distance function, the most important geometric definitions are (open) balls and closed balls.
 
-EXAMPLES: -/
+TEXT. -/
 -- QUOTE:
 
 variables r : ℝ
@@ -209,7 +209,7 @@ example : metric.closed_ball a r = {b | dist b a ≤ r} := rfl
 
 /- TEXT:
 Note that `r` is any real number here, there is no sign restriction. Of course some statements do require a radius condition.
-EXAMPLES: -/
+TEXT. -/
 -- QUOTE:
 
 example (hr : 0 < r) : a ∈ metric.ball a r := metric.mem_ball_self hr
@@ -396,7 +396,7 @@ sorry
 
 -- QUOTE.
 
--- SOLUTIONs:
+-- SOLUTIONS:
 example {X : Type*} [metric_space X] [compact_space X] {Y : Type*} [metric_space Y]
   {f : X → Y} (hf : continuous f) : uniform_continuous f :=
 begin

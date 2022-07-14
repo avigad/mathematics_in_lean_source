@@ -3,7 +3,7 @@ import analysis.normed_space.banach_steinhaus
 
 open set filter
 open_locale topological_space filter
-section
+
 /- TEXT:
 .. index:: topological space
 
@@ -28,6 +28,7 @@ has to satisfy a number of axioms presented below (this collection is slighly re
 TEXT. -/
 
 -- QUOTE:
+section
 
 variables {X : Type*} [topological_space X]
 
@@ -171,7 +172,9 @@ begin
   rintros y (hy : s ∈ n y),
   exact H₀ y hy
 end
+-- BOTH:
 end
+-- BOTH.
 /- TEXT:
 Note that ``topological_space.mk_of_nhds`` is not so frequently used, but it still good to know in what
 precise sense the neighborhood filters is all there is in a topological space structure.
