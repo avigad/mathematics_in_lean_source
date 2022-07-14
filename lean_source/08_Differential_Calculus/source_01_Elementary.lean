@@ -20,7 +20,7 @@ In this section we only consider derivatives of functions from reals to reals. T
 understand is the distinction between claiming that a function has a derivative at some point and referring
 to the derivative function.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open real
@@ -36,7 +36,7 @@ One can simply state that ``f`` is differentiable at some point, without giving 
 This uses ``differentiable_at ℝ`` where ``ℝ`` is here so that, in a slightly more general context, we can 
 distinguish functions from ``ℂ`` to ``ℂ`` that are differentiable in the real sense or in the complex sense. 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (x : ℝ) : differentiable_at ℝ sin x :=
@@ -49,7 +49,7 @@ It would be extremely unconvenient to require a proof a differentiability floati
 to write a derivative. So there is some ``deriv f : ℝ → ℝ`` which is defined for any function ``f : ℝ → ℝ``
 but is defined to take value ``0`` at any point where ``f`` is not differentiable.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -63,7 +63,7 @@ deriv_zero_of_not_differentiable_at h
 /- TEXT:
 Of course there are many lemmas about ``deriv`` that do require differentiability assumptions.
 For instance you should think about a counter-example to the next lemma without differentiability assumption.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {f g : ℝ → ℝ} {x : ℝ} (hf : differentiable_at ℝ f x) (hg : differentiable_at ℝ g x) :
@@ -76,7 +76,7 @@ There are however statement who suprisingly do *not* involve this assumption but
 of the fact that the value of `deriv` default to zero when there is no derivative.
 As usual, reading statements still require to understand the definitions involved.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {f : ℝ → ℝ} {a : ℝ} (h : is_local_min f a) : deriv f a = 0 :=
@@ -87,7 +87,7 @@ h.deriv_eq_zero
 This allows to state Rolle's theorem without any differentiability assumption, which
 looks even weirder.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {f : ℝ → ℝ} {a b : ℝ} (hab : a < b) 
@@ -98,7 +98,7 @@ exists_deriv_eq_zero f hab hfc hfI
 
 /- TEXT:
 Of course this trick does not work for the general mean value theorem.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -113,7 +113,7 @@ exists_deriv_eq_slope f hab hf hf'
 /- TEXT:
 
 Lean can automatically compute some simple derivatives using `simp` tactic.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open real
@@ -127,7 +127,7 @@ example : deriv sin π = -1 := by simp
 
 /- TEXT:
 Sometimes you need `ring` and/or `field_simp` after `simp`
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 

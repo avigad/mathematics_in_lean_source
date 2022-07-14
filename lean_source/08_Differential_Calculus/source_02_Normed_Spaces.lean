@@ -22,7 +22,7 @@ Normed spaces
 In order to level-up from calculus on ``ℝ``, we need the context of normed vector spaces.
 The first stage is normed groups, ie additive commutative groups equipped with a real-valued
 norm function satisfying the following conditions. 
-TEXT. -/
+BOTH: -/
 section
 -- QUOTE:
 variables {E : Type*} [normed_group E] 
@@ -41,7 +41,7 @@ norm_add_le x y
 /- TEXT:
 This is already connected to the topology library that was discussed in the topology chapter.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example : metric_space E := by apply_instance
@@ -54,7 +54,7 @@ hf.norm
 In order to connect normed groups to linear algebra, we add a ``normed_space``
 instance assumption on top of the ``normed_group`` one. In addition to having a vector
 space structure, this puts a condition relating the scalar action with the norm.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 variables [normed_space ℝ E] 
@@ -65,7 +65,7 @@ norm_smul a x
 
 /- TEXT:
 In case of finite dimensional vector spaces, we get completeness for free.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example [finite_dimensional ℝ E]: complete_space E :=
@@ -80,7 +80,7 @@ for calculus is vector spaces over non-discrete normed fields. They are fields e
 valued norm which is multiplicative and such that not every element has norm zero or one
 (equivalently there is an element whose norm is bigger than one).
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (𝕜 : Type*) [nondiscrete_normed_field 𝕜] (x y : 𝕜) : ∥x * y∥ = ∥x∥ * ∥y∥ :=
@@ -92,7 +92,7 @@ normed_field.exists_one_lt_norm 𝕜
 
 /- TEXT:
 Completeness of finite dimensional vector spaces hold in this context as long as the base field is complete.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (𝕜 : Type*) [nondiscrete_normed_field 𝕜] (E : Type*) [normed_group E]
@@ -107,7 +107,7 @@ Continuous linear maps
 
 We now turn to morphisms in the category of normed spaces: continuous linear maps.
 These are implemented as bundled maps with notation ``E →L[𝕜] F``.
-TEXT. -/
+BOTH: -/
 section
 -- QUOTE:
 variables {𝕜 : Type*} [nondiscrete_normed_field 𝕜]
@@ -122,7 +122,7 @@ f.cont
 
 /- TEXT:
 Continuous linear maps have an operator norm characterized by the following properties.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 variables (f : E →L[𝕜] F)
@@ -145,7 +145,7 @@ bounded, then the norms of these linear maps are uniformly bounded. The main ing
 Minor ingredients include ``continuous_linear_map.op_norm_le_of_shell``, ``interior_subset`` and
 ``interior_Inter_subset`` and ``is_closed_le``. 
 
-TEXT. -/
+BOTH: -/
 
 
 -- QUOTE:
@@ -235,7 +235,7 @@ The remaining missing piece in order to define differentiability is asymptotics 
 These are the big O, little o, and equivalent relations. The definitions and notations are shown below.
 They all have extensive libraries of lemmas, but here we will only use little o to define differentiability.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open asymptotics
@@ -269,7 +269,7 @@ Differentiability
 We are now ready to discuss differentiable functions between normed spaces. As in the elementary
 one-dimensional case, there is a predicate ``has_fderiv_at`` and a function ``fderiv``. Here the letter
 f stands for Fréchet.
-TEXT. -/
+BOTH: -/
 section
 -- QUOTE:
 variables
@@ -294,7 +294,7 @@ continuously differential functions. The type ``with_top ℕ`` is ``ℕ`` with a
 is bigger than every natural number. So :math:`\mathcal{C}^\infty` functions are functions ``f`` that satisfy
 ``cont_diff 𝕜 ⊤ f``.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -314,7 +314,7 @@ There is a stricter notion of differentiability called ``has_strict_fderiv_at`` 
 of the inverse function theorem and the implicit function theorem (both those theorems are in mathlib). 
 The important thing to know in ordinary contexts is that over ``ℝ`` or ``ℂ``, continuously differentiable 
 functions are strictly differentiable.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {𝕂 : Type*} [is_R_or_C 𝕂] {E : Type*} [normed_group E] [normed_space 𝕂 E] 
@@ -331,7 +331,7 @@ function and the assumptions that it is strictly differentiable at a point ``a``
 
 The first example below gets this local inverse, then the next one state that it is indeed a local inverse 
 from the left and from the right and is strictly differentiable.
-TEXT. -/
+BOTH: -/
 
 
 -- QUOTE:
@@ -363,7 +363,7 @@ are many variations that we haven't discuss. For instance you may want to discus
 derivatives in the one-dimensional context. This is all in mathlib in a very general context,
 see ``has_fderiv_within_at`` or the even more general ``has_fderiv_at_filter``.
 
-TEXT. -/
+BOTH: -/
 #check has_fderiv_within_at
 #check has_fderiv_at_filter
 end

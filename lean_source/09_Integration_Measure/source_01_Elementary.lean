@@ -18,7 +18,7 @@ Elementary integration
 We first focus on integration of functions on finite intervals in ``ℝ``. We can integrate 
 elementary functions.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open measure_theory interval_integral
@@ -37,7 +37,7 @@ Below we give simplified statement of the two parts of this theorem. The first p
 says that integration provides an inverse to differentiation and the second one
 says how to compute integrals of derivatives (those two parts are very much related but
 their optimal versions, not shown here, are not equivalent).
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (f : ℝ → ℝ) (hf : continuous f) (a b : ℝ) :
@@ -53,7 +53,7 @@ integral_eq_sub_of_has_deriv_at h h'
 
 /- TEXT:
 Convolution is also defined and its basic properties are proven.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open_locale convolution

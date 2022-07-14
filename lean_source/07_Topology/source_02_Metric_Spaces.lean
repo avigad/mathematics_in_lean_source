@@ -17,7 +17,7 @@ metric spaces. A metric space is a type ``X`` equipped with a distance function 
 the function ``λ x y, |x - y|`` from the case where ``X = ℝ``.
 
 Introducing such a space is easy and we will check all properties required from the distance function.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 variables {X : Type*} [metric_space X] (a b c : X)
@@ -37,7 +37,7 @@ variables {X : Type*} [metric_space X] (a b c : X)
 Note we also have variants where the distance can be infinite or where ``dist a b`` can be zero without having ``a = b`` or both.
 They are called ``emetric_space``, ``pseudo_metric_space`` and ``pseudo_emetric_space`` respectively (here "e" stands for "extended").
 
-TEXT. -/
+BOTH: -/
 
 -- Note the next three lines are not quoted, their purpose is to make sure those things don't get renamed while we're looking elsewhere.
 #check emetric_space
@@ -55,7 +55,7 @@ Convergence and continuity
 Using distance functions, we can already define convergent sequences and continuous functions between metric spaces. 
 They are actually defined in a more general setting covered in the next section,
 but we have lemmas recasting the definition is terms of distances.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 example {u : ℕ → X} {a : X} : 
@@ -79,7 +79,7 @@ in an exercise below. Notice that Lean knows how to treat a product of two metri
 it makes sense to consider continuous functions from ``X × X`` to ``ℝ``. 
 In particular the (uncurried version of the) distance function is such a function.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
@@ -99,7 +99,7 @@ We can do the same for the second component to get continuity of ``λ p : X × X
 those two continuities using ``continuous.prod_mk`` to get
 ``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : continuous (λ p : X × X, (f p.1, f p.2))``
 and compose once more to get our full proof.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
@@ -123,7 +123,7 @@ A better lemma to apply here is
 ``continuous.dist {f g : X → Y} : continuous f → continuous g → continuous (λ x, dist (f x) (g x))``
 which is nicer to Lean's elaborator and also provides a shorter proof when directly providing a full 
 proof term, as can be seen from the following two new proofs of the above statement:
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -151,7 +151,7 @@ to type, let us wrap this discussion with a last bit of compression offered
 by ``continuous.fst'`` which allows to compress ``hf.comp continuous_fst`` to ``hf.fst'`` (and the same with ``snd``) 
 and get our final proof, now bordering obfuscation.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
@@ -164,7 +164,7 @@ hf.fst'.dist hf.snd'
 It's your turn now to prove some continuity lemma. After trying the continuity tactic, you will need 
 ``continuous.add``, ``continuous_pow`` and ``continuous_id`` to do it by hand.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {f : ℝ → X} (hf : continuous f) : continuous (λ x : ℝ, f (x^2 + x)) :=
@@ -179,7 +179,7 @@ hf.comp $ (continuous_pow 2).add continuous_id
 
 /- TEXT:
 So far we saw continuity as a global notion, but one can also define continuity at a point. 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -196,7 +196,7 @@ Balls, open sets and closed sets
 
 Once we have a distance function, the most important geometric definitions are (open) balls and closed balls.
 
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 variables r : ℝ
@@ -209,7 +209,7 @@ example : metric.closed_ball a r = {b | dist b a ≤ r} := rfl
 
 /- TEXT:
 Note that `r` is any real number here, there is no sign restriction. Of course some statements do require a radius condition.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 example (hr : 0 < r) : a ∈ metric.ball a r := metric.mem_ball_self hr
@@ -221,7 +221,7 @@ example (hr : 0 ≤ r) : a ∈ metric.closed_ball a r := metric.mem_closed_ball_
 Once we have balls, we can define open sets. They are actually defined in a more general setting covered in the next section,
 but we have lemmas recasting the definition is terms of balls.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (s : set X) : is_open s ↔ ∀ x ∈ s, ∃ ε > 0, metric.ball x ε ⊆ s :=
@@ -231,7 +231,7 @@ metric.is_open_iff
 
 /- TEXT:
 Then closed sets are sets whose complement is open. Their important property is they are closed under limits. The closure of a set is the smallest subset containing it.
-TEXT. -/
+BOTH: -/
 -- QUOTE:
 
 example {s : set X} : is_closed s ↔ is_open sᶜ :=
@@ -247,7 +247,7 @@ metric.mem_closure_iff
 
 /- TEXT:
 Do the next exercise without using `mem_closure_iff_seq_limit`
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) {s : set X} (hs : ∀ n, u n ∈ s) : 
@@ -278,7 +278,7 @@ The main lemmas here are ``metric.nhds_basis_ball`` and ``metric.nhds_basis_clos
 that claim this for open and closed balls with positive radius. The center point is an implicit
 argument so we can invoke ``filter.has_basis.mem_iff`` as in the following example.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {x : X} {s : set X} : s ∈ 𝓝 x ↔ ∃ ε > 0, metric.ball x ε ⊆ s :=
@@ -307,7 +307,7 @@ need continuity on the given set so we will use ``continuous_on`` instead of ``c
 we will give separate statements for the minimum and the maximum. Of course all these results
 are deduced from more general versions, some of which will be discussed in later sections.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -337,7 +337,7 @@ hs.is_closed
 
 We can also metric spaces which are globally compact, using an extra ``Prop``-valued type class:
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {X : Type*} [metric_space X] [compact_space X] : is_compact (univ : set X) :=
@@ -348,7 +348,7 @@ compact_univ
 
 In a compact metric space any closed set is compact, this is ``is_compact.is_closed``.
 
-TEXT. -/
+BOTH: -/
 
 #check is_compact.is_closed
 
@@ -360,7 +360,7 @@ We now turn to uniformity notions on metric spaces : uniformly continuous functi
 Again those are defined in a more general context but we have lemmas in the metric name space to access their elementary definitions.
 We start with uniform continuity.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {X : Type*} [metric_space X] {Y : Type*} [metric_space Y] {f : X → Y} : 
@@ -387,7 +387,7 @@ If ``K`` is empty then we are clearly done (we can set ``δ = 1`` for instance).
 So let's assume ``K`` is not empty, and use the extreme value theorem to choose ``(x₀, x₁)`` attaining the infimum
 of ``φ`` on ``K``. We can then set ``δ = dist x₀ x₁`` and check everything works.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {X : Type*} [metric_space X] [compact_space X] {Y : Type*} [metric_space Y]
@@ -436,7 +436,7 @@ In particular converging sequences are Cauchy. The converse is true only in so-c
 spaces.
 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -458,7 +458,7 @@ We'll practice using this definition by proving a convenient criterion which is 
 criterion appearing in mathlib. This is also a good opportunity to practive using big sums in
 a geometric context. In addition to the explanations from the filters section, you will probably need 
 ``tendsto_pow_at_top_nhds_0_of_lt_1``, ``tendsto.mul`` and ``dist_le_range_sum_dist``.
-TEXT. -/
+BOTH: -/
 
 open_locale big_operators
 open finset
@@ -517,7 +517,7 @@ The proof skeleton below shows interesting techniques. It uses the ``choose`` ta
 mark variant (you should experiment with removing this exclamation mark) and it shows how to
 define something inductively in the middle of a proof using ``nat.rec_on``.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 open metric
@@ -659,5 +659,5 @@ end
 
 /- TEXT:
 
-TEXT. -/
+BOTH: -/
 
