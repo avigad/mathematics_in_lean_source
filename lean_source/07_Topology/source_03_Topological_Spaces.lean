@@ -25,7 +25,7 @@ remember the notion of open sets (or equivalently the notion of closed sets). Fr
 a topological space is a type equipped with a collection of sets that are called open sets. This collection
 has to satisfy a number of axioms presented below (this collection is slighly redundant but we will ignore that).
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 section
@@ -51,7 +51,7 @@ is_open_Inter hs
 
 Closed sets are then defined as sets whose complement  is open. A function between topological spaces
 is (globally) continuous if all preimages of open sets are open. 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 variables {Y : Type*} [topological_space Y]
@@ -79,7 +79,7 @@ that ``f : X → Y`` is continuous at ``x``. The purely filtery way is to say th
 points that are close to ``f x``. Recall this spelled either ``map f (𝓝 x) ≤ 𝓝 (f x)``
 or ``tendsto f (𝓝 x) (𝓝 (f x))``. 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -94,7 +94,7 @@ seen as a generalized set: "for any neighborhood ``U`` of ``f x``, all points cl
 are sent to ``U``". Note that the proof is again ``iff.rfl``, this point of view is definitionally 
 equivalent to the previous one.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {f : X → Y} {x : X} : continuous_at f x ↔ ∀ U ∈ 𝓝 (f x), ∀ᶠ x in 𝓝 x, f x ∈ U :=
@@ -106,7 +106,7 @@ We now explain how to go from one point of view to the other. In terms of open s
 simply define members of ``𝓝 x`` as sets that contain an open set containing ``x``.
 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {x : X} {s : set X} : s ∈ 𝓝 x ↔ ∃ t ⊆ s, is_open t ∧ x ∈ t :=
@@ -121,7 +121,7 @@ The first constraint is that ``𝓝 x``, seen as a generalized set, contains the
 ``pure x`` (explaining this weird name would be too much of a digression, so we simply accept it for now). 
 Another way to say it is that if a predicate holds for points close to ``x`` then it holds at ``x``.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (x : X) : pure x ≤ 𝓝 x := pure_le_nhds x
@@ -133,7 +133,7 @@ pure_le_nhds x h
 /- TEXT:
 Then a more subtle requirement is that, for any predicate ``P : X → Prop`` and any ``x``, if ``P y`` holds for ``y`` close
 to ``x`` then for ``y`` close to ``x`` and ``z`` close to ``y``, ``P z`` holds. More precisely we have:
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -148,7 +148,7 @@ structure on ``X``. There is a still a function ``topological_space.mk_of_nhds :
 but it will give back its input as a neighborhood function only if it satistfy the above two constraints.
 More precisely we have a lemma ``topological_space.nhds_mk_of_nhds`` saying that in a different way and our
 next exercise deduces this different way from how we stated it above. 
-TEXT. -/
+BOTH: -/
 
 #check topological_space.mk_of_nhds
 #check topological_space.nhds_mk_of_nhds.
@@ -200,7 +200,7 @@ a map ``f : X → (ℝ → ℝ)`` is continuous if and only ``λ x, f x t`` is c
 We now review the data used to solve all those issues. First we can use any map ``f : X → Y`` to
 push or pull topologies from one side to the other. Those two operations form a Galois connection.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 variables {X Y : Type*}
@@ -222,7 +222,7 @@ Those operations are compactible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
 On paper we will use notations :math:`f_*T` for ``topological_space.coinduced f T`` and
 :math:`f^*T` for ``topological_space.induced f T``.
-TEXT. -/
+BOTH: -/
 
 #check coinduced_compose
 #check induced_compose.
@@ -238,7 +238,7 @@ to be order preserving. And we know the order relation on ``filter X`` is design
 preserving ``principal : set X → filter X``, allowing to see filters as generalized sets.
 So the order relation we do use on  ``topological_structure X`` is opposite to the one coming from ``set (set X)``.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {T T' : topological_space X} :
@@ -251,7 +251,7 @@ iff.rfl
 
 Now we can recover continuity by combining the push-foward (or pull-back) operation with the order relation.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (T_X : topological_space X) (T_Y : topological_space Y) (f : X → Y) :
@@ -272,7 +272,7 @@ a function :math:`g : Y → Z` is continuous for the topology :math:`f_*T_X` if 
   &⇔ g ∘ f \text{ continuous}
 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -301,7 +301,7 @@ Let us explore that constraint "on papar" using notation :math:`p_i` for the pro
   &⇔  f_* T_Z ≤ \inf \left[(p_i)^*T_{X_i}\right]
 
 So we see that what is the topology we want on ``Π i, X i``:
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example (ι : Type*) (X : ι → Type*) (T_X : Π i, topological_space $ X i) :
@@ -326,7 +326,7 @@ that will ensure that limits are unique.
 A stronger separation property is regularity that ensure that each point has a basis of closed
 neighborhood. 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -342,7 +342,7 @@ closed_nhds_basis a
 /- TEXT:
 Note that, in every topological space, each point has a basis of open neighborhood, by definition.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example [topological_space X] {x : X} : (𝓝 x).has_basis (λ t : set X, t ∈ 𝓝 x ∧ is_open t) id :=
@@ -370,7 +370,7 @@ The assumption "tends to :math:`x` while remaining in :math:`A`" corresponds to 
 Let's prove first an auxilliary lemma, extracted to simplify the context
 (in particular we don't need Y to be a topological space here).
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 lemma aux {X Y A : Type*} [topological_space X] {c : A → X} {f : A → Y} {x : X} {F : filter Y}
@@ -418,7 +418,7 @@ Because we know ``tendsto f (comap coe $ 𝓝 y) (𝓝 (φ y))`` this implies
 
 It remains to prove that ``φ`` extends ``f``. This is were continuity of ``f`` enters the discussion,
 together with the fact that ``Y`` is Hausdorff.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -467,7 +467,7 @@ space to bring it closer to metric spaces is countability assumption. The main o
 asking that every point has a countable neighborhood basic. In particular this ensures that closure
 of sets can be understood using sequences.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -491,7 +491,7 @@ with the generalized set of points that are close to ``x``.
 Then we can say that a set ``s`` is compact if every nonempty generalized set ``F`` contained in ``s``,
 ie such that ``F ≤ 𝓟 s``, has a cluster point in ``s``. 
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 variables [topological_space X]
@@ -511,7 +511,7 @@ large enough. Saying that ``x`` is a cluster point of ``map u at_top`` says the 
 intersects the set of points that are close to ``x``. In case ``𝓝 x`` has a countable basis, we can
 interpret this as saying that ``u`` has a subsequence converging to ``x``, and we get back what compactness
 looks like in metric spaces.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example [topological_space.first_countable_topology X] 
@@ -523,7 +523,7 @@ hs.tendsto_subseq hu
 /- TEXT:
 Cluster points behave nicely with continuous functions.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -539,7 +539,7 @@ cluster_pt.map H hfx hf
 As an exercise, we will prove that the image of a compact set under a continuous map is
 compact. In addition to what we saw already, you should use ``filter.push_pull`` and
 ``ne_bot.of_map``.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example [topological_space Y] {f : X  → Y} (hf : continuous f) 
@@ -579,7 +579,7 @@ end
 One can also express compactness in terms of open covers: ``s`` is compact if every family of open sets that
 cover ``s`` has a finite covering sub-family.
 
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example {ι : Type*} {s : set X} (hs : is_compact s)
@@ -591,7 +591,7 @@ hs.elim_finite_subcover U hUo hsU
 
 /- TEXT:
 A topological space ``X`` is compact if ``(univ : set X)`` is compact.
-TEXT. -/
+BOTH: -/
 
 -- QUOTE:
 example [compact_space X] : is_compact (univ : set X) :=
