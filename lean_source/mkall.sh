@@ -25,5 +25,6 @@ lean_source/mkdoc.py 07_Topology 02_Metric_Spaces
 lean_source/mkdoc.py 07_Topology 03_Topological_Spaces
 lean_source/mkdoc.py 08_Differential_Calculus 01_Elementary_Differential_Calculus
 lean_source/mkdoc.py 08_Differential_Calculus 02_Differential_Calculus_in_Normed_Spaces
-lean_source/mkdoc.py 09_Integration_Measure 01_Elementary
-lean_source/mkdoc.py 09_Integration_Measure 02_Measure_Theory
+lean_source/mkdoc.py 09_Integration_and_Measure_Theory 01_Elementary_Integration
+lean_source/mkdoc.py 09_Integration_and_Measure_Theory 02_Measure_Theory
+lean_source/mkdoc.py 09_Integration_and_Measure_Theory 03_Integration
