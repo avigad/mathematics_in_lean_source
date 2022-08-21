@@ -14,5 +14,5 @@ which is familiar from any introductory calculus class.
 In :numref:`normed_spaces`, we then consider the notion of a derivative in
 a much broader setting.
 
-.. include:: 08_Differential_Calculus/01_Elementary.inc
-.. include:: 08_Differential_Calculus/02_Normed_Spaces.inc
+.. include:: 08_Differential_Calculus/01_Elementary_Differential_Calculus.inc
+.. include:: 08_Differential_Calculus/02_Differential_Calculus_in_Normed_Spaces.inc

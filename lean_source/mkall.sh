@@ -23,7 +23,7 @@ lean_source/mkdoc.py 06_Abstract_Algebra 03_Building_the_Gaussian_Integers
 lean_source/mkdoc.py 07_Topology 01_Filters
 lean_source/mkdoc.py 07_Topology 02_Metric_Spaces
 lean_source/mkdoc.py 07_Topology 03_Topological_Spaces
-lean_source/mkdoc.py 08_Differential_Calculus 01_Elementary
-lean_source/mkdoc.py 08_Differential_Calculus 02_Normed_Spaces
+lean_source/mkdoc.py 08_Differential_Calculus 01_Elementary_Differential_Calculus
+lean_source/mkdoc.py 08_Differential_Calculus 02_Differential_Calculus_in_Normed_Spaces
 lean_source/mkdoc.py 09_Integration_Measure 01_Elementary
 lean_source/mkdoc.py 09_Integration_Measure 02_Measure_Theory
