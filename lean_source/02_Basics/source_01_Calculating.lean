@@ -485,4 +485,21 @@ It can be imported explicitly with the command
 We will see there are similar tactics for other common kind of algebraic
 structures.
 
+There is a variation of ``rw`` called ``nth_rewrite`` that allows you to replace only particular instances of an expression in the goal.
+Possible matches are enumerated starting with zero,
+so in the following example, ``nth_rewrite 1 h`` replaces the *second*
+occurrence of ``a + b`` with ``c``.
+EXAMPLES: -/
+-- QUOTE:
+example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c :=
+begin
+  nth_rewrite 1 h,
+  rw add_mul
+end
+-- QUOTE.
+
+/- TEXT:
+See also ``nth_rewrite_lhs`` and ``nth_rewrite_rhs``.
+For a more sophisticed means of rewriting particular subexpressions,
+see the `documentation for the conversion tactic <https://leanprover-community.github.io/extras/conv.html>`_.
 TEXT. -/
