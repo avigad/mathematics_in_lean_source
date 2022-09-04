@@ -385,7 +385,7 @@ And ``K`` is clearly closed (use ``is_closed_le``) hence compact since ``X`` is 
 Then we discuss two possibilities using ``eq_empty_or_nonempty``.
 If ``K`` is empty then we are clearly done (we can set ``δ = 1`` for instance).
 So let's assume ``K`` is not empty, and use the extreme value theorem to choose ``(x₀, x₁)`` attaining the infimum
-of ``φ`` on ``K``. We can then set ``δ = dist x₀ x₁`` and check everything works.
+of the distance function on ``K``. We can then set ``δ = dist x₀ x₁`` and check everything works.
 
 BOTH: -/
 
