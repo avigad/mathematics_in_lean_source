@@ -75,7 +75,7 @@ has the properties indicated.
 
 A *lattice* is a structure that extends a partial
 order with operations ``⊓`` and ``⊔`` that are
-analogous to ``inf`` and ``max`` on the real numbers:
+analogous to ``min`` and ``max`` on the real numbers:
 TEXT. -/
 -- BOTH:
 section
@@ -106,7 +106,7 @@ theorem names.
 To further complicate matters,
 they are also often called *meet* and *join*.
 Therefore, if you work with lattices,
-you have to keep the following dictionary in infd:
+you have to keep the following dictionary in mind:
 
 * ``⊓`` is the *greatest lower bound*, *infimum*, or *meet*.
 
@@ -114,7 +114,7 @@ you have to keep the following dictionary in infd:
 
 Some instances of lattices include:
 
-* ``inf`` and ``max`` on any total order, such as the integers or real numbers with ``≤``
+* ``min`` and ``max`` on any total order, such as the integers or real numbers with ``≤``
 
 * ``∩`` and ``∪`` on the collection of subsets of some domain, with the ordering ``⊆``
 
@@ -133,7 +133,7 @@ Some instances of lattices include:
   the least upper bound is their intersection,
   and the ordering is reverse inclusion
 
-You can check that, as with ``inf`` / ``max`` and ``gcd`` / ``lcm``,
+You can check that, as with ``min`` / ``max`` and ``gcd`` / ``lcm``,
 you can prove the commutativity and associativity of the infimum and supremum
 using only their characterizing axioms,
 together with ``le_refl`` and ``le_trans``.
