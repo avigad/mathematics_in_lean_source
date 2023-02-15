@@ -186,7 +186,7 @@ As a result, we can show you how to use some of the mathematical
 objects and theorems in the library,
 and some of the very useful tactics.
 This book is not meant to be used as an overview of the library;
-the `community <https://leanprover-community.github.io/>_`
+the `community <https://leanprover-community.github.io/>`_
 web pages contain extensive documentation.
 Rather, our goal is to introduce you to the style of thinking that
 underlies that formalization,
