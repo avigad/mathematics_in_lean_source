@@ -533,7 +533,7 @@ by apply two_le; { intro neq, rw neq at h, norm_num at h }
 
 /- TEXT:
 We will also need the following fact, which says that if
-``m`` is a nontrivial divisor of ``n``, then so is ``m / n``.
+``m`` is a nontrivial divisor of ``n``, then so is ``n / m``.
 See if you can complete the proof using ``nat.div_dvd_of_dvd``
 and ``nat.div_lt_self``.
 BOTH: -/
