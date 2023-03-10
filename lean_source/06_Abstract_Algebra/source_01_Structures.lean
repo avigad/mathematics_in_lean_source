@@ -79,7 +79,7 @@ structure point' := build :: (x : ℝ) (y : ℝ) (z : ℝ)
 /- TEXT:
 The next two examples show how to define functions on structures.
 Whereas the second example makes the ``point.mk``
-constructor explicit, the first example uses anonymous constructors
+constructor explicit, the first example uses an anonymous constructor
 for brevity.
 Lean can infer the relevant constructor from the indicated type of
 ``add``.
@@ -242,7 +242,7 @@ We don't yet have a way to link ``point.add`` to the generic ``+`` symbol,
 or to connect ``point.add_comm`` and ``point.add_assoc`` to
 the generic ``add_comm`` and ``add_assoc`` theorems.
 These tasks belong to the *algebraic* aspect of using structures,
-and we will explain how to do carry them out in the next section.
+and we will explain how to carry them out in the next section.
 For now, just think of a structure as a way of bundling together objects
 and information.
 
