@@ -455,7 +455,7 @@ cauchy_seq_tendsto_of_complete hu
 /- TEXT:
 
 We'll practice using this definition by proving a convenient criterion which is a special case of a
-criterion appearing in mathlib. This is also a good opportunity to practive using big sums in
+criterion appearing in mathlib. This is also a good opportunity to practice using big sums in
 a geometric context. In addition to the explanations from the filters section, you will probably need 
 ``tendsto_pow_at_top_nhds_0_of_lt_1``, ``tendsto.mul`` and ``dist_le_range_sum_dist``.
 BOTH: -/

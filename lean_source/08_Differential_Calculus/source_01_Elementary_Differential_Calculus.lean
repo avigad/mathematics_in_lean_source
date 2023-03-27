@@ -43,7 +43,7 @@ example (x : ℝ) : differentiable_at ℝ sin x :=
 
 /- TEXT:
 It would be inconvenient to have to provide a proof of differentiability
-every time we want to refer to a deriviative.
+every time we want to refer to a derivative.
 So mathlib provides a function ``deriv f : ℝ → ℝ`` that is defined for any
 function ``f : ℝ → ℝ``
 but is defined to take the value ``0`` at any point where ``f`` is not differentiable.
@@ -69,7 +69,7 @@ deriv_add hf hg
 
 /- TEXT:
 Interestingly, however, there are statements that can avoid differentiability
-assumptions by taking advanting
+assumptions by taking advantage
 of the fact that the value of ``deriv`` defaults to zero when the function is
 not differentiable.
 So making sense of the following statement requires knowing the precise

@@ -502,7 +502,7 @@ example : 27 % 4 = 3 := by norm_num
 -- QUOTE.
 
 /- TEXT:
-We can then render the statment "``n`` is congruent to 3 modulo 4"
+We can then render the statement "``n`` is congruent to 3 modulo 4"
 as ``n % 4 = 3``. The following example and theorems sum up
 the facts about this function that we will need to use below.
 The first named theorem is another illustration of reasoning by

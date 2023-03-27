@@ -25,7 +25,7 @@ As usual, we don't want our notation to
 carry around assumptions, so we define integration in such a way
 that an integral is equal to zero if the function in question is
 not integrable.
-Most lemmas having to do with integerals have integrability assumptions.
+Most lemmas having to do with integrals have integrability assumptions.
 EXAMPLES: -/
 -- QUOTE:
 section

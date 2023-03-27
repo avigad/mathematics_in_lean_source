@@ -21,7 +21,7 @@ it will help to consider some examples.
 
 #. A *lattice* is a partially ordered set with meets and joins.
 
-#. A *ring* consists of an (addively written) abelian group
+#. A *ring* consists of an (additively written) abelian group
    :math:`(R, +, 0, x \mapsto -x)`
    together with an associative multiplication operation
    :math:`\cdot` and an identity :math:`1`,
@@ -287,7 +287,7 @@ When we formalize the notion of a group in Lean, however,
 the notation is more tightly linked to the structure.
 In Lean, the components of any ``group`` are named
 ``mul``, ``one``, and ``inv``,
-and in a moment we will see how multplicative notation is
+and in a moment we will see how multiplicative notation is
 set up to refer to them.
 If we want to use additive notation, we instead use an isomorphic structure
 ``additive_group``. Its components are named ``add``, ``zero``,
@@ -392,7 +392,7 @@ in order to make the examples for ``equiv.perm α`` work the way they do.
 The issue is that Lean needs to be able to *find* the relevant
 notation and the implicit group structure,
 using the information that is found in the expressions that we type.
-Simiarly, when we write ``x + y`` with expressions ``x`` and ``y``
+Similarly, when we write ``x + y`` with expressions ``x`` and ``y``
 that have type ``ℝ``, Lean needs to interpret the ``+``
 symbol as the relevant addition function on the reals.
 It also has to recognize the type ``ℝ`` as an instance of a commutative ring,

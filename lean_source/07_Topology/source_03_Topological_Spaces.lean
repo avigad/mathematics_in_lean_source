@@ -23,7 +23,7 @@ a somewhat categorical point of view.
 The first way to think about the transition from metric spaces to topological spaces is that we only
 remember the notion of open sets (or equivalently the notion of closed sets). From this point of view,
 a topological space is a type equipped with a collection of sets that are called open sets. This collection
-has to satisfy a number of axioms presented below (this collection is slighly redundant but we will ignore that).
+has to satisfy a number of axioms presented below (this collection is slightly redundant but we will ignore that).
 
 BOTH: -/
 
@@ -145,7 +145,7 @@ eventually_eventually_nhds.mpr h
 /- TEXT:
 Those two results characterize the functions ``X → filter X`` that are neighborhood functions for a topological space
 structure on ``X``. There is a still a function ``topological_space.mk_of_nhds : (X → filter X) → topological_space X``
-but it will give back its input as a neighborhood function only if it satistfy the above two constraints.
+but it will give back its input as a neighborhood function only if it satisfies the above two constraints.
 More precisely we have a lemma ``topological_space.nhds_mk_of_nhds`` saying that in a different way and our
 next exercise deduces this different way from how we stated it above. 
 BOTH: -/
@@ -367,7 +367,7 @@ insert that funny up arrow when needed. And the (inclusion) coercion map is ``co
 The assumption "tends to :math:`x` while remaining in :math:`A`" corresponds to the pull-back filter
 ``comap coe (𝓝 x)``.
 
-Let's prove first an auxilliary lemma, extracted to simplify the context
+Let's prove first an auxiliary lemma, extracted to simplify the context
 (in particular we don't need Y to be a topological space here).
 
 BOTH: -/
@@ -407,7 +407,7 @@ prove that ``φ`` indeed extends ``f``).
 Let's first prove ``φ`` is continuous. Fix any ``x : X``.
 Since ``Y`` is regular, it suffices to check that for every *closed* neighborhood
 ``V'`` of ``φ x``, ``φ ⁻¹' V' ∈ 𝓝 x``.
-The limit assumption gives (through the auxilliary lemma above)
+The limit assumption gives (through the auxiliary lemma above)
 some ``V ∈ 𝓝 x`` such ``is_open V ∧ coe ⁻¹' V ⊆ f ⁻¹' V'``.
 Since ``V ∈ 𝓝 x``, it suffices to prove ``V ⊆ φ ⁻¹' V'``, ie  ``∀ y ∈ V, φ y ∈ V'``.
 Let's fix ``y`` in ``V``. Because ``V`` is *open*, it is a neighborhood of ``y``.

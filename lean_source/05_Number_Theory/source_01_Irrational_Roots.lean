@@ -121,7 +121,7 @@ nat.prime.dvd_of_dvd_pow nat.prime_two h
 As we proceed, you will need to become proficient at finding the facts you
 need.
 Remember that if you can guess the prefix of the name and
-you have imported the relevent library,
+you have imported the relevant library,
 you can use tab completion (sometimes with ``ctrl-tab``) to find
 what you are looking for.
 You can use ``ctrl-click`` on any identifier to jump to the file

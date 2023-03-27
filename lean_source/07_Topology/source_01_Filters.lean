@@ -215,7 +215,7 @@ which is to say, they satisfy
 
 for every ``F`` and ``G``.
 This operation could be used to provided another formulation of ``tendsto`` that would be provably
-(but not definitionaly) equivalent to the one in mathlib.
+(but not definitionally) equivalent to the one in mathlib.
 
 The ``comap`` operation can be used to restrict filters to a subtype. For instance, suppose we have ``f : ℝ → ℝ``,
 ``x₀ : ℝ`` and ``y₀ : ℝ``, and suppose we want to state that ``f x`` approaches ``y₀`` when ``x`` approaches ``x₀`` within the rational numbers.
@@ -321,7 +321,7 @@ nontriviality in some lemmas.
 In return, however, the theory has nicer global properties.
 We have already seen that including the trivial filter gives us a
 bottom element. It also allows us to define ``principal : set X → filter X``,
-which maps  ``∅`` to ``⊥``, without additing a precondition to rule out the empty set.
+which maps  ``∅`` to ``⊥``, without adding a precondition to rule out the empty set.
 And it allows us to define the pullback operation without a precondition as well.
 Indeed, it can happen that ``comap f F = ⊥`` although ``F ≠ ⊥``. For instance,
 given ``x₀ : ℝ`` and ``s : set ℝ``, the pullback of ``𝓝 x₀`` under the coercion
@@ -409,7 +409,7 @@ two sequences of real numbers, and let us show that if
 ``u`` tends to ``x₀`` if and only if ``v`` tends to ``x₀``.
 First we'll use the generic ``eventually`` and then the one
 specialized for the equality predicate, ``eventually_eq``. The two statements are
-definitionaly equivalent so the same proof work in both cases.
+definitionally equivalent so the same proof work in both cases.
 EXAMPLES: -/
 -- QUOTE:
 example (u v : ℕ → ℝ) (h : ∀ᶠ n in at_top, u n = v n) (x₀ : ℝ) :

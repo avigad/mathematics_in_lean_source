@@ -256,7 +256,7 @@ both follow the same canonical order. Simplifying with these
 rules, and the corresponding rules for addition, is a handy trick.
 
 Returning to summation identities, we suggest stepping through the following proof
-that the sum of the natual numbers up to an including :math:`n` is
+that the sum of the natural numbers up to an including :math:`n` is
 :math:`n (n + 1) / 2`.
 The first step of the proof clears the denominator.
 This is generally useful when formalizing identities,

@@ -8,7 +8,7 @@ Structures
 ----------
 
 In the broadest sense of the term, a *structure* is a specification
-of a collection of data, possibly with contraints that the
+of a collection of data, possibly with constraints that the
 data is required to satisfy.
 An *instance* of the structure is a particular bundle of data satisfying
 the constraints. For example, we can specify that a point is

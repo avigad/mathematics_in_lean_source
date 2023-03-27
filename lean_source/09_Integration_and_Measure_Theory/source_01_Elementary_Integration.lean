@@ -31,7 +31,7 @@ integral_one_div h
 
 /- TEXT:
 The fundamental theorem of calculus relates integration and differentiation.
-Below we give simplified statementa of the two parts of this theorem. The first part
+Below we give simplified statements of the two parts of this theorem. The first part
 says that integration provides an inverse to differentiation and the second one
 specifies how to compute integrals of derivatives.
 (These two parts are very closely related, but their optimal versions,

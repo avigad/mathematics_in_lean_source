@@ -358,7 +358,7 @@ theorem schroeder_bernstein {f : α → β} {g : β → α}
 ⟨sb_fun f g, sb_injective f g hf hg, sb_surjective f g hf hg⟩
 -- QUOTE.
 
-/- Auxliary information -/
+/- Auxiliary information -/
 
 section
 

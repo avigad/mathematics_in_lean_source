@@ -73,7 +73,7 @@ Some ideas are listed at the beginning of each section.]
 Implication and the Universal Quantifier
 ----------------------------------------
 
-[ Examples: use monotone functions, and properies of lubs and glbs.
+[ Examples: use monotone functions, and properties of lubs and glbs.
 For example, show that in any complete lattice,
 or maybe just on the reals,
 the glb can be defined as the lub of all the lower bounds.]

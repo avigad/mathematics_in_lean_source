@@ -56,7 +56,7 @@ hf.norm
 In order to use the notion of a norm with concepts from linear algebra,
 we add the assumption ``normed_space ℝ E`` on top of ``normed_group E``.
 This stipulates that ``E`` is a vector space over ``ℝ`` and that
-scalar multiplication satsifies the following condition.
+scalar multiplication satisfies the following condition.
 EXAMPLES: -/
 -- QUOTE:
 variables [normed_space ℝ E]
