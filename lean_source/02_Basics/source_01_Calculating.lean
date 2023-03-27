@@ -1,4 +1,3 @@
--- BOTH:
 import data.real.basic
 
 /- TEXT:
@@ -500,6 +499,6 @@ end
 
 /- TEXT:
 See also ``nth_rewrite_lhs`` and ``nth_rewrite_rhs``.
-For a more sophisticed means of rewriting particular subexpressions,
+For a more sophisticated means of rewriting particular subexpressions,
 see the `documentation for the conversion tactic <https://leanprover-community.github.io/extras/conv.html>`_.
 TEXT. -/

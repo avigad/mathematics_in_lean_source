@@ -35,9 +35,9 @@ end
 -- QUOTE.
 
 /- TEXT:
-.. index:: anonyomous constructor
+.. index:: anonymous constructor
 
-Alternatively, we can use Lean's *anonyomous constructor* notation
+Alternatively, we can use Lean's *anonymous constructor* notation
 to construct the proof.
 TEXT. -/
 -- QUOTE:

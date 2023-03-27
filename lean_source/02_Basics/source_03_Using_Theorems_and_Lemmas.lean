@@ -278,7 +278,7 @@ begin
   apply add_le_add_left h₀
 end
 
--- an alterantive using `linarith`.
+-- an alternative using `linarith`.
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) :=
 begin
   have : exp (a + d) ≤ exp (a + e),

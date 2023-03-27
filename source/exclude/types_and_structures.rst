@@ -191,7 +191,7 @@ Using the ``rfl`` proof term or ``refl`` tactic
 causes Lean to unfold the definition and try to reduce
 both sides until they are the same.
 The theorem ``re_mk`` can be proved that way because
-``re (mk x y)`` unfolsd to ``(x, y).1``,
+``re (mk x y)`` unfolds to ``(x, y).1``,
 and Lean knows how to reduce the projections of a pair.
 That trick does not work for the theorem ``mk_re_im``
 right away,

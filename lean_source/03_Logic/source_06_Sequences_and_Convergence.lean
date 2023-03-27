@@ -29,7 +29,7 @@ for ``∀ ε, ε > 0 → ...``, and, similarly,
 And remember that ``ε > 0``, in turn, is defined as ``0 < ε``,
 and ``n ≥ N`` is defined as ``N ≤ n``.
 
-.. index:: extentionality, ext, tactics ; ext
+.. index:: extensionality, ext, tactics ; ext
 
 In this section, we'll establish some properties of convergence.
 But first, we will discuss three tactics for working with equality
