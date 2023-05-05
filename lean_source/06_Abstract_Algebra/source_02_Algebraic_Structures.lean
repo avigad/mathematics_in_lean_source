@@ -140,7 +140,7 @@ structure group₁ (α : Type*) :=
 (inv: α → α)
 (mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z))
 (mul_one: ∀ x : α, mul x one = x)
-(one_mul: ∀ x : α, mul x one = x)
+(one_mul: ∀ x : α, mul one x = x)
 (mul_left_inv : ∀ x : α, mul (inv x) x = one)
 -- QUOTE.
 
@@ -325,11 +325,11 @@ namespace point
 def add (a b : point) : point := ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
 
 /- EXAMPLES:
-def neg (a b : point) : point := sorry
+def neg (a : point) : point := sorry
 
 def zero : point := sorry
 
-def add_group_point : add_group point := sorry
+def add_group_point : add_group₁ point := sorry
 SOLUTIONS: -/
 def neg (a : point) : point := ⟨-a.x, -a.y, -a.z⟩
 
@@ -458,7 +458,7 @@ class group₂ (α : Type*) :=
 (inv: α → α)
 (mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z))
 (mul_one: ∀ x : α, mul x one = x)
-(one_mul: ∀ x : α, mul x one = x)
+(one_mul: ∀ x : α, mul one x = x)
 (mul_left_inv : ∀ x : α, mul (inv x) x = one)
 
 instance {α : Type*} : group₂ (equiv.perm α) :=
