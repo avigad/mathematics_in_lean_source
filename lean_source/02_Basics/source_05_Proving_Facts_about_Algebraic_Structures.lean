@@ -308,7 +308,7 @@ end
 
 /- TEXT:
 It is possible to combine axiomatic structures into larger ones.
-For example, an *ordered ring* consists of a commutative ring together
+For example, a *strict ordered ring* consists of a commutative ring together
 with a partial order on the carrier
 satisfying additional axioms that say that the ring operations
 are compatible with the order:
@@ -316,7 +316,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variables {R : Type*} [ordered_ring R]
+variables {R : Type*} [strict_ordered_ring R]
 variables a b c : R
 
 -- EXAMPLES:

@@ -2,7 +2,7 @@ import topology.instances.real
 import analysis.normed_space.banach_steinhaus
 
 open set filter
-open_locale topological_space filter
+open_locale topology filter
 
 /- TEXT:
 .. index:: metric space
@@ -12,7 +12,7 @@ open_locale topological_space filter
 Metric spaces
 --------------
 
-Examples in the previous section focus on sequences of real numbers. In this section we will go up a bit in generality and focus on 
+Examples in the previous section focus on sequences of real numbers. In this section we will go up a bit in generality and focus on
 metric spaces. A metric space is a type ``X`` equipped with a distance function ``dist : X → X → ℝ`` which is a generalization of
 the function ``λ x y, |x - y|`` from the case where ``X = ℝ``.
 
@@ -52,13 +52,13 @@ will be explained as part of the calculus chapter.
 Convergence and continuity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Using distance functions, we can already define convergent sequences and continuous functions between metric spaces. 
+Using distance functions, we can already define convergent sequences and continuous functions between metric spaces.
 They are actually defined in a more general setting covered in the next section,
 but we have lemmas recasting the definition is terms of distances.
 BOTH: -/
 -- QUOTE:
 
-example {u : ℕ → X} {a : X} : 
+example {u : ℕ → X} {a : X} :
   tendsto u at_top (𝓝 a) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, dist (u n) a < ε :=
 metric.tendsto_at_top
 
@@ -73,16 +73,16 @@ metric.continuous_iff
 .. index:: continuity, tactics ; continuity
 
 
-A *lot* of lemmas have some continuity assumptions, no we end up proving a lot of continuity results and there 
+A *lot* of lemmas have some continuity assumptions, no we end up proving a lot of continuity results and there
 is a ``continuity`` tactic devoted to this task. Let's prove a continuity statement that will be needed
 in an exercise below. Notice that Lean knows how to treat a product of two metric spaces as a metric space, so
-it makes sense to consider continuous functions from ``X × X`` to ``ℝ``. 
+it makes sense to consider continuous functions from ``X × X`` to ``ℝ``.
 In particular the (uncurried version of the) distance function is such a function.
 
 BOTH: -/
 
 -- QUOTE:
-example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) :
   continuous (λ p : X × X, dist (f p.1) (f p.2)) :=
 by continuity
 -- QUOTE.
@@ -94,7 +94,7 @@ is the composition of ``f``, which is continuous by assumption ``hf``, and the p
 is the content of the lemma ``continuous_fst``. The composition property is ``continuous.comp`` which is
 in the ``continuous`` namespace so we can use dot notation to compress
 ``continuous.comp hf continuous_fst`` into ``hf.comp continuous_fst`` which is actually more readable
-since it really reads as composing our assumption and our lemma. 
+since it really reads as composing our assumption and our lemma.
 We can do the same for the second component to get continuity of ``λ p : X × X, f p.2``. We then assemble
 those two continuities using ``continuous.prod_mk`` to get
 ``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : continuous (λ p : X × X, (f p.1, f p.2))``
@@ -102,7 +102,7 @@ and compose once more to get our full proof.
 BOTH: -/
 -- QUOTE:
 
-example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) :
   continuous (λ p : X × X, dist (f p.1) (f p.2)) :=
 continuous_dist.comp ((hf.comp continuous_fst).prod_mk (hf.comp continuous_snd))
 
@@ -111,23 +111,23 @@ continuous_dist.comp ((hf.comp continuous_fst).prod_mk (hf.comp continuous_snd))
 /- TEXT:
 The combination of ``continuous.prod_mk`` and ``continuous_dist`` via ``continuous.comp`` feels clunky,
 even when heavily using dot notation as above. A more serious issue is that this nice proof requires a lot of
-planning. Lean accepts the above proof term because it is a full term proving a statement which is 
-definitionally equivalent to our goal, the crucial definition to unfold being that of a composition of functions. 
-Indeed our target function ``λ p : X × X, dist (f p.1) (f p.2)`` is not presented as a composition. 
-The proof term we provided proves continuity of ``dist ∘ (λ p : X × X, (f p.1, f p.2))`` which happens 
-to be definitionally equal to our target function. But if we try to build this proof gradually using 
-tactics starting with ``apply continuous_dist.comp`` then Lean's elaborator will fail to recognize a 
+planning. Lean accepts the above proof term because it is a full term proving a statement which is
+definitionally equivalent to our goal, the crucial definition to unfold being that of a composition of functions.
+Indeed our target function ``λ p : X × X, dist (f p.1) (f p.2)`` is not presented as a composition.
+The proof term we provided proves continuity of ``dist ∘ (λ p : X × X, (f p.1, f p.2))`` which happens
+to be definitionally equal to our target function. But if we try to build this proof gradually using
+tactics starting with ``apply continuous_dist.comp`` then Lean's elaborator will fail to recognize a
 composition and refuse to apply this lemma. It is especially bad at this when products of types are involved.
 
-A better lemma to apply here is 
+A better lemma to apply here is
 ``continuous.dist {f g : X → Y} : continuous f → continuous g → continuous (λ x, dist (f x) (g x))``
-which is nicer to Lean's elaborator and also provides a shorter proof when directly providing a full 
+which is nicer to Lean's elaborator and also provides a shorter proof when directly providing a full
 proof term, as can be seen from the following two new proofs of the above statement:
 BOTH: -/
 
 -- QUOTE:
 
-example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) :
   continuous (λ p : X × X, dist (f p.1) (f p.2)) :=
 begin
   apply continuous.dist,
@@ -135,7 +135,7 @@ begin
   exact hf.comp continuous_snd
 end
 
-example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) :
   continuous (λ p : X × X, dist (f p.1) (f p.2)) :=
 (hf.comp continuous_fst).dist (hf.comp continuous_snd)
 
@@ -148,20 +148,20 @@ as an alternate proof term ``continuous_dist.comp (hf.prod_map hf)`` which even 
 
 Since it is sad to decide between a version which is better for elaboration and a version which is shorter
 to type, let us wrap this discussion with a last bit of compression offered
-by ``continuous.fst'`` which allows to compress ``hf.comp continuous_fst`` to ``hf.fst'`` (and the same with ``snd``) 
+by ``continuous.fst'`` which allows to compress ``hf.comp continuous_fst`` to ``hf.fst'`` (and the same with ``snd``)
 and get our final proof, now bordering obfuscation.
 
 BOTH: -/
 
 -- QUOTE:
-example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] {f : X → Y} (hf : continuous f) :
   continuous (λ p : X × X, dist (f p.1) (f p.2)) :=
 hf.fst'.dist hf.snd'
 
 -- QUOTE.
 
 /- TEXT:
-It's your turn now to prove some continuity lemma. After trying the continuity tactic, you will need 
+It's your turn now to prove some continuity lemma. After trying the continuity tactic, you will need
 ``continuous.add``, ``continuous_pow`` and ``continuous_id`` to do it by hand.
 
 BOTH: -/
@@ -178,12 +178,12 @@ hf.comp $ (continuous_pow 2).add continuous_id
 
 
 /- TEXT:
-So far we saw continuity as a global notion, but one can also define continuity at a point. 
+So far we saw continuity as a global notion, but one can also define continuity at a point.
 BOTH: -/
 
 -- QUOTE:
 
-example {X Y : Type*} [metric_space X] [metric_space Y] (f : X → Y) (a : X) : 
+example {X Y : Type*} [metric_space X] [metric_space Y] (f : X → Y) (a : X) :
 continuous_at f a ↔ ∀ ε > 0, ∃ δ > 0, ∀ {x}, dist x a < δ → dist (f x) (f a) < ε :=
 metric.continuous_at_iff
 
@@ -237,7 +237,7 @@ BOTH: -/
 example {s : set X} : is_closed s ↔ is_open sᶜ :=
 is_open_compl_iff.symm
 
-example {s : set X} (hs : is_closed s) {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) 
+example {s : set X} (hs : is_closed s) {u : ℕ → X} (hu : tendsto u at_top (𝓝 a))
   (hus : ∀ n, u n ∈ s) : a ∈ s :=
 hs.mem_of_tendsto hu (eventually_of_forall hus)
 
@@ -250,14 +250,14 @@ Do the next exercise without using `mem_closure_iff_seq_limit`
 BOTH: -/
 
 -- QUOTE:
-example {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) {s : set X} (hs : ∀ n, u n ∈ s) : 
+example {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) {s : set X} (hs : ∀ n, u n ∈ s) :
   a ∈ closure s :=
 sorry
 
 -- QUOTE.
 
 -- SOLUTIONS:
-example {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) {s : set X} (hs : ∀ n, u n ∈ s) : 
+example {u : ℕ → X} (hu : tendsto u at_top (𝓝 a)) {s : set X} (hs : ∀ n, u n ∈ s) :
   a ∈ closure s :=
 begin
   rw metric.tendsto_at_top at hu,
@@ -274,7 +274,7 @@ end
 
 Remember from the filters sections that neighborhood filters play a big role in mathlib.
 In the metric space context, the crucial point is that balls provide bases for those filters.
-The main lemmas here are ``metric.nhds_basis_ball`` and ``metric.nhds_basis_closed_ball`` 
+The main lemmas here are ``metric.nhds_basis_ball`` and ``metric.nhds_basis_closed_ball``
 that claim this for open and closed balls with positive radius. The center point is an implicit
 argument so we can invoke ``filter.has_basis.mem_iff`` as in the following example.
 
@@ -302,7 +302,7 @@ that enjoy the same kind of properties as segments in reals compared to other in
 * Compact sets are closed sets.
 
 Let us first check that the unit interval in reals is indeed a compact set, and then check the above
-claims for compact sets in general metric spaces. In the second statement we only 
+claims for compact sets in general metric spaces. In the second statement we only
 need continuity on the given set so we will use ``continuous_on`` instead of ``continuous``, and
 we will give separate statements for the minimum and the maximum. Of course all these results
 are deduced from more general versions, some of which will be discussed in later sections.
@@ -318,12 +318,12 @@ example {s : set X} (hs : is_compact s) {u : ℕ → X} (hu : ∀ n, u n ∈ s) 
   ∃ a ∈ s, ∃ φ : ℕ → ℕ, strict_mono φ ∧ tendsto (u ∘ φ) at_top (𝓝 a) :=
 hs.tendsto_subseq hu
 
-example {s : set X} (hs : is_compact s) (hs' : s.nonempty) 
+example {s : set X} (hs : is_compact s) (hs' : s.nonempty)
   {f : X → ℝ} (hfs : continuous_on f s) :
   ∃ x ∈ s, ∀ y ∈ s, f x ≤ f y :=
 hs.exists_forall_le hs' hfs
 
-example {s : set X} (hs : is_compact s) (hs' : s.nonempty) 
+example {s : set X} (hs : is_compact s) (hs' : s.nonempty)
   {f : X → ℝ} (hfs : continuous_on f s) :
   ∃ x ∈ s, ∀ y ∈ s, f y ≤ f x :=
 hs.exists_forall_ge hs' hfs
@@ -333,7 +333,7 @@ hs.is_closed
 
 -- QUOTE.
 
-/- TEXT:  
+/- TEXT:
 
 We can also metric spaces which are globally compact, using an extra ``Prop``-valued type class:
 
@@ -341,7 +341,7 @@ BOTH: -/
 
 -- QUOTE:
 example {X : Type*} [metric_space X] [compact_space X] : is_compact (univ : set X) :=
-compact_univ
+is_compact_univ
 -- QUOTE.
 
 /- TEXT:
@@ -363,7 +363,7 @@ We start with uniform continuity.
 BOTH: -/
 
 -- QUOTE:
-example {X : Type*} [metric_space X] {Y : Type*} [metric_space Y] {f : X → Y} : 
+example {X : Type*} [metric_space X] {Y : Type*} [metric_space Y] {f : X → Y} :
   uniform_continuous f ↔ ∀ ε > 0, ∃ δ > 0, ∀ {a b : X}, dist a b < δ → dist (f a) (f b) < ε :=
 metric.uniform_continuous_iff
 
@@ -371,7 +371,7 @@ metric.uniform_continuous_iff
 
 /- TEXT:
 In order to practice manipulating all those definitions, we will prove that continuous
-functions from a compact metric space to a metric space are uniformly continuous 
+functions from a compact metric space to a metric space are uniformly continuous
 (we will see a more general version in a later section).
 
 We will first give an informal sketch. Let ``f : X → Y`` be a continuous function from
@@ -430,9 +430,9 @@ end
 Completeness
 ^^^^^^^^^^^^
 
-A Cauchy sequence in a metric space is a sequence whose terms get closer and closer to each other. 
+A Cauchy sequence in a metric space is a sequence whose terms get closer and closer to each other.
 There are a couple of equivalent ways to state that idea.
-In particular converging sequences are Cauchy. The converse is true only in so-called *complete* 
+In particular converging sequences are Cauchy. The converse is true only in so-called *complete*
 spaces.
 
 
@@ -456,7 +456,7 @@ cauchy_seq_tendsto_of_complete hu
 
 We'll practice using this definition by proving a convenient criterion which is a special case of a
 criterion appearing in mathlib. This is also a good opportunity to practice using big sums in
-a geometric context. In addition to the explanations from the filters section, you will probably need 
+a geometric context. In addition to the explanations from the filters section, you will probably need
 ``tendsto_pow_at_top_nhds_0_of_lt_1``, ``tendsto.mul`` and ``dist_le_range_sum_dist``.
 BOTH: -/
 
@@ -468,7 +468,7 @@ open finset
 lemma cauchy_seq_of_le_geometric_two' {u : ℕ → X} (hu : ∀ (n : ℕ), dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) :
   cauchy_seq u :=
 begin
-  rw metric.cauchy_seq_iff',  
+  rw metric.cauchy_seq_iff',
   intros ε ε_pos,
   obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε,
   { sorry },
@@ -488,7 +488,7 @@ end
 example {u : ℕ → X} (hu : ∀ (n : ℕ), dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) :
   cauchy_seq u :=
 begin
-  rw metric.cauchy_seq_iff',  
+  rw metric.cauchy_seq_iff',
   intros ε ε_pos,
   obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε,
   { have : tendsto (λ N : ℕ, (1 / 2 ^ N * 2 : ℝ)) at_top (𝓝 0),
@@ -547,7 +547,7 @@ begin
   let r : ℕ → ℝ := λ n, (F n).2,
   have rpos : ∀ n, 0 < r n,
   { sorry },
-  
+
   have rB : ∀n, r n ≤ B n,
   { sorry },
   have incl : ∀n, closed_ball (c (n+1)) (r (n+1)) ⊆ (closed_ball (c n) (r n)) ∩ (f n),
@@ -592,7 +592,7 @@ begin
     show z ∈ closed_ball x δ, from calc
       dist z x ≤ dist z y + dist y x : dist_triangle _ _ _
       ... ≤ (min (min (δ / 2) r) (B (n+1))) + (δ/2) : add_le_add hz xy.le
-      ... ≤ δ/2 + δ/2 : add_le_add_right ((min_le_left _ _).trans (min_le_left _ _)) _ 
+      ... ≤ δ/2 + δ/2 : add_le_add_right ((min_le_left _ _).trans (min_le_left _ _)) _
       ... = δ : add_halves δ,
     show z ∈ f n, from hr (calc
       dist z y ≤ min (min (δ / 2) r) (B (n+1)) : hz
@@ -613,7 +613,7 @@ begin
     induction n with n hn,
     exact lt_min εpos (Bpos 0),
     exact Hpos n (c n) (r n) hn },
-  
+
   have rB : ∀n, r n ≤ B n,
   { assume n,
     induction n with n hn,
@@ -637,7 +637,7 @@ begin
   -- this point `y` will be the desired point. We will check that it belongs to all
   -- `f n` and to `ball x ε`.
   use y,
-  
+
   have I : ∀n, ∀ m ≥ n, closed_ball (c m) (r m) ⊆ closed_ball (c n) (r n),
   { assume n,
     refine nat.le_induction _ (λm hnm h, _),
@@ -649,7 +649,7 @@ begin
     refine (filter.eventually_ge_at_top n).mono (λ m hm, _),
     exact I n m hm (mem_closed_ball_self (rpos _).le) },
   split,
-  { suffices : ∀ n, y ∈ f n, by rwa set.mem_Inter,    
+  { suffices : ∀ n, y ∈ f n, by rwa set.mem_Inter,
     intro n,
     have : closed_ball (c (n+1)) (r (n+1)) ⊆ f n := subset.trans (incl n) (inter_subset_right _ _),
     exact this (yball (n+1)) },

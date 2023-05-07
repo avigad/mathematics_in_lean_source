@@ -244,27 +244,28 @@ begin
   show x₁ = x₂,
   simp only [h_def, sb_fun, ←A_def] at hxeq,
   by_cases xA : x₁ ∈ A ∨ x₂ ∈ A,
-  { wlog : x₁ ∈ A := xA using [x₁ x₂, x₂ x₁],
+  { wlog x₁A : x₁ ∈ A generalizing x₁ x₂ hxeq xA,
+    { symmetry, apply this hxeq.symm xA.swap (xA.resolve_left x₁A) },
     have x₂A : x₂ ∈ A,
     { apply not_imp_self.mp,
       assume x₂nA : x₂ ∉ A,
-      rw [if_pos xA, if_neg x₂nA] at hxeq,
-      rw [A_def, sb_set, mem_Union] at xA,
+      rw [if_pos x₁A, if_neg x₂nA] at hxeq,
+      rw [A_def, sb_set, mem_Union] at x₁A,
       have x₂eq : x₂ = g (f x₁),
 /- EXAMPLES:
       { sorry },
 SOLUTIONS: -/
       { rw [hxeq, sb_right_inv f g x₂nA] },
 -- BOTH:
-      rcases xA with ⟨n, hn⟩,
+      rcases x₁A with ⟨n, hn⟩,
       rw [A_def, sb_set, mem_Union],
       use n + 1,
       simp [sb_aux],
-      exact ⟨x₁, hn, x₂eq.symm⟩ },
+      exact ⟨x₁, hn, x₂eq.symm⟩, },
 /- EXAMPLES:
     sorry },
 SOLUTIONS: -/
-    rw [if_pos xA, if_pos x₂A] at hxeq,
+    rw [if_pos x₁A, if_pos x₂A] at hxeq,
     exact hf hxeq },
 -- BOTH:
   push_neg at xA,

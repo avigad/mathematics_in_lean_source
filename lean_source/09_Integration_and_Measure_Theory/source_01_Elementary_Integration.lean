@@ -3,7 +3,7 @@ import analysis.special_functions.integrals
 import analysis.convolution
 
 open set filter
-open_locale topological_space filter
+open_locale topology filter
 
 noncomputable theory
 

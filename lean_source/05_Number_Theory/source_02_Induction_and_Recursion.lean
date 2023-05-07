@@ -1,5 +1,5 @@
-import data.nat.prime
-import algebra.big_operators
+import data.nat.gcd.basic
+import algebra.big_operators.basic
 import tactic
 
 /- TEXT:

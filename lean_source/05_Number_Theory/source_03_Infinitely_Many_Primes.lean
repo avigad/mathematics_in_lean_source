@@ -1,5 +1,5 @@
 import data.nat.prime
-import algebra.big_operators
+import algebra.big_operators.order
 import tactic
 
 open_locale big_operators

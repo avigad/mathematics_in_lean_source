@@ -5,7 +5,7 @@ import measure_theory.integral.bochner
 import measure_theory.measure.lebesgue
 
 open set filter
-open_locale topological_space filter ennreal
+open_locale topology filter ennreal
 open measure_theory
 
 noncomputable theory
@@ -19,7 +19,8 @@ variables {μ : measure α}
 Integration
 -----------
 
-Now that we have measurable spaces and measures we can consider integrals. As explained above, mathlib uses a very general notion of
+Now that we have measurable spaces and measures we can consider integrals.
+As explained above, mathlib uses a very general notion of
 integration that allows any Banach space as the target.
 As usual, we don't want our notation to
 carry around assumptions, so we define integration in such a way
@@ -30,7 +31,7 @@ EXAMPLES: -/
 -- QUOTE:
 section
 
-variables {E : Type*} [normed_group E] [normed_space ℝ E] [complete_space E]
+variables {E : Type*} [normed_add_comm_group E] [normed_space ℝ E] [complete_space E]
   {f : α → E}
 
 example {f g : α → E} (hf : integrable f μ) (hg : integrable g μ) :
@@ -62,7 +63,7 @@ EXAMPLES: -/
 example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ)
   (hmeas : ∀ n, ae_strongly_measurable (F n) μ)
   (hint : integrable bound μ)
-  (hbound : ∀ n, ∀ᵐ a ∂μ, ∥F n a∥ ≤ bound a)
+  (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
   (hlim : ∀ᵐ a ∂μ, tendsto (λ (n : ℕ), F n a) at_top (𝓝 (f a))) :
   tendsto (λ n, ∫ a, F n a ∂μ) at_top (𝓝 (∫ a, f a ∂μ)) :=
 tendsto_integral_of_dominated_convergence bound hmeas hint hbound hlim
@@ -91,8 +92,9 @@ section
 open_locale convolution
 
 -- EXAMPLES:
-variables {𝕜 : Type*} {G : Type*} {E : Type*} {E' : Type*} {F : Type*} [normed_group E]
-  [normed_group E'] [normed_group F] [nondiscrete_normed_field 𝕜]
+variables {𝕜 : Type*} {G : Type*} {E : Type*} {E' : Type*} {F : Type*}
+  [normed_add_comm_group E] [normed_add_comm_group E'] [normed_add_comm_group F]
+  [nontrivially_normed_field 𝕜]
   [normed_space 𝕜 E] [normed_space 𝕜 E'] [normed_space 𝕜 F]
   [measurable_space G] [normed_space ℝ F] [complete_space F] [has_sub G]
 
@@ -110,9 +112,10 @@ and ``is_add_haar_measure μ`` means that the measure ``μ`` is left-invariant,
 gives finite mass to compact sets, and give positive mass to open sets.
 EXAMPLES: -/
 -- QUOTE:
-example {E : Type*} [normed_group E] [normed_space ℝ E] [finite_dimensional ℝ E]
+example {E : Type*}
+  [normed_add_comm_group E] [normed_space ℝ E] [finite_dimensional ℝ E]
   [measurable_space E] [borel_space E] (μ : measure E) [μ.is_add_haar_measure]
-  {F : Type*}[normed_group F] [normed_space ℝ F] [complete_space F]
+  {F : Type*} [normed_add_comm_group F] [normed_space ℝ F] [complete_space F]
   {s : set E} {f : E → E} {f' : E → (E →L[ℝ] E)}
   (hs : measurable_set s)
   (hf : ∀ (x : E), x ∈ s → has_fderiv_within_at f (f' x) s x)

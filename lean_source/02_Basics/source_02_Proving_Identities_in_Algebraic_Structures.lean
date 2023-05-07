@@ -1,5 +1,5 @@
 -- BOTH:
-import algebra.ring
+import algebra.ring.defs
 import data.real.basic
 import tactic
 

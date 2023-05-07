@@ -1,4 +1,5 @@
 import data.int.basic
+import algebra.euclidean_domain.basic
 import ring_theory.principal_ideal_domain
 import tactic
 
@@ -149,7 +150,7 @@ function :math:`N : R \to \mathbb{N}` with the following two properties:
 
 - For every :math:`a` and :math:`b \ne 0` in :math:`R`, there are
   :math:`q` and :math:`r` in :math:`R` such that :math:`a = bq + r` and
-  either :math:`r = 0` or `N(a) < N(b)`.
+  either :math:`r = 0` or `N(r) < N(b)`.
 - For every :math:`a` and :math:`b \ne 0`, :math:`N(a) \le N(ab)`.
 
 The ring of integers :math:`\Bbb{Z}` with :math:`N(a) = |a|` is an
@@ -481,7 +482,7 @@ begin
         apply le_trans (int.abs_mod'_le _ _ norm_y_pos),
         apply le_abs_self } },
       rw [pow_two, ←mul_assoc, mul_comm, mul_comm (2 : ℤ)],
-      apply mul_le_mul_of_nonneg_left _ _,
+      apply mul_le_mul_of_nonneg_left,
       { apply int.div_mul_le, norm_num },
       apply int.div_nonneg (norm_nonneg y), norm_num },
   have : norm (x % y) ≤ norm y / 2 := le_of_mul_le_mul_right this norm_y_pos,
@@ -507,8 +508,9 @@ int.nat_abs_of_nonneg (norm_nonneg _)
 lemma nat_abs_norm_mod_lt (x y : gaussint) (hy : y ≠ 0) :
   (x % y).norm.nat_abs < y.norm.nat_abs :=
 begin
-  apply int.coe_nat_lt.1, simp,
-  exact int.nat_abs_lt_nat_abs_of_nonneg_of_lt (norm_nonneg _) (norm_mod_lt x hy)
+  apply int.coe_nat_lt.1,
+  simp only [int.coe_nat_abs, abs_of_nonneg, norm_nonneg],
+  apply norm_mod_lt x hy
 end
 -- QUOTE.
 

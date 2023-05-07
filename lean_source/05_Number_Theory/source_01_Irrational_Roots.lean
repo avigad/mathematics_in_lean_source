@@ -1,4 +1,5 @@
-import data.nat.gcd
+import data.nat.factorization.basic
+import data.nat.prime_norm_num
 import data.real.irrational
 
 /- TEXT:

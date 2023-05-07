@@ -1,7 +1,7 @@
 import topology.instances.real
 
 open set filter
-open_locale topological_space filter
+open_locale topology filter
 
 /- TEXT:
 .. index:: filter

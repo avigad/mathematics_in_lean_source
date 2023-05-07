@@ -1,6 +1,6 @@
 -- BOTH:
 import data.real.basic
-import data.nat.prime
+import data.nat.prime_norm_num
 
 /- TEXT:
 .. _conjunction_and_biimplication:

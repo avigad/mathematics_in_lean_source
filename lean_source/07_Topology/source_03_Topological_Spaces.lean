@@ -2,7 +2,7 @@ import topology.instances.real
 import analysis.normed_space.banach_steinhaus
 
 open set filter
-open_locale topological_space filter
+open_locale topology filter
 
 /- TEXT:
 .. index:: topological space
@@ -17,7 +17,7 @@ Fundamentals
 
 We now go up in generality and introduce topological spaces. We will review the two main ways to define
 topological spaces and then explain how the category of topological spaces is much better behaved than
-the category of metric spaces. Note that we won't be using mathlib category theory here, only having 
+the category of metric spaces. Note that we won't be using mathlib category theory here, only having
 a somewhat categorical point of view.
 
 The first way to think about the transition from metric spaces to topological spaces is that we only
@@ -36,12 +36,12 @@ example : is_open (univ : set X) := is_open_univ
 
 example : is_open (∅ : set X) := is_open_empty
 
-example {ι : Type*} {s : ι → set X} (hs : ∀ i, is_open $ s i) : 
-  is_open (⋃ i, s i) := 
+example {ι : Type*} {s : ι → set X} (hs : ∀ i, is_open $ s i) :
+  is_open (⋃ i, s i) :=
 is_open_Union hs
 
-example {ι : Type*} [fintype ι] {s : ι → set X} (hs : ∀ i, is_open $ s i) : 
-  is_open (⋂ i, s i) := 
+example {ι : Type*} [fintype ι] {s : ι → set X} (hs : ∀ i, is_open $ s i) :
+  is_open (⋂ i, s i) :=
 is_open_Inter hs
 
 
@@ -50,7 +50,7 @@ is_open_Inter hs
 /- TEXT:
 
 Closed sets are then defined as sets whose complement  is open. A function between topological spaces
-is (globally) continuous if all preimages of open sets are open. 
+is (globally) continuous if all preimages of open sets are open.
 BOTH: -/
 
 -- QUOTE:
@@ -67,7 +67,7 @@ enough information to talk about continuous functions: two topological structure
 the same if and only if they have the same continuous functions (indeed the identity function will
 be continuous in both direction if and only if the two structures have the same open sets).
 
-However as soon as we move on to continuity at a point we see the limitations of the approach based 
+However as soon as we move on to continuity at a point we see the limitations of the approach based
 on open sets. In mathlib it is much more frequent to think of topological spaces as types equipped
 with a neighborhood filter ``𝓝 x`` attached to each point ``x`` (the corresponding function
 ``X → filter X`` satisfies certain conditions explained further down). Remember from the filters section that
@@ -75,9 +75,9 @@ these gadget play two related roles. First ``𝓝 x`` is seen as the generalized
 that are close to ``x``. And then it is seen as giving a way to say, for any predicate ``P : X → Prop``,
 that this predicates holds for points that are close enough to ``x``. Let us state
 that ``f : X → Y`` is continuous at ``x``. The purely filtery way is to say that the direct image under
-``f`` of the generalized set of points that are close to ``x`` is contained in the generalized set of 
+``f`` of the generalized set of points that are close to ``x`` is contained in the generalized set of
 points that are close to ``f x``. Recall this spelled either ``map f (𝓝 x) ≤ 𝓝 (f x)``
-or ``tendsto f (𝓝 x) (𝓝 (f x))``. 
+or ``tendsto f (𝓝 x) (𝓝 (f x))``.
 
 BOTH: -/
 
@@ -89,9 +89,9 @@ iff.rfl
 -- QUOTE.
 
 /- TEXT:
-One can also spell it using both neighborhoods seen as ordinary sets and a neighborhood filter 
-seen as a generalized set: "for any neighborhood ``U`` of ``f x``, all points close to ``x`` 
-are sent to ``U``". Note that the proof is again ``iff.rfl``, this point of view is definitionally 
+One can also spell it using both neighborhoods seen as ordinary sets and a neighborhood filter
+seen as a generalized set: "for any neighborhood ``U`` of ``f x``, all points close to ``x``
+are sent to ``U``". Note that the proof is again ``iff.rfl``, this point of view is definitionally
 equivalent to the previous one.
 
 BOTH: -/
@@ -115,10 +115,10 @@ mem_nhds_iff
 
 /- TEXT:
 To go in the other direction we need to discuss the condition that ``𝓝 : X → filter X`` must satisfy
-in order to be the neighborhood function of a topology. 
+in order to be the neighborhood function of a topology.
 
 The first constraint is that ``𝓝 x``, seen as a generalized set, contains the set ``{x}`` seen as the generalized set
-``pure x`` (explaining this weird name would be too much of a digression, so we simply accept it for now). 
+``pure x`` (explaining this weird name would be too much of a digression, so we simply accept it for now).
 Another way to say it is that if a predicate holds for points close to ``x`` then it holds at ``x``.
 
 BOTH: -/
@@ -126,7 +126,7 @@ BOTH: -/
 -- QUOTE:
 example (x : X) : pure x ≤ 𝓝 x := pure_le_nhds x
 
-example (x : X) (P : X → Prop) (h : ∀ᶠ y in 𝓝 x, P y) : P x := 
+example (x : X) (P : X → Prop) (h : ∀ᶠ y in 𝓝 x, P y) : P x :=
 pure_le_nhds x h
 -- QUOTE.
 
@@ -147,7 +147,7 @@ Those two results characterize the functions ``X → filter X`` that are neighbo
 structure on ``X``. There is a still a function ``topological_space.mk_of_nhds : (X → filter X) → topological_space X``
 but it will give back its input as a neighborhood function only if it satisfies the above two constraints.
 More precisely we have a lemma ``topological_space.nhds_mk_of_nhds`` saying that in a different way and our
-next exercise deduces this different way from how we stated it above. 
+next exercise deduces this different way from how we stated it above.
 BOTH: -/
 
 #check topological_space.mk_of_nhds
@@ -155,7 +155,7 @@ BOTH: -/
 
 -- QUOTE:
 
-example {α : Type*} (n : α → filter α) (H₀ : ∀ a, pure a ≤ n a) 
+example {α : Type*} (n : α → filter α) (H₀ : ∀ a, pure a ≤ n a)
   (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → (∀ᶠ y in n a, ∀ᶠ x in n y, p x)) :
   ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' :=
 sorry
@@ -163,7 +163,7 @@ sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {α : Type*} (n : α → filter α) (H₀ : ∀ a, pure a ≤ n a) 
+example {α : Type*} (n : α → filter α) (H₀ : ∀ a, pure a ≤ n a)
   (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → (∀ᶠ y in n a, ∀ᶠ x in n y, p x)) :
   ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' :=
 begin
@@ -181,10 +181,10 @@ precise sense the neighborhood filters is all there is in a topological space st
 
 The next thing to know in order to efficiently use topological spaces in mathlib is that we use a lot
 of formal properties of ``topological_space : Type u → Type u``. From a purely mathematical point of view,
-those formal properties are a very clean way to explain how topological spaces solve issues that metric spaces 
-have. From this point of view, the issues solved by topological spaces is that metric spaces enjoy very 
-little fonctoriality, and have very bad categorical properties in general. This comes on top of the fact 
-already discussed that metric spaces contain a lot of geometrical information that is not topologically relevant. 
+those formal properties are a very clean way to explain how topological spaces solve issues that metric spaces
+have. From this point of view, the issues solved by topological spaces is that metric spaces enjoy very
+little fonctoriality, and have very bad categorical properties in general. This comes on top of the fact
+already discussed that metric spaces contain a lot of geometrical information that is not topologically relevant.
 
 Let us focus on fonctoriality first. A metric space structure can be induced on a subset or,
 equivalently, it can be pulled back by an injective map. But that's pretty much everything.
@@ -218,7 +218,7 @@ coinduced_le_iff_le_induced
 -- QUOTE.
 
 /- TEXT:
-Those operations are compactible with composition of functions. 
+Those operations are compactible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
 On paper we will use notations :math:`f_*T` for ``topological_space.coinduced f T`` and
 :math:`f^*T` for ``topological_space.induced f T``.
@@ -229,7 +229,7 @@ BOTH: -/
 
 /- TEXT:
 
-Then the next big piece is a complete lattice structure on ``topological_structure X`` 
+Then the next big piece is a complete lattice structure on ``topological_structure X``
 for any given structure. If you think of topologies are being primarily the data of open sets then you expect
 the order relation on ``topological_structure X`` to come from ``set (set X)``, ie you expect ``t ≤ t'``
 if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that mathlib focuses
@@ -261,7 +261,7 @@ continuous_iff_coinduced_le
 -- QUOTE.
 
 /- TEXT:
-With this definition and the compatibility of push-forward and composition, we 
+With this definition and the compatibility of push-forward and composition, we
 get for free the universal property that, for any topological space :math:`Z`,
 a function :math:`g : Y → Z` is continuous for the topology :math:`f_*T_X` if and only if
 :math:`g ∘ f` is continuous.
@@ -276,7 +276,7 @@ BOTH: -/
 
 -- QUOTE:
 
-example {Z : Type*} (f : X → Y) 
+example {Z : Type*} (f : X → Y)
   (T_X : topological_space X) (T_Z : topological_space Z) (g : Y → Z) :
   @continuous Y Z (topological_space.coinduced f T_X) T_Z g ↔ @continuous X Z T_X T_Z (g ∘ f) :=
 by rw [continuous_iff_coinduced_le, coinduced_compose, continuous_iff_coinduced_le]
@@ -285,19 +285,19 @@ by rw [continuous_iff_coinduced_le, coinduced_compose, continuous_iff_coinduced_
 
 /- TEXT:
 
-So we already get quotient topologies (using the projection map as ``f``). This wasn't using that 
+So we already get quotient topologies (using the projection map as ``f``). This wasn't using that
 ``topological_space X`` is a complete lattice for all ``X``. Let's now see how all this structure
 proves the existence of the product topology by abstract non-sense.
 We considered the case of ``ℝ → ℝ`` above, but let's now consider the general case of ``Π i, X i`` for
 some ``ι : Type*`` and ``X : ι → Type*``. We want, for any topological space ``Z`` and any function
 ``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(λ x, x i) ∘ f`` is continuous.
-Let us explore that constraint "on papar" using notation :math:`p_i` for the projection 
+Let us explore that constraint "on papar" using notation :math:`p_i` for the projection
 ``(λ (x : Π i, X i), x i)``:
 
 .. math::
   (∀ i, p_i ∘ f \text{ continuous}) &⇔ ∀ i, (p_i ∘ f)_* T_Z ≤ T_{X_i} \\
   &⇔ ∀ i, (p_i)_* f_* T_Z ≤ T_{X_i}\\
-  &⇔ ∀ i, f_* T_Z ≤ (p_i)^*T_{X_i}\\ 
+  &⇔ ∀ i, f_* T_Z ≤ (p_i)^*T_{X_i}\\
   &⇔  f_* T_Z ≤ \inf \left[(p_i)^*T_{X_i}\right]
 
 So we see that what is the topology we want on ``Π i, X i``:
@@ -319,18 +319,18 @@ Separation and countability
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We saw that the category of topological spaces have very nice properties. The price to pay for
-this is existence of rather pathological topological spaces. 
+this is existence of rather pathological topological spaces.
 There are a number of assumptions you can make on a topological space to ensure its behavior
-is closer to what metric spaces do. The most important is ``t2_space``, also called "Hausdorff", 
+is closer to what metric spaces do. The most important is ``t2_space``, also called "Hausdorff",
 that will ensure that limits are unique.
 A stronger separation property is regularity that ensure that each point has a basis of closed
-neighborhood. 
+neighborhood.
 
 BOTH: -/
 
 -- QUOTE:
 
-example [topological_space X] [t2_space X] {u : ℕ → X} {a b : X} 
+example [topological_space X] [t2_space X] {u : ℕ → X} {a b : X}
   (ha : tendsto u at_top (𝓝 a)) (hb : tendsto u at_top (𝓝 b)) : a = b :=
 tendsto_nhds_unique ha hb
 
@@ -353,10 +353,10 @@ nhds_basis_opens' x
 Our main goal is now to prove the basic theorem which allows extension by continuity.
 From Bourbaki's general topology book, I.8.5, Theorem 1 (taking only the non-trivial implication):
 
-Let :math:`X` be a topological space, :math:`A` a dense subset of :math:`X`, :math:`f : A → Y`  
-a continuous mapping of :math:`A` into a regular space :math:`Y`. If, for each :math:`x` in :math:`X`, 
+Let :math:`X` be a topological space, :math:`A` a dense subset of :math:`X`, :math:`f : A → Y`
+a continuous mapping of :math:`A` into a regular space :math:`Y`. If, for each :math:`x` in :math:`X`,
 :math:`f(y)` tends to a limit in :math:`Y` when :math:`y` tends to :math:`x`
-while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to 
+while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to
 :math:`X`.
 
 Actually ``mathlib`` contains a more general version of the above lemma, ``dense_inducing.continuous_at_extend``,
@@ -422,7 +422,7 @@ BOTH: -/
 
 -- QUOTE:
 
-example [topological_space X] [topological_space Y] [regular_space Y] 
+example [topological_space X] [topological_space Y] [regular_space Y]
   {A : set X} (hA : ∀ x, x ∈ closure A)
   {f : A → Y} (f_cont : continuous f)
   (hf : ∀ x : X, ∃ c : Y, tendsto f (comap coe $ 𝓝 x) $ 𝓝 c) :
@@ -432,7 +432,7 @@ sorry
 
 -- SOLUTIONS:
 
-example [topological_space X] [topological_space Y] [regular_space Y] {A : set X} (hA : ∀ x, x ∈ closure A)
+example [topological_space X] [topological_space Y] [t3_space Y] {A : set X} (hA : ∀ x, x ∈ closure A)
   {f : A → Y} (f_cont : continuous f)
   (hf : ∀ x : X, ∃ c : Y, tendsto f (comap coe $ 𝓝 x) $ 𝓝 c) :
   ∃ φ : X → Y, continuous φ ∧ ∀ a : A, φ a = f a :=
@@ -489,7 +489,7 @@ a point ``x : X`` is a cluster point of ``F`` if ``F``, seen as a generalized se
 with the generalized set of points that are close to ``x``.
 
 Then we can say that a set ``s`` is compact if every nonempty generalized set ``F`` contained in ``s``,
-ie such that ``F ≤ 𝓟 s``, has a cluster point in ``s``. 
+ie such that ``F ≤ 𝓟 s``, has a cluster point in ``s``.
 
 BOTH: -/
 
@@ -499,13 +499,13 @@ variables [topological_space X]
 example {F : filter X} {x : X} : cluster_pt x F ↔ ne_bot (𝓝 x ⊓ F) :=
 iff.rfl
 
-example {s : set X} : 
+example {s : set X} :
   is_compact s ↔ ∀ (F : filter X) [ne_bot F], F ≤ 𝓟 s → ∃ a ∈ s, cluster_pt a F :=
 iff.rfl
 -- QUOTE.
 
 /- TEXT:
-For instance if ``F`` is ``map u at_top``, the image under ``u : ℕ → X`` of ``at_top``, the generalized set 
+For instance if ``F`` is ``map u at_top``, the image under ``u : ℕ → X`` of ``at_top``, the generalized set
 of very large natural numbers, then the assumption ``F ≤ 𝓟 s`` means that ``u n`` belongs to ``s`` for ``n``
 large enough. Saying that ``x`` is a cluster point of ``map u at_top`` says the image of very large numbers
 intersects the set of points that are close to ``x``. In case ``𝓝 x`` has a countable basis, we can
@@ -514,7 +514,7 @@ looks like in metric spaces.
 BOTH: -/
 
 -- QUOTE:
-example [topological_space.first_countable_topology X] 
+example [topological_space.first_countable_topology X]
   {s : set X} {u : ℕ → X} (hs : is_compact s) (hu : ∀ n, u n ∈ s) :
   ∃ (a ∈ s) (φ : ℕ → ℕ), strict_mono φ ∧ tendsto (u ∘ φ) at_top (𝓝 a) :=
 hs.tendsto_subseq hu
@@ -542,7 +542,7 @@ compact. In addition to what we saw already, you should use ``filter.push_pull``
 BOTH: -/
 
 -- QUOTE:
-example [topological_space Y] {f : X  → Y} (hf : continuous f) 
+example [topological_space Y] {f : X  → Y} (hf : continuous f)
   {s : set X} (hs : is_compact s) : is_compact (f '' s) :=
 begin
   intros F F_ne F_le,
@@ -556,7 +556,7 @@ end
 -- QUOTE.
 
 -- SOLUTIONS:
-example [topological_space Y] {f : X  → Y} (hf : continuous f) 
+example [topological_space Y] {f : X  → Y} (hf : continuous f)
   {s : set X} (hs : is_compact s) : is_compact (f '' s) :=
 begin
   intros F F_ne F_le,
@@ -595,5 +595,5 @@ BOTH: -/
 
 -- QUOTE:
 example [compact_space X] : is_compact (univ : set X) :=
-compact_univ
+is_compact_univ
 -- QUOTE.

@@ -1,5 +1,6 @@
 -- BOTH:
 import data.set.lattice
+import data.nat.prime
 import data.nat.parity
 import tactic
 
@@ -63,7 +64,7 @@ end
 
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
 begin
-  simp only [subset_def, mem_inter_eq] at *,
+  simp only [subset_def, mem_inter_iff] at *,
   rintros x ⟨xs, xu⟩,
   exact ⟨h _ xs, xu⟩,
 end
@@ -224,7 +225,7 @@ TEXT. -/
 example : s ∩ t = t ∩ s :=
 begin
   ext x,
-  simp only [mem_inter_eq],
+  simp only [mem_inter_iff],
   split,
   { rintros ⟨xs, xt⟩, exact ⟨xt, xs⟩ },
   rintros ⟨xt, xs⟩, exact ⟨xs, xt⟩
@@ -232,7 +233,7 @@ end
 -- QUOTE.
 
 /- TEXT:
-Once again, deleting the line ``simp only [mem_inter_eq]``
+Once again, deleting the line ``simp only [mem_inter_iff]``
 does not harm the proof.
 In fact, if you like inscrutable proof terms,
 the following one-line proof is for you:
@@ -593,7 +594,7 @@ open set
 example : s ∩ (⋃ i, A i) = ⋃ i, (A i ∩ s) :=
 begin
   ext x,
-  simp only [mem_inter_eq, mem_Union],
+  simp only [mem_inter_iff, mem_Union],
   split,
   { rintros ⟨xs, ⟨i, xAi⟩⟩,
     exact ⟨i, xAi, xs⟩ },
@@ -604,7 +605,7 @@ end
 example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ (⋂ i, B i) :=
 begin
   ext x,
-  simp only [mem_inter_eq, mem_Inter],
+  simp only [mem_inter_iff, mem_Inter],
   split,
   { intro h,
     split,
