@@ -19,7 +19,7 @@ The following files are maintained by hand:
   each of the sections.
 - For each section, there should be a `.lean` file in the appropriate place
   in `lean_source`.
-- Each section should have a corresponding line in `lean_source/mk_all.sh`.
+- Each section should have a corresponding line in `lean_source/mkall.sh`.
 
 Is everything is set up right, the command
 ```
