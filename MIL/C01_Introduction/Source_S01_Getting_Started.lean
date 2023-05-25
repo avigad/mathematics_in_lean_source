@@ -3,7 +3,7 @@ Getting Started
 ---------------
 
 The goal of this book is to teach you to formalize mathematics using the
-Lean 3 interactive proof assistant.
+Lean 4 interactive proof assistant.
 It assumes that you know some mathematics, but it does not require much.
 Although we will cover examples ranging from number theory
 to measure theory and analysis,
@@ -35,18 +35,23 @@ it designed to be read interactively,
 running Lean from inside the VS Code editor.
 To get started:
 
-#. Install Lean, VS Code, and mathlib following the instructions
-   on the `community web site <https://leanprover-community.github.io/>`_.
+#. Install Lean 4 and VS Code following
+   these `instructions <https://github.com/leanprover/lean4/blob/master/doc/quickstart.md>_`.
 
-#. In a terminal, type ``leanproject get mathematics_in_lean``
-   to set up a working directory for this tutorial.
+#. In a terminal, navigate to the folder where you want to put a copy of the
+   repository, and type ``git clone git@github.com:leanprover-community/mathematics_in_lean.git``
+   to fetch it from github.
 
-#. Type ``code mathematics_in_lean`` to open that directory in
-   ``VS Code``.
+#. Navigate to ``mathematics_in_lean``, and execute ``lake exe cache get`` to fetch a compiled
+   version of the library, ``mathlib``.
+
+#. Type ``code .`` to open the folder in ``VS Code``. Alternatively, you can run ``VS Code`` and
+   choose ``Open Folder`` from the ``File`` menu. Be sure to open the folder ``mathematics_in_lean``,
+   not any other folder.
 
 Opening any Lean file will simultaneously open this
 book in a VS Code window. You can update to a newer version by tying
-``git pull`` followed by ``leanproject get-mathlib-cache`` inside
+``git pull`` followed by ``lake exe cache get`` inside
 the ``mathematics_in_lean`` folder.
 
 Alternatively, you can run Lean and VS Code in the cloud,

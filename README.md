@@ -11,6 +11,14 @@ in `MIL` using some simple markup. The Python script
 `MIL/mkall.sh` then generates the `.rst` source for the textbook and
 an exercise file and a solution file for each section.
 
+To edit the Lean files, you need to have Lean 4 installed. The command
+```
+lake exe cache get
+```
+should fetch the relevant compiled version of `mathlib4`, at which point
+you should be able to work with the files. `lake update` will update the manifest
+to the most recent version of mathlib, which may require fixing anything that breaks.
+
 To build the textbook, you need to have
 [Sphinx and ReadTheDocs installed](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html).
 The following files are maintained by hand:
