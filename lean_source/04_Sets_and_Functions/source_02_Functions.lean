@@ -417,12 +417,12 @@ For example, theorem ``div_mul_cancel`` asserts ``x ≠ 0 → x / y * y = x`` fo
 .. the subtype ``{ x // x > 0 }``,
 .. but then we have to mediate between two different types,
 .. the reals and that subtype.
-
+-/
+/- TEXT:
 The library defines a predicate ``inj_on f s`` to say that
 ``f`` is injective on ``s``.
 It is defined as follows:
--/
-
+TEXT. -/
 -- QUOTE:
 example : inj_on f s ↔
   ∀ x₁ ∈ s, ∀ x₂ ∈ s, f x₁ = f x₂ → x₁ = x₂ :=
