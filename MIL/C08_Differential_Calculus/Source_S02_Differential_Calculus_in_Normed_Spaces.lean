@@ -1,12 +1,14 @@
-import analysis.normed_space.banach_steinhaus
-import analysis.normed_space.finite_dimension
+import Mathlib.Analysis.NormedSpace.BanachSteinhaus
+import Mathlib.Analysis.NormedSpace.FiniteDimension
+-- import Mathlib.Analysis.Calculus.Inverse
+import Mathlib.Analysis.Calculus.FDeriv.Prod
 
-import analysis.calculus.inverse
 
-open set filter
-open_locale topology filter
+open Set Filter
 
-noncomputable theory
+open Topology Filter
+
+noncomputable section
 
 /- TEXT:
 .. index:: normed space
@@ -26,32 +28,33 @@ group equipped with a real-valued norm function
 satisfying the following conditions.
 EXAMPLES: -/
 section
+
 -- QUOTE:
-variables {E : Type*} [normed_add_comm_group E]
+variable {E : Type _} [NormedAddCommGroup E]
 
 example (x : E) : 0 ≤ ‖x‖ :=
-norm_nonneg x
+  norm_nonneg x
 
 example {x : E} : ‖x‖ = 0 ↔ x = 0 :=
-norm_eq_zero
+  norm_eq_zero
 
 example (x y : E) : ‖x + y‖ ≤ ‖x‖ + ‖y‖ :=
-norm_add_le x y
--- QUOTE.
+  norm_add_le x y
 
+-- QUOTE.
 /- TEXT:
 Every normed space is a metric space with distance function
 :math:`d(x, y) = \| x - y \|`, and hence it is also a topological space.
 Lean and mathlib know this.
 EXAMPLES: -/
 -- QUOTE:
-example : metric_space E := by apply_instance
+example : MetricSpace E := by infer_instance
 
-example {X : Type*} [topological_space X] {f : X → E} (hf : continuous f) :
-  continuous (λ x, ‖f x‖) :=
-hf.norm
+example {X : Type _} [TopologicalSpace X] {f : X → E} (hf : Continuous f) :
+    Continuous fun x => ‖f x‖ :=
+  hf.norm
+
 -- QUOTE.
-
 /- TEXT:
 In order to use the notion of a norm with concepts from linear algebra,
 we add the assumption ``normed_space ℝ E`` on top of ``normed_add_group E``.
@@ -59,21 +62,20 @@ This stipulates that ``E`` is a vector space over ``ℝ`` and that
 scalar multiplication satisfies the following condition.
 EXAMPLES: -/
 -- QUOTE:
-variables [normed_space ℝ E]
+variable [NormedSpace ℝ E]
 
 example (a : ℝ) (x : E) : ‖a • x‖ = |a| * ‖x‖ :=
-norm_smul a x
--- QUOTE.
+  norm_smul a x
 
+-- QUOTE.
 /- TEXT:
 A complete normed space is known as a *Banach space*.
 Every finite-dimensional vector space is complete.
 EXAMPLES: -/
 -- QUOTE:
-example [finite_dimensional ℝ E] : complete_space E :=
-by apply_instance
--- QUOTE.
+example [FiniteDimensional ℝ E] : CompleteSpace E := by infer_instance
 
+-- QUOTE.
 /- TEXT:
 In all the previous examples, we used the real numbers as the base field.
 More generally, we can make sense of calculus with a vector space over any
@@ -83,23 +85,23 @@ not every element has norm zero or one
 (equivalently, there is an element whose norm is bigger than one).
 EXAMPLES: -/
 -- QUOTE:
-example (𝕜 : Type*) [nontrivially_normed_field 𝕜] (x y : 𝕜) : ‖x * y‖ = ‖x‖ * ‖y‖ :=
-norm_mul x y
+example (𝕜 : Type _) [NontriviallyNormedField 𝕜] (x y : 𝕜) : ‖x * y‖ = ‖x‖ * ‖y‖ :=
+  norm_mul x y
 
-example (𝕜 : Type*) [nontrivially_normed_field 𝕜] : ∃ x : 𝕜, 1 < ‖x‖ :=
-normed_field.exists_one_lt_norm 𝕜
+example (𝕜 : Type _) [NontriviallyNormedField 𝕜] : ∃ x : 𝕜, 1 < ‖x‖ :=
+  NormedField.exists_one_lt_norm 𝕜
+
 -- QUOTE.
-
 /- TEXT:
 A finite-dimensional vector space over a nondiscrete normed field is
 complete as long as the field itself is complete.
 EXAMPLES: -/
 -- QUOTE:
-example (𝕜 : Type*) [nontrivially_normed_field 𝕜] (E : Type*) [normed_add_comm_group E]
-  [normed_space 𝕜 E] [complete_space 𝕜] [finite_dimensional 𝕜 E] : complete_space E :=
-finite_dimensional.complete 𝕜 E
--- QUOTE.
+example (𝕜 : Type _) [NontriviallyNormedField 𝕜] (E : Type _) [NormedAddCommGroup E]
+    [NormedSpace 𝕜 E] [CompleteSpace 𝕜] [FiniteDimensional 𝕜 E] : CompleteSpace E :=
+  FiniteDimensional.complete 𝕜 E
 
+-- QUOTE.
 end
 
 /- TEXT:
@@ -117,41 +119,41 @@ Lean will insert a coercion so that a continuous linear map can be treated
 as a function.
 EXAMPLES: -/
 section
--- QUOTE:
-variables {𝕜 : Type*} [nontrivially_normed_field 𝕜]
-          {E : Type*} [normed_add_comm_group E] [normed_space 𝕜 E]
-          {F : Type*} [normed_add_comm_group F] [normed_space 𝕜 F]
 
-example : E →L[𝕜] E := continuous_linear_map.id 𝕜 E
+-- QUOTE:
+variable {𝕜 : Type _} [NontriviallyNormedField 𝕜] {E : Type _} [NormedAddCommGroup E]
+  [NormedSpace 𝕜 E] {F : Type _} [NormedAddCommGroup F] [NormedSpace 𝕜 F]
+
+example : E →L[𝕜] E :=
+  ContinuousLinearMap.id 𝕜 E
 
 example (f : E →L[𝕜] F) : E → F :=
-f
+  f
 
-example (f : E →L[𝕜] F) : continuous f :=
-f.cont
+example (f : E →L[𝕜] F) : Continuous f :=
+  f.cont
 
 example (f : E →L[𝕜] F) (x y : E) : f (x + y) = f x + f y :=
-f.map_add x y
+  f.map_add x y
 
 example (f : E →L[𝕜] F) (a : 𝕜) (x : E) : f (a • x) = a • f x :=
-f.map_smul a x
--- QUOTE.
+  f.map_smul a x
 
+-- QUOTE.
 /- TEXT:
 Continuous linear maps have an operator norm that is characterized by the
 following properties.
 EXAMPLES: -/
 -- QUOTE:
-variables (f : E →L[𝕜] F)
+variable (f : E →L[𝕜] F)
 
 example (x : E) : ‖f x‖ ≤ ‖f‖ * ‖x‖ :=
-f.le_op_norm x
+  f.le_op_norm x
 
-example {M : ℝ} (hMp: 0 ≤ M) (hM : ∀ x, ‖f x‖ ≤ M * ‖x‖) :
-  ‖f‖ ≤ M :=
-f.op_norm_le_bound hMp hM
+example {M : ℝ} (hMp : 0 ≤ M) (hM : ∀ x, ‖f x‖ ≤ M * ‖x‖) : ‖f‖ ≤ M :=
+  f.op_norm_le_bound hMp hM
+
 -- QUOTE.
-
 end
 
 /- TEXT:
@@ -169,84 +171,81 @@ Minor ingredients include ``continuous_linear_map.op_norm_le_of_shell``,
 ``interior_subset`` and ``interior_Inter_subset`` and ``is_closed_le``.
 BOTH: -/
 section
--- QUOTE:
-variables
-  {𝕜 : Type*} [nontrivially_normed_field 𝕜]
-  {E : Type*} [normed_add_comm_group E] [normed_space 𝕜 E]
-  {F : Type*} [normed_add_comm_group F] [normed_space 𝕜 F]
 
-open metric
+-- QUOTE:
+variable {𝕜 : Type _} [NontriviallyNormedField 𝕜] {E : Type _} [NormedAddCommGroup E]
+  [NormedSpace 𝕜 E] {F : Type _} [NormedAddCommGroup F] [NormedSpace 𝕜 F]
+
+open Metric
 
 -- EXAMPLES:
-example {ι : Type*} [complete_space E] {g : ι → E →L[𝕜] F}
-  (h : ∀ x, ∃ C, ∀ i, ‖g i x‖ ≤ C) :
-  ∃ C', ∀ i, ‖g i‖ ≤ C' :=
-begin
-  /- sequence of subsets consisting of those `x : E` with norms `‖g i x‖` bounded by `n` -/
-  let e : ℕ → set E := λ n, ⋂ i : ι, { x : E | ‖g i x‖ ≤ n },
-  /- each of these sets is closed -/
-  have hc : ∀ n : ℕ, is_closed (e n),
-  sorry,
-  /- the union is the entire space; this is where we use `h` -/
-  have hU : (⋃ n : ℕ, e n) = univ,
-  sorry,
-  /- apply the Baire category theorem to conclude that for some `m : ℕ`,
-     `e m` contains some `x` -/
-  obtain ⟨m, x, hx⟩ : ∃ m, ∃ x, x ∈ interior (e m) := sorry,
-  obtain ⟨ε, ε_pos, hε⟩ : ∃ ε > 0, ball x ε ⊆ interior (e m) := sorry,
-  obtain ⟨k, hk⟩ : ∃ k : 𝕜, 1 < ‖k‖ := sorry,
-  /- show all elements in the ball have norm bounded by `m` after applying any `g i` -/
-  have real_norm_le : ∀ (z ∈ ball x ε) (i : ι), ‖g i z‖ ≤ m,
-  sorry,
-  have εk_pos : 0 < ε / ‖k‖ := sorry,
-  refine ⟨(m + m : ℕ) / (ε / ‖k‖),
-           λ i, continuous_linear_map.op_norm_le_of_shell ε_pos _ hk _⟩,
-  sorry,
+example {ι : Type _} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, ∃ C, ∀ i, ‖g i x‖ ≤ C) :
+    ∃ C', ∀ i, ‖g i‖ ≤ C' :=
+  by
+  -- sequence of subsets consisting of those `x : E` with norms `‖g i x‖` bounded by `n`
+  let e : ℕ → Set E := fun n => ⋂ i : ι, { x : E | ‖g i x‖ ≤ n }
+  -- each of these sets is closed
+  have hc : ∀ n : ℕ, IsClosed (e n)
   sorry
-end
--- QUOTE.
-
--- SOLUTIONS:
-example {ι : Type*} [complete_space E] {g : ι → E →L[𝕜] F}
-  (h : ∀ x, ∃ C, ∀ i, ‖g i x‖ ≤ C) :
-  ∃ C', ∀ i, ‖g i‖ ≤ C' :=
-begin
-  /- sequence of subsets consisting of those `x : E` with norms `‖g i x‖` bounded by `n` -/
-  let e : ℕ → set E := λ n, ⋂ i : ι, { x : E | ‖g i x‖ ≤ n },
-  /- each of these sets is closed -/
-  have hc : ∀ n : ℕ, is_closed (e n),
-  from λ i, is_closed_Inter (λ i, is_closed_le (g i).cont.norm continuous_const),
-  /- the union is the entire space; this is where we use `h` -/
-  have hU : (⋃ n : ℕ, e n) = univ,
-  { refine eq_univ_of_forall (λ x, _),
-    cases h x with C hC,
-    obtain ⟨m, hm⟩ := exists_nat_ge C,
-    exact ⟨e m, mem_range_self m, mem_Inter.mpr (λ i, le_trans (hC i) hm)⟩ },
+  -- the union is the entire space; this is where we use `h`
+  have hU : (⋃ n : ℕ, e n) = univ
+  sorry
   /- apply the Baire category theorem to conclude that for some `m : ℕ`,
-     `e m` contains some `x` -/
-  obtain ⟨m : ℕ, x : E, hx : x ∈ interior (e m)⟩ := nonempty_interior_of_Union_of_closed hc hU,
-  obtain ⟨ε, ε_pos, hε : ball x ε ⊆ interior (e m)⟩ := is_open_iff.mp is_open_interior x hx,
-  obtain ⟨k : 𝕜, hk : 1 < ‖k‖⟩ := normed_field.exists_one_lt_norm 𝕜,
-  /- show all elements in the ball have norm bounded by `m` after applying any `g i` -/
-  have real_norm_le : ∀ (z ∈ ball x ε) (i : ι), ‖g i z‖ ≤ m,
-  { intros z hz i,
-    replace hz := mem_Inter.mp (interior_Inter_subset _ (hε hz)) i,
-    apply interior_subset hz },
-  have εk_pos : 0 < ε / ‖k‖ := div_pos ε_pos (zero_lt_one.trans hk),
-  refine ⟨(m + m : ℕ) / (ε / ‖k‖), λ i, continuous_linear_map.op_norm_le_of_shell ε_pos _ hk _⟩,
-  { exact div_nonneg (nat.cast_nonneg _) εk_pos.le },
-  intros y le_y y_lt,
-  calc ‖g i y‖
-      = ‖g i (y + x) - g i x‖   : by rw [(g i).map_add, add_sub_cancel]
-  ... ≤ ‖g i (y + x)‖ + ‖g i x‖ : norm_sub_le _ _
-  ... ≤ m + m : add_le_add (real_norm_le (y + x) (by rwa [add_comm, add_mem_ball_iff_norm]) i)
-          (real_norm_le x (mem_ball_self ε_pos) i)
-  ... = (m + m : ℕ) : by norm_cast
-  ... ≤ (m + m : ℕ) * (‖y‖ / (ε / ‖k‖))
-      : le_mul_of_one_le_right (nat.cast_nonneg _)
-          ((one_le_div $ div_pos ε_pos (zero_lt_one.trans hk)).2 le_y)
-  ... = (m + m : ℕ) / (ε / ‖k‖) * ‖y‖ : (mul_comm_div _ _ _).symm,
-end
+       `e m` contains some `x` -/
+  obtain ⟨m, x, hx⟩ : ∃ m, ∃ x, x ∈ interior (e m) := sorry
+  obtain ⟨ε, ε_pos, hε⟩ : ∃ ε > 0, ball x ε ⊆ interior (e m) := sorry
+  obtain ⟨k, hk⟩ : ∃ k : 𝕜, 1 < ‖k‖ := sorry
+  -- show all elements in the ball have norm bounded by `m` after applying any `g i`
+  have real_norm_le : ∀ z ∈ ball x ε, ∀ (i : ι), ‖g i z‖ ≤ m
+  sorry
+  have εk_pos : 0 < ε / ‖k‖ := sorry
+  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i => ContinuousLinearMap.op_norm_le_of_shell ε_pos _ hk _⟩
+  sorry
+  sorry
+
+-- QUOTE.
+-- SOLUTIONS:
+example {ι : Type _} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, ∃ C, ∀ i, ‖g i x‖ ≤ C) :
+    ∃ C', ∀ i, ‖g i‖ ≤ C' :=
+  by
+  -- sequence of subsets consisting of those `x : E` with norms `‖g i x‖` bounded by `n`
+  let e : ℕ → Set E := fun n => ⋂ i : ι, { x : E | ‖g i x‖ ≤ n }
+  -- each of these sets is closed
+  have hc : ∀ n : ℕ, IsClosed (e n) := fun i =>
+    isClosed_iInter fun i => isClosed_le (g i).cont.norm continuous_const
+  -- the union is the entire space; this is where we use `h`
+  have hU : (⋃ n : ℕ, e n) = univ :=
+    by
+    refine' eq_univ_of_forall fun x => _
+    cases' h x with C hC
+    obtain ⟨m, hm⟩ := exists_nat_ge C
+    exact ⟨e m, mem_range_self m, mem_iInter.mpr fun i => le_trans (hC i) hm⟩
+  /- apply the Baire category theorem to conclude that for some `m : ℕ`,
+       `e m` contains some `x` -/
+  obtain ⟨m : ℕ, x : E, hx : x ∈ interior (e m)⟩ := nonempty_interior_of_iUnion_of_closed hc hU
+  obtain ⟨ε, ε_pos, hε : ball x ε ⊆ interior (e m)⟩ := isOpen_iff.mp isOpen_interior x hx
+  obtain ⟨k : 𝕜, hk : 1 < ‖k‖⟩ := NormedField.exists_one_lt_norm 𝕜
+  -- show all elements in the ball have norm bounded by `m` after applying any `g i`
+  have real_norm_le : ∀ z ∈ ball x ε, ∀ (i : ι), ‖g i z‖ ≤ m := by
+    intro z hz i
+    replace hz := mem_iInter.mp (interior_iInter_subset _ (hε hz)) i
+    apply interior_subset hz
+  have εk_pos : 0 < ε / ‖k‖ := div_pos ε_pos (zero_lt_one.trans hk)
+  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i => ContinuousLinearMap.op_norm_le_of_shell ε_pos _ hk _⟩
+  · exact div_nonneg (Nat.cast_nonneg _) εk_pos.le
+  intro y le_y y_lt
+  calc
+    ‖g i y‖ = ‖g i (y + x) - g i x‖ := by rw [(g i).map_add, add_sub_cancel]
+    _ ≤ ‖g i (y + x)‖ + ‖g i x‖ := (norm_sub_le _ _)
+    _ ≤ m + m :=
+      (add_le_add (real_norm_le (y + x) (by rwa [add_comm, add_mem_ball_iff_norm]) i)
+        (real_norm_le x (mem_ball_self ε_pos) i))
+    _ = (m + m : ℕ) := by norm_cast
+    _ ≤ (m + m : ℕ) * (‖y‖ / (ε / ‖k‖)) :=
+      (le_mul_of_one_le_right (Nat.cast_nonneg _)
+        ((one_le_div <| div_pos ε_pos (zero_lt_one.trans hk)).2 le_y))
+    _ = (m + m : ℕ) / (ε / ‖k‖) * ‖y‖ := (mul_comm_div _ _ _).symm
+
 
 -- BOTH:
 end
@@ -263,31 +262,27 @@ notation.
 Here we will only use little o to define differentiability.
 EXAMPLES: -/
 -- QUOTE:
-open asymptotics
-open_locale asymptotics
+open Asymptotics
 
-example {α : Type*} {E : Type*}
-  [normed_group E] {F : Type*} [normed_group F]
-  (c : ℝ) (l : filter α) (f : α → E) (g : α → F) :
-  is_O_with c l f g ↔ ∀ᶠ x in l, ‖ f x ‖ ≤ c * ‖ g x ‖ :=
-is_O_with_iff
+open Asymptotics
 
-example {α : Type*} {E : Type*} [normed_group E] {F : Type*} [normed_group F]
-  (c : ℝ) (l : filter α) (f : α → E) (g : α → F) :
-  f =O[l] g ↔ ∃ C, is_O_with C l f g :=
-is_O_iff_is_O_with
+example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
+    (l : Filter α) (f : α → E) (g : α → F) : IsBigOWith c l f g ↔ ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ :=
+  isBigOWith_iff
 
-example {α : Type*} {E : Type*} [normed_group E] {F : Type*} [normed_group F]
-  (c : ℝ) (l : filter α) (f : α → E) (g : α → F) :
-  f =o[l] g ↔ ∀ C > 0, is_O_with C l f g :=
-is_o_iff_forall_is_O_with
+example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
+    (l : Filter α) (f : α → E) (g : α → F) : f =O[l] g ↔ ∃ C, IsBigOWith C l f g :=
+  isBigO_iff_isBigOWith
 
-example {α : Type*} {E : Type*} [normed_add_comm_group E]
-    (c : ℝ) (l : filter α) (f g : α → E) :
-  f ~[l] g ↔ (f - g) =o[l] g :=
-iff.rfl
+example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
+    (l : Filter α) (f : α → E) (g : α → F) : f =o[l] g ↔ ∀ C > 0, IsBigOWith C l f g :=
+  isLittleO_iff_forall_isBigOWith
+
+example {α : Type _} {E : Type _} [NormedAddCommGroup E] (c : ℝ) (l : Filter α) (f g : α → E) :
+    f ~[l] g ↔ (f - g) =o[l] g :=
+  Iff.rfl
+
 -- QUOTE.
-
 /- TEXT:
 Differentiability
 ^^^^^^^^^^^^^^^^^
@@ -299,21 +294,19 @@ Here the letter
 "f" stands for *Fréchet*.
 EXAMPLES: -/
 section
+
 -- QUOTE:
-variables
-  {𝕜 : Type*} [nontrivially_normed_field 𝕜]
-  {E : Type*} [normed_add_comm_group E] [normed_space 𝕜 E]
-  {F : Type*} [normed_add_comm_group F] [normed_space 𝕜 F]
+variable {𝕜 : Type _} [NontriviallyNormedField 𝕜] {E : Type _} [NormedAddCommGroup E]
+  [NormedSpace 𝕜 E] {F : Type _} [NormedAddCommGroup F] [NormedSpace 𝕜 F]
 
 example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) :
-  has_fderiv_at f f' x₀ ↔ (λ x, f x - f x₀ - f' (x - x₀)) =o[𝓝 x₀] (λ x, x - x₀) :=
-iff.rfl
+    HasFDerivAt f f' x₀ ↔ (fun x => f x - f x₀ - f' (x - x₀)) =o[𝓝 x₀] fun x => x - x₀ :=
+  Iff.rfl
 
-example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : has_fderiv_at f f' x₀) :
-  fderiv 𝕜 f x₀ = f' :=
-hff'.fderiv
+example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : HasFDerivAt f f' x₀) : fderiv 𝕜 f x₀ = f' :=
+  hff'.fderiv
+
 -- QUOTE.
-
 /- TEXT:
 We also have iterated derivatives that take values in the type of multilinear maps
 ``E [×n]→L[𝕜] F``,
@@ -324,16 +317,16 @@ So :math:`\mathcal{C}^\infty` functions are functions ``f`` that satisfy
 ``cont_diff 𝕜 ⊤ f``.
 EXAMPLES: -/
 -- QUOTE:
-example (n : ℕ) (f : E → F) : E → (E [×n]→L[𝕜] F) :=
-iterated_fderiv 𝕜 n f
+example (n : ℕ) (f : E → F) : E → E[×n]→L[𝕜] F :=
+  iteratedFDeriv 𝕜 n f
 
-example (n : with_top ℕ) {f : E → F} :
-  cont_diff 𝕜 n f ↔
-    (∀ (m : ℕ), (m : with_top ℕ) ≤ n → continuous (λ x, iterated_fderiv 𝕜 m f x))
-  ∧ (∀ (m : ℕ), (m : with_top ℕ) < n → differentiable 𝕜 (λ x, iterated_fderiv 𝕜 m f x)) :=
-cont_diff_iff_continuous_differentiable
+example (n : WithTop ℕ) {f : E → F} :
+    ContDiff 𝕜 n f ↔
+      (∀ m : ℕ, (m : WithTop ℕ) ≤ n → Continuous fun x => iteratedFderiv 𝕜 m f x) ∧
+        ∀ m : ℕ, (m : WithTop ℕ) < n → Differentiable 𝕜 fun x => iteratedFderiv 𝕜 m f x :=
+  contDiff_iff_continuous_differentiable
+
 -- QUOTE.
-
 /- TEXT:
 There is a stricter notion of differentiability called
 ``has_strict_fderiv_at``, which is used in the statement
@@ -343,14 +336,12 @@ Over ``ℝ`` or ``ℂ``, continuously differentiable
 functions are strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
-example {𝕂 : Type*} [is_R_or_C 𝕂] {E : Type*} [normed_add_comm_group E] [normed_space 𝕂 E]
-  {F : Type*} [normed_add_comm_group F] [normed_space 𝕂 F]
-  {f : E → F} {x : E} {n : with_top ℕ}
-  (hf : cont_diff_at 𝕂 n f x) (hn : 1 ≤ n) :
-  has_strict_fderiv_at f (fderiv 𝕂 f x) x :=
-hf.has_strict_fderiv_at hn
--- QUOTE.
+example {𝕂 : Type _} [IsROrC 𝕂] {E : Type _} [NormedAddCommGroup E] [NormedSpace 𝕂 E] {F : Type _}
+    [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ}
+    (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFderivAt f (fderiv 𝕂 f x) x :=
+  hf.HasStrictFderivAt hn
 
+-- QUOTE.
 /- TEXT:
 The local inverse theorem is stated using an operation that produces an
 inverse function from a
@@ -362,29 +353,28 @@ The next one states that it is indeed a local inverse
 from the left and from the right, and that it is strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
-section local_inverse
-variables [complete_space E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
+section LocalInverse
 
-example (hf : has_strict_fderiv_at f ↑f' a) : F → E :=
-has_strict_fderiv_at.local_inverse f f' a hf
+variable [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
 
-example  (hf : has_strict_fderiv_at f (f' : E →L[𝕜] F) a) :
-  ∀ᶠ x in 𝓝 a, hf.local_inverse f f' a (f x) = x :=
-hf.eventually_left_inverse
+example (hf : HasStrictFderivAt f (↑f') a) : F → E :=
+  HasStrictFderivAt.localInverse f f' a hf
 
-example  (hf : has_strict_fderiv_at f (f' : E →L[𝕜] F) a) :
-  ∀ᶠ x in 𝓝 (f a), f (hf.local_inverse f f' a x) = x :=
-hf.eventually_right_inverse
+example (hf : HasStrictFderivAt f (f' : E →L[𝕜] F) a) :
+    ∀ᶠ x in 𝓝 a, hf.localInverse f f' a (f x) = x :=
+  hf.eventually_left_inverse
 
-example [complete_space E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
-    (hf : has_strict_fderiv_at f ↑f' a) :
-  has_strict_fderiv_at (has_strict_fderiv_at.local_inverse f f' a hf)
-    (f'.symm : F →L[𝕜] E) (f a) :=
-has_strict_fderiv_at.to_local_inverse hf
+example (hf : HasStrictFderivAt f (f' : E →L[𝕜] F) a) :
+    ∀ᶠ x in 𝓝 (f a), f (hf.localInverse f f' a x) = x :=
+  hf.eventually_right_inverse
 
-end local_inverse
+example [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E} (hf : HasStrictFderivAt f (↑f') a) :
+    HasStrictFderivAt (HasStrictFderivAt.localInverse f f' a hf) (f'.symm : F →L[𝕜] E) (f a) :=
+  HasStrictFderivAt.to_localInverse hf
+
+end LocalInverse
+
 -- QUOTE.
-
 /- TEXT:
 This has been only a quick tour of the differential calculus in mathlib.
 The library contains many variations that we have not discussed.
@@ -393,7 +383,9 @@ one-dimensional setting. The means to do so are found in mathlib in a more
 general context;
 see ``has_fderiv_within_at`` or the even more general ``has_fderiv_at_filter``.
 EXAMPLES: -/
-#check has_fderiv_within_at
-#check has_fderiv_at_filter
+#check HasFderivWithinAt
+
+#check HasFderivAtFilter
 
 end
+

@@ -61,9 +61,12 @@ organized by chapter. We recommend making a copy of that folder
 so that you can experiment with the files as you go,
 while leaving the originals intact.
 The text will often include examples, like this one:
-TEXT. -/
+TEXT.
+! This file was ported from Lean 3 source module «01_Introduction».source_01_Getting_Started
+-/
 -- QUOTE:
 #eval "Hello, World!"
+
 -- QUOTE.
 /- TEXT:
 You should be able to find the corresponding example in the associated

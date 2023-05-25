@@ -1,5 +1,5 @@
 -- BOTH:
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _implication_and_the_universal_quantifier:
@@ -11,8 +11,8 @@ Consider the statement after the ``#check``:
 TEXT. -/
 -- QUOTE:
 #check ∀ x : ℝ, 0 ≤ x → abs x = x
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 In words, we would say "for every real number ``x``, if ``0 ≤ x`` then
 the absolute value of ``x`` equals ``x``".
@@ -20,8 +20,8 @@ We can also have more complicated statements like:
 TEXT. -/
 -- QUOTE:
 #check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 In words, we would say "for every ``x``, ``y``, and ``ε``,
 if ``0 < ε ≤ 1``, the absolute value of ``x`` is less than ``ε``,
@@ -42,21 +42,26 @@ In particular, if you have proved a theorem of that form,
 you can apply it to objects and hypotheses in the same way:
 TEXT. -/
 -- QUOTE:
-lemma my_lemma : ∀ x y ε : ℝ,
-  0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-sorry
+theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+  sorry
 
 section
-  variables a b δ : ℝ
-  variables (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-  variables (ha : abs a < δ) (hb : abs b < δ)
 
-  #check my_lemma a b δ
-  #check my_lemma a b δ h₀ h₁
-  #check my_lemma a b δ h₀ h₁ ha hb
+variable (a b δ : ℝ)
+
+variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
+
+variable (ha : abs a < δ) (hb : abs b < δ)
+
+#check my_lemma a b δ
+
+#check my_lemma a b δ h₀ h₁
+
+#check my_lemma a b δ h₀ h₁ ha hb
+
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 You have also already seen that it is common in Lean
 to use curly brackets to make quantified variables implicit
@@ -65,19 +70,22 @@ When we do that, we can just apply a lemma to the hypotheses without
 mentioning the objects.
 TEXT. -/
 -- QUOTE:
-lemma my_lemma2 : ∀ {x y ε : ℝ},
-  0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-sorry
+theorem my_lemma2 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+  sorry
 
 section
-  variables a b δ : ℝ
-  variables (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-  variables (ha : abs a < δ) (hb : abs b < δ)
 
-  #check my_lemma2 h₀ h₁ ha hb
+variable (a b δ : ℝ)
+
+variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
+
+variable (ha : abs a < δ) (hb : abs b < δ)
+
+#check my_lemma2 h₀ h₁ ha hb
+
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 At this stage, you also know that if you use
 the ``apply`` tactic to apply ``my_lemma``
@@ -91,14 +99,12 @@ To prove a statement like this, use the ``intros`` tactic.
 Take a look at what it does in this example:
 TEXT. -/
 -- QUOTE:
-lemma my_lemma3 : ∀ {x y ε : ℝ},
-  0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-begin
-  intros x y ε epos ele1 xlt ylt,
+theorem my_lemma3 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+  by
+  intro x y ε epos ele1 xlt ylt
   sorry
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 We can use any names we want for the universally quantified variables;
 they do not have to be ``x``, ``y``, and ``ε``.
@@ -118,18 +124,17 @@ introduce variables and hypotheses after the proof begins.
 To help you prove the lemma, we will start you off:
 TEXT. -/
 -- QUOTE:
-lemma my_lemma4 : ∀ {x y ε : ℝ},
-  0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-begin
-  intros x y ε epos ele1 xlt ylt,
+theorem my_lemma4 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+  by
+  intro x y ε epos ele1 xlt ylt
   calc
-    abs (x * y) = abs x * abs y : sorry
-    ... ≤ abs x * ε             : sorry
-    ... < 1 * ε                 : sorry
-    ... = ε                     : sorry
-end
--- QUOTE.
+    abs (x * y) = abs x * abs y := sorry
+    _ ≤ abs x * ε := sorry
+    _ < 1 * ε := sorry
+    _ = ε := sorry
 
+
+-- QUOTE.
 -- OMIT:
 /- TODO : remember to introduce ``suffices`` eventually
 
@@ -138,7 +143,6 @@ end
    asking you to prove the goal using the
    stated fact,
    and then leaving you the new goal of proving that fact. -/
-
 /- TEXT:
 Finish the proof using the theorems
 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
@@ -161,10 +165,13 @@ and the second says that ``a`` is a lower bound
 on the values of ``f``.
 BOTH: -/
 -- QUOTE:
-def fn_ub (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, f x ≤ a
-def fn_lb (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, a ≤ f x
--- QUOTE.
+def FnUb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, f x ≤ a
 
+def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, a ≤ f x
+
+-- QUOTE.
 /- TEXT:
 .. index:: lambda abstraction
 
@@ -175,21 +182,20 @@ whereas a mathematician might describe it as the function
 :math:`x \mapsto f(x) + g(x)`.
 BOTH: -/
 section
-variables (f g : ℝ → ℝ) (a b : ℝ)
+
+variable (f g : ℝ → ℝ) (a b : ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (hfa : fn_ub f a) (hgb : fn_ub g b) :
-  fn_ub (λ x, f x + g x) (a + b) :=
-begin
-  intro x,
-  dsimp,
-  apply add_le_add,
-  apply hfa,
+example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x => f x + g x) (a + b) :=
+  by
+  intro x
+  dsimp
+  apply add_le_add
+  apply hfa
   apply hgb
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
@@ -216,50 +222,40 @@ of ``fn_ub`` in the hypotheses.
 Try carrying out similar proofs of these:
 TEXT. -/
 -- QUOTE:
-example (hfa : fn_lb f a) (hgb : fn_lb g b) :
-  fn_lb (λ x, f x + g x) (a + b) :=
-sorry
+example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) :=
+  sorry
 
-example (nnf : fn_lb f 0) (nng : fn_lb g 0) :
-  fn_lb (λ x, f x * g x) 0 :=
-sorry
+example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 :=
+  sorry
 
-example (hfa : fn_ub f a) (hfb : fn_ub g b)
-    (nng : fn_lb g 0) (nna : 0 ≤ a) :
-  fn_ub (λ x, f x * g x) (a * b) :=
-sorry
+example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
+    FnUb (fun x => f x * g x) (a * b) :=
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (hfa : fn_lb f a) (hgb : fn_lb g b) :
-  fn_lb (λ x, f x + g x) (a + b) :=
-begin
-  intro x,
-  apply add_le_add,
-  apply hfa,
+example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) :=
+  by
+  intro x
+  apply add_le_add
+  apply hfa
   apply hgb
-end
 
-example (nnf : fn_lb f 0) (nng : fn_lb g 0) :
-  fn_lb (λ x, f x * g x) 0 :=
-begin
-  intro x,
-  apply mul_nonneg,
-  apply nnf,
+example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 :=
+  by
+  intro x
+  apply mul_nonneg
+  apply nnf
   apply nng
-end
 
-example (hfa : fn_ub f a) (hfb : fn_ub g b)
-    (nng : fn_lb g 0) (nna : 0 ≤ a) :
-  fn_ub (λ x, f x * g x) (a * b) :=
-begin
-  intro x,
-  apply mul_le_mul,
-  apply hfa,
-  apply hfb,
-  apply nng,
+example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
+    FnUb (fun x => f x * g x) (a * b) := by
+  intro x
+  apply mul_le_mul
+  apply hfa
+  apply hfb
+  apply nng
   apply nna
-end
 
 -- BOTH:
 end
@@ -280,17 +276,18 @@ So if we prove the theorem ``fn_ub_add`` at that level of generality,
 it will apply in all these instances.
 TEXT. -/
 section
+
 -- QUOTE:
-variables {α : Type*} {R : Type*} [ordered_cancel_add_comm_monoid R]
+variable {α : Type _} {R : Type _} [OrderedCancelAddCommMonoid R]
 
 #check @add_le_add
 
-def fn_ub' (f : α → R) (a : R) : Prop := ∀ x, f x ≤ a
+def FnUb' (f : α → R) (a : R) : Prop :=
+  ∀ x, f x ≤ a
 
-theorem fn_ub_add {f g : α → R} {a b : R}
-    (hfa : fn_ub' f a) (hgb : fn_ub' g b) :
-  fn_ub' (λ x, f x + g x) (a + b) :=
-λ x, add_le_add (hfa x) (hgb x)
+theorem fn_ub_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) :
+    FnUb' (fun x => f x + g x) (a + b) := fun x => add_le_add (hfa x) (hgb x)
+
 -- QUOTE.
 end
 
@@ -310,11 +307,16 @@ mathlib defines a predicate ``monotone``,
 which says that a function is nondecreasing in its arguments:
 TEXT. -/
 -- QUOTE:
-example (f : ℝ → ℝ) (h : monotone f) :
-  ∀ {a b}, a ≤ b → f a ≤ f b := h
--- QUOTE.
+example (f : ℝ → ℝ) (h : Monotone f) : ∀ {a b}, a ≤ b → f a ≤ f b :=
+  @h
 
+-- QUOTE.
 /- TEXT:
+The property ``Monotone f`` is defined to be exactly the expression
+after the colon. We need to put the ``@`` symbol before ``h`` because
+if we don't,
+Lean expands the implicit arguments to ``h`` and inserts placeholders.
+
 Proving statements about monotonicity
 involves using ``intros`` to introduce two variables,
 say, ``a`` and ``b``, and the hypothesis ``a ≤ b``.
@@ -326,28 +328,26 @@ work backwards by displaying the remaining hypotheses
 as new subgoals.
 BOTH: -/
 section
-variables (f g : ℝ → ℝ)
+
+variable (f g : ℝ → ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (mf : monotone f) (mg : monotone g) :
-  monotone (λ x, f x + g x) :=
-begin
-  intros a b aleb,
-  apply add_le_add,
-  apply mf aleb,
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x := by
+  intro a b aleb
+  apply add_le_add
+  apply mf aleb
   apply mg aleb
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 When a proof is this short, it is often convenient
 to give a proof term instead.
 To describe a proof that temporarily introduces objects
 ``a`` and ``b`` and a hypothesis ``aleb``,
-Lean uses the notation ``λ a b aleb, ...``.
-This is analogous to the way that a lambda abstraction
-like ``λ x, x^2`` describes a function
+Lean uses the notation ``fun a b aleb => ...``.
+This is analogous to the way that an expression
+like ``fun x => x^2`` describes a function
 by temporarily naming an object, ``x``,
 and then using it to describe a value.
 So the ``intros`` command in the previous proof
@@ -356,14 +356,13 @@ The ``apply`` commands then correspond to building
 the application of the theorem to its arguments.
 TEXT. -/
 -- QUOTE:
-example (mf : monotone f) (mg : monotone g) :
-  monotone (λ x, f x + g x) :=
-λ a b aleb, add_le_add (mf aleb) (mg aleb)
--- QUOTE.
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x :=
+  fun a b aleb => add_le_add (mf aleb) (mg aleb)
 
+-- QUOTE.
 /- TEXT:
 Here is a useful trick: if you start writing
-the proof term ``λ a b aleb, _`` using
+the proof term ``fun a b aleb => _`` using
 an underscore where the rest of the
 expression should go,
 Lean will flag an error,
@@ -376,40 +375,30 @@ expression has to solve.
 Try proving these, with either tactics or proof terms:
 TEXT. -/
 -- QUOTE:
-example {c : ℝ} (mf : monotone f) (nnc : 0 ≤ c) :
-  monotone (λ x, c * f x) :=
-sorry
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x :=
+  sorry
 
-example (mf : monotone f) (mg : monotone g) :
-  monotone (λ x, f (g x)) :=
-sorry
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) :=
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example {c : ℝ} (mf : monotone f) (nnc : 0 ≤ c) :
-  monotone (λ x, c * f x) :=
-begin
-  intros a b aleb,
-  apply mul_le_mul_of_nonneg_left _ nnc,
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x := by
+  intro a b aleb
+  apply mul_le_mul_of_nonneg_left _ nnc
   apply mf aleb
-end
 
-example {c : ℝ} (mf : monotone f) (nnc : 0 ≤ c) :
-  monotone (λ x, c * f x) :=
-λ a b aleb, mul_le_mul_of_nonneg_left (mf aleb) nnc
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x :=
+  fun a b aleb => mul_le_mul_of_nonneg_left (mf aleb) nnc
 
-example (mf : monotone f) (mg : monotone g) :
-  monotone (λ x, f (g x)) :=
-begin
-  intros a b aleb,
-  apply mf,
-  apply mg,
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) := by
+  intro a b aleb
+  apply mf
+  apply mg
   apply aleb
-end
 
-example (mf : monotone f) (mg : monotone g) :
-  monotone (λ x, f (g x)) :=
-λ a b aleb, mf (mg aleb)
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) :=
+  fun a b aleb => mf (mg aleb)
 
 /- TEXT:
 Here are some more examples.
@@ -423,50 +412,47 @@ You can complete the proofs of the others.
 TEXT. -/
 -- QUOTE:
 -- BOTH:
-def fn_even (f : ℝ → ℝ) : Prop := ∀ x, f x = f (-x)
-def fn_odd (f : ℝ → ℝ) : Prop := ∀ x, f x = - f (-x)
+def FnEven (f : ℝ → ℝ) : Prop :=
+  ∀ x, f x = f (-x)
+
+def FnOdd (f : ℝ → ℝ) : Prop :=
+  ∀ x, f x = -f (-x)
 
 -- EXAMPLES:
-example (ef : fn_even f) (eg : fn_even g) : fn_even (λ x, f x + g x) :=
-begin
-  intro x,
+example (ef : FnEven f) (eg : FnEven g) : FnEven fun x => f x + g x := by
+  intro x
   calc
-    (λ x, f x + g x) x = f x + g x       : rfl
-                    ... = f (-x) + g (-x) : by rw [ef, eg]
-end
+    (fun x => f x + g x) x = f x + g x := rfl
+    _ = f (-x) + g (-x) := by rw [ef, eg]
 
-example (of : fn_odd f) (og : fn_odd g) : fn_even (λ x, f x * g x) :=
-sorry
 
-example (ef : fn_even f) (og : fn_odd g) : fn_odd (λ x, f x * g x) :=
-sorry
+example (of : FnOdd f) (og : FnOdd g) : FnEven fun x => f x * g x := by
+  sorry
 
-example (ef : fn_even f) (og : fn_odd g) : fn_even (λ x, f (g x)) :=
-sorry
+example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x => f x * g x := by
+  sorry
+
+example (ef : FnEven f) (og : FnOdd g) : FnEven fun x => f (g x) := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (of : fn_odd f) (og : fn_odd g) : fn_even (λ x, f x * g x) :=
-begin
-  intro x,
+example (of : FnOdd f) (og : FnOdd g) : FnEven fun x => f x * g x := by
+  intro x
   calc
-    (λ x, f x * g x) x = f x * g x          : rfl
-                    ... = f (- x) * g (- x) : by rw [of, og, neg_mul_neg]
-end
+    (fun x => f x * g x) x = f x * g x := rfl
+    _ = f (-x) * g (-x) := by rw [of, og, neg_mul_neg]
 
-example (ef : fn_even f) (og : fn_odd g) : fn_odd (λ x, f x * g x) :=
-begin
-  intro x,
-  dsimp,
+
+example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x => f x * g x := by
+  intro x
+  dsimp
   rw [ef, og, neg_mul_eq_mul_neg]
-end
 
-example (ef : fn_even f) (og : fn_odd g) : fn_even (λ x, f (g x)) :=
-begin
-  intro x,
-  dsimp,
-  rw [og, ←ef]
-end
+example (ef : FnEven f) (og : FnOdd g) : FnEven fun x => f (g x) := by
+  intro x
+  dsimp
+  rw [og, ← ef]
 
 -- BOTH:
 end
@@ -491,9 +477,9 @@ Mathlib includes a good library for rudimentary set theory.
 Lean's logical foundation imposes the restriction that when
 we talk about sets, we are always talking about sets of
 elements of some type. If ``x`` has type ``α`` and ``s`` has
-type ``set α``, then ``x ∈ s`` is a proposition that
+type ``Set α``, then ``x ∈ s`` is a proposition that
 asserts that ``x`` is an element of ``s``.
-If ``s`` and ``t`` are of type ``set α``,
+If ``s`` and ``t`` are of type ``Set α``,
 then the subset relation ``s ⊆ t`` is defined to mean
 ``∀ {x : α}, x ∈ s → x ∈ t``.
 The variable in the quantifier is marked implicit so that
@@ -505,37 +491,37 @@ and asks you to do the same for transitivity.
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {α : Type*} (r s t : set α)
+variable {α : Type _} (r s t : Set α)
 
 -- EXAMPLES:
-example : s ⊆ s :=
-by { intros x xs, exact xs }
+example : s ⊆ s := by
+  intro x xs
+  exact xs
 
-theorem subset.refl : s ⊆ s := λ x xs, xs
+theorem Subset.refl : s ⊆ s := fun x xs => xs
 
-theorem subset.trans : r ⊆ s → s ⊆ t → r ⊆ t :=
-sorry
+theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example : r ⊆ s → s ⊆ t → r ⊆ t :=
-begin
-  intros rsubs ssubt x xr,
-  apply ssubt,
-  apply rsubs,
+example : r ⊆ s → s ⊆ t → r ⊆ t := by
+  intro rsubs ssubt x xr
+  apply ssubt
+  apply rsubs
   apply xr
-end
 
-theorem subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
-λ rsubs ssubt x xr, ssubt (rsubs xr)
+theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
+  fun rsubs ssubt x xr => ssubt (rsubs xr)
 
 -- BOTH:
 end
 
 /- TEXT:
-Just as we defined ``fn_ub`` for functions,
-we can define ``set_ub s a`` to mean that ``a``
+Just as we defined ``FnUb`` for functions,
+we can define ``SetUb s a`` to mean that ``a``
 is an upper bound on the set ``s``,
 assuming ``s`` is a set of elements of some type that
 has an order associated with it.
@@ -547,25 +533,25 @@ TEXT. -/
 section
 
 -- QUOTE:
-variables {α : Type*} [partial_order α]
-variables (s : set α) (a b : α)
+variable {α : Type _} [PartialOrder α]
 
-def set_ub (s : set α) (a : α) := ∀ x, x ∈ s → x ≤ a
+variable (s : Set α) (a b : α)
+
+def SetUb (s : Set α) (a : α) :=
+  ∀ x, x ∈ s → x ≤ a
 
 -- EXAMPLES:
-example (h : set_ub s a) (h' : a ≤ b) : set_ub s b :=
-sorry
+example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : set_ub s a) (h' : a ≤ b) : set_ub s b :=
-begin
-  intros x xs,
+example (h : SetUb s a) (h' : a ≤ b) : SetUb s b := by
+  intro x xs
   apply le_trans (h x xs) h'
-end
 
-example (h : set_ub s a) (h' : a ≤ b) : set_ub s b :=
-λ x xs, le_trans (h x xs) h'
+example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
+  fun x xs => le_trans (h x xs) h'
 
 -- BOTH:
 end
@@ -586,49 +572,44 @@ constant is also injective.
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-open function
+open Function
 
 -- EXAMPLES:
-example (c : ℝ) : injective (λ x, x + c) :=
-begin
-  intros x₁ x₂ h',
-  exact (add_left_inj c).mp h',
-end
+example (c : ℝ) : Injective fun x => x + c := by
+  intro x₁ x₂ h'
+  exact (add_left_inj c).mp h'
 
-example {c : ℝ} (h : c ≠ 0) : injective (λ x, c * x) :=
-sorry
+example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example {c : ℝ} (h : c ≠ 0) : injective (λ x, c * x) :=
-begin
-  intros x₁ x₂ h',
+example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
+  intro x₁ x₂ h'
   apply (mul_right_inj' h).mp h'
-end
 
 /- TEXT:
 Finally, show that the composition of two injective functions is injective:
 BOTH: -/
 -- QUOTE:
-variables {α : Type*} {β : Type*} {γ : Type*}
-variables {g : β → γ} {f : α → β}
+variable {α : Type _} {β : Type _} {γ : Type _}
+
+variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
-example (injg : injective g) (injf : injective f) :
-  injective (λ x, g (f x)) :=
-sorry
--- QUOTE.
+example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (injg : injective g) (injf : injective f) :
-  injective (λ x, g (f x)) :=
-begin
-  intros x₁ x₂ h,
-  apply injf,
-  apply injg,
+example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
+  intro x₁ x₂ h
+  apply injf
+  apply injg
   apply h
-end
 
 -- BOTH:
 end
+

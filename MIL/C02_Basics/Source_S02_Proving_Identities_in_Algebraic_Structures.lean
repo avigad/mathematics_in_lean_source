@@ -1,7 +1,7 @@
 -- BOTH:
-import algebra.ring.defs
-import data.real.basic
-import tactic
+import Mathlib.Algebra.Ring.Defs
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
 
 /- TEXT:
 .. _proving_identities_in_algebraic_structures:
@@ -23,19 +23,49 @@ and :math:`1`, and an operation :math:`x \mapsto -x` such that:
 In Lean, the collection of objects is represented as a *type*, ``R``.
 The ring axioms are as follows:
 TEXT. -/
+/- TEXT:
+.. _proving_identities_in_algebraic_structures:
+
+Proving Identities in Algebraic Structures
+------------------------------------------
+
+.. index:: ring (algebraic structure)
+
+Mathematically, a ring consists of a collection of objects,
+:math:`R`, operations :math:`+` :math:`\times`, and constants :math:`0`
+and :math:`1`, and an operation :math:`x \mapsto -x` such that:
+
+* :math:`R` with :math:`+` is an *abelian group*, with :math:`0`
+  as the additive identity and negation as inverse.
+* Multiplication is associative with identity :math:`1`,
+  and multiplication distributes over addition.
+
+In Lean, the collection of objects is represented as a *type*, ``R``.
+The ring axioms are as follows:
+TEXT. -/
 section
+
 -- QUOTE:
-variables (R : Type*) [ring R]
+variable (R : Type _) [Ring R]
 
 #check (add_assoc : ∀ a b c : R, a + b + c = a + (b + c))
+
 #check (add_comm : ∀ a b : R, a + b = b + a)
+
 #check (zero_add : ∀ a : R, 0 + a = a)
+
 #check (add_left_neg : ∀ a : R, -a + a = 0)
+
 #check (mul_assoc : ∀ a b c : R, a * b * c = a * (b * c))
+
 #check (mul_one : ∀ a : R, a * 1 = a)
+
 #check (one_mul : ∀ a : R, 1 * a = a)
+
 #check (mul_add : ∀ a b c : R, a * (b + c) = a * b + a * c)
+
 #check (add_mul : ∀ a b c : R, (a + b) * c = a * c + b * c)
+
 -- QUOTE.
 end
 
@@ -80,30 +110,32 @@ in the last section continue to hold when we replace
 ``ℝ`` by ``R``.
 TEXT. -/
 section
+
 -- QUOTE:
-variables (R : Type*) [comm_ring R]
-variables a b c d : R
+variable (R : Type _) [CommRing R]
 
-example : (c * b) * a = b * (a * c) :=
-by ring
+variable (a b c d : R)
 
-example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-by ring
+example : c * b * a = b * (a * c) := by ring
 
-example : (a + b) * (a - b) = a^2 - b^2 :=
-by ring
+example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by ring
 
-example (hyp : c = d * a + b) (hyp' : b = a * d) :
-  c = 2 * a * d :=
-begin
-  rw [hyp, hyp'],
+example : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by ring
+
+example (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
+  rw [hyp, hyp']
   ring
-end
+
 -- QUOTE.
 end
 
 /- TEXT:
 We leave it to you to check that all the other proofs go through unchanged.
+Notice that when a proof is short, like ``by ring`` or ``by linarith``
+or ``by sorry``,
+it is common (and permissible) to put it on the same line as
+the ``by``.
+Good proof-writing style should strike a balance between concision and readability.
 
 The goal of this section is to strengthen the skills
 you have developed in the last section
@@ -131,21 +163,21 @@ The next example shows that we do not need ``add_zero`` or ``add_right_neg``
 as ring axioms, because they follow from the other axioms.
 TEXT. -/
 -- QUOTE:
-namespace my_ring
-variables {R : Type*} [ring R]
+namespace MyRing
 
-theorem add_zero (a : R) : a + 0 = a :=
-by rw [add_comm, zero_add]
+variable {R : Type _} [Ring R]
 
-theorem add_right_neg (a : R) : a + -a = 0 :=
-by rw [add_comm, add_left_neg]
+theorem add_zero (a : R) : a + 0 = a := by rw [add_comm, zero_add]
 
-#check @my_ring.add_zero
+theorem add_right_neg (a : R) : a + -a = 0 := by rw [add_comm, add_left_neg]
+
+#check @MyRing.add_zero
+
 #check @add_zero
 
-end my_ring
--- QUOTE.
+end MyRing
 
+-- QUOTE.
 /- TEXT:
 The net effect is that we can temporarily reprove a theorem in the library,
 and then go on using the library version after that.
@@ -154,8 +186,8 @@ In the exercises that follow, take care to use only the
 general facts about rings that we have proved earlier in this section.
 
 (If you are paying careful attention, you may have noticed that we
-changed the round brackets in ``(R : Type*)`` for
-curly brackets in ``{R : Type*}``.
+changed the round brackets in ``(R : Type _)`` for
+curly brackets in ``{R : Type _}``.
 This declares ``R`` to be an *implicit argument*.
 We will explain what this means in a moment,
 but don't worry about it in the meanwhile.)
@@ -163,46 +195,46 @@ but don't worry about it in the meanwhile.)
 Here is a useful theorem:
 TEXT. -/
 -- BOTH:
-namespace my_ring
-variables {R : Type*} [ring R]
+namespace MyRing
+
+variable {R : Type _} [Ring R]
 
 -- EXAMPLES:
 -- QUOTE:
-theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b :=
-by rw [←add_assoc, add_left_neg, zero_add]
--- QUOTE.
+theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b := by
+  rw [← add_assoc, add_left_neg, zero_add]
 
+-- QUOTE.
 /- TEXT:
 Prove the companion version:
 TEXT. -/
-/- Prove these: -/
-
+-- Prove these:
 -- QUOTE:
-theorem add_neg_cancel_right (a b : R) : (a + b) + -b = a :=
-sorry
--- QUOTE.
+theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-theorem add_neg_cancel_rightαα (a b : R) : (a + b) + -b = a :=
-by rw [add_assoc, add_right_neg, add_zero]
+theorem add_neg_cancel_rightαα (a b : R) : a + b + -b = a := by
+  rw [add_assoc, add_right_neg, add_zero]
 
 /- TEXT:
 Use these to prove the following:
 TEXT. -/
 -- QUOTE:
-theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c :=
-sorry
+theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c := by
+  sorry
 
-theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c :=
-sorry
+theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem add_left_cancelαα {a b c : R} (h : a + b = a + c) : b = c :=
-by rw [←neg_add_cancel_left a b, h, neg_add_cancel_left]
+theorem add_left_cancelαα {a b c : R} (h : a + b = a + c) : b = c := by
+  rw [← neg_add_cancel_left a b, h, neg_add_cancel_left]
 
-theorem add_right_cancelαα {a b c : R} (h : a + b = c + b) : a = c :=
-by rw [←add_neg_cancel_right a b, h, add_neg_cancel_right]
+theorem add_right_cancelαα {a b c : R} (h : a + b = c + b) : a = c := by
+  rw [← add_neg_cancel_right a b, h, add_neg_cancel_right]
 
 /- TEXT:
 With enough planning, you can do each of them with three rewrites.
@@ -236,14 +268,12 @@ To illustrate, let us show that ``a * 0 = 0``
 follows from the ring axioms.
 TEXT. -/
 -- QUOTE:
-theorem mul_zero (a : R) : a * 0 = 0 :=
-begin
-  have h : a * 0 + a * 0 = a * 0 + 0,
-  { rw [←mul_add, add_zero, add_zero] },
-  rw add_left_cancel h
-end
--- QUOTE.
+theorem mul_zero (a : R) : a * 0 = 0 := by
+  have h : a * 0 + a * 0 = a * 0 + 0 := by
+    rw [← mul_add, add_zero, add_zero]
+  rw [add_left_cancel h]
 
+-- QUOTE.
 /- TEXT:
 .. index:: have, tactics ; have
 
@@ -253,10 +283,11 @@ you can see what is going on.
 The ``have`` tactic introduces a new goal,
 ``a * 0 + a * 0 = a * 0 + 0``,
 with the same context as the original goal.
-In the next line, we could have omitted the curly brackets,
-which serve as an inner ``begin ... end`` pair.
-Using them promotes a modular style of proof:
-the part of the proof inside the brackets establishes the goal
+The fact that the next line is indented indicates that Lean
+is expecting a block of tactics that serves to prove this
+new goal.
+The indentation therefore promotes a modular style of proof:
+the indented subproof establishes the goal
 that was introduced by the ``have``.
 After that, we are back to proving the original goal,
 except a new hypothesis ``h`` has been added:
@@ -269,17 +300,14 @@ Remember that multiplication is not assumed to be commutative,
 so the following theorem also requires some work.
 TEXT. -/
 -- QUOTE:
-theorem zero_mul (a : R) : 0 * a = 0 :=
-sorry
--- QUOTE.
+theorem zero_mul (a : R) : 0 * a = 0 := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-theorem zero_mulαα (a : R) : 0 * a = 0 :=
-begin
-  have h : 0 * a + 0 * a = 0 * a + 0,
-  { rw [←add_mul, add_zero, add_zero] },
-  rw add_left_cancel h
-end
+theorem zero_mulαα (a : R) : 0 * a = 0 := by
+  have h : 0 * a + 0 * a = 0 * a + 0 := by rw [← add_mul, add_zero, add_zero]
+  rw [add_left_cancel h]
 
 /- TEXT:
 By now, you should also be able replace each ``sorry`` in the next
@@ -288,47 +316,39 @@ still using only facts about rings that we have
 established in this section.
 TEXT. -/
 -- QUOTE:
-theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b :=
-sorry
+theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
+  sorry
 
-theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b :=
-sorry
+theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b := by
+  sorry
 
-theorem neg_zero : (-0 : R) = 0 :=
-begin
-  apply neg_eq_of_add_eq_zero,
-  rw add_zero
-end
+theorem neg_zero : (-0 : R) = 0 := by
+  apply neg_eq_of_add_eq_zero
+  rw [add_zero]
 
-theorem neg_neg (a : R) : -(-a) = a :=
-sorry
+theorem neg_neg (a : R) : - -a = a := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem neg_eq_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : -a = b :=
-by rw [←neg_add_cancel_left a b, h, add_zero]
+theorem neg_eq_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : -a = b := by
+  rw [← neg_add_cancel_left a b, h, add_zero]
 
-theorem eq_neg_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : a = -b :=
-begin
-  symmetry,
-  apply neg_eq_of_add_eq_zero,
+theorem eq_neg_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : a = -b := by
+  symm
+  apply neg_eq_of_add_eq_zero
   rw [add_comm, h]
-end
 
-theorem neg_zeroαα : (-0 : R) = 0 :=
-begin
-  apply neg_eq_of_add_eq_zero,
-  rw add_zero
-end
+theorem neg_zeroαα : (-0 : R) = 0 := by
+  apply neg_eq_of_add_eq_zero
+  rw [add_zero]
 
-theorem neg_negαα (a : R) : -(-a) = a :=
-begin
-  apply neg_eq_of_add_eq_zero,
-  rw add_left_neg
-end
+theorem neg_negαα (a : R) : - -a = a := by
+  apply neg_eq_of_add_eq_zero
+  rw [add_left_neg]
 
 -- BOTH:
-end my_ring
+end MyRing
 
 /- TEXT:
 We had to use the annotation ``(-0 : R)`` instead of ``0`` in the third theorem
@@ -339,16 +359,16 @@ and by default it would be interpreted as a natural number.
 In Lean, subtraction in a ring is provably equal to
 addition of the additive inverse.
 TEXT. -/
-/- Examples. -/
-
+-- Examples.
 section
-variables {R : Type*} [ring R]
+
+variable {R : Type _} [Ring R]
 
 -- QUOTE:
 example (a b : R) : a - b = a + -b :=
-sub_eq_add_neg a b
--- QUOTE.
+  sub_eq_add_neg a b
 
+-- QUOTE.
 end
 
 /- TEXT:
@@ -356,12 +376,12 @@ On the real numbers, it is *defined* that way:
 TEXT. -/
 -- QUOTE:
 example (a b : ℝ) : a - b = a + -b :=
-rfl
+  rfl
 
-example (a b : ℝ) : a - b = a + -b :=
-by reflexivity
+example (a b : ℝ) : a - b = a + -b := by
+  rfl
+
 -- QUOTE.
-
 /- TEXT:
 .. index:: rfl, reflexivity, tactics ; refl and reflexivity, definitional equality
 
@@ -380,19 +400,19 @@ For example, you now have enough information to prove the theorem
 ``self_sub`` from the last section:
 TEXT. -/
 -- BOTH:
-namespace my_ring
+namespace MyRing
 
-variables {R : Type*} [ring R]
+variable {R : Type _} [Ring R]
 
 -- EXAMPLES:
 -- QUOTE:
 theorem self_sub (a : R) : a - a = 0 :=
-sorry
--- QUOTE.
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-theorem self_subαα (a : R) : a - a = 0 :=
-by rw [sub_eq_add_neg, add_right_neg]
+theorem self_subαα (a : R) : a - a = 0 := by
+  rw [sub_eq_add_neg, add_right_neg]
 
 /- TEXT:
 Show that you can prove this using ``rw``,
@@ -400,29 +420,27 @@ but if you replace the arbitrary ring ``R`` by
 the real numbers, you can also prove it
 using either ``apply`` or ``exact``.
 
-For another example of definitional equality,
 Lean knows that ``1 + 1 = 2`` holds in any ring.
 With a bit of effort,
 you can use that to prove the theorem ``two_mul`` from
 the last section:
 TEXT. -/
 -- QUOTE:
-lemma one_add_one_eq_two : 1 + 1 = (2 : R) :=
-by refl
+-- BOTH:
+theorem one_add_one_eq_two : 1 + 1 = (2 : R) := by
+  norm_num
 
+-- EXAMPLES:
 theorem two_mul (a : R) : 2 * a = a + a :=
-sorry
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-lemma one_add_one_eq_twoαα : 1 + 1 = (2 : R) :=
-by refl
-
-theorem two_mulαα (a : R) : 2 * a = a + a :=
-by rw [←one_add_one_eq_two, add_mul, one_mul]
+theorem two_mulαα (a : R) : 2 * a = a + a := by
+  rw [← one_add_one_eq_two, add_mul, one_mul]
 
 -- BOTH:
-end my_ring
+end MyRing
 
 /- TEXT:
 .. index:: group (algebraic structure)
@@ -434,12 +452,16 @@ commutativity of addition. The weaker notion of a *group*
 can be axiomatized as follows:
 TEXT. -/
 section
+
 -- QUOTE:
-variables (A : Type*) [add_group A]
+variable (A : Type _) [AddGroup A]
 
 #check (add_assoc : ∀ a b c : A, a + b + c = a + (b + c))
+
 #check (zero_add : ∀ a : A, 0 + a = a)
+
 #check (add_left_neg : ∀ a : A, -a + a = 0)
+
 -- QUOTE.
 end
 
@@ -453,15 +475,18 @@ additive version (and also their abelian variants,
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {G : Type*} [group G]
+variable {G : Type _} [Group G]
 
 -- EXAMPLES:
 #check (mul_assoc : ∀ a b c : G, a * b * c = a * (b * c))
-#check (one_mul : ∀ a : G, 1 * a = a)
-#check (mul_left_inv : ∀ a : G, a⁻¹ * a = 1)
--- QUOTE.
 
+#check (one_mul : ∀ a : G, 1 * a = a)
+
+#check (mul_left_inv : ∀ a : G, a⁻¹ * a = 1)
+
+-- QUOTE.
 /- TEXT:
 If you are feeling cocky, try proving the following facts about
 groups, using only these axioms.
@@ -469,37 +494,36 @@ You will need to prove a number of helper lemmas along the way.
 The proofs we have carried out in this section provide some hints.
 TEXT. -/
 -- BOTH:
-namespace my_group
+namespace MyGroup
 
 -- EXAMPLES:
 -- QUOTE:
-theorem mul_right_inv (a : G) : a * a⁻¹ = 1 :=
-sorry
+theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := by
+  sorry
 
-theorem mul_one (a : G) : a * 1 = a :=
-sorry
+theorem mul_one (a : G) : a * 1 = a := by
+  sorry
 
-theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a ⁻¹ :=
-sorry
+theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem mul_right_invαα (a : G) : a * a⁻¹ = 1 :=
-begin
-  have h : (a * a⁻¹)⁻¹ * ((a * a⁻¹) * (a * a⁻¹)) = 1,
-  { rw [mul_assoc, ←mul_assoc a⁻¹ a, mul_left_inv, one_mul, mul_left_inv] },
-  rw [←h, ←mul_assoc, mul_left_inv, one_mul]
-end
+theorem mul_right_invαα (a : G) : a * a⁻¹ = 1 := by
+  have h : (a * a⁻¹)⁻¹ * (a * a⁻¹ * (a * a⁻¹)) = 1 := by
+    rw [mul_assoc, ← mul_assoc a⁻¹ a, mul_left_inv, one_mul, mul_left_inv]
+  rw [← h, ← mul_assoc, mul_left_inv, one_mul]
 
-theorem mul_oneαα (a : G) : a * 1 = a :=
-by rw [←mul_left_inv a, ←mul_assoc, mul_right_inv, one_mul]
+theorem mul_oneαα (a : G) : a * 1 = a := by
+  rw [← mul_left_inv a, ← mul_assoc, mul_right_inv, one_mul]
 
-theorem mul_inv_revαα (a b : G) : (a * b)⁻¹ = b⁻¹ * a ⁻¹ :=
-by rw [←one_mul (b⁻¹ * a⁻¹), ←mul_left_inv (a * b), mul_assoc, mul_assoc,
-        ←mul_assoc b b⁻¹, mul_right_inv, one_mul, mul_right_inv, mul_one]
+theorem mul_inv_revαα (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
+  rw [← one_mul (b⁻¹ * a⁻¹), ← mul_left_inv (a * b), mul_assoc, mul_assoc, ← mul_assoc b b⁻¹,
+    mul_right_inv, one_mul, mul_right_inv, mul_one]
 
 -- BOTH:
-end my_group
+end MyGroup
+
 end
 
 /- TEXT:

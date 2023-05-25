@@ -1,5 +1,5 @@
 -- BOTH:
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _negation:
@@ -13,14 +13,14 @@ so ``¬ x < y`` says that ``x`` is not less than ``y``,
 ``x`` is not equal to ``y``,
 and ``¬ ∃ z, x < z ∧ z < y`` says that there does not exist a ``z``
 strictly between ``x`` and ``y``.
-In Lean, the notation ``¬ A`` abbreviates ``A → false``,
+In Lean, the notation ``¬ A`` abbreviates ``A → False``,
 which you can think of as saying that ``A`` implies a contradiction.
 Practically speaking, this means that you already know something
 about how to work with negations:
 you can prove ``¬ A`` by introducing a hypothesis ``h : A``
-and proving ``false``,
+and proving ``False``,
 and if you have ``h : ¬ A`` and ``h' : A``,
-then applying ``h`` to ``h'`` yields ``false``.
+then applying ``h`` to ``h'`` yields ``False``.
 
 To illustrate, consider the irreflexivity principle ``lt_irrefl``
 for a strict order,
@@ -31,19 +31,17 @@ from ``lt_irrefl``.
 TEXT. -/
 -- BOTH:
 section
-variables a b : ℝ
+
+variable (a b : ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (h : a < b) : ¬ b < a :=
-begin
-  intro h',
-  have : a < a,
-    from lt_trans h h',
+example (h : a < b) : ¬b < a := by
+  intro h'
+  have : a < a := lt_trans h h'
   apply lt_irrefl a this
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 .. index:: this, have, tactics ; have, from, tactics ; from
 
@@ -62,98 +60,96 @@ and the fact that we eventually prove ``false``
 by applying ``lt_irrefl`` to a proof of ``a < a``.
 
 Here is another example, which uses the
-predicate ``fn_has_ub`` defined in the last section,
+predicate ``FnHasUb`` defined in the last section,
 which says that a function has an upper bound.
 TEXT. -/
 -- BOTH:
-def fn_ub (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, f x ≤ a
-def fn_lb (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, a ≤ f x
+def FnUb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, f x ≤ a
 
-def fn_has_ub (f : ℝ → ℝ) := ∃ a, fn_ub f a
-def fn_has_lb (f : ℝ → ℝ) := ∃ a, fn_lb f a
+def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, a ≤ f x
 
-variable f : ℝ → ℝ
+def FnHasUb (f : ℝ → ℝ) :=
+  ∃ a, FnUb f a
+
+def FnHasLb (f : ℝ → ℝ) :=
+  ∃ a, FnLb f a
+
+variable (f : ℝ → ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (h : ∀ a, ∃ x, f x > a) : ¬ fn_has_ub f :=
-begin
-  intros fnub,
-  cases fnub with a fnuba,
-  cases h a with x hx,
-  have : f x ≤ a,
-    from fnuba x,
+example (h : ∀ a, ∃ x, f x > a) : ¬FnHasUb f := by
+  intro fnub
+  cases' fnub with a fnuba
+  cases' h a with x hx
+  have : f x ≤ a := fnuba x
   linarith
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 See if you can prove these in a similar way:
 TEXT. -/
 -- QUOTE:
-example (h : ∀ a, ∃ x, f x < a) : ¬ fn_has_lb f :=
-sorry
+example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f :=
+  sorry
 
-example : ¬ fn_has_ub (λ x, x) :=
-sorry
+example : ¬FnHasUb fun x => x :=
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : ∀ a, ∃ x, f x < a) : ¬ fn_has_lb f :=
-begin
-  rintros ⟨a, ha⟩,
-  rcases h a with ⟨x, hx⟩,
-  have := ha x,
+example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f := by
+  rintro ⟨a, ha⟩
+  rcases h a with ⟨x, hx⟩
+  have := ha x
   linarith
-end
 
-example : ¬ fn_has_ub (λ x, x) :=
-begin
-  rintros ⟨a, ha⟩,
-  have : a + 1 ≤ a := ha (a + 1),
+example : ¬FnHasUb fun x => x := by
+  rintro ⟨a, ha⟩
+  have : a + 1 ≤ a := ha (a + 1)
   linarith
-end
 
 /- TEXT:
 Mathlib offers a number of useful theorems for relating orders
 and negations:
 TEXT. -/
 -- QUOTE:
-#check (not_le_of_gt : a > b → ¬ a ≤ b)
-#check (not_lt_of_ge : a ≥ b → ¬ a < b)
-#check (lt_of_not_ge : ¬ a ≥ b → a < b)
-#check (le_of_not_gt : ¬ a > b → a ≤ b)
--- QUOTE.
+#check (not_le_of_gt : a > b → ¬a ≤ b)
 
+#check (not_lt_of_ge : a ≥ b → ¬a < b)
+
+#check (lt_of_not_ge : ¬a ≥ b → a < b)
+
+#check (le_of_not_gt : ¬a > b → a ≤ b)
+
+-- QUOTE.
 /- TEXT:
-Recall the predicate ``monotone f``,
+Recall the predicate ``Monotone f``,
 which says that ``f`` is nondecreasing.
 Use some of the theorems just enumerated to prove the following:
 TEXT. -/
 -- QUOTE:
-example (h : monotone f) (h' : f a < f b) : a < b :=
-sorry
+example (h : Monotone f) (h' : f a < f b) : a < b := by
+  sorry
 
-example (h : a ≤ b) (h' : f b < f a) : ¬ monotone f :=
-sorry
+example (h : a ≤ b) (h' : f b < f a) : ¬Monotone f := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : monotone f) (h' : f a < f b) : a < b :=
-begin
-  apply lt_of_not_ge,
-  intro h'',
-  apply absurd h',
+example (h : Monotone f) (h' : f a < f b) : a < b := by
+  apply lt_of_not_ge
+  intro h''
+  apply absurd h'
   apply not_lt_of_ge (h h'')
-end
 
-example (h : a ≤ b) (h' : f b < f a) : ¬ monotone f :=
-begin
-  intro h'',
-  apply absurd h',
-  apply not_lt_of_ge,
+example (h : a ≤ b) (h' : f b < f a) : ¬Monotone f := by
+  intro h''
+  apply absurd h'
+  apply not_lt_of_ge
   apply h'' h
-end
 
 /- TEXT:
 Remember that it is often convenient to use ``linarith``
@@ -167,33 +163,24 @@ quantified statement by giving a counterexample.
 Complete the proof.
 TEXT. -/
 -- QUOTE:
-example :
-  ¬ ∀ {f : ℝ → ℝ}, monotone f → ∀ {a b}, f a ≤ f b → a ≤ b :=
-begin
-  intro h,
-  let f := λ x : ℝ, (0 : ℝ),
-  have monof : monotone f,
-  { sorry },
-  have h' : f 1 ≤ f 0,
-    from le_refl _,
+example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a ≤ b := by
+  intro h
+  let f := fun x : ℝ => (0 : ℝ)
+  have monof : Monotone f := by sorry
+  have h' : f 1 ≤ f 0 := le_refl _
   sorry
-end
--- QUOTE.
 
+-- QUOTE.
 -- SOLUTIONS:
-example :
-  ¬ ∀ {f : ℝ → ℝ}, monotone f → ∀ {a b}, f a ≤ f b → a ≤ b :=
-begin
-  intro h,
-  let f := λ x : ℝ, (0 : ℝ),
-  have monof : monotone f,
-  { intros a b leab,
-    refl },
-  have h' : f 1 ≤ f 0,
-    from le_refl _,
-  have : (1 : ℝ) ≤ 0 := h monof h',
+example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a ≤ b := by
+  intro h
+  let f := fun x : ℝ => (0 : ℝ)
+  have monof : Monotone f := by
+    intro a b leab
+    rfl
+  have h' : f 1 ≤ f 0 := le_refl _
+  have : (1 : ℝ) ≤ 0 := h monof h'
   linarith
-end
 
 /- TEXT:
 .. index:: let, tactics ; let
@@ -202,7 +189,7 @@ This example introduces the ``let`` tactic,
 which adds a *local definition* to the context.
 If you put the cursor after the ``let`` command,
 in the goal window you will see that the definition
-``f : ℝ → ℝ := λ (x : ℝ), 0`` has been added to the context.
+``f : ℝ → ℝ := fun x => 0`` has been added to the context.
 Lean will unfold the definition of ``f`` when it has to.
 In particular, when we prove ``f 1 ≤ f 0`` with ``le_refl``,
 Lean reduces ``f 1`` and ``f 0`` to ``0``.
@@ -210,17 +197,15 @@ Lean reduces ``f 1`` and ``f 0`` to ``0``.
 Use ``le_of_not_gt`` to prove the following:
 TEXT. -/
 -- QUOTE:
-example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 :=
-sorry
--- QUOTE.
+example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 :=
-begin
-  apply le_of_not_gt,
-  intro h',
+example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 := by
+  apply le_of_not_gt
+  intro h'
   linarith [h _ h']
-end
 
 -- BOTH:
 end
@@ -239,45 +224,40 @@ far):
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {α : Type*} (P : α → Prop) (Q : Prop)
+variable {α : Type _} (P : α → Prop) (Q : Prop)
 
 -- EXAMPLES:
-example (h : ¬ ∃ x, P x) : ∀ x, ¬ P x :=
-sorry
+example (h : ¬∃ x, P x) : ∀ x, ¬P x := by
+  sorry
 
-example (h : ∀ x, ¬ P x) : ¬ ∃ x, P x :=
-sorry
+example (h : ∀ x, ¬P x) : ¬∃ x, P x := by
+  sorry
 
-example (h : ¬ ∀ x, P x) : ∃ x, ¬ P x :=
-sorry
+example (h : ¬∀ x, P x) : ∃ x, ¬P x := by
+  sorry
 
-example (h : ∃ x, ¬ P x) : ¬ ∀ x, P x :=
-sorry
+example (h : ∃ x, ¬P x) : ¬∀ x, P x := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : ¬ ∃ x, P x) : ∀ x, ¬ P x :=
-begin
-  intros x Px,
-  apply h,
-  use [x, Px]
-end
+example (h : ¬∃ x, P x) : ∀ x, ¬P x := by
+  intro x Px
+  apply h
+  use x
+  exact Px
 
-example (h : ∀ x, ¬ P x) : ¬ ∃ x, P x :=
-begin
-  rintros ⟨x, Px⟩,
+example (h : ∀ x, ¬P x) : ¬∃ x, P x := by
+  rintro ⟨x, Px⟩
   exact h x Px
-end
 
-example (h : ∃ x, ¬ P x) : ¬ ∀ x, P x :=
-begin
-  intro h',
-  rcases h with ⟨x, nPx⟩,
-  apply nPx,
+example (h : ∃ x, ¬P x) : ¬∀ x, P x := by
+  intro h'
+  rcases h with ⟨x, nPx⟩
+  apply nPx
   apply h'
-end
-
 
 /- TEXT:
 The first, second, and fourth are straightforward to
@@ -286,61 +266,50 @@ We encourage you to try it.
 The third is more difficult, however,
 because it concludes that an object exists
 from the fact that its nonexistence is contradictory.
-This is an instance of *classical* mathematical reasoning,
-and, in general, you have to declare your intention
-of using such reasoning by adding the command
-``open_locale classical`` to your file.
-With that command, we can use proof by contradiction
+This is an instance of *classical* mathematical reasoning.
+We can use proof by contradiction
 to prove the third implication as follows.
 TEXT. -/
 -- QUOTE:
-open_locale classical
-
-example (h : ¬ ∀ x, P x) : ∃ x, ¬ P x :=
-begin
-  by_contradiction h',
-  apply h,
-  intro x,
-  show P x,
-  by_contradiction h'',
+example (h : ¬∀ x, P x) : ∃ x, ¬P x := by
+  by_contra h'
+  apply h
+  intro x
+  show P x
+  by_contra h''
   exact h' ⟨x, h''⟩
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
-.. index:: by_contradiction, by_contra, tactics ; by_contra and by_contradiction,
+.. index:: by_contra, tactics ; by_contra and by_contradiction,
 
 Make sure you understand how this works.
-The ``by_contradiction`` tactic (also abbreviated to ``by_contra``)
+The ``by_contra`` tactic
 allows us to prove a goal ``Q`` by assuming ``¬ Q``
 and deriving a contradiction.
 In fact, it is equivalent to using the
 equivalence ``not_not : ¬ ¬ Q ↔ Q``.
 Confirm that you can prove the forward direction
-of this equivalence using ``by_contradiction``,
+of this equivalence using ``by_contra``,
 while the reverse direction follows from the
 ordinary rules for negation.
 TEXT. -/
 -- QUOTE:
-example (h : ¬ ¬ Q) : Q :=
-sorry
+example (h : ¬¬Q) : Q := by
+  sorry
 
-example (h : Q) : ¬ ¬ Q :=
-sorry
+example (h : Q) : ¬¬Q := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : ¬ ¬ Q) : Q :=
-begin
-  by_contradiction h',
+example (h : ¬¬Q) : Q := by
+  by_contra h'
   exact h h'
-end
 
-example (h : Q) : ¬ ¬ Q :=
-begin
-  intro h',
+example (h : Q) : ¬¬Q := by
+  intro h'
   exact h' h
-end
 
 -- BOTH:
 end
@@ -351,29 +320,28 @@ which is the converse of one of the implications we proved above.
 (Hint: use ``intro`` first.)
 TEXT. -/
 -- BOTH:
-open_locale classical
 section
+
 variable (f : ℝ → ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
-sorry
--- QUOTE.
+example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
-begin
-  intro a,
-  by_contradiction h',
-  apply h,
-  use a,
-  intro x,
-  apply le_of_not_gt,
-  intro h'',
-  apply h',
-  use [x, h'']
-end
+example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
+  intro a
+  by_contra h'
+  apply h
+  use a
+  intro x
+  apply le_of_not_gt
+  intro h''
+  apply h'
+  use x
+  exact h''
 
 /- TEXT:
 .. index:: push_neg, tactics ; push_neg
@@ -388,25 +356,21 @@ which restates the goal in this way.
 The command ``push_neg at h`` restates the hypothesis ``h``.
 TEXT. -/
 -- QUOTE:
-example (h : ¬ ∀ a, ∃ x, f x > a) : fn_has_ub f :=
-begin
-  push_neg at h,
+example (h : ¬∀ a, ∃ x, f x > a) : FnHasUb f := by
+  push_neg at h
   exact h
-end
 
-example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
-begin
-  simp only [fn_has_ub, fn_ub] at h,
-  push_neg at h,
+example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
+  simp only [FnHasUb, FnUb] at h
+  push_neg at h
   exact h
-end
+
 -- QUOTE.
-
 /- TEXT:
 In the second example, we use Lean's simplifier to
 expand the definitions of ``fn_has_ub`` and ``fn_ub``.
 (We need to use ``simp`` rather than ``rw``
-to expand ``fn_ub``,
+to expand ``FnUb``,
 because it appears in the scope of a quantifier.)
 You can verify that in the examples above
 with ``¬ ∃ x, P x`` and ``¬ ∀ x, P x``,
@@ -417,17 +381,15 @@ you should be able to use ``push_neg``
 to prove the following:
 TEXT. -/
 -- QUOTE:
-example (h : ¬ monotone f) : ∃ x y, x ≤ y ∧ f y < f x :=
-sorry
--- QUOTE.
+example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (h : ¬ monotone f) : ∃ x y, x ≤ y ∧ f y < f x :=
-begin
-  rw [monotone] at h,
-  push_neg at h,
+example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
+  rw [Monotone] at h
+  push_neg  at h
   exact h
-end
 
 /- TEXT:
 .. index:: contrapose, tactics ; contrapose
@@ -443,20 +405,16 @@ applies ``push_neg`` to the goal and the relevant
 hypothesis as well.
 TEXT. -/
 -- QUOTE:
-example (h : ¬ fn_has_ub f) : ∀ a, ∃ x, f x > a :=
-begin
-  contrapose! h,
+example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
+  contrapose! h
   exact h
-end
 
-example (x : ℝ) (h : ∀ ε > 0, x ≤ ε) : x ≤ 0 :=
-begin
-  contrapose! h,
-  use x / 2,
-  split; linarith
-end
+example (x : ℝ) (h : ∀ ε > 0, x ≤ ε) : x ≤ 0 := by
+  contrapose! h
+  use x / 2
+  constructor <;> linarith
+
 -- QUOTE.
-
 -- BOTH:
 end
 
@@ -489,26 +447,22 @@ Lean provides a number of ways of closing
 a goal once a contradiction has been reached.
 TEXT. -/
 section
-variable a : ℕ
+
+variable (a : ℕ)
 
 -- QUOTE:
-example (h : 0 < 0) : a > 37 :=
-begin
-  exfalso,
+example (h : 0 < 0) : a > 37 := by
+  exfalso
   apply lt_irrefl 0 h
-end
 
 example (h : 0 < 0) : a > 37 :=
-absurd h (lt_irrefl 0)
+  absurd h (lt_irrefl 0)
 
-example (h : 0 < 0) : a > 37 :=
-begin
-  have h' : ¬ 0 < 0,
-    from lt_irrefl 0,
+example (h : 0 < 0) : a > 37 := by
+  have h' : ¬0 < 0 := lt_irrefl 0
   contradiction
-end
--- QUOTE.
 
+-- QUOTE.
 end
 
 /- TEXT:

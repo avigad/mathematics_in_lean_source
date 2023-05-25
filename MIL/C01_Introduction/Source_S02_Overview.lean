@@ -1,8 +1,9 @@
-import data.nat.basic
-import data.nat.parity
-import tactic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Tactic
 
-open nat
+open Nat
+
 -- SOLUTIONS:
 -- There are no exercises in this section.
 /- TEXT:
@@ -19,47 +20,47 @@ print it.
 Some expressions have types like `ℕ` or `ℕ → ℕ`.
 These are mathematical objects.
 TEXT. -/
-/- These are pieces of data. -/
-
+-- These are pieces of data.
 -- QUOTE:
 #check 2 + 2
 
-def f (x : ℕ) := x + 3
+def f (x : ℕ) :=
+  x + 3
 
 #check f
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 Some expressions have type `Prop`.
 These are mathematical statements.
 TEXT. -/
-/- These are propositions, of type `Prop`. -/
-
+-- These are propositions, of type `Prop`.
 -- QUOTE:
 #check 2 + 2 = 4
 
-def fermat_last_theorem :=
-  ∀ x y z n : ℕ, n > 2 ∧ x * y * z ≠ 0 → x^n + y^n ≠ z^n
+def FermatLastTheorem :=
+  ∀ x y z n : ℕ, n > 2 ∧ x * y * z ≠ 0 → x ^ n + y ^ n ≠ z ^ n
 
-#check fermat_last_theorem
+#check FermatLastTheorem
+
 -- QUOTE.
-
 /- TEXT:
 Some expressions have a type, `P`, where `P` itself has type `Prop`.
 Such an expression is a proof of the proposition `P`.
 TEXT. -/
-/- These are proofs of propositions. -/
-
+-- These are proofs of propositions.
 -- QUOTE:
-theorem easy : 2 + 2 = 4 := rfl
+theorem easy : 2 + 2 = 4 :=
+  rfl
 
 #check easy
 
-theorem hard : fermat_last_theorem := sorry
+theorem hard : FermatLastTheorem :=
+  sorry
 
 #check hard
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 If you manage to construct an expression of type `fermat_last_theorem` and
 Lean accepts it as a term of that type,
@@ -90,42 +91,35 @@ or we can provide Lean with *instructions* as to how to construct them.
 For example, the following expression represents a proof of the fact that
 if ``n`` is even then so is ``m * n``:
 TEXT. -/
-/- Here are some proofs. -/
-
+-- Here are some proofs.
 -- QUOTE:
-example : ∀ m n : nat, even n → even (m * n) :=
-assume m n ⟨k, (hk : n = k + k)⟩,
-have hmn : m * n = m * k + m * k,
-  by rw [hk, mul_add],
-show ∃ l, m * n = l + l,
-  from ⟨_, hmn⟩
--- QUOTE.
+example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, (hk : n = k + k)⟩ =>
+  have hmn : m * n = m * k + m * k := by rw [hk, mul_add]
+  show ∃ l, m * n = l + l from ⟨_, hmn⟩
 
+-- QUOTE.
 /- TEXT:
 The *proof term* can be compressed to a single line:
 TEXT. -/
 -- QUOTE:
-example : ∀ m n : nat, even n → even (m * n) :=
-λ m n ⟨k, hk⟩, ⟨m * k, by rw [hk, mul_add]⟩
--- QUOTE.
+example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, hk⟩ => ⟨m * k, by rw [hk, mul_add]⟩
 
+-- QUOTE.
 /- TEXT:
 The following is, instead, a *tactic-style* proof of the same theorem:
 TEXT. -/
 -- QUOTE:
-example : ∀ m n : nat, even n → even (m * n) :=
-begin
+example : ∀ m n : Nat, Even n → Even (m * n) := by
   -- say m and n are natural numbers, and assume n=2*k
-  rintros m n ⟨k, hk⟩,
-  -- We need to prove m*n is twice a natural. Let's show it's twice m*k.
-  use m * k,
+  rintro m n ⟨k, hk⟩
+  -- We need to prove m*n is twice a natural number. Let's show it's twice m*k.
+  use m * k
   -- substitute in for n
-  rw hk,
+  rw [hk]
   -- and now it's obvious
   ring
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 As you enter each line of such a proof in VS Code,
 Lean displays the *proof state* in a separate window,
@@ -160,10 +154,10 @@ That said, in this book, our emphasis will be on the use of tactics.
 In our example, the tactic proof can also be reduced to a one-liner:
 TEXT. -/
 -- QUOTE:
-example : ∀ m n : nat, even n → even (m * n) :=
-by { rintros m n ⟨k, hk⟩, use m * k, rw hk, ring }
--- QUOTE.
+example : ∀ m n : Nat, Even n → Even (m * n) := by
+  rintro m n ⟨k, hk⟩; use m * k; rw [hk]; ring
 
+-- QUOTE.
 /- TEXT:
 Here we have used tactics to carry out small proof steps.
 But they can also provide substantial automation,
@@ -173,10 +167,10 @@ specific rules for simplifying statements about parity to
 prove our theorem automatically.
 TEXT. -/
 -- QUOTE:
-example : ∀ m n : nat, even n → even (m * n) :=
-by intros; simp * with parity_simps
--- QUOTE.
+example : ∀ m n : Nat, Even n → Even (m * n) := by
+  intros; simp [*, parity_simps]
 
+-- QUOTE.
 /- TEXT:
 Another big difference between the two introductions is that
 *Theorem Proving in Lean* depends only on core Lean and its built-in
@@ -211,7 +205,8 @@ mathematics and mathematical reasoning in fundamentally new ways.
 Your life may never be the same.
 
 *Acknowledgments.* We are grateful to Gabriel Ebner for setting up the
-infrastructure for running this tutorial in VS Code.
+infrastructure for running this tutorial in VS Code,
+and to Scott Morrison and Mario Carneiro for help porting it from Lean 3.
 We are also grateful for help and corrections from
 Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
 Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Bartosz Piotrowski,

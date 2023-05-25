@@ -1,17 +1,20 @@
-import analysis.normed_space.finite_dimension
-import analysis.convolution
-import measure_theory.function.jacobian
-import measure_theory.integral.bochner
-import measure_theory.measure.lebesgue
+import Mathlib.Analysis.NormedSpace.FiniteDimension
+import Mathlib.Analysis.Convolution
+import Mathlib.MeasureTheory.Function.Jacobian
+import Mathlib.MeasureTheory.Integral.Bochner
+import Mathlib.MeasureTheory.Measure.Lebesgue
 
-open set filter
-open_locale topology filter ennreal
-open measure_theory
+open Set Filter
 
-noncomputable theory
+open Topology Filter ENNReal
 
-variables {α : Type*} [measurable_space α]
-variables {μ : measure α}
+open MeasureTheory
+
+noncomputable section
+
+variable {α : Type _} [MeasurableSpace α]
+
+variable {μ : Measure α}
 
 /- TEXT:
 .. _integration:
@@ -31,79 +34,74 @@ EXAMPLES: -/
 -- QUOTE:
 section
 
-variables {E : Type*} [normed_add_comm_group E] [normed_space ℝ E] [complete_space E]
-  {f : α → E}
+variable {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] {f : α → E}
 
-example {f g : α → E} (hf : integrable f μ) (hg : integrable g μ) :
-  ∫ a, f a + g a ∂μ = ∫ a, f a ∂μ + ∫ a, g a ∂μ :=
-integral_add hf hg
+example {f g : α → E} (hf : Integrable f μ) (hg : Integrable g μ) :
+    (∫ a, f a + g a ∂μ) = (∫ a, f a ∂μ) + ∫ a, g a ∂μ :=
+  integral_add hf hg
+
 -- QUOTE.
-
 /- TEXT:
 As an example of the complex interactions between our various conventions, let us see how to integrate constant functions.
 Recall that a measure ``μ`` takes values in ``ℝ≥0∞``, the type of extended non-negative reals.
 There is a function ``ennreal.to_real : ℝ≥0∞ → ℝ`` which sends ``⊤``,
 the point at infinity, to zero.
-For any ``s : set α``, if ``μ s = ⊤``, then nonzero constant functions are not integrable on ``s``.
+For any ``s : Set α``, if ``μ s = ⊤``, then nonzero constant functions are not integrable on ``s``.
 In that case, their integrals are equal to zero by definition, as is ``(μ s).to_real``.
 So in all cases we have the following lemma.
 EXAMPLES: -/
 -- QUOTE:
-example {s : set α} (c : E) :
-  ∫ x in s, c ∂μ = (μ s).to_real • c :=
-set_integral_const c
--- QUOTE.
+example {s : Set α} (c : E) : (∫ x in s, c ∂μ) = (μ s).toReal • c :=
+  set_integral_const c
 
+-- QUOTE.
 /- TEXT:
 We now quickly explain how to access the most important theorems in integration theory, starting
 with the dominated convergence theorem. There are several versions in mathlib,
 and here we only show the most basic one.
 EXAMPLES: -/
 -- QUOTE:
-example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ)
-  (hmeas : ∀ n, ae_strongly_measurable (F n) μ)
-  (hint : integrable bound μ)
-  (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
-  (hlim : ∀ᵐ a ∂μ, tendsto (λ (n : ℕ), F n a) at_top (𝓝 (f a))) :
-  tendsto (λ n, ∫ a, F n a ∂μ) at_top (𝓝 (∫ a, f a ∂μ)) :=
-tendsto_integral_of_dominated_convergence bound hmeas hint hbound hlim
--- QUOTE.
+example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ n, AeStronglyMeasurable (F n) μ)
+    (hint : Integrable bound μ) (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
+    (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ => F n a) atTop (𝓝 (f a))) :
+    Tendsto (fun n => ∫ a, F n a ∂μ) atTop (𝓝 (∫ a, f a ∂μ)) :=
+  tendsto_integral_of_dominated_convergence bound hmeas hint hbound hlim
 
+-- QUOTE.
 /- TEXT:
 Then we have Fubini's theorem for integrals on product type.
 EXAMPLES: -/
 -- QUOTE:
-example
-  {α : Type*} [measurable_space α]
-  {μ : measure α} [sigma_finite μ]
-  {β : Type*} [measurable_space β] {ν : measure β} [sigma_finite ν]
-  (f : α × β → E) (hf : integrable f (μ.prod ν)) :
-  ∫ z, f z ∂μ.prod ν = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
-integral_prod f hf
--- QUOTE.
+example {α : Type _} [MeasurableSpace α] {μ : Measure α} [SigmaFinite μ] {β : Type _}
+    [MeasurableSpace β] {ν : Measure β} [SigmaFinite ν] (f : α × β → E)
+    (hf : Integrable f (μ.Prod ν)) : (∫ z, f z ∂μ.Prod ν) = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
+  integral_prod f hf
 
+-- QUOTE.
 end
+
 /- TEXT:
 There is a very general version of convolution that applies to any
 continuous bilinear form.
 EXAMPLES: -/
 section
+
 -- QUOTE:
-open_locale convolution
+open convolution
 
 -- EXAMPLES:
-variables {𝕜 : Type*} {G : Type*} {E : Type*} {E' : Type*} {F : Type*}
-  [normed_add_comm_group E] [normed_add_comm_group E'] [normed_add_comm_group F]
-  [nontrivially_normed_field 𝕜]
-  [normed_space 𝕜 E] [normed_space 𝕜 E'] [normed_space 𝕜 F]
-  [measurable_space G] [normed_space ℝ F] [complete_space F] [has_sub G]
+variable {𝕜 : Type _} {G : Type _} {E : Type _} {E' : Type _} {F : Type _} [NormedAddCommGroup E]
+  [NormedAddCommGroup E'] [NormedAddCommGroup F] [NontriviallyNormedField 𝕜] [NormedSpace 𝕜 E]
+  [NormedSpace 𝕜 E'] [NormedSpace 𝕜 F] [MeasurableSpace G] [NormedSpace ℝ F] [CompleteSpace F]
+  [Sub G]
 
-example (f : G → E) (g : G → E') (L : E →L[𝕜] E' →L[𝕜] F) (μ : measure G) :
-  f ⋆[L, μ] g = λ x, ∫ t, L (f t) (g (x - t)) ∂μ :=
-rfl
+example (f : G → E) (g : G → E') (L : E →L[𝕜] E' →L[𝕜] F) (μ : Measure G) :
+    f ⋆[L, μ] g = fun x => ∫ t, L (f t) (g (x - t)) ∂μ :=
+  rfl
+
 -- QUOTE.
-
 end
+
 /- TEXT:
 Finally, mathlib has a very general version of the change-of-variables formula.
 In the statement below, ``borel_space E`` means the
@@ -112,15 +110,12 @@ and ``is_add_haar_measure μ`` means that the measure ``μ`` is left-invariant,
 gives finite mass to compact sets, and give positive mass to open sets.
 EXAMPLES: -/
 -- QUOTE:
-example {E : Type*}
-  [normed_add_comm_group E] [normed_space ℝ E] [finite_dimensional ℝ E]
-  [measurable_space E] [borel_space E] (μ : measure E) [μ.is_add_haar_measure]
-  {F : Type*} [normed_add_comm_group F] [normed_space ℝ F] [complete_space F]
-  {s : set E} {f : E → E} {f' : E → (E →L[ℝ] E)}
-  (hs : measurable_set s)
-  (hf : ∀ (x : E), x ∈ s → has_fderiv_within_at f (f' x) s x)
-  (h_inj : inj_on f s)
-  (g : E → F) :
-  ∫ x in f '' s, g x ∂μ = ∫ x in s, |(f' x).det| • g (f x) ∂μ :=
-integral_image_eq_integral_abs_det_fderiv_smul μ hs hf h_inj g
+example {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure] {F : Type _}
+    [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F] {s : Set E} {f : E → E}
+    {f' : E → E →L[ℝ] E} (hs : MeasurableSet s)
+    (hf : ∀ x : E, x ∈ s → HasFderivWithinAt f (f' x) s x) (h_inj : InjOn f s) (g : E → F) :
+    (∫ x in f '' s, g x ∂μ) = ∫ x in s, |(f' x).det| • g (f x) ∂μ :=
+  integral_image_eq_integral_abs_det_fderiv_smul μ hs hf h_inj g
+
 -- QUOTE.

@@ -1,4 +1,5 @@
-import data.real.basic
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 Calculating
@@ -32,17 +33,13 @@ Let's try out ``rw``.
 
 .. index:: real numbers
 TEXT. -/
-/- An example. -/
-
+-- An example.
 -- QUOTE:
-import data.real.basic
-example (a b c : ℝ) : (a * b) * c = b * (a * c) :=
-begin
-  rw mul_comm a b,
-  rw mul_assoc b a c
-end
--- QUOTE.
+example (a b c : ℝ) : a * b * c = b * (a * c) := by
+  rw [mul_comm a b]
+  rw [mul_assoc b a c]
 
+-- QUOTE.
 /- TEXT:
 The ``import`` line at the beginning of the example
 imports the theory of the real numbers from ``mathlib``.
@@ -75,8 +72,8 @@ A typical proof state in Lean might look as follows:
 
     1 goal
     x y : ℕ,
-    h₁ : prime x,
-    h₂ : ¬even x,
+    h₁ : Prime x,
+    h₂ : ¬Even x,
     h₃ : y > x
     ⊢ y ≥ 4
 
@@ -104,34 +101,25 @@ to reverse an identity.
 For example, ``rw ← mul_assoc a b c``
 replaces ``a * (b * c)`` by ``a * b * c`` in the current goal.
 TEXT. -/
-/- Try these.-/
-
+-- Try these.
 -- QUOTE:
-example (a b c : ℝ) : (c * b) * a = b * (a * c) :=
-begin
+example (a b c : ℝ) : c * b * a = b * (a * c) := by
   sorry
-end
 
-example (a b c : ℝ) : a * (b * c) = b * (a * c) :=
-begin
+example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
   sorry
-end
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (a b c : ℝ) : (c * b) * a = b * (a * c) :=
-begin
-  rw mul_comm c b,
-  rw mul_assoc b c a,
-  rw mul_comm c a
-end
+example (a b c : ℝ) : c * b * a = b * (a * c) := by
+  rw [mul_comm c b]
+  rw [mul_assoc b c a]
+  rw [mul_comm c a]
 
-example (a b c : ℝ) : a * (b * c) = b * (a * c) :=
-begin
-  rw ←mul_assoc a b c,
-  rw mul_comm a b,
-  rw mul_assoc b a c
-end
+example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
+  rw [← mul_assoc a b c]
+  rw [mul_comm a b]
+  rw [mul_assoc b a c]
 
 /- TEXT:
 You can also use identities like ``mul_assoc`` and ``mul_comm`` without arguments.
@@ -139,16 +127,13 @@ In this case, the rewrite tactic tries to match the left-hand side with
 an expression in the goal,
 using the first pattern it finds.
 TEXT. -/
-/- An example. -/
-
+-- An example.
 -- QUOTE:
-example (a b c : ℝ) : a * b * c = b * c * a :=
-begin
-  rw mul_assoc,
-  rw mul_comm
-end
--- QUOTE.
+example (a b c : ℝ) : a * b * c = b * c * a := by
+  rw [mul_assoc]
+  rw [mul_comm]
 
+-- QUOTE.
 /- TEXT:
 You can also provide *partial* information.
 For example, ``mul_comm a`` matches any pattern of the form
@@ -159,83 +144,59 @@ and the second with only one argument.
 TEXT. -/
 /- Try doing the first of these without providing any arguments at all,
    and the second with only one argument. -/
-
 -- QUOTE:
-example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
-begin
+example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
   sorry
-end
 
-example (a b c : ℝ) : a * (b * c) = b * (a * c) :=
-begin
+example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
   sorry
-end
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
-begin
-  rw mul_comm,
-  rw mul_assoc
-end
+example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
+  rw [mul_comm]
+  rw [mul_assoc]
 
-example (a b c : ℝ) : a * (b * c) = b * (a * c) :=
-begin
-  rw ←mul_assoc,
-  rw mul_comm a,
-  rw mul_assoc
-end
+example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
+  rw [← mul_assoc]
+  rw [mul_comm a]
+  rw [mul_assoc]
 
 /- TEXT:
 You an also use ``rw`` with facts from the local context.
 TEXT. -/
-/- Using facts from the local context. -/
-
+-- Using facts from the local context.
 -- QUOTE:
-example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) :
-  a * (b * e) = c * (d * f) :=
-begin
-  rw h',
-  rw ←mul_assoc,
-  rw h,
-  rw mul_assoc
-end
--- QUOTE.
+example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
+  rw [h']
+  rw [← mul_assoc]
+  rw [h]
+  rw [mul_assoc]
 
+-- QUOTE.
 /- TEXT:
 Try these:
 TEXT. -/
-/- Try these. For the second one, use the theorem `sub_self`. -/
-
+-- Try these. For the second one, use the theorem `sub_self`.
 -- QUOTE:
-example (a b c d e f : ℝ) (h : b * c = e * f) :
-  a * b * c * d = a * e * f * d :=
-begin
+example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
   sorry
-end
 
-example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 :=
-begin
+example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
   sorry
-end
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (a b c d e f : ℝ) (h : b * c = e * f) :
-  a * b * c * d = a * e * f * d :=
-begin
-  rw mul_assoc a,
-  rw h,
-  rw ←mul_assoc
-end
+example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
+  rw [mul_assoc a]
+  rw [h]
+  rw [← mul_assoc]
 
-example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 :=
-begin
-  rw hyp,
-  rw hyp',
-  rw mul_comm,
-  rw sub_self
-end
+example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
+  rw [hyp]
+  rw [hyp']
+  rw [mul_comm]
+  rw [sub_self]
 
 /- TEXT:
 For the second one, you can use the theorem ``sub_self``,
@@ -248,14 +209,12 @@ by listing the relevant identities within square brackets.
 Second, when a tactic proof is just a single command,
 we can replace the ``begin ... end`` block with a ``by``.
 TEXT. -/
-/- Examples. -/
-
+-- Examples.
 -- QUOTE:
-example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) :
-  a * (b * e) = c * (d * f) :=
-by rw [h', ←mul_assoc, h, mul_assoc]
--- QUOTE.
+example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
+  rw [h', ← mul_assoc, h, mul_assoc]
 
+-- QUOTE.
 /- TEXT:
 You still see the incremental progress by placing the cursor after
 a comma in any list of rewrites.
@@ -268,13 +227,12 @@ TEXT. -/
 section
 
 -- QUOTE:
-variables a b c d e f g : ℝ
+variable (a b c d e f g : ℝ)
 
-example (h : a * b = c * d) (h' : e = f) :
-  a * (b * e) = c * (d * f) :=
-by rw [h', ←mul_assoc, h, mul_assoc]
+example (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
+  rw [h', ← mul_assoc, h, mul_assoc]
+
 -- QUOTE.
-
 end
 
 /- TEXT:
@@ -288,21 +246,30 @@ command to determine the type of an expression:
 TEXT. -/
 -- QUOTE:
 section
-variables a b c : ℝ
+
+variable (a b c : ℝ)
 
 #check a
+
 #check a + b
+
 #check (a : ℝ)
+
 #check mul_comm a b
+
 #check (mul_comm a b : a * b = b * a)
+
 #check mul_assoc c a b
+
 #check mul_comm a
+
 #check mul_comm
+
 #check @mul_comm
 
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 The ``#check`` command works for both objects and facts.
 In response to the command ``#check a``, Lean reports that ``a`` has type ``ℝ``.
@@ -324,17 +291,16 @@ Use the ``#check`` command to see the precise statements.
 .. index:: calc, tactics ; calc
 TEXT. -/
 section
-variables a b : ℝ
+
+variable (a b : ℝ)
 
 -- QUOTE:
-example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-begin
-  rw [mul_add, add_mul, add_mul],
-  rw [←add_assoc, add_assoc (a * a)],
-  rw [mul_comm b a, ←two_mul]
-end
--- QUOTE.
+example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
+  rw [mul_add, add_mul, add_mul]
+  rw [← add_assoc, add_assoc (a * a)]
+  rw [mul_comm b a, ← two_mul]
 
+-- QUOTE.
 /- TEXT:
 Whereas it is possible to figure out what it going on in this proof
 by stepping through it in the editor,
@@ -344,43 +310,42 @@ using the ``calc`` keyword.
 TEXT. -/
 -- QUOTE:
 example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-calc
-  (a + b) * (a + b)
-      = a * a + b * a + (a * b + b * b) :
-          by rw [mul_add, add_mul, add_mul]
-  ... = a * a + (b * a + a * b) + b * b :
-          by rw [←add_assoc, add_assoc (a * a)]
-  ... = a * a + 2 * (a * b) + b * b     :
-          by rw [mul_comm b a, ←two_mul]
--- QUOTE.
+  calc
+    (a + b) * (a + b) = a * a + b * a + (a * b + b * b) := by
+      rw [mul_add, add_mul, add_mul]
+    _ = a * a + (b * a + a * b) + b * b := by
+      rw [← add_assoc, add_assoc (a * a)]
+    _ = a * a + 2 * (a * b) + b * b := by
+      rw [mul_comm b a, ← two_mul]
 
+-- QUOTE.
 /- TEXT:
-Notice that there is no more ``begin ... end`` block:
+Notice that the proof does *not* begin with ``by``:
 an expression that begins with ``calc`` is a *proof term*.
 A ``calc`` expression can also be used inside a tactic proof,
 but Lean interprets it as the instruction to use the resulting
 proof term to solve the goal.
-
-The ``calc`` syntax is finicky: the dots and colons and justification
+The ``calc`` syntax is finicky: the dots and underscires and justification
 have to be in the format indicated above.
-Lean ignores whitespace like spaces, tabs, and returns,
-so you have some flexibility to make the calculation look more attractive.
+Lean uses indentation to determine things like where a block
+of tactics or a ``calc`` block begins and ends;
+try changing the indentation in the proof above to see what happens.
+
 One way to write a ``calc`` proof is to outline it first
 using the ``sorry`` tactic for justification,
 make sure Lean accepts the expression modulo these,
 and then justify the individual steps using tactics.
 TEXT. -/
-
 -- QUOTE:
 example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-calc
-  (a + b) * (a + b)
-      = a * a + b * a + (a * b + b * b) :
-    begin
+  calc
+    (a + b) * (a + b) = a * a + b * a + (a * b + b * b) := by
       sorry
-    end
-  ... = a * a + (b * a + a * b) + b * b : by sorry
-  ... = a * a + 2 * (a * b) + b * b     : by sorry
+    _ = a * a + (b * a + a * b) + b * b := by
+      sorry
+    _ = a * a + 2 * (a * b) + b * b := by
+      sorry
+
 -- QUOTE.
 end
 
@@ -388,60 +353,60 @@ end
 Try proving the following identity using both a pure ``rw`` proof
 and a more structured ``calc`` proof:
 TEXT. -/
-/- Try these. For the second, use the theorems listed underneath. -/
-
+-- Try these. For the second, use the theorems listed underneath.
 section
-variables a b c d : ℝ
+
+variable (a b c d : ℝ)
 
 -- QUOTE:
-example : (a + b) * (c + d) = a * c + a * d + b * c + b * d :=
-sorry
--- QUOTE.
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
+  sorry
 
+-- QUOTE.
 /- TEXT:
 The following exercise is a little more challenging.
 You can use the theorems listed underneath.
 TEXT. -/
 -- QUOTE:
-example (a b : ℝ) : (a + b) * (a - b) = a^2 - b^2 :=
-begin
+example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
   sorry
-end
 
 #check pow_two a
-#check mul_sub a b c
-#check add_mul a b c
-#check add_sub a b c
-#check sub_sub a b c
-#check add_zero a
--- QUOTE.
 
+#check mul_sub a b c
+
+#check add_mul a b c
+
+#check add_sub a b c
+
+#check sub_sub a b c
+
+#check add_zero a
+
+-- QUOTE.
 end
 
 /- TEXT:
 .. index:: rw, tactics ; rw and rewrite
 
 We can also perform rewriting in an assumption in the context.
-For example, ``rw mul_comm a b at hyp`` replaces ``a * b`` by ``b * a``
+For example, ``rw [mul_comm a b] at hyp`` replaces ``a * b`` by ``b * a``
 in the assumption ``hyp``.
 TEXT. -/
-/- Examples. -/
-
+-- Examples.
 section
-variables a b c d : ℝ
+
+variable (a b c d : ℝ)
 
 -- QUOTE:
-example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) :
-  c = 2 * a * d :=
-begin
-  rw hyp' at hyp,
-  rw mul_comm d a at hyp,
-  rw ← two_mul (a * d) at hyp,
-  rw ← mul_assoc 2 a d at hyp,
+example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
+  rw [hyp'] at hyp
+  rw [mul_comm d a] at hyp
+  rw [← two_mul (a * d)] at hyp
+  rw [← mul_assoc 2 a d] at hyp
   exact hyp
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 .. index:: exact, tactics ; exact
 
@@ -455,23 +420,20 @@ useful bit of automation with a ``ring`` tactic,
 which is designed to prove identities in any commutative ring.
 TEXT. -/
 -- QUOTE:
-example : (c * b) * a = b * (a * c) :=
-by ring
-
-example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-by ring
-
-example : (a + b) * (a - b) = a^2 - b^2 :=
-by ring
-
-example (hyp : c = d * a + b) (hyp' : b = a * d) :
-  c = 2 * a * d :=
-begin
-  rw [hyp, hyp'],
+example : c * b * a = b * (a * c) := by
   ring
-end
--- QUOTE.
 
+example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
+  ring
+
+example : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
+  ring
+
+example (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
+  rw [hyp, hyp']
+  ring
+
+-- QUOTE.
 end
 
 /- TEXT:
@@ -490,13 +452,11 @@ so in the following example, ``nth_rewrite 1 h`` replaces the *second*
 occurrence of ``a + b`` with ``c``.
 EXAMPLES: -/
 -- QUOTE:
-example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c :=
-begin
-  nth_rewrite 1 h,
-  rw add_mul
-end
--- QUOTE.
+example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c := by
+  nth_rw 2 [h]
+  rw [add_mul]
 
+-- QUOTE.
 /- TEXT:
 See also ``nth_rewrite_lhs`` and ``nth_rewrite_rhs``.
 For a more sophisticated means of rewriting particular subexpressions,

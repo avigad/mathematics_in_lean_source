@@ -1,12 +1,12 @@
-import analysis.normed_space.finite_dimension
-import analysis.convolution
-import measure_theory.function.jacobian
-import measure_theory.integral.bochner
-import measure_theory.measure.lebesgue
+import Mathlib.Analysis.NormedSpace.FiniteDimension
+import Mathlib.Analysis.Convolution
+import Mathlib.MeasureTheory.Function.Jacobian
+import Mathlib.MeasureTheory.Integral.Bochner
+import Mathlib.MeasureTheory.Measure.Lebesgue
 
-open set filter
-open_locale topological_space filter ennreal
-noncomputable theory
+open Set Filter
+
+noncomputable section
 
 /- TEXT:
 .. index:: measure theory
@@ -34,35 +34,33 @@ As the examples below show, countability assumptions can be expressed using the
 ``encodable`` type class.
 BOTH: -/
 -- QUOTE:
-variables {α : Type*} [measurable_space α]
+variable {α : Type _} [MeasurableSpace α]
 
 -- EXAMPLES:
-example : measurable_set (∅ : set α) := measurable_set.empty
+example : MeasurableSet (∅ : Set α) :=
+  MeasurableSet.empty
 
-example : measurable_set (univ : set α) := measurable_set.univ
+example : MeasurableSet (univ : Set α) :=
+  MeasurableSet.univ
 
-example {s : set α} (hs : measurable_set s) : measurable_set sᶜ :=
-hs.compl
+example {s : Set α} (hs : MeasurableSet s) : MeasurableSet (sᶜ) :=
+  hs.compl
 
-example : encodable ℕ :=
-by apply_instance
+example : Encodable ℕ := by infer_instance
 
-example (n : ℕ) : encodable (fin n) :=
-by apply_instance
+example (n : ℕ) : Encodable (Fin n) := by infer_instance
 
 -- BOTH:
-variables {ι : Type*} [encodable ι]
+variable {ι : Type _} [Encodable ι]
 
 -- EXAMPLES:
-example {f : ι → set α} (h : ∀ b, measurable_set (f b)) :
-  measurable_set (⋃ b, f b) :=
-measurable_set.Union h
+example {f : ι → Set α} (h : ∀ b, MeasurableSet (f b)) : MeasurableSet (⋃ b, f b) :=
+  MeasurableSet.iUnion h
 
-example {f : ι → set α} (h : ∀ b, measurable_set (f b)) :
-  measurable_set (⋂ b, f b) :=
-measurable_set.Inter h
+example {f : ι → Set α} (h : ∀ b, MeasurableSet (f b)) : MeasurableSet (⋂ b, f b) :=
+  MeasurableSet.iInter h
+
 -- QUOTE.
-
 /- TEXT:
 Once a type is measurable, we can measure it. On paper, a measure on a set
 (or type) equipped with a
@@ -77,23 +75,22 @@ Of course, many lemmas still require
 measurability assumptions, but not all.
 BOTH: -/
 -- QUOTE:
-open measure_theory
+open MeasureTheory
 
-variables {μ : measure α}
+variable {μ : Measure α}
 
 -- EXAMPLES:
-example (s : set α) : μ s = ⨅ t (st : s ⊆ t) (ht : measurable_set t), μ t :=
-measure_eq_infi s
+example (s : Set α) : μ s = ⨅ (t) (st : s ⊆ t) (ht : MeasurableSet t), μ t :=
+  measure_eq_iInf s
 
-example  (s : ι → set α) : μ (⋃ i, s i) ≤ ∑' i, μ (s i) :=
-measure_Union_le s
+example (s : ι → Set α) : μ (⋃ i, s i) ≤ ∑' i, μ (s i) :=
+  measure_iUnion_le s
 
-example {f : ℕ → set α}
-    (hmeas : ∀ i, measurable_set (f i)) (hdis : pairwise (disjoint on f)) :
-  μ (⋃ i, f i) = ∑' i, μ (f i) :=
-μ.m_Union hmeas hdis
+example {f : ℕ → Set α} (hmeas : ∀ i, MeasurableSet (f i)) (hdis : Pairwise (Disjoint on f)) :
+    μ (⋃ i, f i) = ∑' i, μ (f i) :=
+  μ.m_iUnion hmeas hdis
+
 -- QUOTE.
-
 /- TEXT:
 Once a type has a measure associated with it, we say that a property ``P``
 holds *almost everywhere* if the set of elements where the property fails
@@ -104,5 +101,6 @@ almost everywhere.
 EXAMPLES: -/
 -- QUOTE:
 example {P : α → Prop} : (∀ᵐ x ∂μ, P x) ↔ ∀ᶠ x in μ.ae, P x :=
-iff.rfl
+  Iff.rfl
+
 -- QUOTE.

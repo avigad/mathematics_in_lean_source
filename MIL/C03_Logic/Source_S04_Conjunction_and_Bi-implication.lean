@@ -1,6 +1,7 @@
 -- BOTH:
-import data.real.basic
-import data.nat.prime_norm_num
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Nat.Prime
+import Mathlib.Tactic.NormNum
 
 /- TEXT:
 .. _conjunction_and_biimplication:
@@ -17,16 +18,14 @@ the form ``A ∧ B``
 by proving ``A`` and then proving ``B``.
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬ y ≤ x) : x ≤ y ∧ x ≠ y :=
-begin
-  split,
-  { assumption },
-  intro h,
-  apply h₁,
-  rw h
-end
--- QUOTE.
+example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y := by
+  constructor
+  · assumption
+  intro h
+  apply h₁
+  rw [h]
 
+-- QUOTE.
 /- TEXT:
 .. index:: assumption, tactics ; assumption
 
@@ -42,18 +41,16 @@ previous proof,
 which drops into tactic mode at the keyword ``by``.
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬ y ≤ x) : x ≤ y ∧ x ≠ y :=
-⟨h₀, λ h, h₁ (by rw h)⟩
+example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
+  ⟨h₀, fun h => h₁ (by rw [h])⟩
 
-example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬ y ≤ x) : x ≤ y ∧ x ≠ y :=
-begin
-  have h : x ≠ y,
-  { contrapose! h₁,
-    rw h₁ },
-  exact ⟨h₀, h⟩
-end
+example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
+  have h : x ≠ y := by
+    contrapose! h₁
+    rw [h₁]
+  ⟨h₀, h⟩
+
 -- QUOTE.
-
 /- TEXT:
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
@@ -63,23 +60,19 @@ all in a manner similar to the way they are used with
 the existential quantifier.
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬ y ≤ x :=
-begin
-  cases h with h₀ h₁,
-  contrapose! h₁,
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  cases' h with h₀ h₁
+  contrapose! h₁
   exact le_antisymm h₀ h₁
-end
 
-example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬ y ≤ x :=
-begin
-  rintros ⟨h₀, h₁⟩ h',
+example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x := by
+  rintro ⟨h₀, h₁⟩ h'
   exact h₁ (le_antisymm h₀ h')
-end
 
-example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬ y ≤ x :=
-λ ⟨h₀, h₁⟩ h', h₁ (le_antisymm h₀ h')
+example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
+  fun ⟨h₀, h₁⟩ h' => h₁ (le_antisymm h₀ h')
+
 -- QUOTE.
-
 /- TEXT:
 In contrast to using an existential quantifier,
 you can also extract proofs of the two components
@@ -88,37 +81,31 @@ by writing ``h.left`` and ``h.right``,
 or, equivalently, ``h.1`` and ``h.2``.
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬ y ≤ x :=
-begin
-  intro h',
-  apply h.right,
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  intro h'
+  apply h.right
   exact le_antisymm h.left h'
-end
 
-example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬ y ≤ x :=
-λ h', h.right (le_antisymm h.left h')
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x :=
+  fun h' => h.right (le_antisymm h.left h')
+
 -- QUOTE.
-
 /- TEXT:
 Try using these techniques to come up with various ways of proving of the following:
 TEXT. -/
 -- QUOTE:
-example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) :
-  m ∣ n ∧ ¬ n ∣ m :=
-sorry
--- QUOTE.
+example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m :=
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) :
-  m ∣ n ∧ ¬ n ∣ m :=
-begin
-  cases h with h0 h1,
-  split,
-  { exact h0 },
-  intro h2,
-  apply h1,
-  apply nat.dvd_antisymm h0 h2,
-end
+example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
+  cases' h with h0 h1
+  constructor
+  · exact h0
+  intro h2
+  apply h1
+  apply Nat.dvd_antisymm h0 h2
 
 /- TEXT:
 You can nest uses of ``∃`` and ``∧``
@@ -126,42 +113,36 @@ with anonymous constructors, ``rintros``, and ``rcases``.
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 4 :=
-⟨5/2, by norm_num, by norm_num⟩
+  ⟨5 / 2, by norm_num, by norm_num⟩
 
-example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-begin
-  rintros ⟨z, xltz, zlty⟩,
+example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
+  rintro ⟨z, xltz, zlty⟩
   exact lt_trans xltz zlty
-end
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-λ ⟨z, xltz, zlty⟩, lt_trans xltz zlty
--- QUOTE.
+  fun ⟨z, xltz, zlty⟩ => lt_trans xltz zlty
 
+-- QUOTE.
 /- TEXT:
 You can also use the ``use`` tactic:
 TEXT. -/
 -- QUOTE:
-example : ∃ x : ℝ, 2 < x ∧ x < 4 :=
-begin
-  use 5 / 2,
-  split; norm_num
-end
+example : ∃ x : ℝ, 2 < x ∧ x < 4 := by
+  use 5 / 2
+  constructor <;> norm_num
 
-example : ∃ m n : ℕ,
-  4 < m ∧ m < n ∧ n < 10 ∧ nat.prime m ∧ nat.prime n :=
-begin
-  use [5, 7],
+example : ∃ m n : ℕ, 4 < m ∧ m < n ∧ n < 10 ∧ Nat.Prime m ∧ Nat.Prime n := by
+  use 5
+  use 7
   norm_num
-end
+  sorry
 
-example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬ y ≤ x :=
-begin
-  rintros ⟨h₀, h₁⟩,
-  use [h₀, λ h', h₁ (le_antisymm h₀ h')]
-end
+example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
+  rintro ⟨h₀, h₁⟩
+  use h₀
+  exact fun h' => h₁ (le_antisymm h₀ h')
+
 -- QUOTE.
-
 /- TEXT:
 In the first example, the semicolon after the ``split`` command tells Lean to use the
 ``norm_num`` tactic on both of the goals that result.
@@ -177,20 +158,18 @@ you can uses ``split`` or angle brackets,
 just as you would if you were proving a conjunction.
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} (h : x ≤ y) : ¬ y ≤ x ↔ x ≠ y :=
-begin
-  split,
-  { contrapose!,
-    rintro rfl,
-    reflexivity },
-  contrapose!,
+example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y := by
+  constructor
+  · contrapose!
+    rintro rfl
+    rfl
+  contrapose!
   exact le_antisymm h
-end
 
-example {x y : ℝ} (h : x ≤ y) : ¬ y ≤ x ↔ x ≠ y :=
-⟨λ h₀ h₁, h₀ (by rw h₁), λ h₀ h₁, h₀ (le_antisymm h h₁)⟩
+example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y :=
+  ⟨fun h₀ h₁ => h₀ (by rw [h₁]), fun h₀ h₁ => h₀ (le_antisymm h h₁)⟩
+
 -- QUOTE.
-
 /- TEXT:
 The last proof term is inscrutable. Remember that you can
 use underscores while writing an expression like that to
@@ -200,27 +179,26 @@ Try out the various techniques and gadgets you have just seen
 in order to prove the following:
 TEXT. -/
 -- QUOTE:
-example {x y : ℝ} : x ≤ y ∧ ¬ y ≤ x ↔ x ≤ y ∧ x ≠ y :=
-sorry
--- QUOTE.
+example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y :=
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example {x y : ℝ} : x ≤ y ∧ ¬ y ≤ x ↔ x ≤ y ∧ x ≠ y :=
-begin
-  split,
-  { rintros ⟨h0, h1⟩,
-    split,
-    { exact h0 },
-    intro h2,
-    apply h1,
-    rw h2 },
-  rintros ⟨h0, h1⟩,
-  split,
-  { exact h0 },
-  intro h2,
-  apply h1,
+example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y :=
+  by
+  constructor
+  · rintro ⟨h0, h1⟩
+    constructor
+    · exact h0
+    intro h2
+    apply h1
+    rw [h2]
+  rintro ⟨h0, h1⟩
+  constructor
+  · exact h0
+  intro h2
+  apply h1
   apply le_antisymm h0 h2
-end
 
 /- TEXT:
 For a more interesting exercise, show that for any
@@ -230,36 +208,28 @@ We suggest proving an auxiliary lemma using
 ``linarith``, ``pow_two_nonneg``, and ``pow_eq_zero``.
 TEXT. -/
 -- QUOTE:
-theorem aux {x y : ℝ} (h : x^2 + y^2 = 0) : x = 0 :=
-begin
-  have h' : x^2 = 0,
-  { sorry },
-  exact pow_eq_zero h'
-end
+theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
+  have h' : x ^ 2 = 0 := by sorry
+  pow_eq_zero h'
 
-example (x y : ℝ) : x^2 + y^2 = 0 ↔ x = 0 ∧ y = 0 :=
-sorry
+example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem auxαα {x y : ℝ} (h : x^2 + y^2 = 0) : x = 0 :=
-begin
-  have h' : x^2 = 0,
-  { linarith [pow_two_nonneg x, pow_two_nonneg y] },
-  exact pow_eq_zero h'
-end
+theorem auxαα {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
+  have h' : x ^ 2 = 0 := by linarith [pow_two_nonneg x, pow_two_nonneg y]
+  pow_eq_zero h'
 
-example (x y : ℝ) : x^2 + y^2 = 0 ↔ x = 0 ∧ y = 0 :=
-begin
-  split,
-  { intro h,
-    split,
-    { exact aux h },
-    rw add_comm at h,
-    exact aux h },
-  rintros ⟨rfl, rfl⟩,
+example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
+  constructor
+  · intro h
+    constructor
+    · exact aux h
+    rw [add_comm] at h
+    exact aux h
+  rintro ⟨rfl, rfl⟩
   norm_num
-end
 
 /- TEXT:
 In Lean, bi-implication leads a double-life.
@@ -273,26 +243,22 @@ an equivalent one.
 In the next example, we use ``abs_lt`` to
 replace an expression of the form ``abs x < y``
 by the equivalent expression ``- y < x ∧ x < y``,
-and in the one after that we use ``nat.dvd_gcd_iff``
-to replace an expression of the form ``m ∣ nat.gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
+and in the one after that we use ``Nat.dvd_gcd_iff``
+to replace an expression of the form ``m ∣ Nat.gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
 TEXT. -/
 section
 
 -- QUOTE:
-example (x y : ℝ) : abs (x + 3) < 5 → -8 < x ∧ x < 2 :=
-begin
-  rw abs_lt,
-  intro h,
-  split; linarith
-end
+example (x : ℝ) : abs (x + 3) < 5 → -8 < x ∧ x < 2 := by
+  rw [abs_lt]
+  intro h
+  constructor <;> linarith
 
-example : 3 ∣ nat.gcd 6 15 :=
-begin
-  rw nat.dvd_gcd_iff,
-  split; norm_num
-end
+example : 3 ∣ Nat.gcd 6 15 := by
+  rw [Nat.dvd_gcd_iff]
+  constructor <;> norm_num
+
 -- QUOTE.
-
 end
 
 /- TEXT:
@@ -303,22 +269,21 @@ unfold definitions for you, so the ``rw monotone`` in
 the proof of the theorem is needed.)
 BOTH: -/
 -- QUOTE:
-theorem not_monotone_iff {f : ℝ → ℝ}:
-  ¬ monotone f ↔ ∃ x y, x ≤ y ∧ f x > f y :=
-by { rw monotone, push_neg }
+theorem not_monotone_iff {f : ℝ → ℝ} : ¬Monotone f ↔ ∃ x y, x ≤ y ∧ f x > f y := by
+  rw [Monotone]
+  push_neg
+  rfl
 
 -- EXAMPLES:
-example : ¬ monotone (λ x : ℝ, -x) :=
-sorry
--- QUOTE.
+example : ¬Monotone fun x : ℝ => -x := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example : ¬ monotone (λ x : ℝ, -x) :=
-begin
-  rw not_monotone_iff,
-  use [0, 1],
+example : ¬Monotone fun x : ℝ => -x := by
+  rw [not_monotone_iff]
+  use 0, 1
   norm_num
-end
 
 /- TEXT:
 The remaining exercises in this section are designed
@@ -336,36 +301,34 @@ then ``a < b`` is equivalent to ``a ≤ b ∧ a ≠ b``:
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {α : Type*} [partial_order α]
-variables a b : α
+variable {α : Type _} [PartialOrder α]
+
+variable (a b : α)
 
 -- EXAMPLES:
-example : a < b ↔ a ≤ b ∧ a ≠ b :=
-begin
-  rw lt_iff_le_not_le,
+example : a < b ↔ a ≤ b ∧ a ≠ b := by
+  rw [lt_iff_le_not_le]
   sorry
-end
--- QUOTE.
 
+-- QUOTE.
 -- SOLUTIONS:
-example : a < b ↔ a ≤ b ∧ a ≠ b :=
-begin
-  rw lt_iff_le_not_le,
-  split,
-  { rintros ⟨h0, h1⟩,
-    split,
-    { exact h0 },
-    intro h2,
-    apply h1,
-    rw h2 },
-  rintros ⟨h0, h1⟩,
-  split,
-  { exact h0 },
-  intro h2,
-  apply h1,
+example : a < b ↔ a ≤ b ∧ a ≠ b := by
+  rw [lt_iff_le_not_le]
+  constructor
+  · rintro ⟨h0, h1⟩
+    constructor
+    · exact h0
+    intro h2
+    apply h1
+    rw [h2]
+  rintro ⟨h0, h1⟩
+  constructor
+  · exact h0
+  intro h2
+  apply h1
   apply le_antisymm h0 h2
-end
 
 -- BOTH:
 end
@@ -390,42 +353,37 @@ to be instantiated to different values.
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {α : Type*} [preorder α]
-variables a b c : α
+variable {α : Type _} [Preorder α]
+
+variable (a b c : α)
 
 -- EXAMPLES:
-example : ¬ a < a :=
-begin
-  rw lt_iff_le_not_le,
+example : ¬a < a := by
+  rw [lt_iff_le_not_le]
   sorry
-end
 
-example : a < b → b < c → a < c :=
-begin
-  simp only [lt_iff_le_not_le],
+example : a < b → b < c → a < c := by
+  simp only [lt_iff_le_not_le]
   sorry
-end
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example : ¬ a < a :=
-begin
-  rw lt_iff_le_not_le,
-  rintros ⟨h0, h1⟩,
+example : ¬a < a := by
+  rw [lt_iff_le_not_le]
+  rintro ⟨h0, h1⟩
   exact h1 h0
-end
 
-example : a < b → b < c → a < c :=
-begin
-  simp only [lt_iff_le_not_le],
-  rintros ⟨h0, h1⟩ ⟨h2, h3⟩,
-  split,
-  { apply le_trans h0 h2 },
-  intro h4,
-  apply h1,
+example : a < b → b < c → a < c := by
+  simp only [lt_iff_le_not_le]
+  rintro ⟨h0, h1⟩ ⟨h2, h3⟩
+  constructor
+  · apply le_trans h0 h2
+  intro h4
+  apply h1
   apply le_trans h2 h4
-end
 
 -- BOTH:
 end
+

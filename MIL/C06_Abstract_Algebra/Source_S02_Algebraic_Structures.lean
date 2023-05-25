@@ -1,4 +1,4 @@
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _section_algebraic_structures:
@@ -133,113 +133,125 @@ It's a marriage made in heaven!
 Given a data type ``α``, we can define the group structure on ``α``
 as follows.
 EXAMPLES: -/
--- QUOTE:
-structure group₁ (α : Type*) :=
-(mul: α → α → α)
-(one: α)
-(inv: α → α)
-(mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z))
-(mul_one: ∀ x : α, mul x one = x)
-(one_mul: ∀ x : α, mul one x = x)
-(mul_left_inv : ∀ x : α, mul (inv x) x = one)
--- QUOTE.
 
+-- QUOTE:
+structure Group₁ (α : Type _) where
+  mul : α → α → α
+  one : α
+  inv : α → α
+  mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z)
+  mul_one : ∀ x : α, mul x one = x
+  one_mul : ∀ x : α, mul one x = x
+  mul_left_inv : ∀ x : α, mul (inv x) x = one
+
+-- QUOTE.
 -- OMIT: TODO: explain the extends command later, and also redundant inheritance
 /- TEXT:
 Notice that the type ``α`` is a *parameter* in the definition of ``group₁``.
-So you should think of an object ``struc : group₁ α`` as being
+So you should think of an object ``struc : Group₁ α`` as being
 a group structure on ``α``.
 We saw in :numref:`proving_identities_in_algebraic_structures`
 that the counterpart ``mul_right_inv`` to ``mul_left_inv``
 follows from the other group axioms, so there is no need
 to add it to the definition.
 
-This definition of a group is similar to the definition of ``group`` in
+This definition of a group is similar to the definition of ``Group`` in
 mathlib,
-and we have chosen the name ``group₁`` to distinguish our version.
-If you write ``#check group`` and ctrl-click on the definition,
-you will see that the mathlib version of ``group`` is defined to
+and we have chosen the name ``Group₁`` to distinguish our version.
+If you write ``#check Group`` and ctrl-click on the definition,
+you will see that the mathlib version of ``Group`` is defined to
 extend another structure; we will explain how to do that later.
-If you type ``#print group`` you will also see that the mathlib
-version of ``group`` has a number of extra fields.
+If you type ``#print Group`` you will also see that the mathlib
+version of ``Group`` has a number of extra fields.
 For reasons we will explain later, sometimes it is useful to add
 redundant information to a structure,
 so that there are additional fields for objects and functions
 that can be defined from the core
 data. Don't worry about that for now.
-Rest assured that our simplified version ``group₁`` is
+Rest assured that our simplified version ``Group₁`` is
 morally the same as the definition of a group that mathlib uses.
 
 It is sometimes useful to bundle
 the type together with the structure, and mathlib also
-contains a definition of a ``Group`` structure that is equivalent to
+contains a definition of a ``GroupCat`` structure that is equivalent to
 the following:
 EXAMPLES: -/
 -- QUOTE:
-structure Group₁ :=
-(α : Type*)
-(str : group₁ α)
--- QUOTE.
+structure Group₁Cat where
+  α : Type _
+  str : Group₁ α
 
+-- QUOTE.
 /- TEXT:
-The mathlib version is found in ``algebra.category.Group.basic``,
+The mathlib version is found in ``Algebra.Category.Group.Basic``,
 and you can ``#check`` it if you add this to the imports at the
 beginning of the examples file.
 
 For reasons that will become clearer below, it is more often
-useful to keep the type ``α`` separate from the structure ``group α``.
+useful to keep the type ``α`` separate from the structure ``Group α``.
 We refer to the two objects together as a *partially bundled structure*,
 since the representation combines most, but not all, of the components
 into one structure. It is common in mathlib
 to use capital roman letters like ``G`` for a type
 when it is used as the carrier type for a group.
 
-Let's construct a group, which is to say, an element of the ``group₁`` type.
-For any pair of types ``α`` and ``β``, Mathlib defines the type ``equiv α β``
+Let's construct a group, which is to say, an element of the ``Group₁`` type.
+For any pair of types ``α`` and ``β``, Mathlib defines the type ``Equiv α β``
 of *equivalences* between ``α`` and ``β``.
 Mathlib also defines the suggestive notation ``α ≃ β`` for this type.
 An element ``f : α ≃ β`` is a bijection between ``α`` and ``β``
 represented by four components:
-a function ``f.to_fun`` from ``α`` to ``β``,
-the inverse function ``f.inv_fun`` from ``β`` to ``α``,
+a function ``f.toFun`` from ``α`` to ``β``,
+the inverse function ``f.invFun`` from ``β`` to ``α``,
 and two properties that specify these functions are indeed inverse
 to one another.
 EXAMPLES: -/
 section
+
 -- QUOTE:
-variables (α β γ : Type*)
-variables (f : α ≃ β) (g : β ≃ γ)
+variable (α β γ : Type _)
 
-#check equiv α β
-#check (f.to_fun : α → β)
-#check (f.inv_fun : β → α)
-#check (f.right_inv: ∀ x : β, f (f.inv_fun x) = x)
-#check (f.left_inv: ∀ x : α, f.inv_fun (f x) = x)
+variable (f : α ≃ β) (g : β ≃ γ)
 
-#check (equiv.refl α : α ≃ α)
+#check Equiv α β
+
+#check (f.toFun : α → β)
+
+#check (f.invFun : β → α)
+
+#check (f.right_inv : ∀ x : β, f (f.invFun x) = x)
+
+#check (f.left_inv : ∀ x : α, f.invFun (f x) = x)
+
+#check (Equiv.refl α : α ≃ α)
+
 #check (f.symm : β ≃ α)
-#check (f.trans g : α ≃ γ)
--- QUOTE.
 
+#check (f.trans g : α ≃ γ)
+
+-- QUOTE.
 /- TEXT:
 Notice the creative naming of the last three constructions. We think of the
-identity function ``equiv.refl``, the inverse operation ``equiv.symm``,
-and the composition operation ``equiv.trans`` as explicit evidence
+identity function ``Equiv.refl``, the inverse operation ``Equiv.symm``,
+and the composition operation ``Equiv.trans`` as explicit evidence
 that the property of being in bijective correspondence is an equivalence relation.
 
 Notice also that ``f.trans g`` requires composing the forward functions
-in reverse order. Mathlib has declared a *coercion* from ``equiv α β``
-to the function type ``α → β``, so we can omit writing ``.to_fun``
+in reverse order. Mathlib has declared a *coercion* from ``Equiv α β``
+to the function type ``α → β``, so we can omit writing ``.toFun``
 and have Lean insert it for us.
 EXAMPLES: -/
 -- QUOTE:
-example (x : α) : (f.trans g).to_fun x = g.to_fun (f.to_fun x) := rfl
+example (x : α) : (f.trans g).toFun x = g.toFun (f.toFun x) :=
+  rfl
 
-example (x : α) : (f.trans g) x = g (f x) := rfl
+example (x : α) : (f.trans g) x = g (f x) :=
+  rfl
 
-example : (f.trans g : α → γ) = g ∘ f := rfl
+example : (f.trans g : α → γ) = g ∘ f :=
+  rfl
+
 -- QUOTE.
-
 end
 
 /- TEXT:
@@ -247,32 +259,34 @@ Mathlib also defines the type ``perm α`` of equivalences between
 ``α`` and itself.
 EXAMPLES: -/
 -- QUOTE:
-example (α : Type*) : equiv.perm α = (α ≃ α) := rfl
--- QUOTE.
+example (α : Type _) : Equiv.Perm α = (α ≃ α) :=
+  rfl
 
+-- QUOTE.
 /- TEXT:
-It should be clear that ``equiv.perm α`` forms a group under composition
+It should be clear that ``Equiv.Perm α`` forms a group under composition
 of equivalences. We orient things so that ``mul f g`` is
 equal to ``g.trans f``, whose forward function is ``f ∘ g``.
 In other words, multiplication is what we ordinarily think of as
 composition of the bijections. Here we define this group:
 EXAMPLES: -/
 -- QUOTE:
-def perm_group {α : Type*} : group₁ (equiv.perm α) :=
-{ mul          := λ f g, equiv.trans g f,
-  one          := equiv.refl α,
-  inv          := equiv.symm,
-  mul_assoc    := λ f g h, (equiv.trans_assoc _ _ _).symm,
-  one_mul      := equiv.trans_refl,
-  mul_one      := equiv.refl_trans,
-  mul_left_inv := equiv.self_trans_symm }
--- QUOTE.
+def permGroup {α : Type _} : Group₁ (Equiv.Perm α)
+    where
+  mul f g := Equiv.trans g f
+  one := Equiv.refl α
+  inv := Equiv.symm
+  mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
+  one_mul := Equiv.trans_refl
+  mul_one := Equiv.refl_trans
+  mul_left_inv := Equiv.self_trans_symm
 
+-- QUOTE.
 /- TEXT:
-In fact, mathlib defines exactly this ``group`` structure on ``equiv.perm α``
-in the file ``group_theory.perm.basic``.
+In fact, mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
+in the file ``GroupTheory.Perm.Basic``.
 As always, you can hover over the theorems used in the definition of
-``perm_group`` to see their statements,
+``permGroup`` to see their statements,
 and you can jump to their definitions in the original file to learn
 more about how they are implemented.
 
@@ -285,44 +299,49 @@ the identity at :math:`1`, and the inverse function as :math:`x \mapsto x^{-1}`.
 In the second and third cases, we use the notational alternatives shown.
 When we formalize the notion of a group in Lean, however,
 the notation is more tightly linked to the structure.
-In Lean, the components of any ``group`` are named
+In Lean, the components of any ``Group`` are named
 ``mul``, ``one``, and ``inv``,
 and in a moment we will see how multiplicative notation is
 set up to refer to them.
 If we want to use additive notation, we instead use an isomorphic structure
-``additive_group``. Its components are named ``add``, ``zero``,
+``AdditiveGroup``. Its components are named ``add``, ``zero``,
 and ``neg``, and the associated notation is what you would expect it to be.
 
-Recall the type ``point`` that we defined in :numref:`section_structures`,
+Recall the type ``Point`` that we defined in :numref:`section_structures`,
 and the addition function that we defined there.
 These definitions are reproduced in the examples file that accompanies
 this section.
-As an exercise, define an ``add_group₁`` structure that is similar
-to the ``group₁`` structure we defined above, except that it uses the
+As an exercise, define an ``AddGroup₁`` structure that is similar
+to the ``Group₁`` structure we defined above, except that it uses the
 additive naming scheme just described.
-Define negation and a zero on the ``point`` data type,
-and define the ``add_group₁`` structure on ``point``.
+Define negation and a zero on the ``Point`` data type,
+and define the ``AddGroup₁`` structure on ``Point``.
 BOTH: -/
 -- QUOTE:
-structure add_group₁ (α : Type*) :=
+structure AddGroup₁ (α : Type _) where
 /- EXAMPLES:
-(add : α → α → α)
--- fill in the rest
+  (add : α → α → α)
+  -- fill in the rest
 SOLUTIONS: -/
-(add: α → α → α)
-(zero: α)
-(neg: α → α)
-(add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z))
-(add_zero: ∀ x : α, add x zero = x)
-(zero_add: ∀ x : α, add x zero = x)
-(add_left_neg : ∀ x : α, add (neg x) x = zero)
+  add : α → α → α
+  zero : α
+  neg : α → α
+  add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z)
+  add_zero : ∀ x : α, add x zero = x
+  zero_add : ∀ x : α, add x zero = x
+  add_left_neg : ∀ x : α, add (neg x) x = zero
+
 -- BOTH:
+@[ext]
+structure Point where
+  x : ℝ
+  y : ℝ
+  z : ℝ
 
-@[ext] structure point := (x : ℝ) (y : ℝ) (z : ℝ)
+namespace Point
 
-namespace point
-
-def add (a b : point) : point := ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
+def add (a b : Point) : Point :=
+  ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
 
 /- EXAMPLES:
 def neg (a : point) : point := sorry
@@ -331,23 +350,25 @@ def zero : point := sorry
 
 def add_group_point : add_group₁ point := sorry
 SOLUTIONS: -/
-def neg (a : point) : point := ⟨-a.x, -a.y, -a.z⟩
+def neg (a : Point) : Point :=
+  ⟨-a.x, -a.y, -a.z⟩
 
-def zero : point := ⟨0, 0, 0⟩
+def zero : Point :=
+  ⟨0, 0, 0⟩
 
-def add_group_point : add_group₁ point :=
-{ add          := point.add,
-  zero         := point.zero,
-  neg          := point.neg,
-  add_assoc    := by { simp [point.add, add_assoc] },
-  add_zero     := by { simp [point.add, point.zero], intro, ext; refl },
-  zero_add     := by { simp [point.add, point.zero], intro, ext; refl },
-  add_left_neg := by { simp [point.add, point.neg, point.zero] } }
+def addGroupPoint : AddGroup₁ Point where
+  add := Point.add
+  zero := Point.zero
+  neg := Point.neg
+  add_assoc := by simp [Point.add, add_assoc]
+  add_zero := by simp [Point.add, Point.zero]
+  zero_add := by simp [Point.add, Point.zero]
+  add_left_neg := by simp [Point.add, Point.neg, Point.zero]
+
 -- BOTH:
+end Point
 
-end point
 -- QUOTE.
-
 /- TEXT:
 We are making progress.
 Now we know how to define algebraic structures in Lean,
@@ -360,34 +381,36 @@ and we want to arrange it so that we can prove a theorem about
 a structure and use it with any instance.
 
 In fact, mathlib is already set up to use generic group notation,
-definitions, and theorems for ``equiv.perm α``.
+definitions, and theorems for ``Equiv.Perm α``.
 EXAMPLES: -/
 section
+
 -- QUOTE:
-variables {α : Type*} (f g : equiv.perm α) (n : ℕ)
+variable {α : Type _} (f g : Equiv.Perm α) (n : ℕ)
 
 #check f * g
+
 #check mul_assoc f g g⁻¹
 
 -- group power, defined for any group
-#check g^n
+#check g ^ n
 
-example : f * g * (g⁻¹) = f :=
-by { rw [mul_assoc, mul_right_inv, mul_one] }
+example : f * g * g⁻¹ = f := by rw [mul_assoc, mul_right_inv, mul_one]
 
-example : f * g * (g⁻¹) = f := mul_inv_cancel_right f g
+example : f * g * g⁻¹ = f :=
+  mul_inv_cancel_right f g
 
-example {α : Type*} (f g : equiv.perm α) : g.symm.trans (g.trans f) = f :=
-mul_inv_cancel_right f g
+example {α : Type _} (f g : Equiv.Perm α) : g.symm.trans (g.trans f) = f :=
+  mul_inv_cancel_right f g
+
 -- QUOTE.
-
 end
 
 /- TEXT:
 You can check that this is not the case for the additive group structure
-on ``point`` that we asked you to define above.
+on ``Point`` that we asked you to define above.
 Our task now is to understand that magic that goes on under the hood
-in order to make the examples for ``equiv.perm α`` work the way they do.
+in order to make the examples for ``Equiv.Perm α`` work the way they do.
 
 The issue is that Lean needs to be able to *find* the relevant
 notation and the implicit group structure,
@@ -399,7 +422,7 @@ It also has to recognize the type ``ℝ`` as an instance of a commutative ring,
 so that all the definitions and theorems for a commutative ring are available.
 For another example,
 continuity is defined in Lean relative to any two topological spaces.
-When we have ``f : ℝ → ℂ`` and we write ``continuous f``, Lean has to find the
+When we have ``f : ℝ → ℂ`` and we write ``Continuous f``, Lean has to find the
 relevant topologies on ``ℝ`` and ``ℂ``.
 
 The magic is achieved with a combination of three things.
@@ -422,20 +445,20 @@ The magic is achieved with a combination of three things.
    definition, theorem, or piece of notation,
    it can make use of information that has been registered.
 
-Whereas an annotation ``(grp : group G)`` tells Lean that it should
+Whereas an annotation ``(grp : Group G)`` tells Lean that it should
 expect to be given that argument explicitly and the annotation
-``{grp : group G}`` tells Lean that it should try to figure it out
+``{grp : Group G}`` tells Lean that it should try to figure it out
 from contextual cues in the expression,
-the annotation ``[grp : group G]`` tells Lean that the corresponding
+the annotation ``[grp : Group G]`` tells Lean that the corresponding
 argument should be synthesized using type class inference.
 Since the whole point to the use of such arguments is that
 we generally do not need to refer to them explicitly,
-Lean allows us to write ``[group G]`` and leave the name anonymous.
+Lean allows us to write ``[Group G]`` and leave the name anonymous.
 You have probably already noticed that Lean chooses names like ``_inst_1``
 automatically.
 When we use the anonymous square-bracket annotation with the ``variables`` command,
 then as long as the variables are still in scope,
-Lean automatically adds the argument ``[group G]`` to any definition or
+Lean automatically adds the argument ``[Group G]`` to any definition or
 theorem that mentions ``G``.
 
 How do we register the information that Lean needs to use to carry
@@ -452,62 +475,67 @@ since in general we intend Lean to find it and put it to use
 without troubling us with the details.
 EXAMPLES: -/
 -- QUOTE:
-class group₂ (α : Type*) :=
-(mul: α → α → α)
-(one: α)
-(inv: α → α)
-(mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z))
-(mul_one: ∀ x : α, mul x one = x)
-(one_mul: ∀ x : α, mul one x = x)
-(mul_left_inv : ∀ x : α, mul (inv x) x = one)
+class Group₂ (α : Type _) where
+  mul : α → α → α
+  one : α
+  inv : α → α
+  mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z)
+  mul_one : ∀ x : α, mul x one = x
+  one_mul : ∀ x : α, mul one x = x
+  mul_left_inv : ∀ x : α, mul (inv x) x = one
 
-instance {α : Type*} : group₂ (equiv.perm α) :=
-{ mul          := λ f g, equiv.trans g f,
-  one          := equiv.refl α,
-  inv          := equiv.symm,
-  mul_assoc    := λ f g h, (equiv.trans_assoc _ _ _).symm,
-  one_mul      := equiv.trans_refl,
-  mul_one      := equiv.refl_trans,
-  mul_left_inv := equiv.self_trans_symm }
+instance {α : Type _} : Group₂ (Equiv.Perm α)
+    where
+  mul f g := Equiv.trans g f
+  one := Equiv.refl α
+  inv := Equiv.symm
+  mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
+  one_mul := Equiv.trans_refl
+  mul_one := Equiv.refl_trans
+  mul_left_inv := Equiv.self_trans_symm
+
 -- QUOTE.
-
 /- TEXT:
 The following illustrates their use.
 EXAMPLES: -/
 -- QUOTE:
-#check @group₂.mul
+#check @Group₂.mul
 
-def my_square {α : Type*} [group₂ α] (x : α) := group₂.mul x x
+def mySquare {α : Type _} [Group₂ α] (x : α) :=
+  Group₂.mul x x
 
-#check @my_square
+#check @mySquare
 
 section
-variables {β : Type*} (f g : equiv.perm β)
 
-example : group₂.mul f g = g.trans f := rfl
+variable {β : Type _} (f g : Equiv.Perm β)
 
-example : my_square f = f.trans f := rfl
+example : Group₂.mul f g = g.trans f :=
+  rfl
+
+example : mySquare f = f.trans f :=
+  rfl
 
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
-The ``#check`` command shows that ``group₂.mul`` has an implicit argument
-``[group₂ α]`` that we expect to be found by class inference,
-where ``α`` is the type of the arguments to ``group₂.mul``.
+The ``#check`` command shows that ``Group₂.mul`` has an implicit argument
+``[Group₂ α]`` that we expect to be found by class inference,
+where ``α`` is the type of the arguments to ``Group₂.mul``.
 In other words, ``{α : Type*}`` is the implicit argument for the type
-of the group elements and ``[group₂ α]`` is the implicit argument for the
+of the group elements and ``[Group₂ α]`` is the implicit argument for the
 group structure on ``α``.
 Similarly, when we define a generic squaring function ``my_square``
-for ``group₂``, we use an implicit argument ``{α : Type*}`` for
-the type of the elements and an implicit argument ``[group₂ α]`` for
-the ``group₂`` structure.
+for ``Group₂``, we use an implicit argument ``{α : Type*}`` for
+the type of the elements and an implicit argument ``[Group₂ α]`` for
+the ``Group₂`` structure.
 
 In the first example,
-when we write ``group₂.mul f g``, the type of ``f`` and ``g``
-tells Lean that in the argument ``α`` to ``group₂.mul``
-has to be instantiated to ``equiv.perm β``.
-That means that Lean has to find an element of ``group₂ (equiv.perm β)``.
+when we write ``Group₂.mul f g``, the type of ``f`` and ``g``
+tells Lean that in the argument ``α`` to ``Group₂.mul``
+has to be instantiated to ``Equiv.Perm β``.
+That means that Lean has to find an element of ``Group₂ (Equiv.Perm β)``.
 The previous ``instance`` declaration tells Lean exactly how to do that.
 Problem solved!
 
@@ -517,20 +545,21 @@ Here is one way it comes up.
 In Lean's foundation, a data type ``α`` may be empty.
 In a number of applications, however, it is useful to know that a
 type has at least one element.
-For example, the function ``list.head``, which returns the first
+For example, the function ``List.head``, which returns the first
 element of a list, can return the default value when the list is empty.
-To make that work, the Lean library defines a class ``inhabited α``,
+To make that work, the Lean library defines a class ``Inhabited α``,
 which does nothing more than store a default value.
-We can show that the ``point`` type is an instance:
+We can show that the ``Point`` type is an instance:
 EXAMPLES: -/
 -- QUOTE:
-instance : inhabited point := { default := ⟨0, 0, 0⟩ }
+instance : Inhabited Point where default := ⟨0, 0, 0⟩
 
-#check (default : point)
+#check (default : Point)
 
-example : ([] : list point).head = default := rfl
+example : ([] : List Point).headI = default :=
+  rfl
+
 -- QUOTE.
-
 /- TEXT:
 The class inference mechanism is also used for generic notation.
 The expression ``x + y`` is an abbreviation for ``has_add.add x y``
@@ -538,21 +567,23 @@ where---you guessed it---``has_add α`` is a class that stores
 a binary function on ``α``.
 Writing ``x + y`` tells Lean to find a registered instance of ``[has_add.add α]``
 and use the corresponding function.
-Below, we register the addition function for ``point``.
+Below, we register the addition function for ``Point``.
 EXAMPLES: -/
 -- QUOTE:
-instance : has_add point := { add := point.add }
+instance : Add Point where add := Point.add
 
 section
-variables x y : point
+
+variable (x y : Point)
 
 #check x + y
 
-example : x + y = point.add x y := rfl
+example : x + y = Point.add x y :=
+  rfl
 
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 In this way, we can assign the notation ``+`` to binary operations on other
 types as well.
@@ -566,34 +597,39 @@ because Lean knows that these are defined for every ring.
 We can use this method to specify notation for our ``group₂`` class:
 EXAMPLES: -/
 -- QUOTE:
-instance has_mul_group₂ {α : Type*} [group₂ α] : has_mul α := ⟨group₂.mul⟩
+instance hasMulGroup₂ {α : Type _} [Group₂ α] : Mul α :=
+  ⟨Group₂.mul⟩
 
-instance has_one_group₂ {α : Type*} [group₂ α] : has_one α := ⟨group₂.one⟩
+instance hasOneGroup₂ {α : Type _} [Group₂ α] : One α :=
+  ⟨Group₂.one⟩
 
-instance has_inv_group₂ {α : Type*} [group₂ α] : has_inv α := ⟨group₂.inv⟩
+instance hasInvGroup₂ {α : Type _} [Group₂ α] : Inv α :=
+  ⟨Group₂.inv⟩
 
 section
-variables {α : Type*} (f g : equiv.perm α)
+
+variable {α : Type _} (f g : Equiv.Perm α)
 
 #check f * 1 * g⁻¹
 
-def foo: f * 1 * g⁻¹ = g.symm.trans ((equiv.refl α).trans f) := rfl
+def foo : f * 1 * g⁻¹ = g.symm.trans ((Equiv.refl α).trans f) :=
+  rfl
 
 end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 In this case, we have to supply names for the instances, because
 Lean has a hard time coming up with good defaults.
 What makes this approach work is that Lean carries out a recursive search.
 According to the instances we have declared, Lean can find an instance of
-``has_mul (equiv.perm α)`` by finding an
-instance of ``group₂ (equiv.perm α)``, and it can find an instance of
-``group₂ (equiv.perm α)`` because we have provided one.
+``has_mul (Equiv.Perm α)`` by finding an
+instance of ``Group₂ (Equiv.Perm α)``, and it can find an instance of
+``group₂ (Equiv.Perm α)`` because we have provided one.
 Lean is capable of finding these two facts and chaining them together.
 
 The example we have just given is dangerous, because Lean's
-library also has an instance of ``group (equiv.perm α)``, and
+library also has an instance of ``Group (Equiv.Perm α)``, and
 multiplication is defined on any group.
 So it is ambiguous as to which instance is found.
 In fact, Lean favors more recent declarations unless you explicitly
@@ -603,66 +639,68 @@ instance of another, using the ``extends`` keyword.
 This is how ``mathlib`` specifies that, for example,
 every commutative ring is a ring.
 You can find more information in a
-`section on class inference <https://leanprover.github.io/theorem_proving_in_lean/type_classes.html#managing-type-class-inference>`_ in *Theorem Proving in Lean*.
+`section on class inference <https://leanprover.github.io/theorem_proving_in_lean4/type_classes.html#managing-type-class-inference>`_ in *Theorem Proving in Lean*.
 
 In general, it is a bad idea to specify a value of
 ``*`` for an instance of an algebraic structure that already has
 the notation defined.
-Redefining the notion of ``group`` in Lean is an artificial example.
+Redefining the notion of ``Group`` in Lean is an artificial example.
 In this case, however, both interpretations of the group notation unfold to
-``equiv.trans``, ``equiv.refl``, and ``equiv.symm``, in the same way.
+``Equiv.trans``, ``Equiv.refl``, and ``Equiv.symm``, in the same way.
 
 As a similarly artificial exercise,
-define a class ``add_group₂`` in analogy to ``group₂``.
+define a class ``AddGroup₂`` in analogy to ``Group₂``.
 Define the usual notation for addition, negation, and zero
-on any ``add_group₂``
-using the classes ``has_add``, ``has_neg``, and ``has_zero``.
-Then show ``point`` is an instance of ``add_group₂``.
+on any ``AddGroup₂``
+using the classes ``hasAdd``, ``hasNeg``, and ``hasZero``.
+Then show ``Point`` is an instance of ``AddGroup₂``.
 Try it out and make sure that the additive group notation works for
-elements of ``point``.
+elements of ``Point``.
 BOTH: -/
 -- QUOTE:
-class add_group₂ (α : Type*) :=
+class AddGroup₂ (α : Type _) where
 /- EXAMPLES:
-(add : α → α → α)
--- fill in the rest
--- QUOTE.
+  add : α → α → α
+  -- fill in the rest
+  -- QUOTE.
 SOLUTIONS: -/
-(add: α → α → α)
-(zero: α)
-(neg: α → α)
-(add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z))
-(add_zero: ∀ x : α, add x zero = x)
-(zero_add: ∀ x : α, add x zero = x)
-(add_left_neg : ∀ x : α, add (neg x) x = zero)
+  add : α → α → α
+  zero : α
+  neg : α → α
+  add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z)
+  add_zero : ∀ x : α, add x zero = x
+  zero_add : ∀ x : α, add x zero = x
+  add_left_neg : ∀ x : α, add (neg x) x = zero
 
-instance has_add_add_group₂ {α : Type*} [add_group₂ α] :
-has_add α := ⟨add_group₂.add⟩
+instance hasAddAddGroup₂ {α : Type _} [AddGroup₂ α] : Add α :=
+  ⟨AddGroup₂.add⟩
 
-instance has_zero_add_group₂ {α : Type*} [add_group₂ α] :
-has_zero α := ⟨add_group₂.zero⟩
+instance hasZeroAddGroup₂ {α : Type _} [AddGroup₂ α] : Zero α :=
+  ⟨AddGroup₂.zero⟩
 
-instance has_neg_add_group₂ {α : Type*} [add_group₂ α] :
-has_neg α := ⟨add_group₂.neg⟩
+instance hasNegAddGroup₂ {α : Type _} [AddGroup₂ α] : Neg α :=
+  ⟨AddGroup₂.neg⟩
 
-instance : add_group₂ point :=
-{ add          := point.add,
-  zero         := point.zero,
-  neg          := point.neg,
-  add_assoc    := by { simp [point.add, add_assoc] },
-  add_zero     := by { simp [point.add, point.zero], intro, ext; refl },
-  zero_add     := by { simp [point.add, point.zero], intro, ext; refl },
-  add_left_neg := by { simp [point.add, point.neg, point.zero] } }
+instance : AddGroup₂ Point where
+  add := Point.add
+  zero := Point.zero
+  neg := Point.neg
+  add_assoc := by simp [Point.add, add_assoc]
+  add_zero := by simp [Point.add, Point.zero]
+  zero_add := by simp [Point.add, Point.zero]
+  add_left_neg := by simp [Point.add, Point.neg, Point.zero]
 
 section
-variables (x y : point)
+
+variable (x y : Point)
 
 #check x + -y + 0
+
 end
 
 /- TEXT:
 It is not a big problem that we have already declared instances
-``has_add``, ``has_neg``, and ``has_zero`` for ``point`` above.
+``hasAdd``, ``hasNeg``, and ``hasZero`` for ``Point`` above.
 Once again, the two ways of synthesizing the notation should come up
 with the same answer.
 
@@ -672,4 +710,3 @@ the expressions we type.
 When used wisely, however, class inference is a powerful tool.
 It is what makes algebraic reasoning possible in Lean.
 TEXT. -/
-

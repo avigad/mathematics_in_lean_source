@@ -1,5 +1,5 @@
 -- BOTH:
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _more_on_order_and_divisibility:
@@ -14,14 +14,17 @@ by the following three facts:
 TEXT. -/
 -- BOTH:
 section
-variables a b c d : ℝ
+
+variable (a b c d : ℝ)
 
 -- QUOTE:
 #check (min_le_left a b : min a b ≤ a)
-#check (min_le_right a b : min a b ≤ b)
-#check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
--- QUOTE.
 
+#check (min_le_right a b : min a b ≤ b)
+
+#check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
+
+-- QUOTE.
 /- TEXT:
 Can you guess the names of the theorems that characterize
 ``max`` in a similar way?
@@ -50,30 +53,28 @@ Using this and the facts above,
 we can show that ``min`` is commutative:
 TEXT. -/
 -- QUOTE:
-example : min a b = min b a :=
-begin
-  apply le_antisymm,
-  { show min a b ≤ min b a,
-    apply le_min,
-    { apply min_le_right },
-    apply min_le_left },
-  { show min b a ≤ min a b,
-    apply le_min,
-    { apply min_le_right },
-    apply min_le_left }
-end
--- QUOTE.
+example : min a b = min b a := by
+  apply le_antisymm
+  · show min a b ≤ min b a
+    apply le_min
+    · apply min_le_right
+    apply min_le_left
+  · show min b a ≤ min a b
+    apply le_min
+    · apply min_le_right
+    apply min_le_left
 
+-- QUOTE.
 /- TEXT:
 .. index:: show, tactics ; show
 
-Here we have used curly brackets to separate proofs of
+Here we have used dots to separate proofs of
 different goals.
 Our usage is inconsistent:
 at the outer level,
-we use curly brackets and indentation for both goals,
+we use dots and indentation for both goals,
 whereas for the nested proofs,
-we use curly brackets only until a single goal remains.
+we use dots only until a single goal remains.
 Both conventions are reasonable and useful.
 We also use the ``show`` tactic to structure
 the proof
@@ -87,17 +88,17 @@ we note that one way to avoid the repetition
 is to state a local lemma and then use it:
 TEXT. -/
 -- QUOTE:
-example : min a b = min b a :=
-begin
-  have h : ∀ x y, min x y ≤ min y x,
-  { intros x y,
-    apply le_min,
-    apply min_le_right,
-    apply min_le_left },
-  apply le_antisymm, apply h, apply h
-end
--- QUOTE.
+example : min a b = min b a := by
+  have h : ∀ x y : ℝ, min x y ≤ min y x := by
+    intro x y
+    apply le_min
+    apply min_le_right
+    apply min_le_left
+  apply le_antisymm
+  apply h
+  apply h
 
+-- QUOTE.
 /- TEXT:
 We will say more about the universal quantifier in
 :numref:`implication_and_the_universal_quantifier`,
@@ -116,61 +117,55 @@ which applies a tactic (or a block) as many times
 as it can.
 TEXT. -/
 -- QUOTE:
-example : min a b = min b a :=
-begin
-  apply le_antisymm,
-  repeat {
-    apply le_min,
-    apply min_le_right,
-    apply min_le_left }
-end
--- QUOTE.
+example : min a b = min b a := by
+  apply le_antisymm
+  repeat
+    apply le_min
+    apply min_le_right
+    apply min_le_left
 
+-- QUOTE.
 /- TEXT:
 In any case,
 whether or not you use these tricks,
 we encourage you to prove the following:
 TEXT. -/
 -- QUOTE:
-example : max a b = max b a :=
-sorry
+example : max a b = max b a := by
+  sorry
 
-example : min (min a b) c = min a (min b c) :=
-sorry
+example : min (min a b) c = min a (min b c) := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example : max a b = max b a :=
-begin
-  apply le_antisymm,
-  repeat {
-    apply max_le,
-    apply le_max_right,
-    apply le_max_left }
-end
+example : max a b = max b a := by
+  apply le_antisymm
+  repeat'
+    apply max_le
+    apply le_max_right
+    apply le_max_left
 
-example : min (min a b) c = min a (min b c) :=
-begin
-  apply le_antisymm,
-  { apply le_min,
-    { apply le_trans,
-      apply min_le_left,
-      apply min_le_left },
-    apply le_min,
-    { apply le_trans,
-      apply min_le_left,
-      apply min_le_right },
-    apply min_le_right  },
-  apply le_min,
-  { apply le_min,
-    { apply min_le_left },
-    apply le_trans,
-    apply min_le_right,
-    apply min_le_left },
-  apply le_trans,
-  apply min_le_right,
+example : min (min a b) c = min a (min b c) := by
+  apply le_antisymm
+  · apply le_min
+    · apply le_trans
+      apply min_le_left
+      apply min_le_left
+    apply le_min
+    · apply le_trans
+      apply min_le_left
+      apply min_le_right
+    apply min_le_right
+  apply le_min
+  · apply le_min
+    · apply min_le_left
+    apply le_trans
+    apply min_le_right
+    apply min_le_left
+  apply le_trans
   apply min_le_right
-end
+  apply min_le_right
 
 /- TEXT:
 Of course, you are welcome to prove the associativity of ``max`` as well.
@@ -197,36 +192,31 @@ but for now we will stick to examples that don't require the case split.
 Here is one such example:
 TEXT. -/
 -- QUOTE:
-lemma aux : min a b + c ≤ min (a + c) (b + c) :=
-sorry
+theorem aux : min a b + c ≤ min (a + c) (b + c) := by
+  sorry
 
-example : min a b + c = min (a + c) (b + c) :=
-sorry
+example : min a b + c = min (a + c) (b + c) := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-lemma auxαα : min a b + c ≤ min (a + c) (b + c) :=
-begin
-  apply le_min,
-  { apply add_le_add_right,
-    apply min_le_left },
-  apply add_le_add_right,
+theorem auxαα : min a b + c ≤ min (a + c) (b + c) := by
+  apply le_min
+  · apply add_le_add_right
+    apply min_le_left
+  apply add_le_add_right
   apply min_le_right
-end
 
-example : min a b + c = min (a + c) (b + c) :=
-begin
-  apply le_antisymm,
-  { apply aux },
-  have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c,
-  { rw sub_add_cancel },
-  rw h,
-  apply add_le_add_right,
-  rw sub_eq_add_neg,
-  apply le_trans,
-  apply aux,
+example : min a b + c = min (a + c) (b + c) := by
+  apply le_antisymm
+  · apply aux
+  have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c := by rw [sub_add_cancel]
+  rw [h]
+  apply add_le_add_right
+  rw [sub_eq_add_neg]
+  apply le_trans
+  apply aux
   rw [add_neg_cancel_right, add_neg_cancel_right]
-end
 
 /- TEXT:
 It is clear that ``aux`` provides one of the two inequalities
@@ -243,36 +233,31 @@ in the library's name for the triangle inequality:
 TEXT. -/
 -- QUOTE:
 #check (abs_add : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 Use it to prove the following variant:
 TEXT. -/
 -- QUOTE:
 example : abs a - abs b ≤ abs (a - b) :=
-sorry
--- QUOTE.
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
 example : abs a - abs b ≤ abs (a - b) :=
-calc
-  abs a - abs b = abs (a - b + b) - abs b :
-    by rw sub_add_cancel
-  ... ≤ abs (a - b) + abs b - abs b :
-    begin
-      apply sub_le_sub_right,
+  calc
+    abs a - abs b = abs (a - b + b) - abs b := by rw [sub_add_cancel]
+    _ ≤ abs (a - b) + abs b - abs b := by
+      apply sub_le_sub_right
       apply abs_add
-    end
-  ... ≤ abs (a - b) :
-    by rw add_sub_cancel
+    _ ≤ abs (a - b) := by rw [add_sub_cancel]
+
 
 -- alternatively
-example : abs a - abs b ≤ abs (a - b) :=
-begin
-  have h := abs_add (a - b) b,
-  rw sub_add_cancel at h,
+example : abs a - abs b ≤ abs (a - b) := by
+  have h := abs_add (a - b) b
+  rw [sub_add_cancel] at h
   linarith
-end
 
 -- BOTH:
 end
@@ -295,47 +280,44 @@ to refer to it in theorem names.
 TEXT. -/
 -- BOTH:
 section
-variables w x y z : ℕ
+
+variable (w x y z : ℕ)
 
 -- QUOTE:
 example (h₀ : x ∣ y) (h₁ : y ∣ z) : x ∣ z :=
-dvd_trans h₀ h₁
+  dvd_trans h₀ h₁
 
-example : x ∣ y * x * z :=
-begin
-  apply dvd_mul_of_dvd_left,
+example : x ∣ y * x * z := by
+  apply dvd_mul_of_dvd_left
   apply dvd_mul_left
-end
 
-example : x ∣ x^2 :=
-by apply dvd_mul_right
+example : x ∣ x ^ 2 := by
+   apply dvd_mul_left
+
 -- QUOTE.
-
 /- TEXT:
 In the last example, the exponent is a natural
-number, and applying ``dvd_mul_right``
+number, and applying ``dvd_mul_left``
 forces Lean to expand the definition of ``x^2`` to
-``x^1 * x``.
+``x * x^1``.
 See if you can guess the names of the theorems
 you need to prove the following:
 TEXT. -/
 -- QUOTE:
-example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 :=
-sorry
--- QUOTE.
+example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 :=
-begin
-  apply dvd_add,
-  { apply dvd_add,
-    { apply dvd_mul_of_dvd_right,
-      apply dvd_mul_right },
-    apply dvd_mul_right },
-  rw pow_two,
-  apply dvd_mul_of_dvd_right,
+example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
+  apply dvd_add
+  · apply dvd_add
+    · apply dvd_mul_of_dvd_right
+      apply dvd_mul_right
+    apply dvd_mul_left
+  rw [pow_two]
+  apply dvd_mul_of_dvd_right
   exact h
-end
 
 -- BOTH:
 end
@@ -351,44 +333,55 @@ Since every number divides ``0``,
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables m n : ℕ
-open nat
+variable (m n : ℕ)
+
+open Nat
 
 #check (gcd_zero_right n : gcd n 0 = n)
-#check (gcd_zero_left n  : gcd 0 n = n)
-#check (lcm_zero_right n : lcm n 0 = 0)
-#check (lcm_zero_left n  : lcm 0 n = 0)
--- QUOTE.
 
+#check (gcd_zero_left n : gcd 0 n = n)
+
+#check (lcm_zero_right n : lcm n 0 = 0)
+
+#check (lcm_zero_left n : lcm 0 n = 0)
+
+-- QUOTE.
 /- TEXT:
 The functions ``gcd`` and ``lcm`` for natural numbers are in the
-``nat`` namespace,
-which means that the full identifiers are ``nat.gcd`` and ``nat.lcm``.
-Similarly, the names of the theorems listed are prefixed by ``nat``.
-The command ``open nat`` opens the namespace,
+``Nat`` namespace,
+which means that the full identifiers are ``Nat.gcd`` and ``Nat.lcm``.
+Similarly, the names of the theorems listed are prefixed by ``Nat``.
+The command ``open Nat`` opens the namespace,
 allowing us to use the shorter names.
 
 See if you can guess the names of the theorems you will need to
 prove the following:
 TEXT. -/
 -- QUOTE:
-example : gcd m n = gcd n m :=
-sorry
--- QUOTE.
+example : gcd m n = gcd n m := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example : gcd m n = gcd n m :=
-begin
-  apply dvd_antisymm,
-  repeat {
-    apply dvd_gcd,
-    apply gcd_dvd_right,
-    apply gcd_dvd_left }
-end
+example : gcd m n = gcd n m := by
+  apply _root_.dvd_antisymm
+  repeat'
+    apply dvd_gcd
+    apply gcd_dvd_right
+    apply gcd_dvd_left
 
 -- BOTH:
 end
+
 /- TEXT:
-Hint: you can use ``dvd_antisymm``.
+Hint: you can use ``dvd_antisymm``, but if you do, Lean will
+complain that the expression is ambiguous between the generic
+theorem and the version ``Nat.dvd_antisymm``,
+the one specifically for the natural numbers.
+You can use ``_root_.dvd_antisymm`` to specify the generic one;
+either one will work.
 TEXT. -/
+
+-- OMIT: fix this: protect `dvd_antisymm`.

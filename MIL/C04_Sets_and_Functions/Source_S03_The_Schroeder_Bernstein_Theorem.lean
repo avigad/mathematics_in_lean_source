@@ -1,9 +1,10 @@
-import data.set.lattice
-import data.set.function
-import tactic
+import Mathlib.Data.Set.Lattice
+import Mathlib.Data.Set.Function
+import Mathlib.Tactic
 
-open set
-open function
+open Set
+
+open Function
 
 /- TEXT:
 .. _the_schroeder_bernstein_theorem:
@@ -109,12 +110,13 @@ Because the proof uses classical logic, we tell Lean that our definitions
 will generally not be computable.
 BOTH: -/
 -- QUOTE:
-noncomputable theory
-open_locale classical
+noncomputable section
 
-variables {α β : Type*} [nonempty β]
+open Classical
+
+variable {α β : Type _} [Nonempty β]
+
 -- QUOTE.
-
 /- TEXT:
 The annotation ``[nonempty β]`` specifies that ``β`` is nonempty.
 We use it because the mathlib primitive that we will use to
@@ -136,16 +138,18 @@ We define the set corresponding to the union of the shaded regions as follows.
 
 BOTH: -/
 section
+
 -- QUOTE:
-variables (f : α → β) (g : β → α)
+variable (f : α → β) (g : β → α)
 
-def sb_aux : ℕ → set α
-| 0       := univ \ (g '' univ)
-| (n + 1) := g '' (f '' sb_aux n)
+def sbAux : ℕ → Set α
+  | 0 => univ \ g '' univ
+  | n + 1 => g '' (f '' sbAux n)
 
-def sb_set := ⋃ n, sb_aux f g n
+def sbSet :=
+  ⋃ n, sbAux f g n
+
 -- QUOTE.
-
 /- TEXT:
 The definition ``sb_aux`` is an example of a *recursive definition*,
 which we will explain in the next chapter.
@@ -161,9 +165,10 @@ The definition ``sb_set`` corresponds to the set
 The function :math:`h` described above is now defined as follows:
 BOTH: -/
 -- QUOTE:
-def sb_fun (x : α) : β := if x ∈ sb_set f g then f x else inv_fun g x
--- QUOTE.
+def sbFun (x : α) : β :=
+  if x ∈ sbSet f g then f x else invFun g x
 
+-- QUOTE.
 /- TEXT:
 We will need the fact that our definition of :math:`g^{-1}` is a
 right inverse on the complement of :math:`A`,
@@ -184,30 +189,29 @@ Notice that rewriting with ``sb_aux`` here replaces ``sb_aux f g 0``
 with the right-hand side of the corresponding defining equation.
 BOTH: -/
 -- QUOTE:
-theorem sb_right_inv {x : α} (hx : x ∉ sb_set f g) :
-    g (inv_fun g x) = x :=
-begin
-  have : x ∈ g '' univ,
-  { contrapose! hx,
-    rw [sb_set, mem_Union],
-    use [0],
-    rw [sb_aux, mem_diff],
-/- EXAMPLES:
-    sorry },
-SOLUTIONS: -/
-    exact ⟨mem_univ _, hx⟩ },
--- BOTH:
-  have : ∃ y, g y = x,
-/- EXAMPLES:
-  { sorry },
-  sorry
-SOLUTIONS: -/
-  { simp at this, assumption },
-  exact inv_fun_eq this
--- BOTH:
-end
--- QUOTE.
+theorem sb_right_inv {x : α} (hx : x ∉ sbSet f g) : g (invFun g x) = x := by
+  have : x ∈ g '' univ := by
+    contrapose! hx
+    rw [sbSet, mem_iUnion]
+    use 0
+    rw [sbAux, mem_diff]
+    /- EXAMPLES:
+        sorry },
+    SOLUTIONS: -/
+    exact ⟨mem_univ _, hx⟩
+  -- BOTH:
+  have : ∃ y, g y = x :=
+    by
+    /- EXAMPLES:
+      { sorry },
+      sorry
+    SOLUTIONS: -/
+    simp at this
+    assumption
+  exact invFun_eq this
 
+-- BOTH:
+-- QUOTE.
 /- TEXT:
 We now turn to the proof that :math:`h` is injective.
 Informally, the proof goes as follows.
@@ -234,50 +238,48 @@ to see how the argument plays out in Lean.
 See if you can finish off the proof using ``sb_right_inv``.
 BOTH: -/
 -- QUOTE:
-theorem sb_injective (hf: injective f) (hg : injective g) :
-  injective (sb_fun f g) :=
-begin
-  set A := sb_set f g with A_def,
-  set h := sb_fun f g with h_def,
-  intros x₁ x₂,
-  assume hxeq : h x₁ = h x₂,
-  show x₁ = x₂,
-  simp only [h_def, sb_fun, ←A_def] at hxeq,
-  by_cases xA : x₁ ∈ A ∨ x₂ ∈ A,
-  { wlog x₁A : x₁ ∈ A generalizing x₁ x₂ hxeq xA,
-    { symmetry, apply this hxeq.symm xA.swap (xA.resolve_left x₁A) },
-    have x₂A : x₂ ∈ A,
-    { apply not_imp_self.mp,
-      assume x₂nA : x₂ ∉ A,
-      rw [if_pos x₁A, if_neg x₂nA] at hxeq,
-      rw [A_def, sb_set, mem_Union] at x₁A,
-      have x₂eq : x₂ = g (f x₁),
-/- EXAMPLES:
-      { sorry },
-SOLUTIONS: -/
-      { rw [hxeq, sb_right_inv f g x₂nA] },
--- BOTH:
-      rcases x₁A with ⟨n, hn⟩,
-      rw [A_def, sb_set, mem_Union],
-      use n + 1,
-      simp [sb_aux],
-      exact ⟨x₁, hn, x₂eq.symm⟩, },
-/- EXAMPLES:
-    sorry },
-SOLUTIONS: -/
-    rw [if_pos x₁A, if_pos x₂A] at hxeq,
-    exact hf hxeq },
--- BOTH:
-  push_neg at xA,
-/- EXAMPLES:
-  sorry
-SOLUTIONS: -/
-  rw [if_neg xA.1, if_neg xA.2] at hxeq,
-  rw [←sb_right_inv f g xA.1, hxeq, sb_right_inv f g xA.2]
--- BOTH:
-end
--- QUOTE.
+theorem sb_injective (hf : Injective f) (hg : Injective g) : Injective (sbFun f g) := by
+  set A := sbSet f g with A_def
+  set h := sbFun f g with h_def
+  intro x₁ x₂
+  intro (hxeq : h x₁ = h x₂)
+  show x₁ = x₂
+  simp only [h_def, sbFun, ← A_def] at hxeq
+  by_cases xA : x₁ ∈ A ∨ x₂ ∈ A
+  · wlog x₁A : x₁ ∈ A generalizing x₁ x₂ hxeq xA
+    · symm
+      apply this hxeq.symm xA.symm (xA.resolve_left x₁A)
+    have x₂A : x₂ ∈ A := by
+      apply not_imp_self.mp
+      intro (x₂nA : x₂ ∉ A)
+      rw [if_pos x₁A, if_neg x₂nA] at hxeq
+      rw [A_def, sbSet, mem_iUnion] at x₁A
+      have x₂eq : x₂ = g (f x₁) :=
+        by/- EXAMPLES:
+              { sorry },
+        SOLUTIONS: -/
+        rw [hxeq, sb_right_inv f g x₂nA]
+      -- BOTH:
+      rcases x₁A with ⟨n, hn⟩
+      rw [A_def, sbSet, mem_iUnion]
+      use n + 1
+      simp [sbAux]
+      exact ⟨x₁, hn, x₂eq.symm⟩
+    /- EXAMPLES:
+        sorry },
+    SOLUTIONS: -/
+    rw [if_pos x₁A, if_pos x₂A] at hxeq
+    exact hf hxeq
+  -- BOTH:
+  push_neg  at xA
+  /- EXAMPLES:
+    sorry
+  SOLUTIONS: -/
+  rw [if_neg xA.1, if_neg xA.2] at hxeq
+  rw [← sb_right_inv f g xA.1, hxeq, sb_right_inv f g xA.2]
 
+-- BOTH:
+-- QUOTE.
 /- TEXT:
 The proof introduces some new tactics.
 To start with, notice the ``set`` tactic, which introduces abbreviations
@@ -315,62 +317,55 @@ In both cases, calling the simplifier with ``simp [sb_aux]``
 applies the corresponding defining equation of ``sb_aux``.
 BOTH: -/
 -- QUOTE:
-theorem sb_surjective (hf: injective f) (hg : injective g) :
-  surjective (sb_fun f g) :=
-begin
-  set A := sb_set f g with A_def,
-  set h := sb_fun f g with h_def,
-  intro y,
-  by_cases gyA : g y ∈ A,
-  { rw [A_def, sb_set, mem_Union] at gyA,
-    rcases gyA with ⟨n, hn⟩,
-    cases n with n,
-    { simp [sb_aux] at hn,
-      contradiction },
-    simp [sb_aux] at hn,
-    rcases hn with ⟨x, xmem, hx⟩,
-    use x,
-    have : x ∈ A,
-    { rw [A_def, sb_set, mem_Union],
-      exact ⟨n, xmem⟩ },
-    simp only [h_def, sb_fun, if_pos this],
-    exact hg hx },
-/- EXAMPLES:
-  sorry
-SOLUTIONS: -/
-  use g y,
-  simp only [h_def, sb_fun, if_neg gyA],
-  apply left_inverse_inv_fun hg
--- BOTH:
-end
--- QUOTE.
+theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun f g) := by
+  set A := sbSet f g with A_def
+  set h := sbFun f g with h_def
+  intro y
+  by_cases gyA : g y ∈ A
+  · rw [A_def, sbSet, mem_iUnion] at gyA
+    rcases gyA with ⟨n, hn⟩
+    cases' n with n
+    · simp [sbAux] at hn
+    simp [sbAux] at hn
+    rcases hn with ⟨x, xmem, hx⟩
+    use x
+    have : x ∈ A := by
+      rw [A_def, sbSet, mem_iUnion]
+      exact ⟨n, xmem⟩
+    simp only [h_def, sbFun, if_pos this]
+    exact hg hx
+  /- EXAMPLES:
+    sorry
+  SOLUTIONS: -/
+  use g y
+  simp only [h_def, sbFun, if_neg gyA]
+  apply leftInverse_invFun hg
 
+-- BOTH:
+-- QUOTE.
 end
 
 /- TEXT:
 We can now put it all together. The final statement is short and sweet,
-and the proof uses the fact that ``bijective h`` unfolds to
-``injective h ∧ surjective h``.
+and the proof uses the fact that ``Bijective h`` unfolds to
+``Injective h ∧ Surjective h``.
 EXAMPLES: -/
 -- QUOTE:
-theorem schroeder_bernstein {f : α → β} {g : β → α}
-    (hf: injective f) (hg : injective g) :
-  ∃ h : α → β, bijective h :=
-⟨sb_fun f g, sb_injective f g hf hg, sb_surjective f g hf hg⟩
+theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Injective f) (hg : Injective g) :
+    ∃ h : α → β, Bijective h :=
+  ⟨sbFun f g, sb_injective f g hf hg, sb_surjective f g hf hg⟩
+
 -- QUOTE.
-
-/- Auxiliary information -/
-
+-- Auxiliary information
 section
-
-variables  (g : β → α) (x : α)
+variable (g : β → α) (x : α)
 
 -- TAG: inv_fun g
-#check (inv_fun g : α → β)
+#check (invFun g : α → β)
+#check (leftInverse_invFun : Injective g → LeftInverse (invFun g) g)
+#check (leftInverse_invFun : Injective g → ∀ y, invFun g (g y) = y)
+#check (invFun_eq : (∃ y, g y = x) → g (invFun g x) = x)
 
-#check (left_inverse_inv_fun : injective g → left_inverse (inv_fun g) g)
-#check (left_inverse_inv_fun : injective g → ∀ y, inv_fun g (g y) = y)
-
-#check (inv_fun_eq : (∃ y, g y = x) → g (inv_fun g x) = x)
 -- TAG: end
 end
+

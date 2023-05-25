@@ -1,5 +1,5 @@
 -- BOTH:
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _the_existential_quantifier:
@@ -27,13 +27,11 @@ the ``use`` tactic is used to provide the object,
 leaving the goal of proving the property.
 TEXT. -/
 -- QUOTE:
-example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
-begin
-  use 5 / 2,
+example : ∃ x : ℝ, 2 < x ∧ x < 3 := by
+  use 5 / 2
   norm_num
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 .. index:: anonymous constructor
 
@@ -42,13 +40,10 @@ to construct the proof.
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
-begin
-  have h : 2 < (5 : ℝ) / 2 ∧ (5 : ℝ) / 2 < 3,
-    by norm_num,
-  exact ⟨5 / 2, h⟩
-end
--- QUOTE.
+  have h : 2 < (5 : ℝ) / 2 ∧ (5 : ℝ) / 2 < 3 := by norm_num
+  ⟨5 / 2, h⟩
 
+-- QUOTE.
 /- TEXT:
 The left and right angle brackets,
 which can be entered as ``\<`` and ``\>`` respectively,
@@ -59,16 +54,16 @@ We can use the notation without going first into tactic mode:
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
-⟨5 / 2, by norm_num⟩
--- QUOTE.
+  ⟨5 / 2, by norm_num⟩
 
+-- QUOTE.
 /- TEXT:
 So now we know how to *prove* an exists statement.
 But how do we *use* one?
 If we know that there exists an object with a certain property,
 we should be able to give a name to an arbitrary one
 and reason about it.
-For example, remember the predicates ``fn_ub f a`` and ``fn_lb f a``
+For example, remember the predicates ``FnUb f a`` and ``FnLb f a``
 from the last section,
 which say that ``a`` is an upper bound or lower bound on ``f``,
 respectively.
@@ -77,40 +72,42 @@ without specifying the bound:
 TEXT. -/
 -- BOTH:
 -- QUOTE:
-def fn_ub (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, f x ≤ a
-def fn_lb (f : ℝ → ℝ) (a : ℝ) : Prop := ∀ x, a ≤ f x
+def FnUb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, f x ≤ a
 
-def fn_has_ub (f : ℝ → ℝ) := ∃ a, fn_ub f a
-def fn_has_lb (f : ℝ → ℝ) := ∃ a, fn_lb f a
+def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
+  ∀ x, a ≤ f x
+
+def FnHasUb (f : ℝ → ℝ) :=
+  ∃ a, FnUb f a
+
+def FnHasLb (f : ℝ → ℝ) :=
+  ∃ a, FnLb f a
+
 -- QUOTE.
-
 /- TEXT:
-We can use the theorem ``fn_ub_add`` from the last section
+We can use the theorem ``FnUb_add`` from the last section
 to prove that if ``f`` and ``g`` have upper bounds,
-then so does ``λ x, f x + g x``.
+then so does `` gun x => f x + g x``.
 TEXT. -/
-
 -- BOTH:
-theorem fn_ub_add {f g : ℝ → ℝ} {a b : ℝ}
-    (hfa : fn_ub f a) (hgb : fn_ub g b) :
-  fn_ub (λ x, f x + g x) (a + b) :=
-λ x, add_le_add (hfa x) (hgb x)
+theorem fnUb_add {f g : ℝ → ℝ} {a b : ℝ} (hfa : FnUb f a) (hgb : FnUb g b) :
+    FnUb (fun x => f x + g x) (a + b) :=
+  fun x => add_le_add (hfa x) (hgb x)
 
 section
+
 -- QUOTE:
-variables {f g : ℝ → ℝ}
+variable {f g : ℝ → ℝ}
 
 -- EXAMPLES:
-example (ubf : fn_has_ub f) (ubg : fn_has_ub g) :
-  fn_has_ub (λ x, f x + g x) :=
-begin
-  cases ubf with a ubfa,
-  cases ubg with b ubfb,
-  use a + b,
-  apply fn_ub_add ubfa ubfb
-end
--- QUOTE.
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
+  cases' ubf with a ubfa
+  cases' ubg with b ubfb
+  use a + b
+  apply fnUb_add ubfa ubfb
 
+-- QUOTE.
 /- TEXT:
 .. index:: cases, tactics ; cases
 
@@ -140,34 +137,26 @@ or you can insert the arguments directly
 into the proofs.
 TEXT. -/
 -- QUOTE:
-example (lbf : fn_has_lb f) (lbg : fn_has_lb g) :
-  fn_has_lb (λ x, f x + g x) :=
-sorry
+example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
+  sorry
 
-example {c : ℝ} (ubf : fn_has_ub f) (h : c ≥ 0):
-  fn_has_ub (λ x, c * f x) :=
-sorry
+example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (lbf : fn_has_lb f) (lbg : fn_has_lb g) :
-  fn_has_lb (λ x, f x + g x) :=
-begin
-  cases lbf with a lbfa,
-  cases lbg with b lbgb,
-  use a + b,
-  intro x,
+example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
+  cases' lbf with a lbfa
+  cases' lbg with b lbgb
+  use a + b
+  intro x
   exact add_le_add (lbfa x) (lbgb x)
-end
 
-example {c : ℝ} (ubf : fn_has_ub f) (h : c ≥ 0):
-  fn_has_ub (λ x, c * f x) :=
-begin
-  cases ubf with a lbfa,
-  use c * a,
-  intro x,
+example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := by
+  cases' ubf with a lbfa
+  use c * a
+  intro x
   exact mul_le_mul_of_nonneg_left (lbfa x) h
-end
 
 /- TEXT:
 .. index:: rintros, tactics ; rintros, rcases, tactics ; rcases
@@ -186,32 +175,25 @@ is a combination of ``intros`` and ``rcases``.
 These examples illustrate their use:
 TEXT. -/
 -- QUOTE:
-example (ubf : fn_has_ub f) (ubg : fn_has_ub g) :
-  fn_has_ub (λ x, f x + g x) :=
-begin
-  rcases ubf with ⟨a, ubfa⟩,
-  rcases ubg with ⟨b, ubfb⟩,
-  exact ⟨a + b, fn_ub_add ubfa ubfb⟩
-end
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
+  rcases ubf with ⟨a, ubfa⟩
+  rcases ubg with ⟨b, ubfb⟩
+  exact ⟨a + b, fnUb_add ubfa ubfb⟩
 
-example : fn_has_ub f → fn_has_ub g →
-  fn_has_ub (λ x, f x + g x) :=
-begin
-  rintros ⟨a, ubfa⟩ ⟨b, ubfb⟩,
-  exact ⟨a + b, fn_ub_add ubfa ubfb⟩
-end
+example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x := by
+  rintro ⟨a, ubfa⟩ ⟨b, ubfb⟩
+  exact ⟨a + b, fnUb_add ubfa ubfb⟩
+
 -- QUOTE.
-
 /- TEXT:
 In fact, Lean also supports a pattern-matching lambda
 in expressions and proof terms:
 TEXT. -/
 -- QUOTE:
-example : fn_has_ub f → fn_has_ub g →
-  fn_has_ub (λ x, f x + g x) :=
-λ ⟨a, ubfa⟩ ⟨b, ubfb⟩, ⟨a + b, fn_ub_add ubfa ubfb⟩
--- QUOTE.
+example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x :=
+  fun ⟨a, ubfa⟩ ⟨b, ubfb⟩ => ⟨a + b, fnUb_add ubfa ubfb⟩
 
+-- QUOTE.
 -- BOTH:
 end
 
@@ -239,21 +221,21 @@ as a sum of squares as a list to the ``use`` statement,
 and we use ``ring`` to verify that they work.
 TEXT. -/
 section
+
 -- QUOTE:
-variables {α : Type*} [comm_ring α]
+variable {α : Type _} [CommRing α]
 
-def sum_of_squares (x : α) := ∃ a b, x = a^2 + b^2
+def SumOfSquares (x : α) :=
+  ∃ a b, x = a ^ 2 + b ^ 2
 
-theorem sum_of_squares_mul {x y : α}
-    (sosx : sum_of_squares x) (sosy : sum_of_squares y) :
-  sum_of_squares (x * y) :=
-begin
-  rcases sosx with ⟨a, b, xeq⟩,
-  rcases sosy with ⟨c, d, yeq⟩,
-  rw [xeq, yeq],
-  use [a*c - b*d, a*d + b*c],
+theorem sumOfSquares_mul {x y : α} (sosx : SumOfSquares x) (sosy : SumOfSquares y) :
+    SumOfSquares (x * y) := by
+  rcases sosx with ⟨a, b, xeq⟩
+  rcases sosy with ⟨c, d, yeq⟩
+  rw [xeq, yeq]
+  use a * c - b * d, a * d + b * c
   ring
-end
+
 -- QUOTE.
 /- TEXT:
 This proof doesn't provide much insight,
@@ -286,18 +268,16 @@ if you use the keyword ``rfl`` in place of a new identifier,
 with pattern-matching lambdas).
 TEXT. -/
 -- QUOTE:
-theorem sum_of_squares_mul' {x y : α}
-    (sosx : sum_of_squares x) (sosy : sum_of_squares y) :
-  sum_of_squares (x * y) :=
-begin
-  rcases sosx with ⟨a, b, rfl⟩,
-  rcases sosy with ⟨c, d, rfl⟩,
-  use [a*c - b*d, a*d + b*c],
+theorem sumOfSquares_mul' {x y : α} (sosx : SumOfSquares x) (sosy : SumOfSquares y) :
+    SumOfSquares (x * y) := by
+  rcases sosx with ⟨a, b, rfl⟩
+  rcases sosy with ⟨c, d, rfl⟩
+  use a * c - b * d, a * d + b * c
   ring
-end
--- QUOTE.
 
+-- QUOTE.
 end
+
 /- TEXT:
 As with the universal quantifier,
 you can find existential quantifiers hidden all over
@@ -306,19 +286,18 @@ For example, divisibility is implicitly an "exists" statement.
 TEXT. -/
 -- BOTH:
 section
-variables {a b c : ℕ}
+
+variable {a b c : ℕ}
 
 -- EXAMPLES:
 -- QUOTE:
-example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c :=
-begin
-  cases divab with d beq,
-  cases divbc with e ceq,
-  rw [ceq, beq],
-  use (d * e), ring
-end
--- QUOTE.
+example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c := by
+  cases' divab with d beq
+  cases' divbc with e ceq
+  rw [ceq, beq]
+  use d * e; ring
 
+-- QUOTE.
 /- TEXT:
 And once again, this provides a nice setting for using
 ``rcases`` with ``rfl``.
@@ -328,24 +307,20 @@ It feels pretty good!
 Then try proving the following:
 TEXT. -/
 -- QUOTE:
-example (divab : a ∣ b) (divac : a ∣ c) : a ∣ (b + c) :=
-sorry
+example (divab : a ∣ b) (divac : a ∣ c) : a ∣ b + c := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c :=
-begin
-  rcases divab with ⟨d, rfl⟩,
-  rcases divbc with ⟨e, rfl⟩,
-  use (d * e), ring
-end
+example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c := by
+  rcases divab with ⟨d, rfl⟩
+  rcases divbc with ⟨e, rfl⟩
+  use d * e; ring
 
-example (divab : a ∣ b) (divac : a ∣ c) : a ∣ (b + c) :=
-begin
-  rcases divab with ⟨d, rfl⟩,
-  rcases divac with ⟨e, rfl⟩,
-  use (d + e), ring
-end
+example (divab : a ∣ b) (divac : a ∣ c) : a ∣ b + c := by
+  rcases divab with ⟨d, rfl⟩
+  rcases divac with ⟨e, rfl⟩
+  use d + e; ring
 
 -- BOTH:
 end
@@ -364,40 +339,35 @@ why the next example makes use of both ``intro`` and ``use``.
 TEXT. -/
 -- BOTH:
 section
-open function
+
+open Function
 
 -- EXAMPLES:
 -- QUOTE:
-example {c : ℝ} : surjective (λ x, x + c) :=
-begin
-  intro x,
-  use x - c,
-  dsimp, ring
-end
--- QUOTE.
+example {c : ℝ} : Surjective fun x => x + c := by
+  intro x
+  use x - c
+  dsimp; ring
 
+-- QUOTE.
 /- TEXT:
 Try this example yourself:
 TEXT. -/
 -- QUOTE:
-example {c : ℝ} (h : c ≠ 0) : surjective (λ x, c * x) :=
-sorry
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example {c : ℝ} (h : c ≠ 0) : surjective (λ x, c * x) :=
-begin
-  intro x,
-  use x / c,
-  dsimp, rw [mul_div_cancel' _ h]
-end
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+  intro x
+  use x / c
+  dsimp; rw [mul_div_cancel' _ h]
 
-example {c : ℝ} (h : c ≠ 0) : surjective (λ x, c * x) :=
-begin
-  intro x,
-  use x / c,
-  field_simp [h], ring
-end
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+  intro x
+  use x / c
+  field_simp [h] ; ring
 
 /- TEXT:
 .. index:: field_simp, tactic ; field_simp
@@ -407,10 +377,11 @@ that will often clear denominators in a useful way.
 It can be used in conjunction with the ``ring`` tactic.
 TEXT. -/
 -- QUOTE:
-example (x y : ℝ) (h : x - y ≠ 0) : (x^2 - y^2) / (x - y) = x + y :=
-by { field_simp [h], ring }
--- QUOTE.
+example (x y : ℝ) (h : x - y ≠ 0) : (x ^ 2 - y ^ 2) / (x - y) = x + y := by
+  field_simp [h]
+  ring
 
+-- QUOTE.
 /- TEXT:
 You can use the theorem ``div_mul_cancel``.
 The next example uses a surjectivity hypothesis
@@ -419,15 +390,13 @@ Note that you can use ``cases`` with any expression,
 not just a hypothesis.
 TEXT. -/
 -- QUOTE:
-example {f : ℝ → ℝ} (h : surjective f) : ∃ x, (f x)^2 = 4 :=
-begin
-  cases h 2 with x hx,
-  use x,
-  rw hx,
+example {f : ℝ → ℝ} (h : Surjective f) : ∃ x, f x ^ 2 = 4 := by
+  cases' h 2 with x hx
+  use x
+  rw [hx]
   norm_num
-end
--- QUOTE.
 
+-- QUOTE.
 -- BOTH:
 end
 
@@ -437,26 +406,26 @@ the composition of surjective functions is surjective.
 TEXT. -/
 -- BOTH:
 section
-open function
+
+open Function
+
 -- QUOTE:
-variables {α : Type*} {β : Type*} {γ : Type*}
-variables {g : β → γ} {f : α → β}
+variable {α : Type _} {β : Type _} {γ : Type _}
+
+variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
-example (surjg : surjective g) (surjf : surjective f) :
-  surjective (λ x, g (f x)) :=
-sorry
--- QUOTE.
+example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example (surjg : surjective g) (surjf : surjective f) :
-  surjective (λ x, g (f x)) :=
-begin
-  intro z,
-  rcases surjg z with ⟨y, rfl⟩,
-  rcases surjf y with ⟨x, rfl⟩,
-  use [x, rfl]
-end
+example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
+  intro z
+  rcases surjg z with ⟨y, rfl⟩
+  rcases surjf y with ⟨x, rfl⟩
+  use x
 
 -- BOTH:
 end
+

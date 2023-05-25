@@ -1,4 +1,4 @@
-import data.real.basic
+import Mathlib.Data.Real.Basic
 
 /- TEXT:
 .. _disjunction:
@@ -15,17 +15,20 @@ and the ``right`` tactic chooses ``B``.
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {x y : ℝ}
+variable {x y : ℝ}
 
 -- EXAMPLES:
-example (h : y > x^2) : y > 0 ∨ y < -1 :=
-by { left, linarith [pow_two_nonneg x] }
+example (h : y > x ^ 2) : y > 0 ∨ y < -1 := by
+  left
+  linarith [pow_two_nonneg x]
 
-example (h : -y > x^2 + 1) : y > 0 ∨ y < -1 :=
-by { right, linarith [pow_two_nonneg x] }
+example (h : -y > x ^ 2 + 1) : y > 0 ∨ y < -1 := by
+  right
+  linarith [pow_two_nonneg x]
+
 -- QUOTE.
-
 /- TEXT:
 We cannot use an anonymous constructor to construct a proof
 of an "or" because Lean would have to guess
@@ -38,12 +41,12 @@ Here, ``inl`` is short for "introduction left" and
 TEXT. -/
 -- QUOTE:
 example (h : y > 0) : y > 0 ∨ y < -1 :=
-or.inl h
+  Or.inl h
 
 example (h : y < -1) : y > 0 ∨ y < -1 :=
-or.inr h
--- QUOTE.
+  Or.inr h
 
+-- QUOTE.
 /- TEXT:
 It may seem strange to prove a disjunction by proving one side
 or the other.
@@ -65,16 +68,16 @@ In the next example, we tell Lean
 to use the name ``h`` on each branch.
 TEXT. -/
 -- QUOTE:
-example : x < abs y → x < y ∨ x < -y :=
-begin
-  cases le_or_gt 0 y with h h,
-  { rw abs_of_nonneg h,
-    intro h, left, exact h },
-  rw abs_of_neg h,
-  intro h, right, exact h
-end
--- QUOTE.
+example : x < abs y → x < y ∨ x < -y := by
+  cases' le_or_gt 0 y with h h
+  · rw [abs_of_nonneg h]
+    intro h
+    left
+    exact h
+  rw [abs_of_neg h]
+  intro h; right; exact h
 
+-- QUOTE.
 /- TEXT:
 The absolute value function is defined in such a way
 that we can immediately prove that
@@ -89,44 +92,38 @@ They are given the same names they have in mathlib.
 TEXT. -/
 -- BOTH:
 -- QUOTE:
-namespace my_abs
+namespace MyAbs
 
 -- EXAMPLES:
-theorem le_abs_self (x : ℝ) : x ≤ abs x :=
-sorry
+theorem le_abs_self (x : ℝ) : x ≤ abs x := by
+  sorry
 
-theorem neg_le_abs_self (x : ℝ) : -x ≤ abs x :=
-sorry
+theorem neg_le_abs_self (x : ℝ) : -x ≤ abs x := by
+  sorry
 
-theorem abs_add (x y : ℝ) : abs (x + y) ≤ abs x + abs y :=
-sorry
+theorem abs_add (x y : ℝ) : abs (x + y) ≤ abs x + abs y := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem le_abs_selfαα (x : ℝ) : x ≤ abs x :=
-begin
-  cases le_or_gt 0 x with h h,
-  { rw abs_of_nonneg h },
-  rw abs_of_neg h,
+theorem le_abs_selfαα (x : ℝ) : x ≤ abs x := by
+  cases' le_or_gt 0 x with h h
+  · rw [abs_of_nonneg h]
+  rw [abs_of_neg h]
   linarith
-end
 
-theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ abs x :=
-begin
-  cases le_or_gt 0 x with h h,
-  { rw abs_of_nonneg h,
-    linarith },
-  rw abs_of_neg h
-end
+theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ abs x := by
+  cases' le_or_gt 0 x with h h
+  · rw [abs_of_nonneg h]
+    linarith
+  rw [abs_of_neg h]
 
-theorem abs_addαα (x y : ℝ) : abs (x + y) ≤ abs x + abs y :=
-begin
-  cases le_or_gt 0 (x + y) with h h,
-  { rw abs_of_nonneg h,
-    linarith [le_abs_self x, le_abs_self y] },
-  rw abs_of_neg h,
+theorem abs_addαα (x y : ℝ) : abs (x + y) ≤ abs x + abs y := by
+  cases' le_or_gt 0 (x + y) with h h
+  · rw [abs_of_nonneg h]
+    linarith [le_abs_self x, le_abs_self y]
+  rw [abs_of_neg h]
   linarith [neg_le_abs_self x, neg_le_abs_self y]
-end
 
 /- TEXT:
 In case you enjoyed these (pun intended) and
@@ -134,57 +131,58 @@ you want more practice with disjunction,
 try these.
 TEXT. -/
 -- QUOTE:
-theorem lt_abs : x < abs y ↔ x < y ∨ x < -y :=
-sorry
+theorem lt_abs : x < abs y ↔ x < y ∨ x < -y := by
+  sorry
 
-theorem abs_lt : abs x < y ↔ - y < x ∧ x < y :=
-sorry
+theorem abs_lt : abs x < y ↔ -y < x ∧ x < y := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y :=
-begin
-  cases le_or_gt 0 y with h h,
-  { rw abs_of_nonneg h,
-    split,
-    { intro h', left, exact h' },
-    intro h',
-    cases h' with h' h',
-    { exact h' },
-    linarith },
-  rw abs_of_neg h,
-  split,
-  { intro h', right, exact h' },
-  intro h',
-  cases h' with h' h',
-  { linarith },
+theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y := by
+  cases' le_or_gt 0 y with h h
+  · rw [abs_of_nonneg h]
+    constructor
+    · intro h'
+      left
+      exact h'
+    intro h'
+    cases' h' with h' h'
+    · exact h'
+    linarith
+  rw [abs_of_neg h]
+  constructor
+  · intro h'
+    right
+    exact h'
+  intro h'
+  cases' h' with h' h'
+  · linarith
   exact h'
-end
 
-theorem abs_ltαα : abs x < y ↔ - y < x ∧ x < y :=
-begin
-  cases le_or_gt 0 x with h h,
-  { rw abs_of_nonneg h,
-    split,
-    { intro h',
-      split,
-      { linarith },
-      exact h' },
-    intro h',
-    cases h' with h1 h2,
-    exact h2 },
-  rw abs_of_neg h,
-  split,
-  { intro h',
-    split,
-    { linarith },
-    linarith },
-  intro h',
+theorem abs_ltαα : abs x < y ↔ -y < x ∧ x < y := by
+  cases' le_or_gt 0 x with h h
+  · rw [abs_of_nonneg h]
+    constructor
+    · intro h'
+      constructor
+      · linarith
+      exact h'
+    intro h'
+    cases' h' with h1 h2
+    exact h2
+  rw [abs_of_neg h]
+  constructor
+  · intro h'
+    constructor
+    · linarith
+    linarith
+  intro h'
   linarith
-end
 
 -- BOTH:
-end my_abs
+end MyAbs
+
 end
 
 /- TEXT:
@@ -193,45 +191,40 @@ When these result in a genuine case split with multiple goals,
 the patterns for each new goal are separated by a vertical bar.
 TEXT. -/
 -- QUOTE:
-example {x : ℝ} (h : x ≠ 0) : x < 0 ∨ x > 0 :=
-begin
-  rcases lt_trichotomy x 0 with xlt | xeq | xgt,
-  { left, exact xlt },
-  { contradiction },
-  right, exact xgt
-end
--- QUOTE.
+example {x : ℝ} (h : x ≠ 0) : x < 0 ∨ x > 0 := by
+  rcases lt_trichotomy x 0 with (xlt | xeq | xgt)
+  · left
+    exact xlt
+  · contradiction
+  right; exact xgt
 
+-- QUOTE.
 /- TEXT:
 You can still nest patterns and use the ``rfl`` keyword
 to substitute equations:
 TEXT. -/
 -- QUOTE:
-example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k :=
-begin
-  rcases h with ⟨a, rfl⟩ | ⟨b, rfl⟩,
-  { rw [mul_assoc],
-    apply dvd_mul_right },
-  rw [mul_comm, mul_assoc],
+example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k := by
+  rcases h with (⟨a, rfl⟩ | ⟨b, rfl⟩)
+  · rw [mul_assoc]
+    apply dvd_mul_right
+  rw [mul_comm, mul_assoc]
   apply dvd_mul_right
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 See if you can prove the following with a single (long) line.
 Use ``rcases`` to unpack the hypotheses and split on cases,
 and use a semicolon and ``linarith`` to solve each branch.
 TEXT. -/
 -- QUOTE:
-example {z : ℝ} (h : ∃ x y, z = x^2 + y^2 ∨ z = x^2 + y^2 + 1) :
-  z ≥ 0 :=
-sorry
--- QUOTE.
+example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by
+  sorry
 
+-- QUOTE.
 -- SOLUTIONS:
-example {z : ℝ} (h : ∃ x y, z = x^2 + y^2 ∨ z = x^2 + y^2 + 1) :
-  z ≥ 0 :=
-by { rcases h with ⟨x, y, rfl | rfl⟩; linarith [sq_nonneg x, sq_nonneg y] }
+example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by
+  rcases h with ⟨x, y, rfl | rfl⟩ <;> linarith [sq_nonneg x, sq_nonneg y]
 
 /- TEXT:
 On the real numbers, an equation ``x * y = 0``
@@ -241,41 +234,35 @@ and it is another nice example of how a disjunction can arise.
 See if you can use it to prove the following:
 TEXT. -/
 -- QUOTE:
-example {x : ℝ} (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-sorry
+example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
+  sorry
 
-example {x y : ℝ} (h : x^2 = y^2) : x = y ∨ x = -y :=
-sorry
+example {x y : ℝ} (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example {x : ℝ} (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-begin
-  have h' : x^2 - 1 = 0,
-  { rw [h, sub_self] },
-  have h'' : (x + 1) * (x - 1) = 0,
-  { rw ← h',
-    ring },
-  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
-  { right,
-    exact eq_neg_iff_add_eq_zero.mpr h1 },
-  left,
+example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
+  have h' : x ^ 2 - 1 = 0 := by rw [h, sub_self]
+  have h'' : (x + 1) * (x - 1) = 0 := by
+    rw [← h']
+    ring
+  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  · right
+    exact eq_neg_iff_add_eq_zero.mpr h1
+  left
   exact eq_of_sub_eq_zero h1
-end
 
-example {x y : ℝ} (h : x^2 = y^2) : x = y ∨ x = -y :=
-begin
-  have h' : x^2 - y^2 = 0,
-  { rw [h, sub_self] },
-  have h'' : (x + y) * (x - y) = 0,
-  { rw ← h',
-    ring },
-  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
-  { right,
-    exact eq_neg_iff_add_eq_zero.mpr h1 },
-  left,
+example {x y : ℝ} (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
+  have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
+  have h'' : (x + y) * (x - y) = 0 := by
+    rw [← h']
+    ring
+  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  · right
+    exact eq_neg_iff_add_eq_zero.mpr h1
+  left
   exact eq_of_sub_eq_zero h1
-end
 
 /- TEXT:
 Remember that you can use the ``ring`` tactic to help
@@ -297,46 +284,42 @@ in any integral domain:
 TEXT. -/
 -- BOTH:
 section
+
 -- QUOTE:
-variables {R : Type*} [comm_ring R] [is_domain R]
-variables (x y : R)
+variable {R : Type _} [CommRing R] [IsDomain R]
+
+variable (x y : R)
 
 -- EXAMPLES:
-example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-sorry
+example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
+  sorry
 
-example (h : x^2 = y^2) : x = y ∨ x = -y :=
-sorry
+example (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (h : x^2 = 1) : x = 1 ∨ x = -1 :=
-begin
-  have h' : x^2 - 1 = 0,
-  { rw [h, sub_self] },
-  have h'' : (x + 1) * (x - 1) = 0,
-  { rw ← h',
-    ring },
-  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
-  { right,
-    exact eq_neg_iff_add_eq_zero.mpr h1 },
-  left,
+example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
+  have h' : x ^ 2 - 1 = 0 := by rw [h, sub_self]
+  have h'' : (x + 1) * (x - 1) = 0 := by
+    rw [← h']
+    ring
+  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  · right
+    exact eq_neg_iff_add_eq_zero.mpr h1
+  left
   exact eq_of_sub_eq_zero h1
-end
 
-example (h : x^2 = y^2) : x = y ∨ x = -y :=
-begin
-  have h' : x^2 - y^2 = 0,
-  { rw [h, sub_self] },
-  have h'' : (x + y) * (x - y) = 0,
-  { rw ← h',
-    ring },
-  cases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1,
-  { right,
-    exact eq_neg_iff_add_eq_zero.mpr h1 },
-  left,
+example (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
+  have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
+  have h'' : (x + y) * (x - y) = 0 := by
+    rw [← h']
+    ring
+  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  · right
+    exact eq_neg_iff_add_eq_zero.mpr h1
+  left
   exact eq_of_sub_eq_zero h1
-end
 
 -- BOTH:
 end
@@ -352,44 +335,32 @@ a ``domain`` instead of an ``integral_domain``.
 Sometimes in a proof we want to split on cases
 depending on whether some statement is true or not.
 For any proposition ``P``, we can use
-``classical.em P : P ∨ ¬ P``.
+``em P : P ∨ ¬ P``.
 The name ``em`` is short for "excluded middle."
 TEXT. -/
 -- QUOTE:
-example (P : Prop) : ¬ ¬ P → P :=
-begin
-  intro h,
-  cases classical.em P,
-  { assumption },
+example (P : Prop) : ¬¬P → P := by
+  intro h
+  cases em P
+  · assumption
   contradiction
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 .. index:: by_cases, tactics ; by_cases
 
-You can shorten ``classical.em`` to ``em``
-by opening the ``classical`` namespace with the command
-``open classical``.
 Alternatively, you can use the ``by_cases`` tactic.
-The ``open_locale classical`` command guarantees that Lean can
-make implicit use of the law of the excluded middle.
+
 TEXT. -/
--- BOTH:
-section
 -- QUOTE:
-open_locale classical
-
 -- EXAMPLES:
-example (P : Prop) : ¬ ¬ P → P :=
-begin
-  intro h,
-  by_cases h' : P,
-  { assumption },
+example (P : Prop) : ¬¬P → P := by
+  intro h
+  by_cases h' : P
+  · assumption
   contradiction
-end
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
 Notice that the ``by_cases`` tactic lets you
 specify a label for the hypothesis that is
@@ -402,26 +373,23 @@ Try proving the following equivalence,
 using ``by_cases`` to establish one direction.
 TEXT. -/
 -- QUOTE:
-example (P Q : Prop) : (P → Q) ↔ ¬ P ∨ Q :=
-sorry
+example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
+  sorry
+
 -- QUOTE.
-
 -- SOLUTIONS:
-example (P Q : Prop) : (P → Q) ↔ ¬ P ∨ Q :=
-begin
-  split,
-  { intro h,
-    by_cases h' : P,
-    { right,
-      exact h h'},
-    left,
-    exact h' },
-  rintros (h | h),
-  { intro h',
-    exact absurd h' h },
-  intro _,
+example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
+  constructor
+  · intro h
+    by_cases h' : P
+    · right
+      exact h h'
+    left
+    exact h'
+  rintro (h | h)
+  · intro h'
+    exact absurd h' h
+  intro
   exact h
-end
 
--- BOTH:
-end
+
