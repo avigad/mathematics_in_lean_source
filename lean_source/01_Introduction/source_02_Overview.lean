@@ -212,8 +212,10 @@ Your life may never be the same.
 
 *Acknowledgments.* We are grateful to Gabriel Ebner for setting up the
 infrastructure for running this tutorial in VS Code.
-We are also grateful for help from
-Bryan Gin-ge Chen, Johan Commelin, Julian Külshammer, and Guilherme Silva.
+We are also grateful for help and corrections from
+Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
+Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Bartosz Piotrowski,
+and Guilherme Silva.
 Our work has been partially supported by the Hoskinson Center for
 Formal Mathematics.
 TEXT. -/
