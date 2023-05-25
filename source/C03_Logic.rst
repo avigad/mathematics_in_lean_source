@@ -13,17 +13,17 @@ using logical terms like "and," "or," "not," and
 In this chapter, we show you how to work with statements
 that are built up in this way.
 
-.. include:: 03_Logic/01_Implication_and_the_Universal_Quantifier.inc
+.. include:: C03_Logic/S01_Implication_and_the_Universal_Quantifier.inc
 
-.. include:: 03_Logic/02_The_Existential_Quantifier.inc
+.. include:: C03_Logic/S02_The_Existential_Quantifier.inc
 
-.. include:: 03_Logic/03_Negation.inc
+.. include:: C03_Logic/S03_Negation.inc
 
-.. include:: 03_Logic/04_Conjunction_and_Bi-implication.inc
+.. include:: C03_Logic/S04_Conjunction_and_Bi-implication.inc
 
-.. include:: 03_Logic/05_Disjunction.inc
+.. include:: C03_Logic/S05_Disjunction.inc
 
-.. include:: 03_Logic/06_Sequences_and_Convergence.inc
+.. include:: C03_Logic/S06_Sequences_and_Convergence.inc
 
 
 

@@ -38,8 +38,8 @@ from real numbers to real numbers.
 The distinction between types and set takes some getting used to,
 but this chapter will take you through the essentials.
 
-.. include:: 04_Sets_and_Functions/01_Sets.inc
+.. include:: C04_Sets_and_Functions/S01_Sets.inc
 
-.. include:: 04_Sets_and_Functions/02_Functions.inc
+.. include:: C04_Sets_and_Functions/S02_Functions.inc
 
-.. include:: 04_Sets_and_Functions/03_The_Schroeder_Bernstein_Theorem.inc
+.. include:: C04_Sets_and_Functions/S03_The_Schroeder_Bernstein_Theorem.inc

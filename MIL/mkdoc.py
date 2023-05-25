@@ -9,7 +9,7 @@ section_name = sys.argv[2]
 
 # Paths to input and output files.
 root = Path(__file__).parent
-source_path = root/chapter_name/('source_' + section_name + '.lean')
+source_path = root/chapter_name/('Source_' + section_name + '.lean')
 rst_chapter_path = root.resolve().parent/'source'/chapter_name
 if not rst_chapter_path.exists():
     rst_chapter_path.mkdir()
@@ -21,7 +21,7 @@ lean_solutions_path = lean_chapter_path/'solutions'
 if not lean_solutions_path.exists():
     lean_solutions_path.mkdir()
 lean_file_path = lean_chapter_path/(section_name + '.lean')
-solutions_path = lean_solutions_path/('solutions_' + section_name + '.lean')
+solutions_path = lean_solutions_path/('Solutions_' + section_name + '.lean')
 
 # Regular expressions.
 main_mode = regex.compile(r'-- EXAMPLES:.*|/- EXAMPLES:.*|EXAMPLES: -/.*')
