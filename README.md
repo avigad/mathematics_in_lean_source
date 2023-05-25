@@ -7,8 +7,8 @@ This is the source code for
 
 Our build process is rudimentary and not ready for prime time, but it is fairly
 convenient to use. Most of the source is written directly in the `.lean` files
-in `lean_source` using some simple markup. The Python script
-`lean_source/mkall.sh` then generates the `.rst` source for the textbook and
+in `MIL` using some simple markup. The Python script
+`MIL/mkall.sh` then generates the `.rst` source for the textbook and
 an exercise file and a solution file for each section.
 
 To build the textbook, you need to have
@@ -18,12 +18,12 @@ The following files are maintained by hand:
 - For each chapter, there should be a `.rst` file in `source`. It should include
   each of the sections.
 - For each section, there should be a `.lean` file in the appropriate place
-  in `lean_source`.
-- Each section should have a corresponding line in `lean_source/mkall.sh`.
+  in `MIL`.
+- Each section should have a corresponding line in `MIL/mkall.sh`.
 
 Is everything is set up right, the command
 ```
-lean_source/mkall.sh
+MIL/mkall.sh
 ```
 from the top level should build the restructured text files, the exercise files,
 and the solutions. The command
