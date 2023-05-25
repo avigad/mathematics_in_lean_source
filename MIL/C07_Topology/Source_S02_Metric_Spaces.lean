@@ -118,8 +118,7 @@ proof term, as can be seen from the following two new proofs of the above statem
 BOTH: -/
 -- QUOTE:
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
-    Continuous fun p : X × X => dist (f p.1) (f p.2) :=
-  by
+    Continuous fun p : X × X => dist (f p.1) (f p.2) := by
   apply Continuous.dist
   exact hf.comp continuous_fst
   exact hf.comp continuous_snd
@@ -232,8 +231,7 @@ example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n,
 
 -- QUOTE.
 -- SOLUTIONS:
-example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) : a ∈ closure s :=
-  by
+example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) : a ∈ closure s := by
   rw [Metric.tendsto_atTop] at hu
   rw [Metric.mem_closure_iff]
   intro ε ε_pos
@@ -357,8 +355,7 @@ example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace 
 -- QUOTE.
 -- SOLUTIONS:
 example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y}
-    (hf : Continuous f) : UniformContinuous f :=
-  by
+    (hf : Continuous f) : UniformContinuous f := by
   rw [Metric.uniformContinuous_iff]
   intro ε ε_pos
   let φ : X × X → ℝ := fun p => dist (f p.1) (f p.2)
@@ -419,8 +416,7 @@ open Finset
 
 -- QUOTE:
 theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
-    (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u :=
-  by
+    (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
   intro ε ε_pos
   obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε := by sorry
@@ -438,20 +434,17 @@ theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
 
 -- QUOTE.
 -- SOLUTIONS:
-example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u :=
-  by
+example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
   intro ε ε_pos
-  obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε :=
-    by
-    have : Tendsto (fun N : ℕ => (1 / 2 ^ N * 2 : ℝ)) at_top (𝓝 0) :=
-      by
+  obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε := by
+    have : Tendsto (fun N : ℕ => (1 / 2 ^ N * 2 : ℝ)) atTop (𝓝 0) := by
       rw [← MulZeroClass.zero_mul (2 : ℝ)]
       apply Tendsto.mul
       simp_rw [← one_div_pow (2 : ℝ)]
       apply tendsto_pow_atTop_nhds_0_of_lt_1 <;> linarith
       exact tendsto_const_nhds
-    rcases(at_top_basis.tendsto_iff (nhds_basis_Ioo_pos (0 : ℝ))).mp this ε ε_pos with ⟨N, H, hN⟩
+    rcases(atTop_basis.tendsto_iff (nhds_basis_Ioo_pos (0 : ℝ))).mp this ε ε_pos with ⟨N, H, hN⟩
     exact ⟨N, by simpa using (hN N le_rfl).2⟩
   use N
   intro n hn
@@ -531,8 +524,7 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
     We can also require `radius ≤ (1/2)^(n+1)`, to ensure we get a Cauchy sequence later. -/
   have :
     ∀ (n : ℕ) (x : X),
-      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closed_ball y r ⊆ closed_ball x δ ∩ f n :=
-    by
+      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closed_ball y r ⊆ closed_ball x δ ∩ f n := by
     intro n x δ δpos
     have : x ∈ closure (f n) := hd n x
     rcases Metric.mem_closure_iff.1 this (δ / 2) (half_pos δpos) with ⟨y, ys, xy⟩
@@ -582,8 +574,7 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
     exact HB n (c n) (r n) (rpos n)
   have incl : ∀ n, closed_ball (c (n + 1)) (r (n + 1)) ⊆ closed_ball (c n) (r n) ∩ f n := fun n =>
     Hball n (c n) (r n) (rpos n)
-  have cdist : ∀ n, dist (c n) (c (n + 1)) ≤ B n :=
-    by
+  have cdist : ∀ n, dist (c n) (c (n + 1)) ≤ B n := by
     intro n
     rw [dist_comm]
     have A : c (n + 1) ∈ closed_ball (c (n + 1)) (r (n + 1)) :=
@@ -601,14 +592,12 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   -- this point `y` will be the desired point. We will check that it belongs to all
   -- `f n` and to `ball x ε`.
   use y
-  have I : ∀ n, ∀ m ≥ n, closed_ball (c m) (r m) ⊆ closed_ball (c n) (r n) :=
-    by
+  have I : ∀ n, ∀ m ≥ n, closed_ball (c m) (r m) ⊆ closed_ball (c n) (r n) := by
     intro n
     refine' Nat.le_induction _ fun m hnm h => _
     · exact Subset.rfl
     · exact (incl m).trans ((Set.inter_subset_left _ _).trans h)
-  have yball : ∀ n, y ∈ closed_ball (c n) (r n) :=
-    by
+  have yball : ∀ n, y ∈ closed_ball (c n) (r n) := by
     intro n
     refine' is_closed_ball.mem_of_tendsto ylim _
     refine' (Filter.eventually_ge_atTop n).mono fun m hm => _

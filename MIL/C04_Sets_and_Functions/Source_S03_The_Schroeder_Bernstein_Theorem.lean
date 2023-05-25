@@ -195,17 +195,16 @@ theorem sb_right_inv {x : α} (hx : x ∉ sbSet f g) : g (invFun g x) = x := by
     rw [sbSet, mem_iUnion]
     use 0
     rw [sbAux, mem_diff]
-    /- EXAMPLES:
-        sorry },
-    SOLUTIONS: -/
+/- EXAMPLES:
+      sorry },
+SOLUTIONS: -/
     exact ⟨mem_univ _, hx⟩
-  -- BOTH:
-  have : ∃ y, g y = x :=
-    by
-    /- EXAMPLES:
+-- BOTH:
+  have : ∃ y, g y = x := by
+/- EXAMPLES:
       { sorry },
       sorry
-    SOLUTIONS: -/
+SOLUTIONS: -/
     simp at this
     assumption
   exact invFun_eq this
@@ -254,27 +253,27 @@ theorem sb_injective (hf : Injective f) (hg : Injective g) : Injective (sbFun f 
       intro (x₂nA : x₂ ∉ A)
       rw [if_pos x₁A, if_neg x₂nA] at hxeq
       rw [A_def, sbSet, mem_iUnion] at x₁A
-      have x₂eq : x₂ = g (f x₁) :=
-        by/- EXAMPLES:
-              { sorry },
-        SOLUTIONS: -/
+      have x₂eq : x₂ = g (f x₁) := by
+/- EXAMPLES:
+      . sorry
+SOLUTIONS: -/
         rw [hxeq, sb_right_inv f g x₂nA]
-      -- BOTH:
+-- BOTH:
       rcases x₁A with ⟨n, hn⟩
       rw [A_def, sbSet, mem_iUnion]
       use n + 1
       simp [sbAux]
       exact ⟨x₁, hn, x₂eq.symm⟩
-    /- EXAMPLES:
-        sorry },
-    SOLUTIONS: -/
+/- EXAMPLES:
+      . sorry,
+SOLUTIONS: -/
     rw [if_pos x₁A, if_pos x₂A] at hxeq
     exact hf hxeq
-  -- BOTH:
+-- BOTH:
   push_neg  at xA
-  /- EXAMPLES:
+/- EXAMPLES:
     sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   rw [if_neg xA.1, if_neg xA.2] at hxeq
   rw [← sb_right_inv f g xA.1, hxeq, sb_right_inv f g xA.2]
 
@@ -334,9 +333,9 @@ theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun 
       exact ⟨n, xmem⟩
     simp only [h_def, sbFun, if_pos this]
     exact hg hx
-  /- EXAMPLES:
+/- EXAMPLES:
     sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   use g y
   simp only [h_def, sbFun, if_neg gyA]
   apply leftInverse_invFun hg

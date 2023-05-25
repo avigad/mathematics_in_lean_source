@@ -22,26 +22,6 @@ here is to define them as a data type in their own right. We do this by
 representing a Gaussian integer as a pair of integers, which we think of as the
 *real* and *imaginary* parts.
 BOTH: -/
-/- TEXT:
-.. _section_building_the_gaussian_integers:
-
-Building the Gaussian Integers
-------------------------------
-
-We will now illustrate the use of the algebraic hierarchy in Lean by
-building an important mathematical object, the *Gaussian integers*,
-and showing that it is a Euclidean domain. In other words, according to
-the terminology we have been using, we will define the Gaussian integers
-and show that they are an instance of the Euclidean domain structure.
-
-In ordinary mathematical terms, the set of Gaussian integers :math:`\Bbb{Z}[i]`
-is the set of complex numbers :math:`\{ a + b i \mid a, b \in \Bbb{Z}\}`.
-But rather than define them as a subset of the complex numbers, our goal
-here is to define them as a data type in their own right. We do this by
-representing a Gaussian integer as a pair of integers, which we think of as the
-*real* and *imaginary* parts.
-BOTH: -/
--- QUOTE:
 -- QUOTE:
 @[ext]
 structure gaussInt where

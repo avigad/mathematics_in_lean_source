@@ -196,8 +196,7 @@ example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X →
 
 
 example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
-    (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H :=
-  by
+    (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H := by
   intro V hV
   rw [preimage_comp]
   apply hf
@@ -296,8 +295,7 @@ example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
 -- an alternative solution
 example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
     Tendsto f atTop (𝓝 (x₀, y₀)) ↔
-      Tendsto (Prod.fst ∘ f) atTop (𝓝 x₀) ∧ Tendsto (Prod.snd ∘ f) atTop (𝓝 y₀) :=
-  by
+      Tendsto (Prod.fst ∘ f) atTop (𝓝 x₀) ∧ Tendsto (Prod.snd ∘ f) atTop (𝓝 y₀) := by
   rw [nhds_prod_eq]
   unfold Tendsto Filter.prod
   rw [le_inf_iff, ← map_le_iff_le_comap, map_map, ← map_le_iff_le_comap, map_map]
@@ -374,8 +372,7 @@ that we used in :numref:`sequences_and_convergence`.
 EXAMPLES: -/
 -- QUOTE:
 example (u : ℕ → ℝ) (x₀ : ℝ) :
-    Tendsto u atTop (𝓝 x₀) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, u n ∈ Ioo (x₀ - ε) (x₀ + ε) :=
-  by
+    Tendsto u atTop (𝓝 x₀) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, u n ∈ Ioo (x₀ - ε) (x₀ + ε) := by
   have : atTop.HasBasis (fun n : ℕ => True) Ici := atTop_basis
   rw [this.tendsto_iff (nhds_basis_Ioo_pos x₀)]
   simp
@@ -451,15 +448,13 @@ Compare:
 EXAMPLES: -/
 -- QUOTE:
 example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in atTop, Q n)
-    (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n :=
-  by
+    (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n := by
   apply (hP.and (hQ.and hR)).mono
   rintro n ⟨h, h', h''⟩
   exact h'' ⟨h, h'⟩
 
 example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in atTop, Q n)
-    (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n :=
-  by
+    (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n := by
   filter_upwards [hP, hQ, hR]
   intro n h h' h''
   exact h'' ⟨h, h'⟩

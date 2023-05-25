@@ -133,7 +133,6 @@ It's a marriage made in heaven!
 Given a data type ``α``, we can define the group structure on ``α``
 as follows.
 EXAMPLES: -/
-
 -- QUOTE:
 structure Group₁ (α : Type _) where
   mul : α → α → α
@@ -210,23 +209,15 @@ section
 
 -- QUOTE:
 variable (α β γ : Type _)
-
 variable (f : α ≃ β) (g : β ≃ γ)
 
 #check Equiv α β
-
 #check (f.toFun : α → β)
-
 #check (f.invFun : β → α)
-
 #check (f.right_inv : ∀ x : β, f (f.invFun x) = x)
-
 #check (f.left_inv : ∀ x : α, f.invFun (f x) = x)
-
 #check (Equiv.refl α : α ≃ α)
-
 #check (f.symm : β ≃ α)
-
 #check (f.trans g : α ≃ γ)
 
 -- QUOTE.
@@ -389,7 +380,6 @@ section
 variable {α : Type _} (f g : Equiv.Perm α) (n : ℕ)
 
 #check f * g
-
 #check mul_assoc f g g⁻¹
 
 -- group power, defined for any group
@@ -484,8 +474,7 @@ class Group₂ (α : Type _) where
   one_mul : ∀ x : α, mul one x = x
   mul_left_inv : ∀ x : α, mul (inv x) x = one
 
-instance {α : Type _} : Group₂ (Equiv.Perm α)
-    where
+instance {α : Type _} : Group₂ (Equiv.Perm α) where
   mul f g := Equiv.trans g f
   one := Equiv.refl α
   inv := Equiv.symm
@@ -507,7 +496,6 @@ def mySquare {α : Type _} [Group₂ α] (x : α) :=
 #check @mySquare
 
 section
-
 variable {β : Type _} (f g : Equiv.Perm β)
 
 example : Group₂.mul f g = g.trans f :=
@@ -573,7 +561,6 @@ EXAMPLES: -/
 instance : Add Point where add := Point.add
 
 section
-
 variable (x y : Point)
 
 #check x + y
@@ -662,7 +649,7 @@ class AddGroup₂ (α : Type _) where
 /- EXAMPLES:
   add : α → α → α
   -- fill in the rest
-  -- QUOTE.
+-- QUOTE.
 SOLUTIONS: -/
   add : α → α → α
   zero : α
@@ -691,7 +678,6 @@ instance : AddGroup₂ Point where
   add_left_neg := by simp [Point.add, Point.neg, Point.zero]
 
 section
-
 variable (x y : Point)
 
 #check x + -y + 0

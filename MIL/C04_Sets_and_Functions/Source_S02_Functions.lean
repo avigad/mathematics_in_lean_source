@@ -234,8 +234,7 @@ example : s ∩ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∩ u) := by
   rintro x ⟨xs, fxu⟩
   exact ⟨⟨x, xs, rfl⟩, fxu⟩
 
-example : s ∪ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∪ u) :=
-  by
+example : s ∪ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∪ u) := by
   rintro x (xs | fxu)
   · left
     exact ⟨x, xs, rfl⟩
@@ -308,8 +307,7 @@ example : (f '' ⋂ i, A i) ⊆ ⋂ i, f '' A i := by
   use x
   exact ⟨h i, fxeq⟩
 
-example (i : I) (injf : Injective f) : (⋂ i, f '' A i) ⊆ f '' ⋂ i, A i :=
-  by
+example (i : I) (injf : Injective f) : (⋂ i, f '' A i) ⊆ f '' ⋂ i, A i := by
   intro y; simp
   intro h
   rcases h i with ⟨x, xAi, fxeq⟩
@@ -570,8 +568,7 @@ open Classical
 def inverse (f : α → β) : β → α := fun y : β =>
   if h : ∃ x, f x = y then Classical.choose h else default
 
-theorem inverse_spec {f : α → β} (y : β) (h : ∃ x, f x = y) : f (inverse f y) = y :=
-  by
+theorem inverse_spec {f : α → β} (y : β) (h : ∃ x, f x = y) : f (inverse f y) = y := by
   rw [inverse]; dsimp; rw [dif_pos h]
   exact Classical.choose_spec h
 
@@ -621,8 +618,7 @@ example : Surjective f ↔ RightInverse (inverse f) f :=
 
 -- QUOTE.
 -- SOLUTIONS:
-example : Injective f ↔ LeftInverse (inverse f) f :=
-  by
+example : Injective f ↔ LeftInverse (inverse f) f := by
   constructor
   · intro h y
     apply h
@@ -634,8 +630,7 @@ example : Injective f ↔ LeftInverse (inverse f) f :=
 example : Injective f ↔ LeftInverse (inverse f) f :=
   ⟨fun h y => h (inverse_spec _ ⟨y, rfl⟩), fun h x1 x2 e => by rw [← h x1, ← h x2, e]⟩
 
-example : Surjective f ↔ RightInverse (inverse f) f :=
-  by
+example : Surjective f ↔ RightInverse (inverse f) f := by
   constructor
   · intro h y
     apply inverse_spec
@@ -712,8 +707,7 @@ theorem Cantor : ∀ f : α → Set α, ¬Surjective f := by
 -- QUOTE.
 -- COMMENTS: TODO: improve this
 -- SOLUTIONS:
-theorem Cantorαα : ∀ f : α → Set α, ¬Surjective f :=
-  by
+theorem Cantorαα : ∀ f : α → Set α, ¬Surjective f := by
   intro f surjf
   let S := { i | i ∉ f i }
   rcases surjf S with ⟨j, h⟩

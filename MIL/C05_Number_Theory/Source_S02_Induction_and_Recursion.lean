@@ -303,11 +303,10 @@ We encourage you to prove the analogous identity for sums of squares,
 and other identities you can find on the web.
 BOTH: -/
 -- QUOTE:
-theorem sum_sqr (n : ℕ) : (∑ i in range (n + 1), i ^ 2) = n * (n + 1) * (2 * n + 1) / 6 :=
-  by
-  /- EXAMPLES:
+theorem sum_sqr (n : ℕ) : (∑ i in range (n + 1), i ^ 2) = n * (n + 1) * (2 * n + 1) / 6 := by
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   symm;
   apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 6)
   induction' n with n ih
@@ -393,9 +392,9 @@ theorem add_comm (m n : MyNat) : add m n = add n m := by
   rw [add, succ_add, ih]
 
 theorem add_assoc (m n k : MyNat) : add (add m n) k = add m (add n k) := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   induction' k with k ih
   · rfl
   rw [add, ih]
@@ -403,18 +402,18 @@ theorem add_assoc (m n k : MyNat) : add (add m n) k = add m (add n k) := by
 
 -- BOTH:
 theorem mul_add (m n k : MyNat) : mul m (add n k) = add (mul m n) (mul m k) := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   induction' k with k ih
   · rfl
   rw [add, mul, mul, ih, add_assoc]
 
 -- BOTH:
 theorem zero_mul (n : MyNat) : mul zero n = zero := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   induction' n with n ih
   · rfl
   rw [mul, ih]
@@ -422,9 +421,9 @@ theorem zero_mul (n : MyNat) : mul zero n = zero := by
 
 -- BOTH:
 theorem succ_mul (m n : MyNat) : mul (succ m) n = add (mul m n) n := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   induction' n with n ih
   · rfl
   rw [mul, mul, ih, add_assoc, add_assoc, add_comm n, succ_add]
@@ -432,9 +431,9 @@ theorem succ_mul (m n : MyNat) : mul (succ m) n = add (mul m n) n := by
 
 -- BOTH:
 theorem mul_comm (m n : MyNat) : mul m n = mul n m := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   induction' n with n ih
   · rw [zero_mul]
     rfl

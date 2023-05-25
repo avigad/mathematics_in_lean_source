@@ -38,6 +38,8 @@ literalinclude = regex.compile(r'-- LITERALINCLUDE: (.*)')
 # Used to avoid name collisions.
 dummy_chars = 'αα'
 
+print('processing {0}/{1}'.format(chapter_name, section_name))
+
 if __name__ == '__main__':
     with source_path.open(encoding='utf8') as source_file, \
             rst_path.open('w', encoding='utf8') as rst_file, \
@@ -79,7 +81,7 @@ if __name__ == '__main__':
                 quoting = False
             elif match_literalinclude := literalinclude.match(line):
                 tag = match_literalinclude.group(1)
-                rst_file.write(".. literalinclude:: /../lean_source/{}/source_{}.lean\n".format(chapter_name, section_name))
+                rst_file.write(".. literalinclude:: /../MIL/{}/Source_{}.lean\n".format(chapter_name, section_name))
                 rst_file.write("   :start-after: -- TAG: {}\n".format(tag))
                 rst_file.write("   :end-before: -- TAG: end\n")
             # Content lines.

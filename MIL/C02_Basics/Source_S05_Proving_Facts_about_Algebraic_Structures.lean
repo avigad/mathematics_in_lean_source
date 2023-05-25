@@ -382,8 +382,7 @@ theorem aux2 : 0 ≤ b - a → a ≤ b := by
   rw [← add_zero a, ← sub_add_cancel b a, add_comm (b - a)]
   apply add_le_add_left h
 
-example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c :=
-  by
+example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
   have h1 : 0 ≤ (b - a) * c := mul_nonneg (aux1 _ _ h) h'
   rw [sub_mul] at h1
   exact aux2 _ _ h1

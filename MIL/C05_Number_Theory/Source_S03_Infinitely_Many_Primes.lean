@@ -73,6 +73,7 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   revert h m
   decide
 
+-- QUOTE.
 /- TEXT:
 With the theorem ``two_le`` in hand, let's start by showing that every
 natural number greater than two has a prime divisor.
@@ -139,7 +140,7 @@ theorem primes_infinite : ∀ n, ∃ p > n, Nat.Prime p := by
 SOLUTIONS: -/
     apply Nat.succ_le_succ
     exact Nat.succ_le_of_lt (Nat.factorial_pos _)
-  -- BOTH:
+-- BOTH:
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩
   refine' ⟨p, _, pp⟩
   show p > n
@@ -152,14 +153,14 @@ SOLUTIONS: -/
     apply Nat.dvd_factorial
     apply pp.pos
     linarith
-  -- BOTH:
+-- BOTH:
   have : p ∣ 1 := by
 /- EXAMPLES:
     sorry,
 SOLUTIONS: -/
     convert Nat.dvd_sub' pdvd this
     simp
-  -- BOTH:
+-- BOTH:
   show False
 /- EXAMPLES:
   sorry
@@ -384,7 +385,7 @@ SOLUTIONS: -/
     apply Finset.prod_pos
     intro n ns'
     apply (mem_s'.mp ns').pos
-  -- BOTH:
+-- BOTH:
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩
   have : p ∣ ∏ i in s', i := by
 /- EXAMPLES:
@@ -424,8 +425,7 @@ where ``id`` is the identity function, to refer to the maximum value in ``s``.
 BOTH: -/
 -- QUOTE:
 theorem bounded_of_ex_finset (Q : ℕ → Prop) :
-    (∃ s : Finset ℕ, ∀ k, Q k → k ∈ s) → ∃ n, ∀ k, Q k → k < n :=
-  by
+    (∃ s : Finset ℕ, ∀ k, Q k → k ∈ s) → ∃ n, ∀ k, Q k → k < n := by
   rintro ⟨s, hs⟩
   use s.sup id + 1
   intro k Qk
@@ -547,8 +547,7 @@ theorem exists_prime_factor_mod_4_eq_3 {n : Nat} (h : n % 4 = 3) :
     rw [mz, zero_dvd_iff] at mdvdn
     linarith
   have neq : m * (n / m) = n := Nat.mul_div_cancel' mdvdn
-  have : m % 4 = 3 ∨ n / m % 4 = 3 :=
-    by
+  have : m % 4 = 3 ∨ n / m % 4 = 3 := by
     apply mod_4_eq_3_or_mod_4_eq_3
     rw [neq, h]
   cases' this with h1 h1

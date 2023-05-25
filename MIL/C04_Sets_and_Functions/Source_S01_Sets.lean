@@ -127,8 +127,7 @@ is unnecessary, but they make the meaning of the expression clearer.
 The following is a shorter proof of the same fact:
 TEXT. -/
 -- QUOTE:
-example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u :=
-  by
+example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
   · left
     exact ⟨xs, xt⟩
@@ -140,9 +139,9 @@ As an exercise, try proving the other inclusion:
 BOTH: -/
 -- QUOTE:
 example : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
   · use xs
     left
@@ -192,9 +191,9 @@ As an exercise, prove the reverse inclusion:
 BOTH: -/
 -- QUOTE:
 example : s \ (t ∪ u) ⊆ (s \ t) \ u := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   rintro x ⟨xs, xntu⟩
   constructor
   use xs
@@ -266,9 +265,9 @@ Try finishing this proof term:
 BOTH: -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
-  /- EXAMPLES:
+/- EXAMPLES:
     Subset.antisymm sorry sorry
-    SOLUTIONS: -/
+SOLUTIONS: -/
     Subset.antisymm
     (fun x ⟨xs, xt⟩ => ⟨xt, xs⟩) fun x ⟨xt, xs⟩ => ⟨xs, xt⟩
 
@@ -528,8 +527,7 @@ section
 
 variable (ssubt : s ⊆ t)
 
-example (h₀ : ∀ x ∈ t, ¬Even x) (h₁ : ∀ x ∈ t, Prime x) : ∀ x ∈ s, ¬Even x ∧ Prime x :=
-  by
+example (h₀ : ∀ x ∈ t, ¬Even x) (h₁ : ∀ x ∈ t, Prime x) : ∀ x ∈ s, ¬Even x ∧ Prime x := by
   intro x xs
   constructor
   · apply h₀ x (ssubt xs)
@@ -580,8 +578,7 @@ example : (s ∩ ⋃ i, A i) = ⋃ i, A i ∩ s := by
   rintro ⟨i, xAi, xs⟩
   exact ⟨xs, ⟨i, xAi⟩⟩
 
-example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ ⋂ i, B i :=
-  by
+example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ ⋂ i, B i := by
   ext x
   simp only [mem_inter_iff, mem_iInter]
   constructor

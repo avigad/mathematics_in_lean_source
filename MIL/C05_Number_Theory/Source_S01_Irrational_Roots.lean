@@ -2,10 +2,10 @@ import Mathlib.Data.Nat.Factorization.Basic
 import Mathlib.Data.Nat.Prime
 import Mathlib.Tactic.NormNum.GCD
 import Mathlib.Tactic.NormNum.Prime
-
-example : Nat.Prime 7 := by norm_num
-
+/- OMIT:
+-- fix this.
 -- import Mathlib.Data.Real.Irrational
+BOTH: -/
 
 /- TEXT:
 
@@ -38,50 +38,14 @@ when necessary,
 but we can also do it manually by rewriting or simplifying with
 the identifier ``Nat.coprime``.
 The ``norm_num`` tactic is smart enough to compute concrete values.
-
 EXAMPLES: -/
-/- TEXT:
-
-.. _section_irrational_roots:
-
-Irrational Roots
-----------------
-
-Let's start with a fact known to the ancient greeks, namely,
-that the square root of 2 is irrational.
-If we suppose otherwise,
-we can write :math:`\sqrt{2} = a / b` as a fraction
-in lowest terms. Squaring both sides yields :math:`a^2 = 2 b^2`,
-which implies that :math:`a` is even.
-If we write :math:`a = 2c`, then we get :math:`4c^2 = 2 b^2`
-and hence :math:`b^2 = 2 c^2`.
-This implies that :math:`b` is also even, contradicting
-the fact that we have assumed that :math:`a / b` has been
-reduced to lowest terms.
-
-Saying that :math:`a / b` is a fraction in lowest terms means
-that :math:`a` and :math:`b` do not have any factors in common,
-which is to say, they are *coprime*.
-Mathlib defines the predicate ``Nat.coprime m n`` to be ``Nat.gcd m n = 1``.
-Using Lean's anonymous projection notation, if ``s`` and ``t`` are
-expressions of type ``nat``, we can write ``s.coprime t`` instead of
-``Nat.coprime s t``, and similarly for ``Nat.gcd``.
-As usual, Lean will often unfold the definition of ``Nat.coprime`` automatically
-when necessary,
-but we can also do it manually by rewriting or simplifying with
-the identifier ``Nat.coprime``.
-The ``norm_num`` tactic is smart enough to compute concrete values.
-
-EXAMPLES: -/
--- QUOTE:
 -- QUOTE:
 #print Nat.coprime
 
 example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 :=
   h
 
-example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 :=
-  by
+example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 := by
   rw [Nat.coprime] at h
   exact h
 
@@ -155,8 +119,7 @@ EXAMPLES: -/
 #check Nat.prime_two.dvd_mul
 
 -- BOTH:
-theorem even_of_even_sqr {m : ℕ} (h : 2 ∣ m ^ 2) : 2 ∣ m :=
-  by
+theorem even_of_even_sqr {m : ℕ} (h : 2 ∣ m ^ 2) : 2 ∣ m := by
   rw [pow_two, Nat.prime_two.dvd_mul] at h
   cases h <;> assumption
 
@@ -197,46 +160,46 @@ BOTH: -/
 example {m n : ℕ} (coprime_mn : m.coprime n) : m ^ 2 ≠ 2 * n ^ 2 := by
   intro sqr_eq
   have : 2 ∣ m := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     apply even_of_even_sqr
     rw [sqr_eq]
     apply dvd_mul_right
-  -- BOTH:
+-- BOTH:
   obtain ⟨k, meq⟩ := dvd_iff_exists_eq_mul_left.mp this
   have : 2 * (2 * k ^ 2) = 2 * n ^ 2 := by
     rw [← sqr_eq, meq]
     ring
   have : 2 * k ^ 2 = n ^ 2 :=
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     (mul_right_inj' (by norm_num)).mp this
-  -- BOTH:
+-- BOTH:
   have : 2 ∣ n := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     apply even_of_even_sqr
     rw [← this]
     apply dvd_mul_right
-  -- BOTH:
+-- BOTH:
   have : 2 ∣ m.gcd n := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     apply Nat.dvd_gcd <;>
     assumption
-  -- BOTH:
+-- BOTH:
   have : 2 ∣ 1 := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     convert this
     symm
     exact coprime_mn
-  -- BOTH:
+-- BOTH:
   norm_num at this
 
 -- QUOTE.
@@ -251,9 +214,9 @@ and ``Nat.le_of_dvd``.
 BOTH: -/
 -- QUOTE:
 example {m n p : ℕ} (coprime_mn : m.coprime n) (prime_p : p.Prime) : m ^ 2 ≠ p * n ^ 2 := by
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   intro sqr_eq
   have : p ∣ m := by
     apply prime_p.dvd_of_dvd_pow
@@ -354,18 +317,18 @@ example {m n p : ℕ} (nnz : n ≠ 0) (prime_p : p.Prime) : m ^ 2 ≠ p * n ^ 2 
   intro sqr_eq
   have nsqr_nez : n ^ 2 ≠ 0 := by simpa
   have eq1 : Nat.factorization (m ^ 2) p = 2 * m.factorization p := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     rw [factorization_pow']
-  -- BOTH:
+-- BOTH:
   have eq2 : (p * n ^ 2).factorization p = 2 * n.factorization p + 1 := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     rw [factorization_mul' prime_p.ne_zero nsqr_nez, prime_p.factorization', factorization_pow',
       add_comm]
-  -- BOTH:
+-- BOTH:
   have : 2 * m.factorization p % 2 = (2 * n.factorization p + 1) % 2 := by rw [← eq1, sqr_eq, eq2]
   rw [add_comm, Nat.add_mul_mod_self_left, Nat.mul_mod_right] at this
   norm_num at this
@@ -405,23 +368,23 @@ example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m ^ k = r * n ^ k) {p : ℕ} (
   · simp
   have npow_nz : n ^ k ≠ 0 := fun npowz => nnz (pow_eq_zero npowz)
   have eq1 : (m ^ k).factorization p = k * m.factorization p := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     rw [factorization_pow']
-  -- BOTH:
+-- BOTH:
   have eq2 : (r.succ * n ^ k).factorization p = k * n.factorization p + r.succ.factorization p := by
-    /- EXAMPLES:
+/- EXAMPLES:
     sorry,
-    SOLUTIONS: -/
+SOLUTIONS: -/
     rw [factorization_mul' r.succ_ne_zero npow_nz, factorization_pow', add_comm]
-  -- BOTH:
+-- BOTH:
   have : r.succ.factorization p = k * m.factorization p - k * n.factorization p := by
     rw [← eq1, pow_eq, eq2, add_comm, Nat.add_sub_cancel]
   rw [this]
-  /- EXAMPLES:
+/- EXAMPLES:
   sorry
-  SOLUTIONS: -/
+SOLUTIONS: -/
   apply Nat.dvd_sub' <;>
   apply Nat.dvd_mul_right
 

@@ -119,14 +119,12 @@ Sometimes we need to use ``ring`` and/or ``field_simp`` after ``simp``.`
 EXAMPLES: -/
 -- QUOTE:
 example (x₀ : ℝ) (h : x₀ ≠ 0) :
-    deriv (fun x : ℝ => exp (x ^ 2) / x ^ 5) x₀ = (2 * x₀ ^ 2 - 5) * exp (x₀ ^ 2) / x₀ ^ 6 :=
-  by
+    deriv (fun x : ℝ => exp (x ^ 2) / x ^ 5) x₀ = (2 * x₀ ^ 2 - 5) * exp (x₀ ^ 2) / x₀ ^ 6 := by
   have : x₀ ^ 5 ≠ 0 := pow_ne_zero 5 h
   field_simp
   ring
 
-example (y : ℝ) : HasDerivAt (fun x : ℝ => 2 * x + 5) 2 y :=
-  by
+example (y : ℝ) : HasDerivAt (fun x : ℝ => 2 * x + 5) 2 y := by
   have := ((hasDerivAt_id y).const_mul 2).AddConst 5
   rwa [mul_one] at this
 

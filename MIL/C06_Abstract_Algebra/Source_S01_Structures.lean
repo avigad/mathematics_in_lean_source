@@ -55,14 +55,16 @@ def myPoint3 :=
 
 -- QUOTE.
 /- TEXT:
+..
+  Because Lean knows that the expected type of
+  ``myPoint1`` is a ``Point``, you can start the definition by
+  writing an underscore, ``_``. Clicking on the light bulb
+  that appears nearby in VS Code will then
+  give you the option of inserting a template definition
+  with the field names listed for you.
+
 In the first example, the fields of the structure are named
 explicitly.
-.. Because Lean knows that the expected type of
-   ``myPoint1`` is a ``Point``, you can start the definition by
-   writing an underscore, ``_``. Clicking on the light bulb
-   that appears nearby in VS Code will then
-   give you the option of inserting a template definition
-   with the field names listed for you.
 The function ``Point.mk`` referred to in the definition of ``myPoint3``
 is known as the *constructor* for the ``Point`` structure, because
 it serves to construct elements.
@@ -176,8 +178,7 @@ theorem addAlt_x (a b : Point) : (a.addAlt b).x = a.x + b.x := by
   cases b
   rfl
 
-theorem addAlt_comm (a b : Point) : addAlt a b = addAlt b a :=
-  by
+theorem addAlt_comm (a b : Point) : addAlt a b = addAlt b a := by
   rcases a with ⟨xa, ya, za⟩
   rcases b with ⟨xb, yb, zb⟩
   rw [addAlt, addAlt]

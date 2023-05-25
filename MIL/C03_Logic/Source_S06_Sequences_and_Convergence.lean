@@ -161,8 +161,7 @@ theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s 
   have ngeNs : n ≥ Ns := le_of_max_le_left hn
   have ngeNt : n ≥ Nt := le_of_max_le_right hn
   calc
-    |s n + t n - (a + b)| = |s n - a + (t n - b)| :=
-      by
+    |s n + t n - (a + b)| = |s n - a + (t n - b)| := by
       congr
       ring
     _ ≤ |s n - a| + |t n - b| := (abs_add _ _)
@@ -205,8 +204,7 @@ theorem convergesTo_mul_const {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : Conver
 -- QUOTE.
 -- SOLUTIONS:
 theorem convergesTo_mul_constαα {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : ConvergesTo s a) :
-    ConvergesTo (fun n => c * s n) (c * a) :=
-  by
+    ConvergesTo (fun n => c * s n) (c * a) := by
   by_cases h : c = 0
   · convert convergesTo_const 0
     · rw [h, MulZeroClass.zero_mul]
@@ -232,8 +230,7 @@ We have started you off; see if you can finish it.
 TEXT. -/
 -- QUOTE:
 theorem exists_abs_le_of_convergesTo {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
-    ∃ N b, ∀ n, N ≤ n → abs (s n) < b :=
-  by
+    ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
   cases' cs 1 zero_lt_one with N h
   use N, abs a + 1
   sorry
@@ -241,8 +238,7 @@ theorem exists_abs_le_of_convergesTo {s : ℕ → ℝ} {a : ℝ} (cs : Converges
 -- QUOTE.
 -- SOLUTIONS:
 theorem exists_abs_le_of_converges_toαα {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
-    ∃ N b, ∀ n, N ≤ n → abs (s n) < b :=
-  by
+    ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
   cases' cs 1 zero_lt_one with N h
   use N, abs a + 1
   intro n ngt
@@ -368,8 +364,7 @@ theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s
     apply le_max_right
   have : abs (a - b) < abs (a - b)
   calc
-    abs (a - b) = abs (-(s N - a) + (s N - b)) :=
-      by
+    abs (a - b) = abs (-(s N - a) + (s N - b)) := by
       congr
       ring
     _ ≤ abs (-(s N - a)) + abs (s N - b) := (abs_add _ _)

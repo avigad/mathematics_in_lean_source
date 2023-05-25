@@ -46,17 +46,12 @@ theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs 
   sorry
 
 section
-
 variable (a b δ : ℝ)
-
 variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-
 variable (ha : abs a < δ) (hb : abs b < δ)
 
 #check my_lemma a b δ
-
 #check my_lemma a b δ h₀ h₁
-
 #check my_lemma a b δ h₀ h₁ ha hb
 
 end
@@ -74,11 +69,8 @@ theorem my_lemma2 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → a
   sorry
 
 section
-
 variable (a b δ : ℝ)
-
 variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-
 variable (ha : abs a < δ) (hb : abs b < δ)
 
 #check my_lemma2 h₀ h₁ ha hb
@@ -99,8 +91,7 @@ To prove a statement like this, use the ``intros`` tactic.
 Take a look at what it does in this example:
 TEXT. -/
 -- QUOTE:
-theorem my_lemma3 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-  by
+theorem my_lemma3 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
   intro x y ε epos ele1 xlt ylt
   sorry
 
@@ -124,15 +115,13 @@ introduce variables and hypotheses after the proof begins.
 To help you prove the lemma, we will start you off:
 TEXT. -/
 -- QUOTE:
-theorem my_lemma4 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
-  by
+theorem my_lemma4 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
   intro x y ε epos ele1 xlt ylt
   calc
     abs (x * y) = abs x * abs y := sorry
     _ ≤ abs x * ε := sorry
     _ < 1 * ε := sorry
     _ = ε := sorry
-
 
 -- QUOTE.
 -- OMIT:
@@ -182,13 +171,11 @@ whereas a mathematician might describe it as the function
 :math:`x \mapsto f(x) + g(x)`.
 BOTH: -/
 section
-
 variable (f g : ℝ → ℝ) (a b : ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x => f x + g x) (a + b) :=
-  by
+example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x => f x + g x) (a + b) := by
   intro x
   dsimp
   apply add_le_add
@@ -234,15 +221,13 @@ example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
 
 -- QUOTE.
 -- SOLUTIONS:
-example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) :=
-  by
+example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) := by
   intro x
   apply add_le_add
   apply hfa
   apply hgb
 
-example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 :=
-  by
+example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 := by
   intro x
   apply mul_nonneg
   apply nnf
@@ -276,7 +261,6 @@ So if we prove the theorem ``fn_ub_add`` at that level of generality,
 it will apply in all these instances.
 TEXT. -/
 section
-
 -- QUOTE:
 variable {α : Type _} {R : Type _} [OrderedCancelAddCommMonoid R]
 
@@ -328,7 +312,6 @@ work backwards by displaying the remaining hypotheses
 as new subgoals.
 BOTH: -/
 section
-
 variable (f g : ℝ → ℝ)
 
 -- EXAMPLES:
