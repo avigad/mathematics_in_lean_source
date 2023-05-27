@@ -15,7 +15,7 @@ Metric spaces
 
 Examples in the previous section focus on sequences of real numbers. In this section we will go up a bit in generality and focus on
 metric spaces. A metric space is a type ``X`` equipped with a distance function ``dist : X → X → ℝ`` which is a generalization of
-the function ``λ x y, |x - y|`` from the case where ``X = ℝ``.
+the function ``fun x y ↦ |x - y|`` from the case where ``X = ℝ``.
 
 Introducing such a space is easy and we will check all properties required from the distance function.
 BOTH: -/
@@ -83,15 +83,15 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 -- QUOTE.
 /- TEXT:
 This tactic is a bit slow, so it is also useful to know
-how to do it by hand. We first need to use that ``λ p : X × X, f p.1`` is continuous because it
+how to do it by hand. We first need to use that ``fun p : X × X ↦ f p.1`` is continuous because it
 is the composition of ``f``, which is continuous by assumption ``hf``, and the projection ``prod.fst`` whose continuity
 is the content of the lemma ``continuous_fst``. The composition property is ``Continuous.comp`` which is
 in the ``Continuous`` namespace so we can use dot notation to compress
 ``Continuous.comp hf continuous_fst`` into ``hf.comp continuous_fst`` which is actually more readable
 since it really reads as composing our assumption and our lemma.
-We can do the same for the second component to get continuity of ``λ p : X × X, f p.2``. We then assemble
+We can do the same for the second component to get continuity of ``fun p : X × X ↦ f p.2``. We then assemble
 those two continuities using ``Continuous.prod_mk`` to get
-``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : Continuous (λ p : X × X, (f p.1, f p.2))``
+``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : Continuous (fun p : X × X ↦ (f p.1, f p.2))``
 and compose once more to get our full proof.
 BOTH: -/
 -- QUOTE:
@@ -105,14 +105,14 @@ The combination of ``Continuous.prod_mk`` and ``continuous_dist`` via ``Continuo
 even when heavily using dot notation as above. A more serious issue is that this nice proof requires a lot of
 planning. Lean accepts the above proof term because it is a full term proving a statement which is
 definitionally equivalent to our goal, the crucial definition to unfold being that of a composition of functions.
-Indeed our target function ``λ p : X × X, dist (f p.1) (f p.2)`` is not presented as a composition.
-The proof term we provided proves continuity of ``dist ∘ (λ p : X × X, (f p.1, f p.2))`` which happens
+Indeed our target function ``fun p : X × X ↦ dist (f p.1) (f p.2)`` is not presented as a composition.
+The proof term we provided proves continuity of ``dist ∘ (fun p : X × X ↦ (f p.1, f p.2))`` which happens
 to be definitionally equal to our target function. But if we try to build this proof gradually using
 tactics starting with ``apply continuous_dist.comp`` then Lean's elaborator will fail to recognize a
 composition and refuse to apply this lemma. It is especially bad at this when products of types are involved.
 
 A better lemma to apply here is
-``Continuous.dist {f g : X → Y} : Continuous f → Continuous g → Continuous (λ x, dist (f x) (g x))``
+``Continuous.dist {f g : X → Y} : Continuous f → Continuous g → Continuous (fun x ↦ dist (f x) (g x))``
 which is nicer to Lean's elaborator and also provides a shorter proof when directly providing a full
 proof term, as can be seen from the following two new proofs of the above statement:
 BOTH: -/
@@ -338,7 +338,7 @@ We will first give an informal sketch. Let ``f : X → Y`` be a continuous funct
 a compact metric space to a metric space.
 We fix ``ε > 0`` and start looking for some ``δ``.
 
-Let ``φ : X × X → ℝ := λ p, dist (f p.1) (f p.2)`` and let ``K := { p : X × X | ε ≤ φ p }``.
+Let ``φ : X × X → ℝ := fun p ↦ dist (f p.1) (f p.2)`` and let ``K := { p : X × X | ε ≤ φ p }``.
 Observe ``φ`` is continuous since ``f`` and distance are continuous.
 And ``K`` is clearly closed (use ``isClosed_le``) hence compact since ``X`` is compact.
 

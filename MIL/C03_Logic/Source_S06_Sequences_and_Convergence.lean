@@ -120,7 +120,7 @@ We will tell you more about it soon.
 
 For a more interesting theorem, let's show that if ``s``
 converges to ``a`` and ``t`` converges to ``b``, then
-``λ n, s n + t n`` converges to ``a + b``.
+``fun n ↦ s n + t n`` converges to ``a + b``.
 It is helpful to have a clear pen-and-paper
 proof in mind before you start writing a formal one.
 Given ``ε`` greater than ``0``,
@@ -131,7 +131,7 @@ and an ``Nt`` such that beyond that point, ``t`` is within
 ``ε / 2`` of ``b``.
 Then, whenever ``n`` is greater than or equal to the
 maximum of ``Ns`` and ``Nt``,
-the sequence ``λ n, s n + t n`` should be within ``ε``
+the sequence ``fun n ↦ s n + t n`` should be within ``ε``
 of ``a + b``.
 The following example begins to implement this strategy.
 See if you can finish it off.

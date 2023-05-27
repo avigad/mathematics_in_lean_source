@@ -359,7 +359,7 @@ In the library, ``Set α`` is defined to be ``α → Prop`` and ``x ∈ s`` is d
 In other words, sets are really properties, treated as objects.
 
 The library also defines set-builder notation.
-The expression ``{ y | P y }`` unfolds to ``(λ y, P y)``,
+The expression ``{ y | P y }`` unfolds to ``(fun y ↦ P y)``,
 so ``x ∈ { y | P y }`` reduces to ``P x``.
 So we can turn the property of being even into the set of even numbers:
 TEXT. -/

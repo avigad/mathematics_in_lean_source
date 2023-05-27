@@ -164,18 +164,15 @@ def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
 /- TEXT:
 .. index:: lambda abstraction
 
-In the next example, ``λ x, f x + g x`` is a name for the
+In the next example, ``fun x ↦ f x + g x`` is a name for the
 function that maps ``x`` to ``f x + g x``.
-Computer scientists refer to this as "lambda abstraction,"
-whereas a mathematician might describe it as the function
-:math:`x \mapsto f(x) + g(x)`.
 BOTH: -/
 section
 variable (f g : ℝ → ℝ) (a b : ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x => f x + g x) (a + b) := by
+example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) := by
   intro x
   dsimp
   apply add_le_add
@@ -186,11 +183,11 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x => f x + g x) (a + b) :=
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
-Applying ``intro`` to the goal ``fn_ub (λ x, f x + g x) (a + b)``
+Applying ``intro`` to the goal ``fn_ub (fun x ↦ f x + g x) (a + b)``
 forces Lean to unfold the definition of ``fn_ub``
 and introduce ``x`` for the universal quantifier.
-The goal is then ``(λ (x : ℝ), f x + g x) x ≤ a + b``.
-But applying ``(λ x, f x + g x)`` to ``x`` should result in ``f x + g x``,
+The goal is then ``(fun (x : ℝ) ↦ f x + g x) x ≤ a + b``.
+But applying ``(fun x ↦ f x + g x)`` to ``x`` should result in ``f x + g x``,
 and the ``dsimp`` command performs that simplification.
 (The "d" stands for "definitional.")
 You can delete that command and the proof still works;
@@ -595,4 +592,3 @@ example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) :
 
 -- BOTH:
 end
-
