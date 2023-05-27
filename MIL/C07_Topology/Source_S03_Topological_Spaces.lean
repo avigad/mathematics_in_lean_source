@@ -181,7 +181,7 @@ products of metric spaces. Consider for instance the type ``ℝ → ℝ``, seen 
 a product of copies of ``ℝ`` indexed by ``ℝ``. We would like to say that pointwise convergence of
 sequences of functions is a respectable notion of convergence. But there is no distance on
 ``ℝ → ℝ`` that gives this notion of convergence. Relatedly, there is no distance ensuring that
-a map ``f : X → (ℝ → ℝ)`` is continuous if and only ``λ x, f x t`` is continuous for every ``t : ℝ``.
+a map ``f : X → (ℝ → ℝ)`` is continuous if and only ``fun x ↦ f x t`` is continuous for every ``t : ℝ``.
 
 We now review the data used to solve all those issues. First we can use any map ``f : X → Y`` to
 push or pull topologies from one side to the other. Those two operations form a Galois connection.
@@ -217,7 +217,7 @@ Then the next big piece is a complete lattice structure on ``topological_structu
 for any given structure. If you think of topologies are being primarily the data of open sets then you expect
 the order relation on ``topological_structure X`` to come from ``Set (Set X)``, ie you expect ``t ≤ t'``
 if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that mathlib focuses
-on neighborhoods more than open sets so, for any ``x : X`` we want ``λ T : topological_space X, @nhds X T x``
+on neighborhoods more than open sets so, for any ``x : X`` we want ``fun T : topological_space X ↦ @nhds X T x``
 to be order preserving. And we know the order relation on ``filter X`` is designed to ensure an order
 preserving ``principal : Set X → Filter X``, allowing to see filters as generalized sets.
 So the order relation we do use on  ``topological_structure X`` is opposite to the one coming from ``Set (Set X)``.
@@ -265,9 +265,9 @@ So we already get quotient topologies (using the projection map as ``f``). This 
 proves the existence of the product topology by abstract non-sense.
 We considered the case of ``ℝ → ℝ`` above, but let's now consider the general case of ``Π i, X i`` for
 some ``ι : Type*`` and ``X : ι → Type*``. We want, for any topological space ``Z`` and any function
-``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(λ x, x i) ∘ f`` is continuous.
+``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(fun x ↦ x i) ∘ f`` is continuous.
 Let us explore that constraint "on papar" using notation :math:`p_i` for the projection
-``(λ (x : Π i, X i), x i)``:
+``(fun (x : Π i, X i) ↦ x i)``:
 
 .. math::
   (∀ i, p_i ∘ f \text{ continuous}) &⇔ ∀ i, (p_i ∘ f)_* T_Z ≤ T_{X_i} \\
@@ -330,7 +330,7 @@ a continuous mapping of :math:`A` into a regular space :math:`Y`. If, for each :
 while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to
 :math:`X`.
 
-Actually ``mathlib`` contains a more general version of the above lemma, ``dense_inducing.continuous_at_extend``,
+Actually ``mathlib`` contains a more general version of the above lemma, ``DenseInducing.continuousAt_extend``,
 but we'll stick to Bourbaki's version here.
 
 Remember that, given ``A : Set X``, ``↥A`` is the subtype associated to ``A``, and Lean will automatically
@@ -408,7 +408,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : 
   · rw [continuous_iff_continuousAt]
     intro x
     suffices ∀ V' ∈ 𝓝 (φ x), IsClosed V' → φ ⁻¹' V' ∈ 𝓝 x by
-      simp [ContinuousAt, (closed_nhds_basis _).tendsto_right_iff]
+      simpa [ContinuousAt, (closed_nhds_basis (φ x)).tendsto_right_iff]
     intro V' V'_in V'_closed
     obtain ⟨V, V_in, V_op, hV⟩ : ∃ V ∈ 𝓝 x, IsOpen V ∧ (↑) ⁻¹' V ⊆ f ⁻¹' V' := aux (hφ x) V'_in
     suffices : ∀ y ∈ V, φ y ∈ V'
@@ -420,7 +420,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : 
     exact mem_of_superset (preimage_mem_comap hVx) hV
   · intro a
     have lim : Tendsto f (𝓝 a) (𝓝 <| φ a) := by simpa [nhds_induced] using hφ a
-    exact tendsto_nhds_unique limUnder f_cont.continuousAt
+    exact tendsto_nhds_unique lim f_cont.continuousAt
 
 /- TEXT:
 In addition to separation property, the main kind of assumption you can make on a topological

@@ -373,7 +373,7 @@ EXAMPLES: -/
 -- QUOTE:
 example (u : ℕ → ℝ) (x₀ : ℝ) :
     Tendsto u atTop (𝓝 x₀) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, u n ∈ Ioo (x₀ - ε) (x₀ + ε) := by
-  have : atTop.HasBasis (fun n : ℕ => True) Ici := atTop_basis
+  have : atTop.HasBasis (fun _ : ℕ => True) Ici := atTop_basis
   rw [this.tendsto_iff (nhds_basis_Ioo_pos x₀)]
   simp
 
@@ -502,4 +502,3 @@ example (u : ℕ → ℝ) (M : Set ℝ) (x : ℝ) (hux : Tendsto u atTop (𝓝 x
 example (u : ℕ → ℝ) (M : Set ℝ) (x : ℝ) (hux : Tendsto u atTop (𝓝 x))
     (huM : ∀ᶠ n in atTop, u n ∈ M) : x ∈ closure M :=
   mem_closure_iff_clusterPt.mpr (neBot_of_le <| le_inf hux <| le_principal_iff.mpr huM)
-

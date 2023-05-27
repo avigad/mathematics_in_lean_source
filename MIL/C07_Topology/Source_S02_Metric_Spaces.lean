@@ -35,7 +35,7 @@ variable {X : Type _} [MetricSpace X] (a b c : X)
 -- QUOTE.
 /- TEXT:
 Note we also have variants where the distance can be infinite or where ``dist a b`` can be zero without having ``a = b`` or both.
-They are called ``emetric_space``, ``pseudo_metric_space`` and ``pseudo_emetric_space`` respectively (here "e" stands for "extended").
+They are called ``EMetricSpace``, ``PseudoMetricSpace`` and ``PseudoEMetricSpace`` respectively (here "e" stands for "extended").
 
 BOTH: -/
 -- Note the next three lines are not quoted, their purpose is to make sure those things don't get renamed while we're looking elsewhere.
@@ -85,13 +85,13 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 This tactic is a bit slow, so it is also useful to know
 how to do it by hand. We first need to use that ``λ p : X × X, f p.1`` is continuous because it
 is the composition of ``f``, which is continuous by assumption ``hf``, and the projection ``prod.fst`` whose continuity
-is the content of the lemma ``continuous_fst``. The composition property is ``continuous.comp`` which is
-in the ``continuous`` namespace so we can use dot notation to compress
-``continuous.comp hf continuous_fst`` into ``hf.comp continuous_fst`` which is actually more readable
+is the content of the lemma ``continuous_fst``. The composition property is ``Continuous.comp`` which is
+in the ``Continuous`` namespace so we can use dot notation to compress
+``Continuous.comp hf continuous_fst`` into ``hf.comp continuous_fst`` which is actually more readable
 since it really reads as composing our assumption and our lemma.
 We can do the same for the second component to get continuity of ``λ p : X × X, f p.2``. We then assemble
-those two continuities using ``continuous.prod_mk`` to get
-``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : continuous (λ p : X × X, (f p.1, f p.2))``
+those two continuities using ``Continuous.prod_mk`` to get
+``(hf.comp continuous_fst).prod_mk (hf.comp continuous_snd) : Continuous (λ p : X × X, (f p.1, f p.2))``
 and compose once more to get our full proof.
 BOTH: -/
 -- QUOTE:
@@ -101,7 +101,7 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 
 -- QUOTE.
 /- TEXT:
-The combination of ``continuous.prod_mk`` and ``continuous_dist`` via ``continuous.comp`` feels clunky,
+The combination of ``Continuous.prod_mk`` and ``continuous_dist`` via ``Continuous.comp`` feels clunky,
 even when heavily using dot notation as above. A more serious issue is that this nice proof requires a lot of
 planning. Lean accepts the above proof term because it is a full term proving a statement which is
 definitionally equivalent to our goal, the crucial definition to unfold being that of a composition of functions.
@@ -112,7 +112,7 @@ tactics starting with ``apply continuous_dist.comp`` then Lean's elaborator will
 composition and refuse to apply this lemma. It is especially bad at this when products of types are involved.
 
 A better lemma to apply here is
-``continuous.dist {f g : X → Y} : continuous f → continuous g → continuous (λ x, dist (f x) (g x))``
+``Continuous.dist {f g : X → Y} : Continuous f → Continuous g → Continuous (λ x, dist (f x) (g x))``
 which is nicer to Lean's elaborator and also provides a shorter proof when directly providing a full
 proof term, as can be seen from the following two new proofs of the above statement:
 BOTH: -/
@@ -130,12 +130,12 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 -- QUOTE.
 /- TEXT:
 Note that, without the elaboration issue coming from composition, another way to compress
-our proof would be to use ``continuous.prod_map`` which is sometimes useful and gives
+our proof would be to use ``Continuous.prod_map`` which is sometimes useful and gives
 as an alternate proof term ``continuous_dist.comp (hf.prod_map hf)`` which even shorter to type.
 
 Since it is sad to decide between a version which is better for elaboration and a version which is shorter
 to type, let us wrap this discussion with a last bit of compression offered
-by ``continuous.fst'`` which allows to compress ``hf.comp continuous_fst`` to ``hf.fst'`` (and the same with ``snd``)
+by ``Continuous.fst'`` which allows to compress ``hf.comp continuous_fst`` to ``hf.fst'`` (and the same with ``snd``)
 and get our final proof, now bordering obfuscation.
 
 BOTH: -/
@@ -147,7 +147,7 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 -- QUOTE.
 /- TEXT:
 It's your turn now to prove some continuity lemma. After trying the continuity tactic, you will need
-``continuous.add``, ``continuous_pow`` and ``continuous_id`` to do it by hand.
+``Continuous.add``, ``continuous_pow`` and ``continuous_id`` to do it by hand.
 
 BOTH: -/
 -- QUOTE:
@@ -244,9 +244,9 @@ example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n,
 
 Remember from the filters sections that neighborhood filters play a big role in mathlib.
 In the metric space context, the crucial point is that balls provide bases for those filters.
-The main lemmas here are ``metric.nhds_basis_ball`` and ``metric.nhds_basis_closed_ball``
+The main lemmas here are ``Metric.nhds_basis_ball`` and ``Metric.nhds_basis_closedBall``
 that claim this for open and closed balls with positive radius. The center point is an implicit
-argument so we can invoke ``Filter.has_basis.mem_iff`` as in the following example.
+argument so we can invoke ``Filter.HasBasis.mem_iff`` as in the following example.
 
 BOTH: -/
 -- QUOTE:
@@ -266,12 +266,13 @@ Compactness is an important topological notion. It distinguishes subsets of a me
 that enjoy the same kind of properties as segments in reals compared to other intervals:
 
 * Any sequence taking value in a compact set has a subsequence that converges in this set
-* Any continuous function on a nonempty compact set with values in real numbers is bounded and achieves its bounds somewhere (this is called the extreme values theorem).
+* Any continuous function on a nonempty compact set with values in real numbers is bounded and
+  achieves its bounds somewhere (this is called the extreme values theorem).
 * Compact sets are closed sets.
 
 Let us first check that the unit interval in reals is indeed a compact set, and then check the above
 claims for compact sets in general metric spaces. In the second statement we only
-need continuity on the given set so we will use ``continuous_on`` instead of ``continuous``, and
+need continuity on the given set so we will use ``ContinuousOn`` instead of ``Continuous``, and
 we will give separate statements for the minimum and the maximum. Of course all these results
 are deduced from more general versions, some of which will be discussed in later sections.
 
@@ -293,7 +294,7 @@ example {s : Set X} (hs : IsCompact s) (hs' : s.Nonempty) {f : X → ℝ} (hfs :
   hs.exists_forall_ge hs' hfs
 
 example {s : Set X} (hs : IsCompact s) : IsClosed s :=
-  hs.IsClosed
+  hs.isClosed
 
 -- QUOTE.
 /- TEXT:
@@ -308,7 +309,7 @@ example {X : Type _} [MetricSpace X] [CompactSpace X] : IsCompact (univ : Set X)
 -- QUOTE.
 /- TEXT:
 
-In a compact metric space any closed set is compact, this is ``is_compact.is_closed``.
+In a compact metric space any closed set is compact, this is ``IsCompact.isClosed``.
 
 BOTH: -/
 #check IsCompact.isClosed
@@ -339,7 +340,7 @@ We fix ``ε > 0`` and start looking for some ``δ``.
 
 Let ``φ : X × X → ℝ := λ p, dist (f p.1) (f p.2)`` and let ``K := { p : X × X | ε ≤ φ p }``.
 Observe ``φ`` is continuous since ``f`` and distance are continuous.
-And ``K`` is clearly closed (use ``is_closed_le``) hence compact since ``X`` is compact.
+And ``K`` is clearly closed (use ``isClosed_le``) hence compact since ``X`` is compact.
 
 Then we discuss two possibilities using ``eq_empty_or_nonempty``.
 If ``K`` is empty then we are clearly done (we can set ``δ = 1`` for instance).
@@ -362,13 +363,13 @@ example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace 
   have φ_cont : Continuous φ := hf.fst'.dist hf.snd'
   let K := { p : X × X | ε ≤ φ p }
   have K_closed : IsClosed K := isClosed_le continuous_const φ_cont
-  have K_cpct : IsCompact K := K_closed.is_compact
+  have K_cpct : IsCompact K := K_closed.isCompact
   cases' eq_empty_or_nonempty K with hK hK
   · use 1, by norm_num
-    intro x y hxy
+    intro x y _
     have : (x, y) ∉ K := by simp [hK]
-    simpa [K]
-  · rcases K_cpct.exists_forall_le hK continuous_dist.continuous_on with ⟨⟨x₀, x₁⟩, xx_in, H⟩
+    simpa using this
+  · rcases K_cpct.exists_forall_le hK continuous_dist.continuousOn with ⟨⟨x₀, x₁⟩, xx_in, H⟩
     use dist x₀ x₁
     constructor
     · change _ < _
@@ -408,7 +409,7 @@ example [CompleteSpace X] (u : ℕ → X) (hu : CauchySeq u) : ∃ x, Tendsto u 
 We'll practice using this definition by proving a convenient criterion which is a special case of a
 criterion appearing in mathlib. This is also a good opportunity to practice using big sums in
 a geometric context. In addition to the explanations from the filters section, you will probably need
-``tendsto_pow_at_top_nhds_0_of_lt_1``, ``Tendsto.mul`` and ``dist_le_range_sum_dist``.
+``tendsto_pow_atTop_nhds_0_of_lt_1``, ``Tendsto.mul`` and ``dist_le_range_sum_dist``.
 BOTH: -/
 open BigOperators
 
@@ -444,8 +445,8 @@ example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ 
       simp_rw [← one_div_pow (2 : ℝ)]
       apply tendsto_pow_atTop_nhds_0_of_lt_1 <;> linarith
       exact tendsto_const_nhds
-    rcases(atTop_basis.tendsto_iff (nhds_basis_Ioo_pos (0 : ℝ))).mp this ε ε_pos with ⟨N, H, hN⟩
-    exact ⟨N, by simpa using (hN N le_rfl).2⟩
+    rcases(atTop_basis.tendsto_iff (nhds_basis_Ioo_pos (0 : ℝ))).mp this ε ε_pos with ⟨N, _, hN⟩
+    exact ⟨N, by simpa using (hN N left_mem_Ici).2⟩
   use N
   intro n hn
   obtain ⟨k, rfl : n = N + k⟩ := le_iff_exists_add.mp hn
@@ -453,8 +454,8 @@ example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ 
     dist (u (N + k)) (u N) = dist (u (N + 0)) (u (N + k)) := by rw [dist_comm, add_zero]
     _ ≤ ∑ i in range k, dist (u (N + i)) (u (N + (i + 1))) :=
       (dist_le_range_sum_dist (fun i => u (N + i)) k)
-    _ ≤ ∑ i in range k, (1 / 2 : ℝ) ^ (N + i) := (sum_le_sum fun i hi => hu <| N + i)
-    _ = 1 / 2 ^ N * ∑ i in range k, (1 / 2) ^ i := by simp_rw [← one_div_pow, pow_add, ← mul_sum]
+    _ ≤ ∑ i in range k, (1 / 2 : ℝ) ^ (N + i) := (sum_le_sum fun i _ => hu <| N + i)
+    _ = 1 / 2 ^ N * ∑ i in range k, (1 / 2 : ℝ) ^ i := by simp_rw [← one_div_pow, pow_add, ← mul_sum]
     _ ≤ 1 / 2 ^ N * 2 :=
       (mul_le_mul_of_nonneg_left (sum_geometric_two_le _)
         (one_div_nonneg.mpr (pow_nonneg (zero_le_two : (0 : ℝ) ≤ 2) _)))
@@ -479,19 +480,19 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   sorry
   /- Translate the density assumption into two functions `center` and `radius` associating
     to any n, x, δ, δpos a center and a positive radius such that
-    `closed_ball center radius` is included both in `f n` and in `closed_ball x δ`.
+    `closedBall center radius` is included both in `f n` and in `closedBall x δ`.
     We can also require `radius ≤ (1/2)^(n+1)`, to ensure we get a Cauchy sequence later. -/
   have :
     ∀ (n : ℕ) (x : X),
-      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closed_ball y r ⊆ closed_ball x δ ∩ f n :=
+      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closedBall y r ⊆ closedBall x δ ∩ f n :=
     by sorry
   choose! center radius Hpos HB Hball using this
   intro x
-  rw [mem_closure_iff_nhds_basis nhds_basis_closed_ball]
+  rw [mem_closure_iff_nhds_basis nhds_basis_closedBall]
   intro ε εpos
   /- `ε` is positive. We have to find a point in the ball of radius `ε` around `x` belonging to all
     `f n`. For this, we construct inductively a sequence `F n = (c n, r n)` such that the closed ball
-    `closed_ball (c n) (r n)` is included in the previous ball and in `f n`, and such that
+    `closedBall (c n) (r n)` is included in the previous ball and in `f n`, and such that
     `r n` is small enough to ensure that `c n` is a Cauchy sequence. Then `c n` converges to a
     limit which belongs to all the `f n`. -/
   let F : ℕ → X × ℝ := fun n =>
@@ -500,7 +501,7 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   let r : ℕ → ℝ := fun n => (F n).2
   have rpos : ∀ n, 0 < r n := by sorry
   have rB : ∀ n, r n ≤ B n := by sorry
-  have incl : ∀ n, closed_ball (c (n + 1)) (r (n + 1)) ⊆ closed_ball (c n) (r n) ∩ f n := by sorry
+  have incl : ∀ n, closedBall (c (n + 1)) (r (n + 1)) ⊆ closedBall (c n) (r n) ∩ f n := by sorry
   have cdist : ∀ n, dist (c n) (c (n + 1)) ≤ B n := by sorry
   have : CauchySeq c := cauchySeq_of_le_geometric_two' cdist
   -- as the sequence `c n` is Cauchy in a complete space, it converges to a limit `y`.
@@ -508,8 +509,8 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   -- this point `y` will be the desired point. We will check that it belongs to all
   -- `f n` and to `ball x ε`.
   use y
-  have I : ∀ n, ∀ m ≥ n, closed_ball (c m) (r m) ⊆ closed_ball (c n) (r n) := by sorry
-  have yball : ∀ n, y ∈ closed_ball (c n) (r n) := by sorry
+  have I : ∀ n, ∀ m ≥ n, closedBall (c m) (r m) ⊆ closedBall (c n) (r n) := by sorry
+  have yball : ∀ n, y ∈ closedBall (c n) (r n) := by sorry
   sorry
 
 -- QUOTE.
@@ -520,23 +521,23 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   have Bpos : ∀ n, 0 < B n := fun n => pow_pos sorry n
   /- Translate the density assumption into two functions `center` and `radius` associating
     to any n, x, δ, δpos a center and a positive radius such that
-    `closed_ball center radius` is included both in `f n` and in `closed_ball x δ`.
+    `closedBall center radius` is included both in `f n` and in `closedBall x δ`.
     We can also require `radius ≤ (1/2)^(n+1)`, to ensure we get a Cauchy sequence later. -/
   have :
     ∀ (n : ℕ) (x : X),
-      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closed_ball y r ⊆ closed_ball x δ ∩ f n := by
+      ∀ δ > 0, ∃ y : X, ∃ r > 0, r ≤ B (n + 1) ∧ closedBall y r ⊆ closedBall x δ ∩ f n := by
     intro n x δ δpos
     have : x ∈ closure (f n) := hd n x
     rcases Metric.mem_closure_iff.1 this (δ / 2) (half_pos δpos) with ⟨y, ys, xy⟩
     rw [dist_comm] at xy
-    obtain ⟨r, rpos, hr⟩ : ∃ r > 0, closed_ball y r ⊆ f n :=
-      nhds_basis_closed_ball.mem_iff.1 (isOpen_iff_mem_nhds.1 (ho n) y ys)
+    obtain ⟨r, rpos, hr⟩ : ∃ r > 0, closedBall y r ⊆ f n :=
+      nhds_basis_closedBall.mem_iff.1 (isOpen_iff_mem_nhds.1 (ho n) y ys)
     refine' ⟨y, min (min (δ / 2) r) (B (n + 1)), _, _, fun z hz => ⟨_, _⟩⟩
     show 0 < min (min (δ / 2) r) (B (n + 1))
     exact lt_min (lt_min (half_pos δpos) rpos) (Bpos (n + 1))
     show min (min (δ / 2) r) (B (n + 1)) ≤ B (n + 1)
     exact min_le_right _ _
-    show z ∈ closed_ball x δ
+    show z ∈ closedBall x δ
     exact
       calc
         dist z x ≤ dist z y + dist y x := dist_triangle _ _ _
@@ -552,10 +553,10 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
           _ ≤ r := (min_le_left _ _).trans (min_le_right _ _)
           )
   choose! center radius Hpos HB Hball using this
-  refine' fun x => (mem_closure_iff_nhds_basis nhds_basis_closed_ball).2 fun ε εpos => _
+  refine' fun x => (mem_closure_iff_nhds_basis nhds_basis_closedBall).2 fun ε εpos => _
   /- `ε` is positive. We have to find a point in the ball of radius `ε` around `x` belonging to all
     `f n`. For this, we construct inductively a sequence `F n = (c n, r n)` such that the closed ball
-    `closed_ball (c n) (r n)` is included in the previous ball and in `f n`, and such that
+    `closedBall (c n) (r n)` is included in the previous ball and in `f n`, and such that
     `r n` is small enough to ensure that `c n` is a Cauchy sequence. Then `c n` converges to a
     limit which belongs to all the `f n`. -/
   let F : ℕ → X × ℝ := fun n =>
@@ -572,18 +573,18 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
     induction' n with n hn
     exact min_le_right _ _
     exact HB n (c n) (r n) (rpos n)
-  have incl : ∀ n, closed_ball (c (n + 1)) (r (n + 1)) ⊆ closed_ball (c n) (r n) ∩ f n := fun n =>
+  have incl : ∀ n, closedBall (c (n + 1)) (r (n + 1)) ⊆ closedBall (c n) (r n) ∩ f n := fun n =>
     Hball n (c n) (r n) (rpos n)
   have cdist : ∀ n, dist (c n) (c (n + 1)) ≤ B n := by
     intro n
     rw [dist_comm]
-    have A : c (n + 1) ∈ closed_ball (c (n + 1)) (r (n + 1)) :=
-      mem_closed_ball_self (rpos <| n + 1).le
+    have A : c (n + 1) ∈ closedBall (c (n + 1)) (r (n + 1)) :=
+      mem_closedBall_self (rpos <| n + 1).le
     have I :=
       calc
-        closed_ball (c (n + 1)) (r (n + 1)) ⊆ closed_ball (c n) (r n) :=
+        closedBall (c (n + 1)) (r (n + 1)) ⊆ closedBall (c n) (r n) :=
           (incl n).trans (inter_subset_left _ _)
-        _ ⊆ closed_ball (c n) (B n) := closed_ball_subset_closed_ball (rB n)
+        _ ⊆ closedBall (c n) (B n) := closedBall_subset_closedBall (rB n)
 
     exact I A
   have : CauchySeq c := cauchySeq_of_le_geometric_two' cdist
@@ -592,20 +593,20 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   -- this point `y` will be the desired point. We will check that it belongs to all
   -- `f n` and to `ball x ε`.
   use y
-  have I : ∀ n, ∀ m ≥ n, closed_ball (c m) (r m) ⊆ closed_ball (c n) (r n) := by
+  have I : ∀ n, ∀ m ≥ n, closedBall (c m) (r m) ⊆ closedBall (c n) (r n) := by
     intro n
     refine' Nat.le_induction _ fun m hnm h => _
     · exact Subset.rfl
     · exact (incl m).trans ((Set.inter_subset_left _ _).trans h)
-  have yball : ∀ n, y ∈ closed_ball (c n) (r n) := by
+  have yball : ∀ n, y ∈ closedBall (c n) (r n) := by
     intro n
-    refine' is_closed_ball.mem_of_tendsto ylim _
+    refine' isClosed_ball.mem_of_tendsto ylim _
     refine' (Filter.eventually_ge_atTop n).mono fun m hm => _
-    exact I n m hm (mem_closed_ball_self (rpos _).le)
+    exact I n m hm (mem_closedBall_self (rpos _).le)
   constructor
   · suffices ∀ n, y ∈ f n by rwa [Set.mem_iInter]
     intro n
-    have : closed_ball (c (n + 1)) (r (n + 1)) ⊆ f n :=
+    have : closedBall (c (n + 1)) (r (n + 1)) ⊆ f n :=
       Subset.trans (incl n) (inter_subset_right _ _)
     exact this (yball (n + 1))
   calc
