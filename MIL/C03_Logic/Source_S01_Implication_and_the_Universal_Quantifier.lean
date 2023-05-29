@@ -85,7 +85,7 @@ to a goal of the form ``abs (a * b) < δ``,
 you are left with new goals that require you to  prove
 each of the hypotheses.
 
-.. index:: intro, tactics
+.. index:: intro, tactics; intro
 
 To prove a statement like this, use the ``intro`` tactic.
 Take a look at what it does in this example:

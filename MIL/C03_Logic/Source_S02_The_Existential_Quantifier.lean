@@ -159,7 +159,7 @@ example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := 
   exact mul_le_mul_of_nonneg_left (lbfa x) h
 
 /- TEXT:
-.. index:: rintro, tactics ; rcases, tactics
+.. index:: rintro, tactics ; rintro, rcases, tactics ; rcases
 
 The task of unpacking information in a hypothesis is
 so important that Lean and mathlib provide a number of
