@@ -1,9 +1,9 @@
 
-Mathematics in Lean Source
-==========================
+Mathematics in Lean 3 Source
+============================
 
 This is the source code for
-[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
+[Mathematics in Lean 3](https://leanprover-community.github.io/mathematics_in_lean3/).
 
 Our build process is rudimentary and not ready for prime time, but it is fairly
 convenient to use. Most of the source is written directly in the `.lean` files
@@ -40,7 +40,7 @@ The script `deploy.sh` is used to deploy everything (the textbook and the
 user's version of the example and solution files) to an arbitrary repository, set up to use the `gh-pages` branch
 to display the html. Specifically, we use the following:
 ```
-./deploy.sh leanprover-community mathematics_in_lean
+./deploy.sh leanprover-community mathematics_in_lean3
 ```
 
 ## How to contribute

@@ -16,12 +16,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Mathematics in Lean'
+project = 'Mathematics in Lean 3'
 copyright = '2020, Jeremy Avigad, Kevin Buzzard, Robert Y. Lewis, Patrick Massot'
 author = 'Jeremy Avigad, Kevin Buzzard, Robert Y. Lewis, Patrick Massot'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = '3.52'
 
 # -- General configuration ------------------------------------------------
 
@@ -119,7 +119,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'mathematics_in_lean.tex', 'Mathematics in Lean',
+    (master_doc, 'mathematics_in_lean.tex', 'Mathematics in Lean 3',
      'Jeremy Avigad \\and Kevin Buzzard \\and Robert Y. Lewis \\and Patrick Massot', 'manual'),
 ]
 
@@ -129,7 +129,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean',
+    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean 3',
      [author], 1)
 ]
 
@@ -139,7 +139,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean',
+    (master_doc, 'mathematics_in_lean', 'Mathematics in Lean 3',
      author, 'mathematics_in_lean', 'A tutorial introduction to Lean and mathlib',
      'Miscellaneous'),
 ]
