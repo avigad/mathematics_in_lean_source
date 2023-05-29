@@ -1,6 +1,6 @@
 # Mathematics in Lean
 
-This tutorial depends on Lean, VS Code, and mathlib.
+This tutorial depends on Lean 4, VS Code, and Mathlib.
 You can find the textbook both online and in this repository
 in
 [html format](https://leanprover-community.github.io/mathematics_in_lean/)
@@ -9,7 +9,12 @@ or as a
 The book is designed to be read as you
 work through examples and exercises,
 using a copy of this repository on your computer.
-Alternatively, you can use Gitpod to tun Lean and VS Code in the cloud.
+Alternatively, you can use Gitpod to run Lean and VS Code in the cloud.
+
+This version of *Mathematics in Lean* is designed for [Lean 4](https://leanprover.github.io/) and
+[Mathlib](https://github.com/leanprover-community/mathlib4).
+For the Lean 3 version, see [github.com/leanprover-community/mathematics_in_lean3](github.com/leanprover-community/mathematics_in_lean3).
+
 
 ## To use this repository on your computer
 
@@ -23,14 +28,21 @@ Do the following:
    to fetch it from github.
 
 3. Navigate to `mathematics_in_lean`, and execute `lake exe cache get` to fetch a compiled
-   version of the library, `mathlib`.
+   version of the library, `Mathlib`.
 
 4. Type `code .` to open the folder in `VS Code`. Alternatively, you can run `VS Code` and
    choose `Open Folder` from the `File` menu. Be sure to open the folder `mathematics_in_lean`,
    not any other folder.
 
-Opening any Lean file will simultaneously open this
-book in a VS Code window.
+You can open the book in a side panel in VS Code as follows:
+
+1. Type ``ctrl-shift-P``.
+
+2. Type ``Lean 4: Open Documentation View`` in the bar that appears, and then
+  press return. (You can press return to select it as soon as it is highlighted
+  in the menu.)
+
+3. In the window that opens, click on ``Open documentation of current project``.
 
 Each section in the book has an associated Lean file
 with examples and exercises.
@@ -39,6 +51,9 @@ We recommend making a copy of that folder,
 naming it something like `my_files`.
 That way you can experiment with the files as you go
 while leaving the originals intact.
+
+If you have an HTML previewer installed as an extension, you can open `html/index.html`
+and read the book in VS Code while you work on the exercises.
 
 You can update to a newer version of this repository
 by typing ``git pull`` followed by ``lake exe cache get``

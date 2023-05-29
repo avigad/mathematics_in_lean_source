@@ -14,8 +14,6 @@ Mathematics in Lean
    C05_Number_Theory
    C06_Abstract_Algebra
    C07_Topology
-   C08_Differential_Calculus
-   C09_Integration_and_Measure_Theory
 
 .. toctree::
    :hidden:
