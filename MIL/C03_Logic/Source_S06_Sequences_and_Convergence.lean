@@ -394,9 +394,8 @@ def ConvergesTo' (s : α → ℝ) (a : ℝ) :=
 end
 
 /- TEXT:
-.. TODO: reference to later chapter
 
-In a later chapter, we will see that mathlib has mechanisms
+In :numref:`filters`, we will see that mathlib has mechanisms
 for dealing with convergence in vastly more general terms,
 not only abstracting away particular features of the domain
 and codomain,
