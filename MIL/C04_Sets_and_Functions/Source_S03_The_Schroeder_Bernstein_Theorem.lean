@@ -118,18 +118,18 @@ variable {α β : Type _} [Nonempty β]
 
 -- QUOTE.
 /- TEXT:
-The annotation ``[nonempty β]`` specifies that ``β`` is nonempty.
+The annotation ``[Nonempty β]`` specifies that ``β`` is nonempty.
 We use it because the mathlib primitive that we will use to
 construct :math:`g^{-1}` requires it.
 The case of the theorem where :math:`\beta` is empty is trivial,
 and even though it would not be hard to generalize the formalization to cover
 that case as well, we will not bother.
-Specifically, we need the hypothesis ``[nonempty β]`` for the operation
-``inv_fun`` that is defined in mathlib.
-Given ``x : α``, ``inv_fun g x`` chooses a preimage of ``x``
+Specifically, we need the hypothesis ``[Nonempty β]`` for the operation
+``invFun`` that is defined in mathlib.
+Given ``x : α``, ``invFun g x`` chooses a preimage of ``x``
 in ``β`` if there is one,
 and returns an arbitrary element of ``β`` otherwise.
-The function ``inv_fun g`` is always a left inverse if ``g`` is injective
+The function ``invFun g`` is always a left inverse if ``g`` is injective
 and a right inverse if ``g`` is surjective.
 
 -- LITERALINCLUDE: inv_fun g

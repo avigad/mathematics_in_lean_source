@@ -17,7 +17,7 @@ such as rings and lattices, which were discussed in
 :numref:`Chapter %s <basics>`.
 This chapter will explain the mysterious square bracket annotations
 that you saw there,
-``[ring α]`` and ``[lattice α]``.
+``[Ring α]`` and ``[Lattice α]``.
 It will also show you how to define and use
 algebraic structures on your own.
 

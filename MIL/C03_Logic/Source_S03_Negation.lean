@@ -55,8 +55,8 @@ providing a nice way to justify a ``have`` with an explicit
 proof term.
 But what you should really be paying attention to in this
 proof is the result of the ``intro`` tactic,
-which leaves a goal of ``false``,
-and the fact that we eventually prove ``false``
+which leaves a goal of ``False``,
+and the fact that we eventually prove ``False``
 by applying ``lt_irrefl`` to a proof of ``a < a``.
 
 Here is another example, which uses the
@@ -429,8 +429,8 @@ but we will do that in the next section.
 We close this section with
 the principle of *ex falso*,
 which says that anything follows from a contradiction.
-In Lean, this is represented by ``false.elim``,
-which establishes ``false → P`` for any proposition ``P``.
+In Lean, this is represented by ``False.elim``,
+which establishes ``False → P`` for any proposition ``P``.
 This may seem like a strange principle,
 but it comes up fairly often.
 We often prove a theorem by splitting on cases,
@@ -467,7 +467,7 @@ end
 
 /- TEXT:
 The ``exfalso`` tactic replaces the current goal with
-the goal of proving ``false``.
+the goal of proving ``False``.
 Given ``h : P`` and ``h' : ¬ P``,
 the term ``absurd h h'`` establishes any proposition.
 Finally, the ``contradiction`` tactic tries to close a goal

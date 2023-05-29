@@ -105,7 +105,7 @@ We will say more about the universal quantifier in
 but suffice it to say here that the hypothesis
 ``h`` says that the desired inequality holds for
 any ``x`` and ``y``,
-and the ``intros`` tactic introduces an arbitrary
+and the ``intro`` tactic introduces an arbitrary
 ``x`` and ``y`` to establish the conclusion.
 The first ``apply`` after ``le_antisymm`` implicitly
 uses ``h a b``, whereas the second one uses ``h b a``.

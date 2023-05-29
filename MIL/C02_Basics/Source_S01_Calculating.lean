@@ -206,8 +206,6 @@ We now introduce some useful features of Lean.
 First, multiple rewrite commands can be carried out
 with a single command,
 by listing the relevant identities within square brackets.
-Second, when a tactic proof is just a single command,
-we can replace the ``begin ... end`` block with a ``by``.
 TEXT. -/
 -- Examples.
 -- QUOTE:
@@ -438,7 +436,7 @@ end
 
 /- TEXT:
 The ``ring`` tactic is imported indirectly when we
-import ``data.real.basic``,
+import ``Data.Real.Basic``,
 but we will see in the next section that it can be used
 for calculations on structures other than the real numbers.
 It can be imported explicitly with the command

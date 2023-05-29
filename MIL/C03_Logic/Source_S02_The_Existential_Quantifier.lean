@@ -159,7 +159,7 @@ example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := 
   exact mul_le_mul_of_nonneg_left (lbfa x) h
 
 /- TEXT:
-.. index:: rintros, tactics ; rintros, rcases, tactics ; rcases
+.. index:: rintro, tactics ; rcases, tactics
 
 The task of unpacking information in a hypothesis is
 so important that Lean and mathlib provide a number of
@@ -170,8 +170,8 @@ flexible in that it allows us to unpack nested data.
 In the ``with`` clause for unpacking an existential quantifier,
 we name the object and the hypothesis by presenting
 them as a pattern ``⟨a, h⟩`` that ``rcases`` then tries to match.
-The ``rintro`` tactic (which can also be written ``rintros``)
-is a combination of ``intros`` and ``rcases``.
+The ``rintro`` tactic (which can also be written ``rintro``)
+is a combination of ``intro`` and ``rcases``.
 These examples illustrate their use:
 TEXT. -/
 -- QUOTE:

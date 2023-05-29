@@ -550,10 +550,10 @@ example : ([] : List Point).headI = default :=
 -- QUOTE.
 /- TEXT:
 The class inference mechanism is also used for generic notation.
-The expression ``x + y`` is an abbreviation for ``has_add.add x y``
-where---you guessed it---``has_add α`` is a class that stores
+The expression ``x + y`` is an abbreviation for ``Add.add x y``
+where---you guessed it---``Add α`` is a class that stores
 a binary function on ``α``.
-Writing ``x + y`` tells Lean to find a registered instance of ``[has_add.add α]``
+Writing ``x + y`` tells Lean to find a registered instance of ``[Add.add α]``
 and use the corresponding function.
 Below, we register the addition function for ``Point``.
 EXAMPLES: -/
@@ -581,7 +581,7 @@ any ring.
 When we define a new instance of a ring in Lean,
 we don't have to define ``+`` and ``*`` for that instance,
 because Lean knows that these are defined for every ring.
-We can use this method to specify notation for our ``group₂`` class:
+We can use this method to specify notation for our ``Group₂`` class:
 EXAMPLES: -/
 -- QUOTE:
 instance hasMulGroup₂ {α : Type _} [Group₂ α] : Mul α :=
@@ -610,9 +610,9 @@ In this case, we have to supply names for the instances, because
 Lean has a hard time coming up with good defaults.
 What makes this approach work is that Lean carries out a recursive search.
 According to the instances we have declared, Lean can find an instance of
-``has_mul (Equiv.Perm α)`` by finding an
+``Mul (Equiv.Perm α)`` by finding an
 instance of ``Group₂ (Equiv.Perm α)``, and it can find an instance of
-``group₂ (Equiv.Perm α)`` because we have provided one.
+``Group₂ (Equiv.Perm α)`` because we have provided one.
 Lean is capable of finding these two facts and chaining them together.
 
 The example we have just given is dangerous, because Lean's
@@ -639,7 +639,7 @@ As a similarly artificial exercise,
 define a class ``AddGroup₂`` in analogy to ``Group₂``.
 Define the usual notation for addition, negation, and zero
 on any ``AddGroup₂``
-using the classes ``hasAdd``, ``hasNeg``, and ``hasZero``.
+using the classes ``Add``, ``Neg``, and ``Zero``.
 Then show ``Point`` is an instance of ``AddGroup₂``.
 Try it out and make sure that the additive group notation works for
 elements of ``Point``.
@@ -686,7 +686,7 @@ end
 
 /- TEXT:
 It is not a big problem that we have already declared instances
-``hasAdd``, ``hasNeg``, and ``hasZero`` for ``Point`` above.
+``Add``, ``Neg``, and ``Zero`` for ``Point`` above.
 Once again, the two ways of synthesizing the notation should come up
 with the same answer.
 

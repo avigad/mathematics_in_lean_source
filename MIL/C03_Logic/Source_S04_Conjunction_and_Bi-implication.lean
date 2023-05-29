@@ -55,7 +55,7 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
 You can use the ``cases`` tactic for that,
-as well as ``rcases``, ``rintros``, or a pattern-matching lambda,
+as well as ``rcases``, ``rintro``, or a pattern-matching lambda,
 all in a manner similar to the way they are used with
 the existential quantifier.
 TEXT. -/
@@ -109,7 +109,7 @@ example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
 
 /- TEXT:
 You can nest uses of ``∃`` and ``∧``
-with anonymous constructors, ``rintros``, and ``rcases``.
+with anonymous constructors, ``rintro``, and ``rcases``.
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 4 :=

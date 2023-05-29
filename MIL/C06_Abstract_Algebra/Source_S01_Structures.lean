@@ -38,7 +38,7 @@ example (a b : Point) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) : a = b
 
 -- QUOTE.
 /- TEXT:
-We can then define particular instances of the ``point`` structure.
+We can then define particular instances of the ``Point`` structure.
 Lean provides multiple ways of doing that.
 EXAMPLES: -/
 -- QUOTE:
@@ -204,7 +204,7 @@ Mathematical constructions often involve taking apart bundled information and
 putting it together again in different ways.
 It therefore makes sense that Lean and mathlib offer so many ways
 of doing this efficiently.
-As an exercise, try proving that ``point.add`` is associative.
+As an exercise, try proving that ``Point.add`` is associative.
 Then define scalar multiplication for a point and show that it
 distributes over addition.
 BOTH: -/

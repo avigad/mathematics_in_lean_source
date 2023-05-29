@@ -188,7 +188,7 @@ Mathlib defines the expressions ``Finset.sum s f`` where
 The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
 If you import ``Algebra.BigOperators.Basic`` and issue the command
-``open bigOperators``, you can use the more suggestive notation
+``open BigOperators``, you can use the more suggestive notation
 ``∑ x in s, f x``. Of course, there is are an analogous operation and
 notation for finite products.
 

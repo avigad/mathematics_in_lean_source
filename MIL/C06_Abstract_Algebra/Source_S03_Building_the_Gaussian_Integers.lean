@@ -143,8 +143,8 @@ of a commutative ring. We are putting the structure concept to good use.
 Each particular Gaussian integer is an instance of the ``gaussInt`` structure,
 whereas the type ``gaussInt`` itself, together with the relevant operations, is an
 instance of the ``CommRing`` structure. The ``CommRing`` structure, in turn,
-extends the notational structures ``has_zero``, ``has_one``, ``has_add``,
-``has_neg``, and ``has_mul``.
+extends the notational structures ``Zero``, ``One``, ``Add``,
+``Neg``, and ``Mul``.
 
 If you type ``instance : CommRing gaussInt := _``, click on the light bulb
 that appears in VS Code, and then ask Lean to fill in a skeleton for the
@@ -168,13 +168,13 @@ instance instCommRing : CommRing gaussInt where
     intros
     ext <;> simp <;> ring
   zero_add := by
-    intros
+    intro
     ext <;> simp
   add_zero := by
-    intros
+    intro
     ext <;> simp
   add_left_neg := by
-    intros
+    intro
     ext <;> simp
   add_comm := by
     intros
@@ -183,10 +183,10 @@ instance instCommRing : CommRing gaussInt where
     intros
     ext <;> simp <;> ring
   one_mul := by
-    intros
+    intro
     ext <;> simp
   mul_one := by
-    intros
+    intro
     ext <;> simp
   left_distrib := by
     intros
@@ -581,7 +581,7 @@ theorem norm_mod_lt (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) : (x % y).norm 
 We are in the home stretch. Our ``norm`` function maps Gaussian integers to
 nonnegative integers. We need a function that maps Gaussian integers to natural
 numbers, and we obtain that by composing ``norm`` with the function
-``Int.nat_abs``, which maps integers to the natural numbers.
+``Int.natAbs``, which maps integers to the natural numbers.
 The first of the next two lemmas establishes that mapping the norm to the
 natural numbers and back to the integers does not change the value.
 The second one re-expresses the fact that the norm is decreasing.
@@ -621,7 +621,7 @@ to any well-founded measure.
 Comparing the values of a norm function that returns natural numbers is
 just one instance of such a measure,
 and in that case, the required properties are the theorems
-``nat_abs_norm_mod_lt`` and ``not_norm_mul_left_lt_norm``.
+``natAbs_norm_mod_lt`` and ``not_norm_mul_left_lt_norm``.
 BOTH: -/
 -- QUOTE:
 instance : EuclideanDomain gaussInt :=

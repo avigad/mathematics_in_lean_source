@@ -137,7 +137,7 @@ The command ``open bar`` later *opens* the namespace,
 which allows us to use the shorter name ``foo``.
 To avoid errors due to name clashes,
 in the next example we put our versions of the library
-theorems in a new namespace called ``my_ring.``
+theorems in a new namespace called ``MyRing.``
 
 The next example shows that we do not need ``add_zero`` or ``add_right_neg``
 as ring axioms, because they follow from the other axioms.
@@ -451,7 +451,7 @@ the group operation is commutative,
 and multiplicative notation otherwise.
 So Lean defines a multiplicative version as well as the
 additive version (and also their abelian variants,
-``add_comm_group`` and ``comm_group``).
+``AddCommGroup`` and ``CommGroup``).
 TEXT. -/
 -- BOTH:
 section
@@ -514,7 +514,7 @@ tactics similar to `ring` in order to cover most uses: `group`
 is for non-commutative multiplicative groups, `abel` for abelian
 additive groups, and `noncomm_ring` for non-commutative groups.
 It may seem odd that the algebraic structures are called
-`ring` and `comm_ring` while the tactics are named
+`Ring` and `CommRing` while the tactics are named
 `noncomm_ring` and `ring`. This is partly for historical reasons,
 but also for the convenience of using a shorter name for the
 tactic that deals with commutative rings, since it is used more often.
