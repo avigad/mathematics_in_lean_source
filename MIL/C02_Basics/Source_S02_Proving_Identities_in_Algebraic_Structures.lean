@@ -23,26 +23,6 @@ and :math:`1`, and an operation :math:`x \mapsto -x` such that:
 In Lean, the collection of objects is represented as a *type*, ``R``.
 The ring axioms are as follows:
 TEXT. -/
-/- TEXT:
-.. _proving_identities_in_algebraic_structures:
-
-Proving Identities in Algebraic Structures
-------------------------------------------
-
-.. index:: ring (algebraic structure)
-
-Mathematically, a ring consists of a collection of objects,
-:math:`R`, operations :math:`+` :math:`\times`, and constants :math:`0`
-and :math:`1`, and an operation :math:`x \mapsto -x` such that:
-
-* :math:`R` with :math:`+` is an *abelian group*, with :math:`0`
-  as the additive identity and negation as inverse.
-* Multiplication is associative with identity :math:`1`,
-  and multiplication distributes over addition.
-
-In Lean, the collection of objects is represented as a *type*, ``R``.
-The ring axioms are as follows:
-TEXT. -/
 section
 
 -- QUOTE:
