@@ -20,6 +20,7 @@ MIL/mkdoc.py C05_Number_Theory S03_Infinitely_Many_Primes
 MIL/mkdoc.py C06_Abstract_Algebra S01_Structures
 MIL/mkdoc.py C06_Abstract_Algebra S02_Algebraic_Structures
 MIL/mkdoc.py C06_Abstract_Algebra S03_Building_the_Gaussian_Integers
+MIL/mkdoc.py C_Hierarchies S01_Basics
 MIL/mkdoc.py C07_Topology S01_Filters
 MIL/mkdoc.py C07_Topology S02_Metric_Spaces
 MIL/mkdoc.py C07_Topology S03_Topological_Spaces
