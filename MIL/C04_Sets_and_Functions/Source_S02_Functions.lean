@@ -42,7 +42,7 @@ to be ``{y | ∃ x, x ∈ s ∧ f x = y}``.
 So a hypothesis  ``y ∈ f '' s`` decomposes to a triple
 ``⟨x, xs, xeq⟩`` with ``x : α`` satisfying the hypotheses ``xs : x ∈ s``
 and ``xeq : f x = y``.
-The ``rfl`` tag in the ``rintros`` tactic (see :numref:`the_existential_quantifier`) was made precisely
+The ``rfl`` tag in the ``rintro`` tactic (see :numref:`the_existential_quantifier`) was made precisely
 for this sort of situation.
 TEXT. -/
 -- QUOTE:
@@ -523,7 +523,7 @@ an arbitrary type in Lean may be empty.
 To define the inverse to ``f`` at ``y`` when there is
 no ``x`` satisfying ``f x = y``,
 we want to assign a default value in ``α``.
-Adding the annotation ``[inhabited α]`` as a variable
+Adding the annotation ``[Inhabited α]`` as a variable
 is tantamount to assuming that ``α`` has a
 preferred element, which is denoted ``default``.
 Second, in the case where there is more than one ``x``
@@ -552,9 +552,9 @@ example : P (Classical.choose h) :=
 
 -- QUOTE.
 /- TEXT:
-Given ``h : ∃ x, P x``, the value of ``classical.some h``
+Given ``h : ∃ x, P x``, the value of ``Classical.some h``
 is some ``x`` satisfying ``P x``.
-The theorem ``classical.some_spec h`` says that ``classical.some h``
+The theorem ``Classical.some_spec h`` says that ``Classical.some h``
 meets this specification.
 
 With these in hand, we can define the inverse function

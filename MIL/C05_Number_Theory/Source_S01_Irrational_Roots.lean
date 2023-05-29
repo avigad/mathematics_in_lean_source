@@ -31,7 +31,7 @@ that :math:`a` and :math:`b` do not have any factors in common,
 which is to say, they are *coprime*.
 Mathlib defines the predicate ``Nat.coprime m n`` to be ``Nat.gcd m n = 1``.
 Using Lean's anonymous projection notation, if ``s`` and ``t`` are
-expressions of type ``nat``, we can write ``s.coprime t`` instead of
+expressions of type ``Nat``, we can write ``s.coprime t`` instead of
 ``Nat.coprime s t``, and similarly for ``Nat.gcd``.
 As usual, Lean will often unfold the definition of ``Nat.coprime`` automatically
 when necessary,
@@ -61,16 +61,16 @@ There is also a version of ``gcd`` for the integers;
 we will return to a discussion of the relationship between
 different number systems below.
 There are even a generic ``gcd`` function and generic
-notions of ``prime`` and ``is_coprime``
+notions of ``Prime`` and ``coprime``
 that make sense in general classes of algebraic structures.
 We will come to understand how Lean manages this generality
 in the next chapter.
 In the meanwhile, in this section, we will restrict attention
 to the natural numbers.
 
-We also need the notion of a prime number, ``Nat.prime``.
+We also need the notion of a prime number, ``Nat.Prime``.
 The theorem ``Nat.prime_def_lt`` provides one familiar characterization,
-and ``Nat.prime.eq_one_or_self_of_dvd`` provides another.
+and ``Nat.Prime.eq_one_or_self_of_dvd`` provides another.
 EXAMPLES: -/
 -- QUOTE:
 #check @Nat.prime_def_lt
@@ -102,12 +102,12 @@ An element of a ring is said to be *prime* if whenever it divides a product,
 it divides one of the factors.
 It is an important property of the natural numbers
 that in that setting the two notions coincide,
-giving rise to the theorem ``Nat.prime.dvd_mul``.
+giving rise to the theorem ``Nat.Prime.dvd_mul``.
 
 We can use this fact to establish a key property in the argument
 above:
 if the square of a number is even, then that number is even as well.
-Mathlib defines the predicate ``even`` in ``data.Nat.parity``,
+Mathlib defines the predicate ``Even`` in ``Data.Nat.Parity``,
 but for reasons that will become clear below,
 we will simply use ``2 ∣ m`` to express that ``m`` is even.
 EXAMPLES: -/
@@ -208,7 +208,7 @@ In fact, with very few changes, we can replace ``2`` by an arbitrary prime.
 Give it a try in the next example.
 At the end of the proof, you'll need to derive a contradiction from
 ``p ∣ 1``.
-You can use ``Nat.prime.two_le``, which says that
+You can use ``Nat.Prime.two_le``, which says that
 any prime number is greater than or equal to two,
 and ``Nat.le_of_dvd``.
 BOTH: -/

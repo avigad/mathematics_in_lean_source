@@ -82,7 +82,7 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 -- QUOTE.
 /- TEXT:
 What is going on here is known as *definitional reduction*:
-to make sense of the ``intros`` command and the anonymous constructors
+to make sense of the ``intro`` command and the anonymous constructors
 Lean is forced to expand the definitions.
 The following examples also illustrate the phenomenon:
 TEXT. -/
@@ -151,7 +151,7 @@ SOLUTIONS: -/
 -- QUOTE.
 -- BOTH:
 /- TEXT:
-It might help to know that when using ``rintros``,
+It might help to know that when using ``rintro``,
 sometimes we need to use parentheses around a disjunctive pattern
 ``h1 | h2`` to get Lean to parse it correctly.
 
@@ -387,15 +387,15 @@ In fact, set-builder notation is used to define
 
 - ``s ∩ t`` as ``{x | x ∈ s ∧ x ∈ t}``,
 - ``s ∪ t`` as ``{x | x ∈ s ∨ x ∈ t}``,
-- ``∅`` as ``{x | false}``, and
-- ``univ`` as ``{x | true}``.
+- ``∅`` as ``{x | False}``, and
+- ``univ`` as ``{x | True}``.
 
 We often need to indicate the type of ``∅`` and ``univ``
 explicitly,
 because Lean has trouble guessing which ones we mean.
 The following examples show how Lean unfolds the last
 two definitions when needed. In the second one,
-``trivial`` is the canonical proof of ``true`` in the library.
+``trivial`` is the canonical proof of ``True`` in the library.
 TEXT. -/
 -- QUOTE:
 example (x : ℕ) (h : x ∈ (∅ : Set ℕ)) : False :=
@@ -479,7 +479,7 @@ As a result, theorems in the library that make use of them
 often contain ``ball`` or ``bex`` in the name.
 The theorem ``bex_def`` asserts that ``∃ x ∈ s, ...`` is equivalent
 to ``∃ x, x ∈ s ∧ ...,``
-but when they are used with ``rintros``, ``use``,
+but when they are used with ``rintro``, ``use``,
 and anonymous constructors,
 these two expressions behave roughly the same.
 As a result, we usually don't need to use ``bex_def``

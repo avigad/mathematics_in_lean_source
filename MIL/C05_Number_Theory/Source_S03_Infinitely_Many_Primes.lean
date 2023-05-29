@@ -59,7 +59,7 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
 /- TEXT:
 Recall that the semicolon after ``interval_cases m`` means
 that the next tactic is applied to each of the cases that it generates.
-Yet another option is to use the tactic, ``dec_trivial``, which tries
+Yet another option is to use the tactic, ``decide``, which tries
 to find a decision procedure to solve the problem.
 Lean knows that you can decide the truth value of a statement that
 begins with a bounded quantifier ``∀ x, x < n → ...`` or ``∃ x, x < n ∧ ...``
@@ -77,7 +77,7 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
 /- TEXT:
 With the theorem ``two_le`` in hand, let's start by showing that every
 natural number greater than two has a prime divisor.
-Mathlib contains a function ``Nat.min_fac`` that
+Mathlib contains a function ``Nat.minFac`` that
 returns the smallest prime divisor,
 but for the sake of learning new parts of the library,
 we'll avoid using it and prove the theorem directly.
@@ -110,7 +110,7 @@ theorem exists_prime_factor {n : Nat} (h : 2 ≤ n) : ∃ p : Nat, p.Prime ∧ p
   induction' n using Nat.strong_induction_on with n ih
   dsimp at ih
   rw [Nat.prime_def_lt] at np
-  push_neg  at np
+  push_neg at np
   rcases np h with ⟨m, mltn, mdvdn, mne1⟩
   have : m ≠ 0 := by
     intro mz
@@ -288,7 +288,7 @@ example (s : Finset ℕ) (n : ℕ) (h : n ∈ s) : n ∣ ∏ i in s, i :=
 We also need to know that the converse holds in the case where
 ``n`` is prime and ``s`` is a set of primes.
 To show that, we need the following lemma, which you should
-be able to prove using the theorem ``Nat.prime.eq_one_or_self_of_dvd``.
+be able to prove using the theorem ``Nat.Prime.eq_one_or_self_of_dvd``.
 BOTH: -/
 -- QUOTE:
 theorem Nat.Prime.eq_of_dvd_of_prime {p q : ℕ} (prime_p : Nat.Prime p) (prime_q : Nat.Prime q)
@@ -414,7 +414,7 @@ not contained in any finite set ``s``.
 The two proofs below show that these formulations are equivalent.
 In the second, in order to form ``s.filter Q``, we have to assume that there
 is a procedure for deciding whether or not ``Q`` holds. Lean knows that there
-is a procedure for ``Nat.prime``. In general, if we use classical logic
+is a procedure for ``Nat.Prime``. In general, if we use classical logic
 by writing ``open Classical``,
 we can dispense with the assumption.
 

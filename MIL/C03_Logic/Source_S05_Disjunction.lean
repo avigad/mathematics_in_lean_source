@@ -34,7 +34,7 @@ We cannot use an anonymous constructor to construct a proof
 of an "or" because Lean would have to guess
 which disjunct we are trying to prove.
 When we write proof terms we can use
-``or.inl`` and ``or.inr`` instead
+``Or.inl`` and ``Or.inr`` instead
 to make the choice explicitly.
 Here, ``inl`` is short for "introduction left" and
 ``inr`` is short for "introduction right."
@@ -186,7 +186,7 @@ end MyAbs
 end
 
 /- TEXT:
-You can also use ``rcases`` and ``rintros`` with disjunctions.
+You can also use ``rcases`` and ``rintro`` with disjunctions.
 When these result in a genuine case split with multiple goals,
 the patterns for each new goal are separated by a vertical bar.
 TEXT. -/
@@ -328,7 +328,7 @@ end
 In fact, if you are careful, you can prove the first
 theorem without using commutativity of multiplication.
 In that case, it suffices to assume that ``R`` is
-a ``domain`` instead of an ``integral_domain``.
+a ``Ring`` instead of an ``CommRing``.
 
 .. index:: excluded middle
 

@@ -85,9 +85,9 @@ to a goal of the form ``abs (a * b) < δ``,
 you are left with new goals that require you to  prove
 each of the hypotheses.
 
-.. index:: intros, tactics ; intros
+.. index:: intro, tactics; intro
 
-To prove a statement like this, use the ``intros`` tactic.
+To prove a statement like this, use the ``intro`` tactic.
 Take a look at what it does in this example:
 TEXT. -/
 -- QUOTE:
@@ -105,7 +105,7 @@ making them implicit means that we leave them out when
 we write an expression *using* ``my_lemma``,
 but they are still an essential part of the statement
 that we are proving.
-After the ``intros`` command,
+After the ``intro`` command,
 the goal is what it would have been at the start if we
 listed all the variables and hypotheses *before* the colon,
 as we did in the last section.
@@ -299,7 +299,7 @@ if we don't,
 Lean expands the implicit arguments to ``h`` and inserts placeholders.
 
 Proving statements about monotonicity
-involves using ``intros`` to introduce two variables,
+involves using ``intro`` to introduce two variables,
 say, ``a`` and ``b``, and the hypothesis ``a ≤ b``.
 To *use* a monotonicity hypothesis,
 you can apply it to suitable arguments and hypotheses,
@@ -330,7 +330,7 @@ This is analogous to the way that an expression
 like ``fun x => x^2`` describes a function
 by temporarily naming an object, ``x``,
 and then using it to describe a value.
-So the ``intros`` command in the previous proof
+So the ``intro`` command in the previous proof
 corresponds to the lambda abstraction in the next proof term.
 The ``apply`` commands then correspond to building
 the application of the theorem to its arguments.
