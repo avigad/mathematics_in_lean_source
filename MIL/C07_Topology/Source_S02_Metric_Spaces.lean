@@ -22,13 +22,9 @@ BOTH: -/
 variable {X : Type _} [MetricSpace X] (a b c : X)
 
 #check (dist a b : ℝ)
-
 #check (dist_nonneg : 0 ≤ dist a b)
-
 #check (dist_eq_zero : dist a b = 0 ↔ a = b)
-
 #check (dist_comm a b : dist a b = dist b a)
-
 #check (dist_triangle a b c : dist a c ≤ dist a b + dist b c)
 -- QUOTE.
 
@@ -39,9 +35,7 @@ They are called ``EMetricSpace``, ``PseudoMetricSpace`` and ``PseudoEMetricSpace
 BOTH: -/
 -- Note the next three lines are not quoted, their purpose is to make sure those things don't get renamed while we're looking elsewhere.
 #check EMetricSpace
-
 #check PseudoMetricSpace
-
 #check PseudoEMetricSpace
 
 /- TEXT:

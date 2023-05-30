@@ -334,11 +334,12 @@ def add (a b : Point) : Point :=
   ⟨a.x + b.x, a.y + b.y, a.z + b.z⟩
 
 /- EXAMPLES:
-def neg (a : point) : point := sorry
+def neg (a : Point) : Point := sorry
 
-def zero : point := sorry
+def zero : Point := sorry
 
-def add_group_point : add_group₁ point := sorry
+def add_group_point : AddGroup₁ point := sorry
+
 SOLUTIONS: -/
 def neg (a : Point) : Point :=
   ⟨-a.x, -a.y, -a.z⟩
@@ -374,7 +375,6 @@ In fact, mathlib is already set up to use generic group notation,
 definitions, and theorems for ``Equiv.Perm α``.
 EXAMPLES: -/
 section
-
 -- QUOTE:
 variable {α : Type _} (f g : Equiv.Perm α) (n : ℕ)
 

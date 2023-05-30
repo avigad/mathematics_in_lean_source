@@ -319,11 +319,12 @@ function above.
 BOTH: -/
 -- QUOTE:
 def weightedAverage (lambda : Real) (lambda_nonneg : 0 ≤ lambda) (lambda_le : lambda ≤ 1)
-    (a b : StandardTwoSimplex) : StandardTwoSimplex
-    where
 /- EXAMPLES:
+    (a b : StandardTwoSimplex) : StandardTwoSimplex :=
   sorry
 SOLUTIONS: -/
+  (a b : StandardTwoSimplex) : StandardTwoSimplex
+where
   x := lambda * a.x + (1 - lambda) * b.x
   y := lambda * a.y + (1 - lambda) * b.y
   z := lambda * a.z + (1 - lambda) * b.z

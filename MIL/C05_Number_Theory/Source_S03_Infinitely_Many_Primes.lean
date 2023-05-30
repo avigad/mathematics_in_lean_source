@@ -136,7 +136,7 @@ theorem primes_infinite : ∀ n, ∃ p > n, Nat.Prime p := by
   intro n
   have : 2 ≤ Nat.factorial (n + 1) + 1 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply Nat.succ_le_succ
     exact Nat.succ_le_of_lt (Nat.factorial_pos _)
@@ -148,7 +148,7 @@ SOLUTIONS: -/
   push_neg  at ple
   have : p ∣ Nat.factorial (n + 1) := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply Nat.dvd_factorial
     apply pp.pos
@@ -156,7 +156,7 @@ SOLUTIONS: -/
 -- BOTH:
   have : p ∣ 1 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     convert Nat.dvd_sub' pdvd this
     simp
@@ -268,8 +268,8 @@ example : (r \ s) \ t = r \ (s ∪ t) := by
   simp
   tauto
 -- QUOTE.
-
 -- BOTH:
+
 end
 
 /- TEXT:
@@ -298,8 +298,8 @@ SOLUTIONS: -/
   · linarith [prime_p.two_le]
   assumption
 -- QUOTE.
-
 -- BOTH:
+
 /- TEXT:
 We can use this lemma to show that if a prime ``p`` divides a product of a finite
 set of primes, then it divides one of them.
@@ -328,7 +328,7 @@ theorem mem_of_dvd_prod_primes {s : Finset ℕ} {p : ℕ} (prime_p : p.Prime) :
   simp [Finset.prod_insert ans, prime_p.dvd_mul] at h₀ h₁
   rw [mem_insert]
 /- EXAMPLES:
-    sorry
+  sorry
 SOLUTIONS: -/
   cases' h₁ with h₁ h₁
   · left
@@ -376,7 +376,7 @@ theorem primes_infinite' : ∀ s : Finset Nat, ∃ p, Nat.Prime p ∧ p ∉ s :=
     apply h
   have : 2 ≤ (∏ i in s', i) + 1 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply Nat.succ_le_succ
     apply Nat.succ_le_of_lt
@@ -387,7 +387,7 @@ SOLUTIONS: -/
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩
   have : p ∣ ∏ i in s', i := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply dvd_prod_of_mem
     rw [mem_s']
@@ -550,8 +550,8 @@ theorem exists_prime_factor_mod_4_eq_3 {n : Nat} (h : n % 4 = 3) :
     rw [neq, h]
   cases' this with h1 h1
 /- EXAMPLES:
-    . sorry
-    sorry
+  . sorry
+  . sorry
 SOLUTIONS: -/
   · by_cases mp : m.Prime
     · use m
@@ -604,7 +604,7 @@ theorem primes_mod_4_eq_3_infinite : ∀ n, ∃ p > n, Nat.Prime p ∧ p % 4 = 3
   cases' this with s hs
   have h₁ : ((4 * ∏ i in erase s 3, i) + 3) % 4 = 3 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [add_comm, Nat.add_mul_mod_self_left]
     norm_num
@@ -612,14 +612,14 @@ SOLUTIONS: -/
   rcases exists_prime_factor_mod_4_eq_3 h₁ with ⟨p, pp, pdvd, p4eq⟩
   have ps : p ∈ s := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [← hs p]
     exact ⟨pp, p4eq⟩
 -- BOTH:
   have pne3 : p ≠ 3 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     intro peq
     rw [peq, ← Nat.dvd_add_iff_left (dvd_refl 3)] at pdvd
@@ -634,7 +634,7 @@ SOLUTIONS: -/
 -- BOTH:
   have : p ∣ 4 * ∏ i in erase s 3, i := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply dvd_trans _ (dvd_mul_left _ _)
     apply dvd_prod_of_mem
@@ -643,14 +643,14 @@ SOLUTIONS: -/
 -- BOTH:
   have : p ∣ 3 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     convert Nat.dvd_sub' pdvd this
     simp
 -- BOTH:
   have : p = 3 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply pp.eq_of_dvd_of_prime Nat.prime_three this
 -- BOTH:

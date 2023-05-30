@@ -3,7 +3,6 @@ import Mathlib.Data.Set.Function
 import Mathlib.Tactic
 
 open Set
-
 open Function
 
 /- TEXT:
@@ -136,7 +135,6 @@ We define the set corresponding to the union of the shaded regions as follows.
 
 BOTH: -/
 section
-
 -- QUOTE:
 variable (f : α → β) (g : β → α)
 
@@ -194,21 +192,21 @@ theorem sb_right_inv {x : α} (hx : x ∉ sbSet f g) : g (invFun g x) = x := by
     use 0
     rw [sbAux, mem_diff]
 /- EXAMPLES:
-      sorry },
+    sorry
 SOLUTIONS: -/
     exact ⟨mem_univ _, hx⟩
 -- BOTH:
   have : ∃ y, g y = x := by
 /- EXAMPLES:
-      { sorry },
-      sorry
+    sorry
+  sorry
 SOLUTIONS: -/
     simp at this
     assumption
   exact invFun_eq this
-
 -- BOTH:
 -- QUOTE.
+
 /- TEXT:
 We now turn to the proof that :math:`h` is injective.
 Informally, the proof goes as follows.
@@ -253,7 +251,7 @@ theorem sb_injective (hf : Injective f) (hg : Injective g) : Injective (sbFun f 
       rw [A_def, sbSet, mem_iUnion] at x₁A
       have x₂eq : x₂ = g (f x₁) := by
 /- EXAMPLES:
-      . sorry
+        sorry
 SOLUTIONS: -/
         rw [hxeq, sb_right_inv f g x₂nA]
 -- BOTH:
@@ -263,20 +261,20 @@ SOLUTIONS: -/
       simp [sbAux]
       exact ⟨x₁, hn, x₂eq.symm⟩
 /- EXAMPLES:
-      . sorry,
+    sorry
 SOLUTIONS: -/
     rw [if_pos x₁A, if_pos x₂A] at hxeq
     exact hf hxeq
 -- BOTH:
   push_neg  at xA
 /- EXAMPLES:
-    sorry
+  sorry
 SOLUTIONS: -/
   rw [if_neg xA.1, if_neg xA.2] at hxeq
   rw [← sb_right_inv f g xA.1, hxeq, sb_right_inv f g xA.2]
-
 -- BOTH:
 -- QUOTE.
+
 /- TEXT:
 The proof introduces some new tactics.
 To start with, notice the ``set`` tactic, which introduces abbreviations
@@ -332,14 +330,14 @@ theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun 
     simp only [h_def, sbFun, if_pos this]
     exact hg hx
 /- EXAMPLES:
-    sorry
+  sorry
 SOLUTIONS: -/
   use g y
   simp only [h_def, sbFun, if_neg gyA]
   apply leftInverse_invFun hg
-
 -- BOTH:
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -362,7 +360,7 @@ variable (g : β → α) (x : α)
 #check (leftInverse_invFun : Injective g → LeftInverse (invFun g) g)
 #check (leftInverse_invFun : Injective g → ∀ y, invFun g (g y) = y)
 #check (invFun_eq : (∃ y, g y = x) → g (invFun g x) = x)
-
 -- TAG: end
+
 end
 

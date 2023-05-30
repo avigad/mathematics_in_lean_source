@@ -1,9 +1,7 @@
 import Mathlib.Topology.Instances.Real
 import Mathlib.Analysis.NormedSpace.BanachSteinhaus
 
-open Set Filter
-
-open Topology Filter
+open Set Filter Topology
 
 /- TEXT:
 .. index:: topological space

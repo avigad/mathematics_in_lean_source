@@ -168,7 +168,6 @@ theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s 
     _ < ε / 2 + ε / 2 := (add_lt_add (hs n ngeNs) (ht n ngeNt))
     _ = ε := by norm_num
 
-
 /- TEXT:
 As hints, you can use ``le_of_max_le_left`` and ``le_of_max_le_right``,
 and ``norm_num`` can prove ``ε / 2 + ε / 2 = ε``.
@@ -221,7 +220,6 @@ theorem convergesTo_mul_constαα {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : Co
     _ < |c| * (ε / |c|) := (mul_lt_mul_of_pos_left (hs n ngt) acpos)
     _ = ε := mul_div_cancel' _ (ne_of_lt acpos).symm
 
-
 /- TEXT:
 The next theorem is also independently interesting:
 it shows that a convergent sequence is eventually bounded
@@ -237,7 +235,7 @@ theorem exists_abs_le_of_convergesTo {s : ℕ → ℝ} {a : ℝ} (cs : Converges
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem exists_abs_le_of_converges_toαα {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
+theorem exists_abs_le_of_convergesToαα {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
     ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
   cases' cs 1 zero_lt_one with N h
   use N, abs a + 1
@@ -248,7 +246,6 @@ theorem exists_abs_le_of_converges_toαα {s : ℕ → ℝ} {a : ℝ} (cs : Conv
       abel
     _ ≤ |s n - a| + |a| := (abs_add _ _)
     _ < |a| + 1 := by linarith [h n ngt]
-
 
 /- TEXT:
 In fact, the theorem could be strengthened to assert
@@ -383,7 +380,6 @@ You can check that everything still works if you replace ``ℕ``
 everywhere by any linear order ``α``:
 TEXT. -/
 section
-
 -- QUOTE:
 variable {α : Type _} [LinearOrder α]
 
@@ -394,7 +390,6 @@ def ConvergesTo' (s : α → ℝ) (a : ℝ) :=
 end
 
 /- TEXT:
-
 In :numref:`filters`, we will see that mathlib has mechanisms
 for dealing with convergence in vastly more general terms,
 not only abstracting away particular features of the domain

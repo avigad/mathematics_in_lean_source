@@ -158,7 +158,7 @@ example {m n : ℕ} (coprime_mn : m.coprime n) : m ^ 2 ≠ 2 * n ^ 2 := by
   intro sqr_eq
   have : 2 ∣ m := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply even_of_even_sqr
     rw [sqr_eq]
@@ -170,13 +170,13 @@ SOLUTIONS: -/
     ring
   have : 2 * k ^ 2 = n ^ 2 :=
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     (mul_right_inj' (by norm_num)).mp this
 -- BOTH:
   have : 2 ∣ n := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply even_of_even_sqr
     rw [← this]
@@ -184,14 +184,14 @@ SOLUTIONS: -/
 -- BOTH:
   have : 2 ∣ m.gcd n := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     apply Nat.dvd_gcd <;>
     assumption
 -- BOTH:
   have : 2 ∣ 1 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     convert this
     symm
@@ -315,13 +315,13 @@ example {m n p : ℕ} (nnz : n ≠ 0) (prime_p : p.Prime) : m ^ 2 ≠ p * n ^ 2 
   have nsqr_nez : n ^ 2 ≠ 0 := by simpa
   have eq1 : Nat.factorization (m ^ 2) p = 2 * m.factorization p := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [factorization_pow']
 -- BOTH:
   have eq2 : (p * n ^ 2).factorization p = 2 * n.factorization p + 1 := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [factorization_mul' prime_p.ne_zero nsqr_nez, prime_p.factorization', factorization_pow',
       add_comm]
@@ -366,13 +366,13 @@ example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m ^ k = r * n ^ k) {p : ℕ} (
   have npow_nz : n ^ k ≠ 0 := fun npowz => nnz (pow_eq_zero npowz)
   have eq1 : (m ^ k).factorization p = k * m.factorization p := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [factorization_pow']
 -- BOTH:
   have eq2 : (r.succ * n ^ k).factorization p = k * n.factorization p + r.succ.factorization p := by
 /- EXAMPLES:
-    sorry,
+    sorry
 SOLUTIONS: -/
     rw [factorization_mul' r.succ_ne_zero npow_nz, factorization_pow', add_comm]
 -- BOTH:
