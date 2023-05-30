@@ -91,7 +91,8 @@ To prove a statement like this, use the ``intro`` tactic.
 Take a look at what it does in this example:
 TEXT. -/
 -- QUOTE:
-theorem my_lemma3 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
+theorem my_lemma3 :
+    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
   intro x y ε epos ele1 xlt ylt
   sorry
 -- QUOTE.
@@ -115,7 +116,8 @@ introduce variables and hypotheses after the proof begins.
 To help you prove the lemma, we will start you off:
 TEXT. -/
 -- QUOTE:
-theorem my_lemma4 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
+theorem my_lemma4 :
+    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
   intro x y ε epos ele1 xlt ylt
   calc
     abs (x * y) = abs x * abs y := sorry

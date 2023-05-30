@@ -433,9 +433,7 @@ Given ``F : Filter X``, for any predicates ``P`` and ``Q`` on ``X``,
 EXAMPLES: -/
 -- QUOTE:
 #check @eventually_of_forall
-
 #check @Eventually.mono
-
 #check @Eventually.and
 -- QUOTE.
 
@@ -487,9 +485,7 @@ using the fact that ``cluster_pt x F`` means ``(𝓝 x ⊓ F).ne_bot``.
 EXAMPLES: -/
 -- QUOTE:
 #check mem_closure_iff_clusterPt
-
 #check le_principal_iff
-
 #check neBot_of_le
 
 example (u : ℕ → ℝ) (M : Set ℝ) (x : ℝ) (hux : Tendsto u atTop (𝓝 x))

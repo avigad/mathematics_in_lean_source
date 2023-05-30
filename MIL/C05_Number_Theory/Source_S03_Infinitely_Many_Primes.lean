@@ -289,8 +289,9 @@ To show that, we need the following lemma, which you should
 be able to prove using the theorem ``Nat.Prime.eq_one_or_self_of_dvd``.
 BOTH: -/
 -- QUOTE:
-theorem Nat.Prime.eq_of_dvd_of_prime {p q : ℕ} (prime_p : Nat.Prime p) (prime_q : Nat.Prime q)
-    (h : p ∣ q) : p = q := by
+theorem Nat.Prime.eq_of_dvd_of_prime {p q : ℕ}
+      (prime_p : Nat.Prime p) (prime_q : Nat.Prime q) (h : p ∣ q) :
+    p = q := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/

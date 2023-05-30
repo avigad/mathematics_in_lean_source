@@ -287,11 +287,13 @@ theorem factorization_mul' {m n : ℕ} (mnez : m ≠ 0) (nnez : n ≠ 0) (p : �
   rw [Nat.factorization_mul mnez nnez]
   rfl
 
-theorem factorization_pow' (n k p : ℕ) : (n ^ k).factorization p = k * n.factorization p := by
+theorem factorization_pow' (n k p : ℕ) :
+    (n ^ k).factorization p = k * n.factorization p := by
   rw [Nat.factorization_pow]
   rfl
 
-theorem Nat.Prime.factorization' {p : ℕ} (prime_p : p.Prime) : p.factorization p = 1 := by
+theorem Nat.Prime.factorization' {p : ℕ} (prime_p : p.Prime) :
+    p.factorization p = 1 := by
   rw [prime_p.factorization]
   simp
 -- QUOTE.
@@ -326,7 +328,8 @@ SOLUTIONS: -/
     rw [factorization_mul' prime_p.ne_zero nsqr_nez, prime_p.factorization', factorization_pow',
       add_comm]
 -- BOTH:
-  have : 2 * m.factorization p % 2 = (2 * n.factorization p + 1) % 2 := by rw [← eq1, sqr_eq, eq2]
+  have : 2 * m.factorization p % 2 = (2 * n.factorization p + 1) % 2 := by
+    rw [← eq1, sqr_eq, eq2]
   rw [add_comm, Nat.add_mul_mod_self_left, Nat.mul_mod_right] at this
   norm_num at this
 -- QUOTE.
@@ -370,7 +373,8 @@ example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m ^ k = r * n ^ k) {p : ℕ} (
 SOLUTIONS: -/
     rw [factorization_pow']
 -- BOTH:
-  have eq2 : (r.succ * n ^ k).factorization p = k * n.factorization p + r.succ.factorization p := by
+  have eq2 : (r.succ * n ^ k).factorization p =
+      k * n.factorization p + r.succ.factorization p := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/

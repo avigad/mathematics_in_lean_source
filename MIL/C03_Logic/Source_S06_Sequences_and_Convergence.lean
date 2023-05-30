@@ -137,7 +137,8 @@ The following example begins to implement this strategy.
 See if you can finish it off.
 TEXT. -/
 -- QUOTE:
-theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
+theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ}
+      (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
     ConvergesTo (fun n => s n + t n) (a + b) := by
   intro ε εpos
   dsimp
@@ -149,7 +150,8 @@ theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
+theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ}
+      (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
     ConvergesTo (fun n => s n + t n) (a + b) := by
   intro ε εpos
   dsimp
@@ -299,7 +301,8 @@ The following proof finishes it off.
 TEXT. -/
 -- QUOTE:
 -- BOTH:
-theorem convergesTo_mul {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
+theorem convergesTo_mul {s t : ℕ → ℝ} {a b : ℝ}
+      (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
     ConvergesTo (fun n => s n * t n) (a * b) := by
   have h₁ : ConvergesTo (fun n => s n * (t n + -b)) 0 := by
     apply aux cs
@@ -319,7 +322,8 @@ are unique.
 you can delete the proof sketch and try proving it from scratch.)
 TEXT. -/
 -- QUOTE:
-theorem convergesTo_unique {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
+theorem convergesTo_unique {s : ℕ → ℝ} {a b : ℝ}
+      (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
     a = b := by
   by_contra abne
   have : abs (a - b) > 0 := by sorry
@@ -337,7 +341,8 @@ theorem convergesTo_unique {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s a) 
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
+theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ}
+      (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
     a = b := by
   by_contra abne
   have : abs (a - b) > 0 := by

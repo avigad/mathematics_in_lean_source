@@ -37,7 +37,8 @@ example : IsOpen (∅ : Set X) :=
 example {ι : Type _} {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) : IsOpen (⋃ i, s i) :=
   isOpen_iUnion hs
 
-example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) : IsOpen (⋂ i, s i) :=
+example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) :
+    IsOpen (⋂ i, s i) :=
   isOpen_iInter hs
 -- QUOTE.
 
@@ -249,13 +250,14 @@ a function :math:`g : Y → Z` is continuous for the topology :math:`f_*T_X` if 
 
 BOTH: -/
 -- QUOTE:
-example {Z : Type _} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : TopologicalSpace Z) (g : Y → Z) :
-    @Continuous Y Z (TopologicalSpace.coinduced f T_X) T_Z g ↔ @Continuous X Z T_X T_Z (g ∘ f) := by
+example {Z : Type _} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : TopologicalSpace Z)
+      (g : Y → Z) :
+    @Continuous Y Z (TopologicalSpace.coinduced f T_X) T_Z g ↔
+      @Continuous X Z T_X T_Z (g ∘ f) := by
   rw [continuous_iff_coinduced_le, coinduced_compose, continuous_iff_coinduced_le]
 -- QUOTE.
 
 /- TEXT:
-
 So we already get quotient topologies (using the projection map as ``f``). This wasn't using that
 ``topological_space X`` is a complete lattice for all ``X``. Let's now see how all this structure
 proves the existence of the product topology by abstract non-sense.
@@ -312,7 +314,8 @@ Note that, in every topological space, each point has a basis of open neighborho
 
 BOTH: -/
 -- QUOTE:
-example [TopologicalSpace X] {x : X} : (𝓝 x).HasBasis (fun t : Set X => t ∈ 𝓝 x ∧ IsOpen t) id :=
+example [TopologicalSpace X] {x : X} :
+    (𝓝 x).HasBasis (fun t : Set X => t ∈ 𝓝 x ∧ IsOpen t) id :=
   nhds_basis_opens' x
 -- QUOTE.
 
@@ -339,15 +342,17 @@ Let's prove first an auxiliary lemma, extracted to simplify the context
 
 BOTH: -/
 -- QUOTE:
-theorem aux {X Y A : Type _} [TopologicalSpace X] {c : A → X} {f : A → Y} {x : X} {F : Filter Y}
-    (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
+theorem aux {X Y A : Type _} [TopologicalSpace X] {c : A → X}
+      {f : A → Y} {x : X} {F : Filter Y}
+      (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {X Y A : Type _} [TopologicalSpace X] {c : A → X} {f : A → Y} {x : X} {F : Filter Y}
-    (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
+example {X Y A : Type _} [TopologicalSpace X] {c : A → X}
+      {f : A → Y} {x : X} {F : Filter Y}
+      (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' := by
   simpa [and_assoc] using ((nhds_basis_opens' x).comap c).tendsto_left_iff.mp h V' V'_in
 
@@ -426,7 +431,8 @@ of sets can be understood using sequences.
 
 BOTH: -/
 -- QUOTE:
-example [TopologicalSpace X] [TopologicalSpace.FirstCountableTopology X] {s : Set X} {a : X} :
+example [TopologicalSpace X] [TopologicalSpace.FirstCountableTopology X]
+      {s : Set X} {a : X} :
     a ∈ closure s ↔ ∃ u : ℕ → X, (∀ n, u n ∈ s) ∧ Tendsto u atTop (𝓝 a) :=
   mem_closure_iff_seq_limit
 -- QUOTE.
@@ -452,7 +458,8 @@ variable [TopologicalSpace X]
 example {F : Filter X} {x : X} : ClusterPt x F ↔ NeBot (𝓝 x ⊓ F) :=
   Iff.rfl
 
-example {s : Set X} : IsCompact s ↔ ∀ (F : Filter X) [NeBot F], F ≤ 𝓟 s → ∃ a ∈ s, ClusterPt a F :=
+example {s : Set X} :
+    IsCompact s ↔ ∀ (F : Filter X) [NeBot F], F ≤ 𝓟 s → ∃ a ∈ s, ClusterPt a F :=
   Iff.rfl
 -- QUOTE.
 

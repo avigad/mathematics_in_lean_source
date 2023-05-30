@@ -211,16 +211,17 @@ protected theorem add_assoc (a b c : Point) : (a.add b).add c = a.add (b.add c) 
   sorry
 SOLUTIONS: -/
   simp [add, add_assoc]
-
 -- BOTH:
+
 def smul (r : ℝ) (a : Point) : Point :=
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
   ⟨r * a.x, r * a.y, r * a.z⟩
-
 -- BOTH:
-theorem smul_distrib (r : ℝ) (a b : Point) : (smul r a).add (smul r b) = smul r (a.add b) := by
+
+theorem smul_distrib (r : ℝ) (a b : Point) :
+    (smul r a).add (smul r b) = smul r (a.add b) := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -369,7 +370,8 @@ def midpoint (n : ℕ) (a b : StandardSimplex n) : StandardSimplex n
     · linarith [a.NonNeg i, b.NonNeg i]
     norm_num
   sum_eq_one := by
-    simp [div_eq_mul_inv, ← Finset.sum_mul, Finset.sum_add_distrib, a.sum_eq_one, b.sum_eq_one]
+    simp [div_eq_mul_inv, ← Finset.sum_mul, Finset.sum_add_distrib,
+      a.sum_eq_one, b.sum_eq_one]
     field_simp
 
 end StandardSimplex

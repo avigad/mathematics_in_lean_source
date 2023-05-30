@@ -102,7 +102,8 @@ example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, (hk : n = k + 
 The *proof term* can be compressed to a single line:
 TEXT. -/
 -- QUOTE:
-example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, hk⟩ => ⟨m * k, by rw [hk, mul_add]⟩
+example : ∀ m n : Nat, Even n → Even (m * n) :=
+fun m n ⟨k, hk⟩ => ⟨m * k, by rw [hk, mul_add]⟩
 -- QUOTE.
 
 /- TEXT:
