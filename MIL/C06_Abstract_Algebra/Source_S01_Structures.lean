@@ -22,8 +22,8 @@ structure Point where
   x : ℝ
   y : ℝ
   z : ℝ
-
 -- QUOTE.
+
 /- TEXT:
 The ``@[ext]`` annotation tells Lean to automatically generate theorems
 that can be used to prove that two instances of a structure are equal
@@ -35,8 +35,8 @@ EXAMPLES: -/
 example (a b : Point) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) : a = b := by
   ext
   repeat' assumption
-
 -- QUOTE.
+
 /- TEXT:
 We can then define particular instances of the ``Point`` structure.
 Lean provides multiple ways of doing that.
@@ -52,8 +52,8 @@ def myPoint2 : Point :=
 
 def myPoint3 :=
   Point.mk 2 (-1) 4
-
 -- QUOTE.
+
 /- TEXT:
 ..
   Because Lean knows that the expected type of
@@ -77,8 +77,8 @@ structure Point' where build ::
   z : ℝ
 
 #check Point'.build 2 (-1) 4
-
 -- QUOTE.
+
 /- TEXT:
 The next two examples show how to define functions on structures.
 Whereas the second example makes the ``Point.mk``
@@ -109,16 +109,14 @@ def add' (a b : Point) : Point where
   z := a.z + b.z
 
 #check add myPoint1 myPoint2
-
 #check myPoint1.add myPoint2
 
 end Point
 
 #check Point.add myPoint1 myPoint2
-
 #check myPoint1.add myPoint2
-
 -- QUOTE.
+
 /- TEXT:
 Below we will continue to put definitions in the relevant
 namespace, but we will leave the namespacing commands out of the quoted
@@ -140,8 +138,8 @@ protected theorem add_comm (a b : Point) : add a b = add b a := by
   repeat' apply add_comm
 
 example (a b : Point) : add a b = add b a := by simp [add, add_comm]
-
 -- QUOTE.
+
 /- TEXT:
 Because Lean can unfold definitions and simplify projections
 internally, sometimes the equations we want hold definitionally.
@@ -149,8 +147,8 @@ EXAMPLES: -/
 -- QUOTE:
 theorem add_x (a b : Point) : (a.add b).x = a.x + b.x :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 It is also possible to define functions on structures using
 pattern matching,
@@ -164,7 +162,6 @@ the definitional properties are not as convenient.
 For example, the expressions ``addAlt a b`` and ``addAlt' a b``
 cannot be simplified until we decompose ``a`` and ``b`` into
 components, which we can do with ``cases``, ``rcases``, etc.
-
 EXAMPLES: -/
 -- QUOTE:
 def addAlt : Point → Point → Point
@@ -197,8 +194,8 @@ example : ∀ a b : Point, addAlt a b = addAlt b a := by
 
 example : ∀ a b : Point, add a b = add b a := fun ⟨xa, ya, za⟩ ⟨xb, yb, zb⟩ => by
   simp [add, add_comm]
-
 -- QUOTE.
+
 /- TEXT:
 Mathematical constructions often involve taking apart bundled information and
 putting it together again in different ways.
@@ -228,9 +225,9 @@ theorem smul_distrib (r : ℝ) (a b : Point) : (smul r a).add (smul r b) = smul 
   sorry
 SOLUTIONS: -/
   simp [add, smul, mul_add]
-
 -- BOTH:
 -- QUOTE.
+
 end Point
 
 /- TEXT:
@@ -266,8 +263,8 @@ structure StandardTwoSimplex where
   y_nonneg : 0 ≤ y
   z_nonneg : 0 ≤ z
   sum_eq : x + y + z = 1
-
 -- QUOTE.
+
 /- TEXT:
 Notice that the last four fields refer to ``x``, ``y``, and ``z``,
 that is, the first three fields.
@@ -286,8 +283,8 @@ def swapXy (a : StandardTwoSimplex) : StandardTwoSimplex
   y_nonneg := a.x_nonneg
   z_nonneg := a.z_nonneg
   sum_eq := by rw [add_comm a.y a.x, a.sum_eq]
-
 -- QUOTE.
+
 -- OMIT: (TODO) add a link when we have a good explanation of noncomputable theory.
 /- TEXT:
 More interestingly, we can compute the midpoint of two points on
@@ -307,8 +304,8 @@ def midpoint (a b : StandardTwoSimplex) : StandardTwoSimplex
   y_nonneg := div_nonneg (add_nonneg a.y_nonneg b.y_nonneg) (by norm_num)
   z_nonneg := div_nonneg (add_nonneg a.z_nonneg b.z_nonneg) (by norm_num)
   sum_eq := by field_simp; linarith [a.sum_eq, b.sum_eq]
-
 -- QUOTE.
+
 /- TEXT:
 Here we have established ``x_nonneg``, ``y_nonneg``, and ``z_nonneg``
 with concise proof terms, but establish ``sum_eq`` in tactic mode,
@@ -337,9 +334,9 @@ SOLUTIONS: -/
     trans (a.x + a.y + a.z) * lambda + (b.x + b.y + b.z) * (1 - lambda)
     · ring
     simp [a.sum_eq, b.sum_eq]
-
 -- QUOTE.
 -- BOTH:
+
 end
 
 end StandardTwoSimplex
@@ -375,14 +372,13 @@ def midpoint (n : ℕ) (a b : StandardSimplex n) : StandardSimplex n
     field_simp
 
 end StandardSimplex
-
 -- QUOTE.
+
 /- TEXT:
 As an exercise, see if you can define the weighted average of
 two points in the standard :math:`n`-simplex.
 You can use ``Finset.sum_add_distrib``
 and ``Finset.mul_sum`` to manipulate the relevant sums.
-
 SOLUTIONS: -/
 namespace StandardSimplex
 
@@ -413,16 +409,14 @@ structure IsLinear (f : ℝ → ℝ) where
   preserves_mul : ∀ x c, f (c * x) = c * f x
 
 section
-
 variable (f : ℝ → ℝ) (linf : IsLinear f)
 
 #check linf.is_additive
-
 #check linf.preserves_mul
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 It is worth pointing out that structures are not the only way to bundle
 together data.
@@ -435,8 +429,8 @@ def Point'' :=
 
 def IsLinear' (f : ℝ → ℝ) :=
   (∀ x y, f (x + y) = f x + f y) ∧ ∀ x c, f (c * x) = c * f x
-
 -- QUOTE.
+
 /- TEXT:
 Generic type constructions can even be used in place of structures
 with dependencies between their components.
@@ -454,20 +448,16 @@ def PReal :=
   { y : ℝ // 0 < y }
 
 section
-
 variable (x : PReal)
 
 #check x.val
-
 #check x.property
-
 #check x.1
-
 #check x.2
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 We could have used subtypes to define the standard 2-simplex,
 as well as the standard :math:`n`-simplex for an arbitrary :math:`n`.
@@ -478,8 +468,8 @@ def StandardTwoSimplex' :=
 
 def StandardSimplex' (n : ℕ) :=
   { v : Fin n → ℝ // (∀ i : Fin n, 0 ≤ v i) ∧ (∑ i, v i) = 1 }
-
 -- QUOTE.
+
 /- TEXT:
 Similarly, *Sigma types* are generalizations of ordered pairs,
 whereby the type of the second component depends on the type of
@@ -489,7 +479,6 @@ EXAMPLES: -/
 def StdSimplex := Σ n : ℕ, StandardSimplex n
 
 section
-
 variable (s : StdSimplex)
 
 #check s.fst
@@ -499,8 +488,8 @@ variable (s : StdSimplex)
 #check s.2
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 Given ``s : StdSimplex``, the first component ``s.fst`` is a natural
 number, and the second component is an element of the corresponding

@@ -69,8 +69,8 @@ The text will often include examples, like this one:
 TEXT. -/
 -- QUOTE:
 #eval "Hello, World!"
-
 -- QUOTE.
+
 /- TEXT:
 You should be able to find the corresponding example in the associated
 Lean file.

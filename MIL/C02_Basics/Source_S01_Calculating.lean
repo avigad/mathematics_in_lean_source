@@ -38,8 +38,8 @@ TEXT. -/
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
   rw [mul_assoc b a c]
-
 -- QUOTE.
+
 /- TEXT:
 The ``import`` line at the beginning of the example
 imports the theory of the real numbers from ``mathlib``.
@@ -108,8 +108,8 @@ example (a b c : ℝ) : c * b * a = b * (a * c) := by
 
 example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (a b c : ℝ) : c * b * a = b * (a * c) := by
   rw [mul_comm c b]
@@ -132,8 +132,8 @@ TEXT. -/
 example (a b c : ℝ) : a * b * c = b * c * a := by
   rw [mul_assoc]
   rw [mul_comm]
-
 -- QUOTE.
+
 /- TEXT:
 You can also provide *partial* information.
 For example, ``mul_comm a`` matches any pattern of the form
@@ -150,8 +150,8 @@ example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
 
 example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
   rw [mul_comm]
@@ -172,8 +172,8 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
   rw [← mul_assoc]
   rw [h]
   rw [mul_assoc]
-
 -- QUOTE.
+
 /- TEXT:
 Try these:
 TEXT. -/
@@ -184,8 +184,8 @@ example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d 
 
 example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
   rw [mul_assoc a]
@@ -211,8 +211,8 @@ TEXT. -/
 -- QUOTE:
 example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
   rw [h', ← mul_assoc, h, mul_assoc]
-
 -- QUOTE.
+
 /- TEXT:
 You still see the incremental progress by placing the cursor after
 a comma in any list of rewrites.
@@ -229,8 +229,8 @@ variable (a b c d e f g : ℝ)
 
 example (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
   rw [h', ← mul_assoc, h, mul_assoc]
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -244,30 +244,21 @@ command to determine the type of an expression:
 TEXT. -/
 -- QUOTE:
 section
-
 variable (a b c : ℝ)
 
 #check a
-
 #check a + b
-
 #check (a : ℝ)
-
 #check mul_comm a b
-
 #check (mul_comm a b : a * b = b * a)
-
 #check mul_assoc c a b
-
 #check mul_comm a
-
 #check mul_comm
-
 #check @mul_comm
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 The ``#check`` command works for both objects and facts.
 In response to the command ``#check a``, Lean reports that ``a`` has type ``ℝ``.
@@ -289,7 +280,6 @@ Use the ``#check`` command to see the precise statements.
 .. index:: calc, tactics ; calc
 TEXT. -/
 section
-
 variable (a b : ℝ)
 
 -- QUOTE:
@@ -297,8 +287,8 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
   rw [mul_add, add_mul, add_mul]
   rw [← add_assoc, add_assoc (a * a)]
   rw [mul_comm b a, ← two_mul]
-
 -- QUOTE.
+
 /- TEXT:
 Whereas it is possible to figure out what it going on in this proof
 by stepping through it in the editor,
@@ -315,8 +305,8 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
       rw [← add_assoc, add_assoc (a * a)]
     _ = a * a + 2 * (a * b) + b * b := by
       rw [mul_comm b a, ← two_mul]
-
 -- QUOTE.
+
 /- TEXT:
 Notice that the proof does *not* begin with ``by``:
 an expression that begins with ``calc`` is a *proof term*.
@@ -343,8 +333,8 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
       sorry
     _ = a * a + 2 * (a * b) + b * b := by
       sorry
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -353,14 +343,13 @@ and a more structured ``calc`` proof:
 TEXT. -/
 -- Try these. For the second, use the theorems listed underneath.
 section
-
 variable (a b c d : ℝ)
 
 -- QUOTE:
 example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
   sorry
-
 -- QUOTE.
+
 /- TEXT:
 The following exercise is a little more challenging.
 You can use the theorems listed underneath.
@@ -370,18 +359,13 @@ example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
   sorry
 
 #check pow_two a
-
 #check mul_sub a b c
-
 #check add_mul a b c
-
 #check add_sub a b c
-
 #check sub_sub a b c
-
 #check add_zero a
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -392,8 +376,8 @@ For example, ``rw [mul_comm a b] at hyp`` replaces ``a * b`` by ``b * a``
 in the assumption ``hyp``.
 TEXT. -/
 -- Examples.
-section
 
+section
 variable (a b c d : ℝ)
 
 -- QUOTE:
@@ -403,8 +387,8 @@ example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d
   rw [← two_mul (a * d)] at hyp
   rw [← mul_assoc 2 a d] at hyp
   exact hyp
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: exact, tactics ; exact
 
@@ -430,8 +414,8 @@ example : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
 example (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
   rw [hyp, hyp']
   ring
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -453,8 +437,8 @@ EXAMPLES: -/
 example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c := by
   nth_rw 2 [h]
   rw [add_mul]
-
 -- QUOTE.
+
 /- TEXT:
 See also ``nth_rewrite_lhs`` and ``nth_rewrite_rhs``.
 For a more sophisticated means of rewriting particular subexpressions,

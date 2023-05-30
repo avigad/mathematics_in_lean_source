@@ -11,8 +11,8 @@ Consider the statement after the ``#check``:
 TEXT. -/
 -- QUOTE:
 #check ∀ x : ℝ, 0 ≤ x → abs x = x
-
 -- QUOTE.
+
 /- TEXT:
 In words, we would say "for every real number ``x``, if ``0 ≤ x`` then
 the absolute value of ``x`` equals ``x``".
@@ -20,8 +20,8 @@ We can also have more complicated statements like:
 TEXT. -/
 -- QUOTE:
 #check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε
-
 -- QUOTE.
+
 /- TEXT:
 In words, we would say "for every ``x``, ``y``, and ``ε``,
 if ``0 < ε ≤ 1``, the absolute value of ``x`` is less than ``ε``,
@@ -55,8 +55,8 @@ variable (ha : abs a < δ) (hb : abs b < δ)
 #check my_lemma a b δ h₀ h₁ ha hb
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 You have also already seen that it is common in Lean
 to use curly brackets to make quantified variables implicit
@@ -76,8 +76,8 @@ variable (ha : abs a < δ) (hb : abs b < δ)
 #check my_lemma2 h₀ h₁ ha hb
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 At this stage, you also know that if you use
 the ``apply`` tactic to apply ``my_lemma``
@@ -94,8 +94,8 @@ TEXT. -/
 theorem my_lemma3 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
   intro x y ε epos ele1 xlt ylt
   sorry
-
 -- QUOTE.
+
 /- TEXT:
 We can use any names we want for the universally quantified variables;
 they do not have to be ``x``, ``y``, and ``ε``.
@@ -122,8 +122,8 @@ theorem my_lemma4 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → a
     _ ≤ abs x * ε := sorry
     _ < 1 * ε := sorry
     _ = ε := sorry
-
 -- QUOTE.
+
 -- OMIT:
 /- TODO : remember to introduce ``suffices`` eventually
 
@@ -159,8 +159,8 @@ def FnUb (f : ℝ → ℝ) (a : ℝ) : Prop :=
 
 def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
   ∀ x, a ≤ f x
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: lambda abstraction
 
@@ -178,8 +178,8 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) :
   apply add_le_add
   apply hfa
   apply hgb
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
@@ -215,8 +215,8 @@ example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 :=
 example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
     FnUb (fun x => f x * g x) (a * b) :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) := by
   intro x
@@ -268,8 +268,8 @@ def FnUb' (f : α → R) (a : R) : Prop :=
 
 theorem fn_ub_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) :
     FnUb' (fun x => f x + g x) (a + b) := fun x => add_le_add (hfa x) (hgb x)
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -290,8 +290,8 @@ TEXT. -/
 -- QUOTE:
 example (f : ℝ → ℝ) (h : Monotone f) : ∀ {a b}, a ≤ b → f a ≤ f b :=
   @h
-
 -- QUOTE.
+
 /- TEXT:
 The property ``Monotone f`` is defined to be exactly the expression
 after the colon. We need to put the ``@`` symbol before ``h`` because
@@ -318,8 +318,8 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x := by
   apply add_le_add
   apply mf aleb
   apply mg aleb
-
 -- QUOTE.
+
 /- TEXT:
 When a proof is this short, it is often convenient
 to give a proof term instead.
@@ -338,8 +338,8 @@ TEXT. -/
 -- QUOTE:
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x :=
   fun a b aleb => add_le_add (mf aleb) (mg aleb)
-
 -- QUOTE.
+
 /- TEXT:
 Here is a useful trick: if you start writing
 the proof term ``fun a b aleb => _`` using
@@ -360,8 +360,8 @@ example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x 
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x := by
   intro a b aleb
@@ -414,8 +414,8 @@ example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x => f x * g x := by
 
 example (ef : FnEven f) (og : FnOdd g) : FnEven fun x => f (g x) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (of : FnOdd f) (og : FnOdd g) : FnEven fun x => f x * g x := by
   intro x
@@ -484,8 +484,8 @@ theorem Subset.refl : s ⊆ s := fun x xs => xs
 
 theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : r ⊆ s → s ⊆ t → r ⊆ t := by
   intro rsubs ssubt x xr
@@ -511,10 +511,8 @@ then ``b`` is a bound on ``s`` as well.
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [PartialOrder α]
-
 variable (s : Set α) (a b : α)
 
 def SetUb (s : Set α) (a : α) :=
@@ -523,8 +521,8 @@ def SetUb (s : Set α) (a : α) :=
 -- EXAMPLES:
 example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : SetUb s a) (h' : a ≤ b) : SetUb s b := by
   intro x xs
@@ -563,8 +561,8 @@ example (c : ℝ) : Injective fun x => x + c := by
 
 example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
   intro x₁ x₂ h'
@@ -575,14 +573,13 @@ Finally, show that the composition of two injective functions is injective:
 BOTH: -/
 -- QUOTE:
 variable {α : Type _} {β : Type _} {γ : Type _}
-
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
 example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
   intro x₁ x₂ h

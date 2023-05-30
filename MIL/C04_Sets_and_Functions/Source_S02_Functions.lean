@@ -32,8 +32,8 @@ open Set
 example : f ⁻¹' (u ∩ v) = f ⁻¹' u ∩ f ⁻¹' v := by
   ext
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 If ``s`` is a set of elements of type ``α``,
 the library also defines ``image f s``,
@@ -56,8 +56,8 @@ example : f '' (s ∪ t) = f '' s ∪ f '' t := by
   rintro (⟨x, xs, rfl⟩ | ⟨x, xt, rfl⟩)
   · use x, Or.inl xs
   use x, Or.inr xt
-
 -- QUOTE.
+
 /- TEXT:
 Notice also that the ``use`` tactic applies ``refl``
 to close goals when it can.
@@ -69,8 +69,8 @@ example : s ⊆ f ⁻¹' (f '' s) := by
   intro x xs
   show f x ∈ f '' s
   use x, xs
-
 -- QUOTE.
+
 /- TEXT:
 We can replace the line ``use x, xs`` by
 ``apply mem_image_of_mem f xs`` if we want to
@@ -83,8 +83,8 @@ TEXT. -/
 -- QUOTE:
 example : f '' s ⊆ v ↔ s ⊆ f ⁻¹' v := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : f '' s ⊆ v ↔ s ⊆ f ⁻¹' v := by
   constructor
@@ -157,8 +157,8 @@ example : s ∩ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∩ u) := by
 
 example : s ∪ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∪ u) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : Injective f) : f ⁻¹' (f '' s) ⊆ s := by
   rintro x ⟨y, ys, fxeq⟩
@@ -289,8 +289,8 @@ example : (f ⁻¹' ⋃ i, B i) = ⋃ i, f ⁻¹' B i := by
 example : (f ⁻¹' ⋂ i, B i) = ⋂ i, f ⁻¹' B i := by
   ext x
   simp
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
   ext y; simp
@@ -409,8 +409,8 @@ TEXT. -/
 -- QUOTE:
 example : InjOn f s ↔ ∀ x₁ ∈ s, ∀ x₂ ∈ s, f x₁ = f x₂ → x₁ = x₂ :=
   Iff.refl _
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -451,8 +451,8 @@ example : range exp = { y | y > 0 } := by
   intro ypos
   use log y
   rw [exp_log ypos]
-
 -- QUOTE.
+
 /- TEXT:
 Try proving these:
 EXAMPLES: -/
@@ -468,8 +468,8 @@ example : sqrt '' { x | x ≥ 0 } = { y | y ≥ 0 } := by
 
 example : (range fun x => x ^ 2) = { y : ℝ | y ≥ 0 } := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : InjOn sqrt { x | x ≥ 0 } := by
   intro x xnonneg y ynonneg
@@ -536,7 +536,6 @@ operator, illustrated below.
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α β : Type _} [Inhabited α]
 
@@ -549,8 +548,8 @@ variable (P : α → Prop) (h : ∃ x, P x)
 
 example : P (Classical.choose h) :=
   Classical.choose_spec h
-
 -- QUOTE.
+
 /- TEXT:
 Given ``h : ∃ x, P x``, the value of ``Classical.some h``
 is some ``x`` satisfying ``P x``.
@@ -571,8 +570,8 @@ def inverse (f : α → β) : β → α := fun y : β =>
 theorem inverse_spec {f : α → β} (y : β) (h : ∃ x, f x = y) : f (inverse f y) = y := by
   rw [inverse]; dsimp; rw [dif_pos h]
   exact Classical.choose_spec h
-
 -- QUOTE.
+
 /- TEXT:
 The lines ``noncomputable theory`` and ``open Classical``
 are needed because we are using classical logic in an essential way.
@@ -615,8 +614,8 @@ example : Injective f ↔ LeftInverse (inverse f) f :=
 
 example : Surjective f ↔ RightInverse (inverse f) f :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : Injective f ↔ LeftInverse (inverse f) f := by
   constructor
@@ -683,9 +682,7 @@ and then fill in the two lines that are missing.
 TEXT. -/
 -- BOTH:
 section
-
 variable {α : Type _}
-
 open Function
 
 -- EXAMPLES:
@@ -703,8 +700,8 @@ theorem Cantor : ∀ f : α → Set α, ¬Surjective f := by
   have h₃ : j ∉ S
   sorry
   contradiction
-
 -- QUOTE.
+
 -- COMMENTS: TODO: improve this
 -- SOLUTIONS:
 theorem Cantorαα : ∀ f : α → Set α, ¬Surjective f := by

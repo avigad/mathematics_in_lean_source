@@ -30,8 +30,8 @@ example (a b : ℝ) : (∫ x in a..b, x) = (b ^ 2 - a ^ 2) / 2 :=
 
 example {a b : ℝ} (h : (0 : ℝ) ∉ [a, b]) : (∫ x in a..b, 1 / x) = Real.log (b / a) :=
   integral_one_div h
-
 -- QUOTE.
+
 /- TEXT:
 The fundamental theorem of calculus relates integration and differentiation.
 Below we give simplified statements of the two parts of this theorem. The first part
@@ -48,8 +48,8 @@ example (f : ℝ → ℝ) (hf : Continuous f) (a b : ℝ) : deriv (fun u => ∫ 
 example {f : ℝ → ℝ} {a b : ℝ} {f' : ℝ → ℝ} (h : ∀ x ∈ [a, b], HasDerivAt f (f' x) x)
     (h' : IntervalIntegrable f' volume a b) : (∫ y in a..b, f' y) = f b - f a :=
   integral_eq_sub_of_hasDerivAt h h'
-
 -- QUOTE.
+
 /- TEXT:
 Convolution is also defined in mathlib and its basic properties are proved.
 EXAMPLES: -/
@@ -58,5 +58,5 @@ open convolution
 
 example (f : ℝ → ℝ) (g : ℝ → ℝ) : f ⋆ g = fun x => ∫ t, f t * g (x - t) :=
   rfl
-
 -- QUOTE.
+

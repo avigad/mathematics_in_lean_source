@@ -36,8 +36,8 @@ namespace hidden
 inductive Nat
   | zero : Nat
   | succ (n : Nat) : Nat
-
 -- QUOTE.
+
 end hidden
 
 /- TEXT:
@@ -60,8 +60,8 @@ example (n : Nat) : n.succ ≠ Nat.zero :=
 
 example (m n : Nat) (h : m.succ = n.succ) : m = n :=
   Nat.succ.inj h
-
 -- QUOTE.
+
 /- TEXT:
 What the word "inductively" means for the working mathematician is that
 the natural numbers comes with a principle of proof by induction
@@ -75,8 +75,8 @@ BOTH: -/
 def fac : ℕ → ℕ
   | 0 => 1
   | n + 1 => (n + 1) * fac n
-
 -- QUOTE.
+
 /- TEXT:
 The syntax takes some getting used to.
 Notice that there is no ``:=`` on the first line.
@@ -103,8 +103,8 @@ example (n : ℕ) : fac (n + 1) = (n + 1) * fac n := by
 
 example (n : ℕ) : fac (n + 1) = (n + 1) * fac n := by
   simp [fac]
-
 -- QUOTE.
+
 /- TEXT:
 The factorial function is actually already defined in mathlib as
 ``Nat.factorial``. Once again, you can jump to it by typing
@@ -135,8 +135,8 @@ theorem fac_pos (n : ℕ) : 0 < fac n := by
     exact zero_lt_one
   rw [fac]
   exact mul_pos n.succ_pos ih
-
 -- QUOTE.
+
 /- TEXT:
 The ``induction`` tactic is smart enough to include hypotheses
 that depend on the induction variable as part of the
@@ -152,8 +152,8 @@ theorem dvd_fac {i n : ℕ} (ipos : 0 < i) (ile : i ≤ n) : i ∣ fac n := by
   · apply dvd_mul_of_dvd_right (ih h)
   rw [h]
   apply dvd_mul_right
-
 -- QUOTE.
+
 /- TEXT:
 The following example provides a crude lower bound for the factorial
 function.
@@ -223,8 +223,8 @@ example : (range n).sum f = ∑ x in range n, f x :=
 
 example : (range n).prod f = ∏ x in range n, f x :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 The facts ``Finset.sum_range_zero`` and ``Finset.sum_range_succ``
 provide a recursive description summation up to :math:`n`,
@@ -242,8 +242,8 @@ example (f : ℕ → ℕ) : (∏ x in range 0, f x) = 1 :=
 
 example (f : ℕ → ℕ) (n : ℕ) : (∏ x in range n.succ, f x) = (∏ x in range n, f x) * f n :=
   Finset.prod_range_succ f n
-
 -- QUOTE.
+
 /- TEXT:
 The first identity in each pair holds definitionally, which is to say,
 you can replace the proofs by ``rfl``.
@@ -255,8 +255,8 @@ example (n : ℕ) : fac n = ∏ i in range n, (i + 1) := by
   induction' n with n ih
   · rw [fac, prod_range_zero]
   rw [fac, ih, prod_range_succ, mul_comm]
-
 -- QUOTE.
+
 /- TEXT:
 The fact that we include ``mul_comm`` as a simplification rule deserves
 comment.
@@ -273,8 +273,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (a b c d e f : ℕ) : a * (b * c * f * (d * e)) = d * (a * f * e) * (c * b) := by
   simp [mul_assoc, mul_comm, mul_left_comm]
-
 -- QUOTE.
+
 /- TEXT:
 Roughly, the rules work by pushing parentheses to the right
 and then re-ordering the expressions on both sides until they
@@ -296,8 +296,8 @@ theorem sum_id (n : ℕ) : (∑ i in range (n + 1), i) = n * (n + 1) / 2 := by
   · simp
   rw [Finset.sum_range_succ, mul_add 2, ← ih, Nat.succ_eq_add_one]
   ring
-
 -- QUOTE.
+
 /- TEXT:
 We encourage you to prove the analogous identity for sums of squares,
 and other identities you can find on the web.
@@ -313,8 +313,8 @@ SOLUTIONS: -/
   · simp
   rw [Finset.sum_range_succ, mul_add 6, ← ih, Nat.succ_eq_add_one]
   ring
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -441,5 +441,5 @@ SOLUTIONS: -/
 
 -- BOTH:
 end MyNat
-
 -- QUOTE.
+

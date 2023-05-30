@@ -142,8 +142,8 @@ structure Group₁ (α : Type _) where
   mul_one : ∀ x : α, mul x one = x
   one_mul : ∀ x : α, mul one x = x
   mul_left_inv : ∀ x : α, mul (inv x) x = one
-
 -- QUOTE.
+
 -- OMIT: TODO: explain the extends command later, and also redundant inheritance
 /- TEXT:
 Notice that the type ``α`` is a *parameter* in the definition of ``group₁``.
@@ -179,8 +179,8 @@ EXAMPLES: -/
 structure Group₁Cat where
   α : Type _
   str : Group₁ α
-
 -- QUOTE.
+
 /- TEXT:
 The mathlib version is found in ``Algebra.Category.Group.Basic``,
 and you can ``#check`` it if you add this to the imports at the
@@ -206,7 +206,6 @@ and two properties that specify these functions are indeed inverse
 to one another.
 EXAMPLES: -/
 section
-
 -- QUOTE:
 variable (α β γ : Type _)
 variable (f : α ≃ β) (g : β ≃ γ)
@@ -219,8 +218,8 @@ variable (f : α ≃ β) (g : β ≃ γ)
 #check (Equiv.refl α : α ≃ α)
 #check (f.symm : β ≃ α)
 #check (f.trans g : α ≃ γ)
-
 -- QUOTE.
+
 /- TEXT:
 Notice the creative naming of the last three constructions. We think of the
 identity function ``Equiv.refl``, the inverse operation ``Equiv.symm``,
@@ -241,8 +240,8 @@ example (x : α) : (f.trans g) x = g (f x) :=
 
 example : (f.trans g : α → γ) = g ∘ f :=
   rfl
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -252,8 +251,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (α : Type _) : Equiv.Perm α = (α ≃ α) :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 It should be clear that ``Equiv.Perm α`` forms a group under composition
 of equivalences. We orient things so that ``mul f g`` is
@@ -271,8 +270,8 @@ def permGroup {α : Type _} : Group₁ (Equiv.Perm α)
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
   mul_left_inv := Equiv.self_trans_symm
-
 -- QUOTE.
+
 /- TEXT:
 In fact, mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
 in the file ``GroupTheory.Perm.Basic``.
@@ -358,8 +357,8 @@ def addGroupPoint : AddGroup₁ Point where
 
 -- BOTH:
 end Point
-
 -- QUOTE.
+
 /- TEXT:
 We are making progress.
 Now we know how to define algebraic structures in Lean,
@@ -392,8 +391,8 @@ example : f * g * g⁻¹ = f :=
 
 example {α : Type _} (f g : Equiv.Perm α) : g.symm.trans (g.trans f) = f :=
   mul_inv_cancel_right f g
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -482,8 +481,8 @@ instance {α : Type _} : Group₂ (Equiv.Perm α) where
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
   mul_left_inv := Equiv.self_trans_symm
-
 -- QUOTE.
+
 /- TEXT:
 The following illustrates their use.
 EXAMPLES: -/
@@ -505,8 +504,8 @@ example : mySquare f = f.trans f :=
   rfl
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 The ``#check`` command shows that ``Group₂.mul`` has an implicit argument
 ``[Group₂ α]`` that we expect to be found by class inference,
@@ -546,8 +545,8 @@ instance : Inhabited Point where default := ⟨0, 0, 0⟩
 
 example : ([] : List Point).headI = default :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 The class inference mechanism is also used for generic notation.
 The expression ``x + y`` is an abbreviation for ``Add.add x y``
@@ -569,8 +568,8 @@ example : x + y = Point.add x y :=
   rfl
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 In this way, we can assign the notation ``+`` to binary operations on other
 types as well.
@@ -594,7 +593,6 @@ instance hasInvGroup₂ {α : Type _} [Group₂ α] : Inv α :=
   ⟨Group₂.inv⟩
 
 section
-
 variable {α : Type _} (f g : Equiv.Perm α)
 
 #check f * 1 * g⁻¹
@@ -603,8 +601,8 @@ def foo : f * 1 * g⁻¹ = g.symm.trans ((Equiv.refl α).trans f) :=
   rfl
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 In this case, we have to supply names for the instances, because
 Lean has a hard time coming up with good defaults.

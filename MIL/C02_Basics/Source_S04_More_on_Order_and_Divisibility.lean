@@ -14,17 +14,14 @@ by the following three facts:
 TEXT. -/
 -- BOTH:
 section
-
 variable (a b c d : ℝ)
 
 -- QUOTE:
 #check (min_le_left a b : min a b ≤ a)
-
 #check (min_le_right a b : min a b ≤ b)
-
 #check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
-
 -- QUOTE.
+
 /- TEXT:
 Can you guess the names of the theorems that characterize
 ``max`` in a similar way?
@@ -63,8 +60,8 @@ example : min a b = min b a := by
     apply le_min
     · apply min_le_right
     apply min_le_left
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: show, tactics ; show
 
@@ -97,8 +94,8 @@ example : min a b = min b a := by
   apply le_antisymm
   apply h
   apply h
-
 -- QUOTE.
+
 /- TEXT:
 We will say more about the universal quantifier in
 :numref:`implication_and_the_universal_quantifier`,
@@ -123,8 +120,8 @@ example : min a b = min b a := by
     apply le_min
     apply min_le_right
     apply min_le_left
-
 -- QUOTE.
+
 /- TEXT:
 In any case,
 whether or not you use these tricks,
@@ -136,8 +133,8 @@ example : max a b = max b a := by
 
 example : min (min a b) c = min a (min b c) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : max a b = max b a := by
   apply le_antisymm
@@ -197,8 +194,8 @@ theorem aux : min a b + c ≤ min (a + c) (b + c) := by
 
 example : min a b + c = min (a + c) (b + c) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem auxαα : min a b + c ≤ min (a + c) (b + c) := by
   apply le_min
@@ -233,16 +230,16 @@ in the library's name for the triangle inequality:
 TEXT. -/
 -- QUOTE:
 #check (abs_add : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
-
 -- QUOTE.
+
 /- TEXT:
 Use it to prove the following variant:
 TEXT. -/
 -- QUOTE:
 example : abs a - abs b ≤ abs (a - b) :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : abs a - abs b ≤ abs (a - b) :=
   calc
@@ -280,7 +277,6 @@ to refer to it in theorem names.
 TEXT. -/
 -- BOTH:
 section
-
 variable (w x y z : ℕ)
 
 -- QUOTE:
@@ -293,8 +289,8 @@ example : x ∣ y * x * z := by
 
 example : x ∣ x ^ 2 := by
    apply dvd_mul_left
-
 -- QUOTE.
+
 /- TEXT:
 In the last example, the exponent is a natural
 number, and applying ``dvd_mul_left``
@@ -306,8 +302,8 @@ TEXT. -/
 -- QUOTE:
 example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
   apply dvd_add
@@ -346,8 +342,8 @@ open Nat
 #check (lcm_zero_right n : lcm n 0 = 0)
 
 #check (lcm_zero_left n : lcm 0 n = 0)
-
 -- QUOTE.
+
 /- TEXT:
 The functions ``gcd`` and ``lcm`` for natural numbers are in the
 ``Nat`` namespace,
@@ -362,8 +358,8 @@ TEXT. -/
 -- QUOTE:
 example : gcd m n = gcd n m := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : gcd m n = gcd n m := by
   apply _root_.dvd_antisymm

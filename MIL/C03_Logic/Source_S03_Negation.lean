@@ -31,7 +31,6 @@ from ``lt_irrefl``.
 TEXT. -/
 -- BOTH:
 section
-
 variable (a b : ℝ)
 
 -- EXAMPLES:
@@ -40,8 +39,8 @@ example (h : a < b) : ¬b < a := by
   intro h'
   have : a < a := lt_trans h h'
   apply lt_irrefl a this
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: this, have, tactics ; have, from, tactics ; from
 
@@ -86,8 +85,8 @@ example (h : ∀ a, ∃ x, f x > a) : ¬FnHasUb f := by
   cases' h a with x hx
   have : f x ≤ a := fnuba x
   linarith
-
 -- QUOTE.
+
 /- TEXT:
 See if you can prove these in a similar way:
 TEXT. -/
@@ -97,8 +96,8 @@ example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f :=
 
 example : ¬FnHasUb fun x => x :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f := by
   rintro ⟨a, ha⟩
@@ -117,14 +116,11 @@ and negations:
 TEXT. -/
 -- QUOTE:
 #check (not_le_of_gt : a > b → ¬a ≤ b)
-
 #check (not_lt_of_ge : a ≥ b → ¬a < b)
-
 #check (lt_of_not_ge : ¬a ≥ b → a < b)
-
 #check (le_of_not_gt : ¬a > b → a ≤ b)
-
 -- QUOTE.
+
 /- TEXT:
 Recall the predicate ``Monotone f``,
 which says that ``f`` is nondecreasing.
@@ -136,8 +132,8 @@ example (h : Monotone f) (h' : f a < f b) : a < b := by
 
 example (h : a ≤ b) (h' : f b < f a) : ¬Monotone f := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : Monotone f) (h' : f a < f b) : a < b := by
   apply lt_of_not_ge
@@ -169,8 +165,8 @@ example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a �
   have monof : Monotone f := by sorry
   have h' : f 1 ≤ f 0 := le_refl _
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a ≤ b := by
   intro h
@@ -199,8 +195,8 @@ TEXT. -/
 -- QUOTE:
 example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (x : ℝ) (h : ∀ ε > 0, x < ε) : x ≤ 0 := by
   apply le_of_not_gt
@@ -224,7 +220,6 @@ far):
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} (P : α → Prop) (Q : Prop)
 
@@ -240,8 +235,8 @@ example (h : ¬∀ x, P x) : ∃ x, ¬P x := by
 
 example (h : ∃ x, ¬P x) : ¬∀ x, P x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ¬∃ x, P x) : ∀ x, ¬P x := by
   intro x Px
@@ -278,8 +273,8 @@ example (h : ¬∀ x, P x) : ∃ x, ¬P x := by
   show P x
   by_contra h''
   exact h' ⟨x, h''⟩
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: by_contra, tactics ; by_contra and by_contradiction,
 
@@ -300,8 +295,8 @@ example (h : ¬¬Q) : Q := by
 
 example (h : Q) : ¬¬Q := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ¬¬Q) : Q := by
   by_contra h'
@@ -321,15 +316,14 @@ which is the converse of one of the implications we proved above.
 TEXT. -/
 -- BOTH:
 section
-
 variable (f : ℝ → ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
 example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   intro a
@@ -364,11 +358,11 @@ example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   simp only [FnHasUb, FnUb] at h
   push_neg at h
   exact h
-
 -- QUOTE.
+
 /- TEXT:
 In the second example, we use Lean's simplifier to
-expand the definitions of ``fn_has_ub`` and ``fn_ub``.
+expand the definitions of ``FnHasUb`` and ``FnUb``.
 (We need to use ``simp`` rather than ``rw``
 to expand ``FnUb``,
 because it appears in the scope of a quantifier.)
@@ -383,8 +377,8 @@ TEXT. -/
 -- QUOTE:
 example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
   rw [Monotone] at h
@@ -413,13 +407,13 @@ example (x : ℝ) (h : ∀ ε > 0, x ≤ ε) : x ≤ 0 := by
   contrapose! h
   use x / 2
   constructor <;> linarith
-
 -- QUOTE.
+
 -- BOTH:
 end
 
 /- TEXT:
-We have not yet explained the ``split`` command
+We have not yet explained the ``constructor`` command
 or the use of the semicolon after it,
 but we will do that in the next section.
 
@@ -447,7 +441,6 @@ Lean provides a number of ways of closing
 a goal once a contradiction has been reached.
 TEXT. -/
 section
-
 variable (a : ℕ)
 
 -- QUOTE:
@@ -461,8 +454,8 @@ example (h : 0 < 0) : a > 37 :=
 example (h : 0 < 0) : a > 37 := by
   have h' : ¬0 < 0 := lt_irrefl 0
   contradiction
-
 -- QUOTE.
+
 end
 
 /- TEXT:

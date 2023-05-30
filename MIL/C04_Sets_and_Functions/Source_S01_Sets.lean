@@ -46,12 +46,9 @@ you can see the effects of these commands.
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _}
-
 variable (s t u : Set α)
-
 open Set
 
 -- EXAMPLES:
@@ -66,8 +63,8 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   simp only [subset_def, mem_inter_iff] at *
   rintro x ⟨xs, xu⟩
   exact ⟨h _ xs, xu⟩
-
 -- QUOTE.
+
 /- TEXT:
 In this example, we open the ``set`` namespace to have
 access to the shorter names for the theorems.
@@ -78,8 +75,8 @@ TEXT. -/
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   intro x xsu
   exact ⟨h xsu.1, xsu.2⟩
-
 -- QUOTE.
+
 /- TEXT:
 What is going on here is known as *definitional reduction*:
 to make sense of the ``intro`` command and the anonymous constructors
@@ -92,8 +89,8 @@ theorem foo (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
 
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
   fun x ⟨xs, xu⟩ => ⟨h xs, xu⟩
-
 -- QUOTE.
+
 /- TEXT:
 Due to a quirk of how Lean processes its input,
 the first example fails if we replace ``theorem foo`` with ``example``.
@@ -118,8 +115,8 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   right
   show x ∈ s ∩ u
   exact ⟨xs, xu⟩
-
 -- QUOTE.
+
 /- TEXT:
 Since intersection binds tighter than union,
 the use of parentheses in the expression ``(s ∩ t) ∪ (s ∩ u)``
@@ -132,8 +129,8 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   · left
     exact ⟨xs, xt⟩
   right; exact ⟨xs, xu⟩
-
 -- QUOTE.
+
 /- TEXT:
 As an exercise, try proving the other inclusion:
 BOTH: -/
@@ -147,8 +144,8 @@ SOLUTIONS: -/
     left
     exact xt
   use xs; right; exact xu
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 It might help to know that when using ``rintro``,
@@ -184,8 +181,8 @@ example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
   rintro x ⟨⟨xs, xnt⟩, xnu⟩
   use xs
   rintro (xt | xu) <;> contradiction
-
 -- QUOTE.
+
 /- TEXT:
 As an exercise, prove the reverse inclusion:
 BOTH: -/
@@ -201,8 +198,8 @@ SOLUTIONS: -/
     exact xntu (Or.inl xt)
   intro xu
   apply xntu (Or.inr xu)
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 To prove that two sets are equal,
@@ -220,8 +217,8 @@ example : s ∩ t = t ∩ s := by
   · rintro ⟨xs, xt⟩
     exact ⟨xt, xs⟩
   rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
-
 -- QUOTE.
+
 /- TEXT:
 Once again, deleting the line ``simp only [mem_inter_iff]``
 does not harm the proof.
@@ -231,8 +228,8 @@ TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
   Set.ext fun x => ⟨fun ⟨xs, xt⟩ => ⟨xt, xs⟩, fun ⟨xt, xs⟩ => ⟨xs, xt⟩⟩
-
 -- QUOTE.
+
 /- TEXT:
 The dollar sign is a useful syntax:
 writing ``f $ ...``
@@ -244,8 +241,8 @@ using the simplifier:
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s := by ext x; simp [and_comm]
-
 -- QUOTE.
+
 /- TEXT:
 An alternative to using ``ext`` is to use
 the theorem ``Subset.antisymm``
@@ -258,8 +255,8 @@ example : s ∩ t = t ∩ s := by
   · rintro x ⟨xs, xt⟩
     exact ⟨xt, xs⟩
   rintro x ⟨xt, xs⟩; exact ⟨xs, xt⟩
-
 -- QUOTE.
+
 /- TEXT:
 Try finishing this proof term:
 BOTH: -/
@@ -270,8 +267,8 @@ example : s ∩ t = t ∩ s :=
 SOLUTIONS: -/
     Subset.antisymm
     (fun x ⟨xs, xt⟩ => ⟨xt, xs⟩) fun x ⟨xt, xs⟩ => ⟨xs, xt⟩
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 Remember that you can replace `sorry` by an underscore,
@@ -292,8 +289,8 @@ example : s \ t ∪ t = s ∪ t := by
 
 example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : s ∩ (s ∪ t) = s := by
   ext x; constructor
@@ -375,8 +372,8 @@ example : evens ∪ odds = univ := by
   ext n
   simp
   apply Classical.em
-
 -- QUOTE.
+
 /- TEXT:
 You should step through this proof and make sure
 you understand what is going on.
@@ -403,8 +400,8 @@ example (x : ℕ) (h : x ∈ (∅ : Set ℕ)) : False :=
 
 example (x : ℕ) : x ∈ (univ : Set ℕ) :=
   trivial
-
 -- QUOTE.
+
 /- TEXT:
 As an exercise, prove the following inclusion.
 Use ``intro n`` to unfold the definition of subset,
@@ -416,8 +413,8 @@ TEXT. -/
 -- QUOTE:
 example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   intro n
@@ -449,8 +446,8 @@ example (n : ℕ) : Prime n ↔ Nat.Prime n :=
 example (n : ℕ) (h : Prime n) : Nat.Prime n := by
   rw [Nat.prime_iff]
   exact h
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: rwa, tactics ; rwa
 
@@ -459,8 +456,8 @@ TEXT. -/
 -- QUOTE:
 example (n : ℕ) (h : Prime n) : Nat.Prime n := by
   rwa [Nat.prime_iff]
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -503,14 +500,13 @@ example (h : ∃ x ∈ s, ¬Even x ∧ Prime x) : ∃ x ∈ s, Prime x := by
   rcases h with ⟨x, xs, _, prime_x⟩
   use x, xs
   exact prime_x
-
 -- QUOTE.
+
 /- TEXT:
 See if you can prove these slight variations:
 TEXT. -/
 -- QUOTE:
 section
-
 variable (ssubt : s ⊆ t)
 
 example (h₀ : ∀ x ∈ t, ¬Even x) (h₁ : ∀ x ∈ t, Prime x) : ∀ x ∈ s, ¬Even x ∧ Prime x := by
@@ -520,11 +516,10 @@ example (h : ∃ x ∈ s, ¬Even x ∧ Prime x) : ∃ x ∈ t, Prime x := by
   sorry
 
 end
-
 -- QUOTE.
+
 -- SOLUTIONS:
 section
-
 variable (ssubt : s ⊆ t)
 
 example (h₀ : ∀ x ∈ t, ¬Even x) (h₁ : ∀ x ∈ t, Prime x) : ∀ x ∈ s, ¬Even x ∧ Prime x := by
@@ -558,12 +553,9 @@ The following illustrates their use.
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α I : Type _}
-
 variable (A B : I → Set α)
-
 variable (s : Set α)
 
 open Set
@@ -592,8 +584,8 @@ example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ ⋂ i, B i := by
   constructor
   · exact h1 i
   exact h2 i
-
 -- QUOTE.
+
 /- TEXT:
 Parentheses are often needed with an
 indexed union or intersection because,
@@ -609,8 +601,8 @@ TEXT. -/
 
 example : (s ∪ ⋂ i, A i) = ⋂ i, A i ∪ s := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : (s ∪ ⋂ i, A i) = ⋂ i, A i ∪ s := by
   ext x
@@ -661,8 +653,8 @@ example : (⋂ p ∈ primes, { x | ¬p ∣ x }) ⊆ { x | x = 1 } := by
   contrapose!
   simp
   apply Nat.exists_prime_and_dvd
-
 -- QUOTE.
+
 /- TEXT:
 Try solving the following example, which is similar.
 If you start typing ``eq_univ``,
@@ -673,8 +665,8 @@ TEXT. -/
 -- QUOTE:
 example : (⋃ p ∈ primes, { x | x ≤ p }) = univ := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : (⋃ p ∈ primes, { x | x ≤ p }) = univ := by
   apply eq_univ_of_forall
@@ -713,8 +705,8 @@ example : ⋂₀ s = ⋂ t ∈ s, t := by
   ext x
   rw [mem_iInter₂]
   rfl
-
 -- QUOTE.
+
 end
 
 /- TEXT:

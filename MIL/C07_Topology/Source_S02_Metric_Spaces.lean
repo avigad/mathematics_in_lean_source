@@ -2,7 +2,6 @@ import Mathlib.Topology.Instances.Real
 import Mathlib.Analysis.NormedSpace.BanachSteinhaus
 
 open Set Filter
-
 open Topology Filter
 
 /- TEXT:
@@ -31,8 +30,8 @@ variable {X : Type _} [MetricSpace X] (a b c : X)
 #check (dist_comm a b : dist a b = dist b a)
 
 #check (dist_triangle a b c : dist a c ≤ dist a b + dist b c)
-
 -- QUOTE.
+
 /- TEXT:
 Note we also have variants where the distance can be infinite or where ``dist a b`` can be zero without having ``a = b`` or both.
 They are called ``EMetricSpace``, ``PseudoMetricSpace`` and ``PseudoEMetricSpace`` respectively (here "e" stands for "extended").
@@ -63,8 +62,8 @@ example {u : ℕ → X} {a : X} : Tendsto u atTop (𝓝 a) ↔ ∀ ε > 0, ∃ N
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} :
     Continuous f ↔ ∀ x : X, ∀ ε > 0, ∃ δ > 0, ∀ x', dist x' x < δ → dist (f x') (f x) < ε :=
   Metric.continuous_iff
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: continuity, tactics ; continuity
 
@@ -79,8 +78,8 @@ BOTH: -/
 -- QUOTE:
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X => dist (f p.1) (f p.2) := by continuity
-
 -- QUOTE.
+
 /- TEXT:
 This tactic is a bit slow, so it is also useful to know
 how to do it by hand. We first need to use that ``fun p : X × X ↦ f p.1`` is continuous because it
@@ -98,8 +97,8 @@ BOTH: -/
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X => dist (f p.1) (f p.2) :=
   continuous_dist.comp ((hf.comp continuous_fst).prod_mk (hf.comp continuous_snd))
-
 -- QUOTE.
+
 /- TEXT:
 The combination of ``Continuous.prod_mk`` and ``continuous_dist`` via ``Continuous.comp`` feels clunky,
 even when heavily using dot notation as above. A more serious issue is that this nice proof requires a lot of
@@ -126,8 +125,8 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Conti
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X => dist (f p.1) (f p.2) :=
   (hf.comp continuous_fst).dist (hf.comp continuous_snd)
-
 -- QUOTE.
+
 /- TEXT:
 Note that, without the elaboration issue coming from composition, another way to compress
 our proof would be to use ``Continuous.prod_map`` which is sometimes useful and gives
@@ -143,8 +142,8 @@ BOTH: -/
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X => dist (f p.1) (f p.2) :=
   hf.fst'.dist hf.snd'
-
 -- QUOTE.
+
 /- TEXT:
 It's your turn now to prove some continuity lemma. After trying the continuity tactic, you will need
 ``Continuous.add``, ``continuous_pow`` and ``continuous_id`` to do it by hand.
@@ -153,8 +152,8 @@ BOTH: -/
 -- QUOTE:
 example {f : ℝ → X} (hf : Continuous f) : Continuous fun x : ℝ => f (x ^ 2 + x) :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {f : ℝ → X} (hf : Continuous f) : Continuous fun x : ℝ => f (x ^ 2 + x) :=
   hf.comp <| (continuous_pow 2).add continuous_id
@@ -166,8 +165,8 @@ BOTH: -/
 example {X Y : Type _} [MetricSpace X] [MetricSpace Y] (f : X → Y) (a : X) :
     ContinuousAt f a ↔ ∀ ε > 0, ∃ δ > 0, ∀ {x}, dist x a < δ → dist (f x) (f a) < ε :=
   Metric.continuousAt_iff
-
 -- QUOTE.
+
 /- TEXT:
 
 Balls, open sets and closed sets
@@ -184,8 +183,8 @@ example : Metric.ball a r = { b | dist b a < r } :=
 
 example : Metric.closedBall a r = { b | dist b a ≤ r } :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 Note that `r` is any real number here, there is no sign restriction. Of course some statements do require a radius condition.
 BOTH: -/
@@ -195,8 +194,8 @@ example (hr : 0 < r) : a ∈ Metric.ball a r :=
 
 example (hr : 0 ≤ r) : a ∈ Metric.closedBall a r :=
   Metric.mem_closedBall_self hr
-
 -- QUOTE.
+
 /- TEXT:
 Once we have balls, we can define open sets. They are actually defined in a more general setting covered in the next section,
 but we have lemmas recasting the definition is terms of balls.
@@ -205,8 +204,8 @@ BOTH: -/
 -- QUOTE:
 example (s : Set X) : IsOpen s ↔ ∀ x ∈ s, ∃ ε > 0, Metric.ball x ε ⊆ s :=
   Metric.isOpen_iff
-
 -- QUOTE.
+
 /- TEXT:
 Then closed sets are sets whose complement is open. Their important property is they are closed under limits. The closure of a set is the smallest subset containing it.
 BOTH: -/
@@ -220,16 +219,16 @@ example {s : Set X} (hs : IsClosed s) {u : ℕ → X} (hu : Tendsto u atTop (�
 
 example {s : Set X} : a ∈ closure s ↔ ∀ ε > 0, ∃ b ∈ s, a ∈ Metric.ball b ε :=
   Metric.mem_closure_iff
-
 -- QUOTE.
+
 /- TEXT:
 Do the next exercise without using `mem_closure_iff_seq_limit`
 BOTH: -/
 -- QUOTE:
 example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) : a ∈ closure s :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) : a ∈ closure s := by
   rw [Metric.tendsto_atTop] at hu
@@ -255,8 +254,8 @@ example {x : X} {s : Set X} : s ∈ 𝓝 x ↔ ∃ ε > 0, Metric.ball x ε ⊆ 
 
 example {x : X} {s : Set X} : s ∈ 𝓝 x ↔ ∃ ε > 0, Metric.closedBall x ε ⊆ s :=
   Metric.nhds_basis_closedBall.mem_iff
-
 -- QUOTE.
+
 /- TEXT:
 
 Compactness
@@ -295,8 +294,8 @@ example {s : Set X} (hs : IsCompact s) (hs' : s.Nonempty) {f : X → ℝ} (hfs :
 
 example {s : Set X} (hs : IsCompact s) : IsClosed s :=
   hs.isClosed
-
 -- QUOTE.
+
 /- TEXT:
 
 We can also metric spaces which are globally compact, using an extra ``Prop``-valued type class:
@@ -305,8 +304,8 @@ BOTH: -/
 -- QUOTE:
 example {X : Type _} [MetricSpace X] [CompactSpace X] : IsCompact (univ : Set X) :=
   isCompact_univ
-
 -- QUOTE.
+
 /- TEXT:
 
 In a compact metric space any closed set is compact, this is ``IsCompact.isClosed``.
@@ -327,8 +326,8 @@ BOTH: -/
 example {X : Type _} [MetricSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y} :
     UniformContinuous f ↔ ∀ ε > 0, ∃ δ > 0, ∀ {a b : X}, dist a b < δ → dist (f a) (f b) < ε :=
   Metric.uniformContinuous_iff
-
 -- QUOTE.
+
 /- TEXT:
 In order to practice manipulating all those definitions, we will prove that continuous
 functions from a compact metric space to a metric space are uniformly continuous
@@ -352,8 +351,8 @@ BOTH: -/
 example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y}
     (hf : Continuous f) : UniformContinuous f :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y}
     (hf : Continuous f) : UniformContinuous f := by
@@ -402,8 +401,8 @@ example (u : ℕ → X) : CauchySeq u ↔ ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, 
 
 example [CompleteSpace X] (u : ℕ → X) (hu : CauchySeq u) : ∃ x, Tendsto u atTop (𝓝 x) :=
   cauchySeq_tendsto_of_complete hu
-
 -- QUOTE.
+
 /- TEXT:
 
 We'll practice using this definition by proving a convenient criterion which is a special case of a
@@ -432,8 +431,8 @@ theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
     _ ≤ 1 / 2 ^ N * 2 := sorry
     _ < ε := sorry
 
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
@@ -512,8 +511,8 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   have I : ∀ n, ∀ m ≥ n, closedBall (c m) (r m) ⊆ closedBall (c n) (r n) := by sorry
   have yball : ∀ n, y ∈ closedBall (c n) (r n) := by sorry
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : ∀ n, Dense (f n)) :
     Dense (⋂ n, f n) := by

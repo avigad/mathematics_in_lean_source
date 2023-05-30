@@ -27,8 +27,8 @@ example (h : y > x ^ 2) : y > 0 ∨ y < -1 := by
 example (h : -y > x ^ 2 + 1) : y > 0 ∨ y < -1 := by
   right
   linarith [pow_two_nonneg x]
-
 -- QUOTE.
+
 /- TEXT:
 We cannot use an anonymous constructor to construct a proof
 of an "or" because Lean would have to guess
@@ -45,8 +45,8 @@ example (h : y > 0) : y > 0 ∨ y < -1 :=
 
 example (h : y < -1) : y > 0 ∨ y < -1 :=
   Or.inr h
-
 -- QUOTE.
+
 /- TEXT:
 It may seem strange to prove a disjunction by proving one side
 or the other.
@@ -76,8 +76,8 @@ example : x < abs y → x < y ∨ x < -y := by
     exact h
   rw [abs_of_neg h]
   intro h; right; exact h
-
 -- QUOTE.
+
 /- TEXT:
 The absolute value function is defined in such a way
 that we can immediately prove that
@@ -103,8 +103,8 @@ theorem neg_le_abs_self (x : ℝ) : -x ≤ abs x := by
 
 theorem abs_add (x y : ℝ) : abs (x + y) ≤ abs x + abs y := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem le_abs_selfαα (x : ℝ) : x ≤ abs x := by
   cases' le_or_gt 0 x with h h
@@ -136,8 +136,8 @@ theorem lt_abs : x < abs y ↔ x < y ∨ x < -y := by
 
 theorem abs_lt : abs x < y ↔ -y < x ∧ x < y := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y := by
   cases' le_or_gt 0 y with h h
@@ -197,8 +197,8 @@ example {x : ℝ} (h : x ≠ 0) : x < 0 ∨ x > 0 := by
     exact xlt
   · contradiction
   right; exact xgt
-
 -- QUOTE.
+
 /- TEXT:
 You can still nest patterns and use the ``rfl`` keyword
 to substitute equations:
@@ -210,8 +210,8 @@ example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k := by
     apply dvd_mul_right
   rw [mul_comm, mul_assoc]
   apply dvd_mul_right
-
 -- QUOTE.
+
 /- TEXT:
 See if you can prove the following with a single (long) line.
 Use ``rcases`` to unpack the hypotheses and split on cases,
@@ -220,8 +220,8 @@ TEXT. -/
 -- QUOTE:
 example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by
   rcases h with ⟨x, y, rfl | rfl⟩ <;> linarith [sq_nonneg x, sq_nonneg y]
@@ -239,8 +239,8 @@ example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
 
 example {x y : ℝ} (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h' : x ^ 2 - 1 = 0 := by rw [h, sub_self]
@@ -284,10 +284,8 @@ in any integral domain:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {R : Type _} [CommRing R] [IsDomain R]
-
 variable (x y : R)
 
 -- EXAMPLES:
@@ -296,8 +294,8 @@ example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
 
 example (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h' : x ^ 2 - 1 = 0 := by rw [h, sub_self]
@@ -344,8 +342,8 @@ example (P : Prop) : ¬¬P → P := by
   cases em P
   · assumption
   contradiction
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: by_cases, tactics ; by_cases
 
@@ -359,8 +357,8 @@ example (P : Prop) : ¬¬P → P := by
   by_cases h' : P
   · assumption
   contradiction
-
 -- QUOTE.
+
 /- TEXT:
 Notice that the ``by_cases`` tactic lets you
 specify a label for the hypothesis that is
@@ -375,8 +373,8 @@ TEXT. -/
 -- QUOTE:
 example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
   constructor

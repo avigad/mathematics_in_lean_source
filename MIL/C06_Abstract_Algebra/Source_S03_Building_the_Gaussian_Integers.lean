@@ -27,8 +27,8 @@ BOTH: -/
 structure gaussInt where
   re : ℤ
   im : ℤ
-
 -- QUOTE.
+
 /- TEXT:
 We first show that the Gaussian integers have the structure of a ring,
 with ``0`` defined to be ``⟨0, 0⟩``, ``1`` defined to be ``⟨1, 0⟩``, and
@@ -60,8 +60,8 @@ instance : Neg gaussInt :=
 
 instance : Mul gaussInt :=
   ⟨fun x y => ⟨x.re * y.re - x.im * y.im, x.re * y.im + x.im * y.re⟩⟩
-
 -- QUOTE.
+
 /- TEXT:
 As noted in :numref:`section_structures`, it is a good idea to put all the definitions
 related to a data type in a namespace with the same name. Thus in the Lean
@@ -89,8 +89,8 @@ theorem neg_def (x : gaussInt) : -x = ⟨-x.re, -x.im⟩ :=
 
 theorem mul_def (x y : gaussInt) : x * y = ⟨x.re * y.re - x.im * y.im, x.re * y.im + x.im * y.re⟩ :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 It is also useful to name the rules that compute the real and imaginary
 parts, and to declare them to the simplifier.
@@ -135,8 +135,8 @@ theorem mul_re (x y : gaussInt) : (x * y).re = x.re * y.re - x.im * y.im :=
 @[simp]
 theorem mul_im (x y : gaussInt) : (x * y).im = x.re * y.im + x.im * y.re :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 It is now surprisingly easy to show that the Gaussian integers are an instance
 of a commutative ring. We are putting the structure concept to good use.
@@ -199,8 +199,8 @@ instance instCommRing : CommRing gaussInt where
     ext <;> simp <;> ring
   zero_mul := sorry
   mul_zero := sorry
-
 -- QUOTE.
+
 /- TEXT:
 Lean's library defines the class of *nontrivial* types to be types with at
 least two distinct elements. In the context of a ring, this is equivalent
@@ -212,8 +212,8 @@ instance : Nontrivial gaussInt := by
   use 0, 1
   rw [Ne, gaussInt.ext_iff]
   simp
-
 -- QUOTE.
+
 end gaussInt
 
 /- TEXT:
@@ -242,8 +242,8 @@ example (a b : ℤ) : b ≠ 0 → 0 ≤ a % b :=
 
 example (a b : ℤ) : b ≠ 0 → a % b < abs b :=
   Int.emod_lt a
-
 -- QUOTE.
+
 /- TEXT:
 In an arbitrary ring, an element :math:`a` is said to be a *unit* if it divides
 :math:`1`. A nonzero element :math:`a` is said to be *irreducible* if it cannot
@@ -373,16 +373,16 @@ theorem abs_mod'_le (a b : ℤ) (h : 0 < b) : abs (mod' a b) ≤ b / 2 := by
   have := Int.emod_lt_of_pos b zero_lt_two
   revert this; intro this -- FIXME, this should not be needed
   linarith
-
 -- QUOTE.
+
 /- TEXT:
 Note the use of our old friend, ``linarith``. We will also need to express
 ``mod'`` in terms of ``div'``.
 BOTH: -/
 -- QUOTE:
 theorem mod'_eq (a b : ℤ) : mod' a b = a - b * div' a b := by linarith [div'_add_mod' a b]
-
 -- QUOTE.
+
 end Int
 
 /- TEXT:
@@ -412,8 +412,8 @@ SOLUTIONS: -/
     exact aux h
   rintro ⟨rfl, rfl⟩
   norm_num
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 We will put all the remaining definitions and theorems in this section
@@ -478,8 +478,8 @@ theorem conj_im (x : gaussInt) : (conj x).im = -x.im :=
   rfl
 
 theorem norm_conj (x : gaussInt) : norm (conj x) = norm x := by simp [norm]
-
 -- QUOTE.
+
 /- TEXT:
 Finally, we define division for the Gaussian integers
 with the notation ``x / y``, that rounds the complex quotient to the nearest
@@ -498,8 +498,8 @@ BOTH: -/
 -- QUOTE:
 instance : Div gaussInt :=
   ⟨fun x y => ⟨Int.div' (x * conj y).re (norm y), Int.div' (x * conj y).im (norm y)⟩⟩
-
 -- QUOTE.
+
 /- TEXT:
 Having defined ``x / y``, We define ``x % y`` to be the remainder,
 ``x - (x / y) * y``. As above, we record the definitions in the
@@ -516,8 +516,8 @@ theorem div_def (x y : gaussInt) :
 
 theorem mod_def (x y : gaussInt) : x % y = x - y * (x / y) :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 These definitions immediately yield ``x = y * (x / y) + x % y`` for every
 ``x`` and ``y``, so all we need to do is show that the norm of ``x % y`` is
@@ -575,8 +575,8 @@ theorem norm_mod_lt (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) : (x % y).norm 
   apply Int.ediv_lt_of_lt_mul
   · norm_num
   linarith
-
 -- QUOTE.
+
 /- TEXT:
 We are in the home stretch. Our ``norm`` function maps Gaussian integers to
 nonnegative integers. We need a function that maps Gaussian integers to natural
@@ -594,8 +594,8 @@ theorem natAbs_norm_mod_lt (x y : gaussInt) (hy : y ≠ 0) : (x % y).norm.natAbs
   apply Int.ofNat_lt.1
   simp only [Int.coe_natAbs, abs_of_nonneg, norm_nonneg]
   apply norm_mod_lt x hy
-
 -- QUOTE.
+
 /- TEXT:
 We also need to establish the second key property of the norm function
 on a Euclidean domain.
@@ -609,8 +609,8 @@ theorem not_norm_mul_left_lt_norm (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) :
   apply Int.ofNat_le.1
   rw [coe_natAbs_norm]
   exact Int.add_one_le_of_lt ((norm_pos _).mpr hy)
-
 -- QUOTE.
+
 /- TEXT:
 We can now put it together to show that the Gaussian integers are an
 instance of a Euclidean domain. We use the quotient and remainder function we
@@ -636,8 +636,8 @@ instance : EuclideanDomain gaussInt :=
     r_wellFounded := (measure (Int.natAbs ∘ norm)).2
     remainder_lt := natAbs_norm_mod_lt
     mul_left_not_lt := not_norm_mul_left_lt_norm }
-
 -- QUOTE.
+
 /- TEXT:
 An immediate payoff is that we now know that, in the Gaussian integers,
 the notions of being prime and being irreducible coincide.
@@ -645,6 +645,6 @@ BOTH: -/
 -- QUOTE:
 example (x : gaussInt) : Irreducible x ↔ Prime x :=
   PrincipalIdealRing.irreducible_iff_prime
-
 -- QUOTE.
+
 end gaussInt

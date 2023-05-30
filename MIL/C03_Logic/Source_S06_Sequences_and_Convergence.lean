@@ -20,8 +20,8 @@ BOTH: -/
 -- QUOTE:
 def ConvergesTo (s : ℕ → ℝ) (a : ℝ) :=
   ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
-
 -- QUOTE.
+
 /- TEXT:
 The notation ``∀ ε > 0, ...`` is a convenient abbreviation
 for ``∀ ε, ε > 0 → ...``, and, similarly,
@@ -48,8 +48,8 @@ TEXT. -/
 example : (fun x y : ℝ => (x + y) ^ 2) = fun x y : ℝ => x ^ 2 + 2 * x * y + y ^ 2 := by
   ext
   ring
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: congr, tactics ; congr
 
@@ -65,8 +65,8 @@ TEXT. -/
 example (a b : ℝ) : abs a = abs (a - b + b) := by
   congr
   ring
-
 -- QUOTE.
+
 /- TEXT:
 Here the ``congr`` tactic peels off the ``abs`` on each side,
 leaving us to prove ``a = a - b + b``.
@@ -90,8 +90,8 @@ example {a : ℝ} (h : 1 < a) : a < a * a := by
   convert(mul_lt_mul_right _).2 h
   · rw [one_mul]
   exact lt_trans zero_lt_one h
-
 -- QUOTE.
+
 /- TEXT:
 This example illustrates another useful trick: when we apply an
 expression with an underscore
@@ -108,8 +108,8 @@ theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ => a) a := by
   intro n nge; dsimp
   rw [sub_self, abs_zero]
   apply εpos
-
 -- QUOTE.
+
 /- TEXT:
 .. TODO: reference to the simplifier
 
@@ -146,8 +146,8 @@ theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (
   cases' ct (ε / 2) ε2pos with Nt ht
   use max Ns Nt
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
     ConvergesTo (fun n => s n + t n) (a + b) := by
@@ -200,8 +200,8 @@ theorem convergesTo_mul_const {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : Conver
     rw [h, MulZeroClass.zero_mul]
   have acpos : 0 < abs c := abs_pos.mpr h
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem convergesTo_mul_constαα {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : ConvergesTo s a) :
     ConvergesTo (fun n => c * s n) (c * a) := by
@@ -234,8 +234,8 @@ theorem exists_abs_le_of_convergesTo {s : ℕ → ℝ} {a : ℝ} (cs : Converges
   cases' cs 1 zero_lt_one with N h
   use N, abs a + 1
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem exists_abs_le_of_converges_toαα {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
     ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
@@ -275,8 +275,8 @@ theorem aux {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : Converges
   have pos₀ : ε / B > 0 := div_pos εpos Bpos
   cases' ct _ pos₀ with N₁ h₁
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem auxαα {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t 0) :
     ConvergesTo (fun n => s n * t n) 0 := by
@@ -312,8 +312,8 @@ theorem convergesTo_mul {s t : ℕ → ℝ} {a b : ℝ} (cs : ConvergesTo s a) (
   convert convergesTo_add h₁ (convergesTo_mul_const b cs) using 1
   · ext; ring
   ring
-
 -- QUOTE.
+
 /- TEXT:
 For another challenging exercise,
 try filling out the following sketch of a proof that limits
@@ -337,8 +337,8 @@ theorem convergesTo_unique {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s a) 
   have absb : abs (s N - b) < ε := by sorry
   have : abs (a - b) < abs (a - b) := by sorry
   exact lt_irrefl _ this
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ} (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
     a = b := by
@@ -389,8 +389,8 @@ variable {α : Type _} [LinearOrder α]
 
 def ConvergesTo' (s : α → ℝ) (a : ℝ) :=
   ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
-
 -- QUOTE.
+
 end
 
 /- TEXT:

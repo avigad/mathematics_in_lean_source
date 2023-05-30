@@ -8,7 +8,6 @@ import Mathlib.Tactic.NormNum.Prime
 BOTH: -/
 
 /- TEXT:
-
 .. _section_irrational_roots:
 
 Irrational Roots
@@ -52,8 +51,8 @@ example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 := by
 example : Nat.coprime 12 7 := by norm_num
 
 example : Nat.gcd 12 8 = 4 := by norm_num
-
 -- QUOTE.
+
 /- TEXT:
 We have already encountered the ``gcd`` function in
 :numref:`more_on_order_and_divisibility`.
@@ -91,8 +90,8 @@ example : Nat.Prime 2 :=
 
 example : Nat.Prime 3 :=
   Nat.prime_three
-
 -- QUOTE.
+
 /- TEXT:
 In the natural numbers, a prime number has the property that it cannot
 be written as a product of nontrivial factors.
@@ -113,9 +112,7 @@ we will simply use ``2 ∣ m`` to express that ``m`` is even.
 EXAMPLES: -/
 -- QUOTE:
 #check @Nat.Prime.dvd_mul
-
 #check Nat.Prime.dvd_mul Nat.prime_two
-
 #check Nat.prime_two.dvd_mul
 
 -- BOTH:
@@ -126,8 +123,8 @@ theorem even_of_even_sqr {m : ℕ} (h : 2 ∣ m ^ 2) : 2 ∣ m := by
 -- EXAMPLES:
 example {m : ℕ} (h : 2 ∣ m ^ 2) : 2 ∣ m :=
   Nat.Prime.dvd_of_dvd_pow Nat.prime_two h
-
 -- QUOTE.
+
 /- TEXT:
 As we proceed, you will need to become proficient at finding the facts you
 need.
@@ -148,8 +145,8 @@ EXAMPLES: -/
 example (a b c : Nat) (h : a * b = a * c) (h' : a ≠ 0) : b = c :=
   -- library_search suggests the following:
   (mul_right_inj' h').mp h
-
 -- QUOTE.
+
 /- TEXT:
 The heart of our proof of the irrationality of the square root of two
 is contained in the following theorem.
@@ -201,8 +198,8 @@ SOLUTIONS: -/
     exact coprime_mn
 -- BOTH:
   norm_num at this
-
 -- QUOTE.
+
 /- TEXT:
 In fact, with very few changes, we can replace ``2`` by an arbitrary prime.
 Give it a try in the next example.
@@ -242,8 +239,8 @@ SOLUTIONS: -/
     apply prime_p.two_le.trans
     exact Nat.le_of_dvd zero_lt_one this
   norm_num at this
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 Let us consider another approach.
@@ -272,8 +269,8 @@ EXAMPLES: -/
 #check Nat.prime_of_mem_factors
 #check Nat.prod_factors
 #check Nat.factors_unique
-
 -- QUOTE.
+
 /- TEXT:
 You can browse these theorems and others nearby, even though we have not
 talked about list membership, products, or permutations yet.
@@ -297,8 +294,8 @@ theorem factorization_pow' (n k p : ℕ) : (n ^ k).factorization p = k * n.facto
 theorem Nat.Prime.factorization' {p : ℕ} (prime_p : p.Prime) : p.factorization p = 1 := by
   rw [prime_p.factorization]
   simp
-
 -- QUOTE.
+
 /- TEXT:
 In fact, ``n.factorization`` is defined in Lean as a function of finite support,
 which explains the strange notation you will see as you step through the
@@ -332,8 +329,8 @@ SOLUTIONS: -/
   have : 2 * m.factorization p % 2 = (2 * n.factorization p + 1) % 2 := by rw [← eq1, sqr_eq, eq2]
   rw [add_comm, Nat.add_mul_mod_self_left, Nat.mul_mod_right] at this
   norm_num at this
-
 -- QUOTE.
+
 /- TEXT:
 A nice thing about this proof is that it also generalizes. There is
 nothing special about ``2``; with small changes, the proof shows that
@@ -387,9 +384,9 @@ SOLUTIONS: -/
 SOLUTIONS: -/
   apply Nat.dvd_sub' <;>
   apply Nat.dvd_mul_right
-
 -- BOTH:
 -- QUOTE.
+
 /- TEXT:
 There are a number of ways in which we might want to improve on these results.
 To start with, a proof that the square root of two is irrational
@@ -445,8 +442,8 @@ EXAMPLES: -/
 #check Rat.den
 
 section
-
 variable (r : ℚ)
+
 #check r.num
 #check r.den
 #check r.pos

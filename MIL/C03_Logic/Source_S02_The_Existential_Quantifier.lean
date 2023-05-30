@@ -30,8 +30,8 @@ TEXT. -/
 example : ∃ x : ℝ, 2 < x ∧ x < 3 := by
   use 5 / 2
   norm_num
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: anonymous constructor
 
@@ -42,8 +42,8 @@ TEXT. -/
 example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
   have h : 2 < (5 : ℝ) / 2 ∧ (5 : ℝ) / 2 < 3 := by norm_num
   ⟨5 / 2, h⟩
-
 -- QUOTE.
+
 /- TEXT:
 The left and right angle brackets,
 which can be entered as ``\<`` and ``\>`` respectively,
@@ -55,8 +55,8 @@ TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
   ⟨5 / 2, by norm_num⟩
-
 -- QUOTE.
+
 /- TEXT:
 So now we know how to *prove* an exists statement.
 But how do we *use* one?
@@ -83,8 +83,8 @@ def FnHasUb (f : ℝ → ℝ) :=
 
 def FnHasLb (f : ℝ → ℝ) :=
   ∃ a, FnLb f a
-
 -- QUOTE.
+
 /- TEXT:
 We can use the theorem ``FnUb_add`` from the last section
 to prove that if ``f`` and ``g`` have upper bounds,
@@ -106,8 +106,8 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
   cases' ubg with b ubfb
   use a + b
   apply fnUb_add ubfa ubfb
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: cases, tactics ; cases
 
@@ -142,8 +142,8 @@ example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
 
 example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
   cases' lbf with a lbfa
@@ -183,8 +183,8 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x := by
   rintro ⟨a, ubfa⟩ ⟨b, ubfb⟩
   exact ⟨a + b, fnUb_add ubfa ubfb⟩
-
 -- QUOTE.
+
 /- TEXT:
 In fact, Lean also supports a pattern-matching lambda
 in expressions and proof terms:
@@ -192,8 +192,8 @@ TEXT. -/
 -- QUOTE:
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x :=
   fun ⟨a, ubfa⟩ ⟨b, ubfb⟩ => ⟨a + b, fnUb_add ubfa ubfb⟩
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -235,8 +235,8 @@ theorem sumOfSquares_mul {x y : α} (sosx : SumOfSquares x) (sosy : SumOfSquares
   rw [xeq, yeq]
   use a * c - b * d, a * d + b * c
   ring
-
 -- QUOTE.
+
 /- TEXT:
 This proof doesn't provide much insight,
 but here is one way to motivate it.
@@ -274,8 +274,8 @@ theorem sumOfSquares_mul' {x y : α} (sosx : SumOfSquares x) (sosy : SumOfSquare
   rcases sosy with ⟨c, d, rfl⟩
   use a * c - b * d, a * d + b * c
   ring
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -286,7 +286,6 @@ For example, divisibility is implicitly an "exists" statement.
 TEXT. -/
 -- BOTH:
 section
-
 variable {a b c : ℕ}
 
 -- EXAMPLES:
@@ -296,8 +295,8 @@ example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c := by
   cases' divbc with e ceq
   rw [ceq, beq]
   use d * e; ring
-
 -- QUOTE.
+
 /- TEXT:
 And once again, this provides a nice setting for using
 ``rcases`` with ``rfl``.
@@ -309,8 +308,8 @@ TEXT. -/
 -- QUOTE:
 example (divab : a ∣ b) (divac : a ∣ c) : a ∣ b + c := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c := by
   rcases divab with ⟨d, rfl⟩
@@ -348,16 +347,16 @@ example {c : ℝ} : Surjective fun x => x + c := by
   intro x
   use x - c
   dsimp; ring
-
 -- QUOTE.
+
 /- TEXT:
 Try this example yourself:
 TEXT. -/
 -- QUOTE:
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
   intro x
@@ -380,8 +379,8 @@ TEXT. -/
 example (x y : ℝ) (h : x - y ≠ 0) : (x ^ 2 - y ^ 2) / (x - y) = x + y := by
   field_simp [h]
   ring
-
 -- QUOTE.
+
 /- TEXT:
 You can use the theorem ``div_mul_cancel``.
 The next example uses a surjectivity hypothesis
@@ -395,8 +394,8 @@ example {f : ℝ → ℝ} (h : Surjective f) : ∃ x, f x ^ 2 = 4 := by
   use x
   rw [hx]
   norm_num
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -406,19 +405,16 @@ the composition of surjective functions is surjective.
 TEXT. -/
 -- BOTH:
 section
-
 open Function
-
 -- QUOTE:
 variable {α : Type _} {β : Type _} {γ : Type _}
-
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
 example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
   intro z

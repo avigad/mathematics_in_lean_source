@@ -28,8 +28,8 @@ def f (x : ℕ) :=
   x + 3
 
 #check f
-
 -- QUOTE.
+
 /- TEXT:
 Some expressions have type `Prop`.
 These are mathematical statements.
@@ -42,8 +42,8 @@ def FermatLastTheorem :=
   ∀ x y z n : ℕ, n > 2 ∧ x * y * z ≠ 0 → x ^ n + y ^ n ≠ z ^ n
 
 #check FermatLastTheorem
-
 -- QUOTE.
+
 /- TEXT:
 Some expressions have a type, `P`, where `P` itself has type `Prop`.
 Such an expression is a proof of the proposition `P`.
@@ -59,8 +59,8 @@ theorem hard : FermatLastTheorem :=
   sorry
 
 #check hard
-
 -- QUOTE.
+
 /- TEXT:
 If you manage to construct an expression of type `fermat_last_theorem` and
 Lean accepts it as a term of that type,
@@ -96,15 +96,15 @@ TEXT. -/
 example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, (hk : n = k + k)⟩ =>
   have hmn : m * n = m * k + m * k := by rw [hk, mul_add]
   show ∃ l, m * n = l + l from ⟨_, hmn⟩
-
 -- QUOTE.
+
 /- TEXT:
 The *proof term* can be compressed to a single line:
 TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, hk⟩ => ⟨m * k, by rw [hk, mul_add]⟩
-
 -- QUOTE.
+
 /- TEXT:
 The following is, instead, a *tactic-style* proof of the same theorem:
 TEXT. -/
@@ -118,8 +118,8 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
   rw [hk]
   -- and now it's obvious
   ring
-
 -- QUOTE.
+
 /- TEXT:
 As you enter each line of such a proof in VS Code,
 Lean displays the *proof state* in a separate window,
@@ -156,8 +156,8 @@ TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) := by
   rintro m n ⟨k, hk⟩; use m * k; rw [hk]; ring
-
 -- QUOTE.
+
 /- TEXT:
 Here we have used tactics to carry out small proof steps.
 But they can also provide substantial automation,
@@ -169,8 +169,8 @@ TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) := by
   intros; simp [*, parity_simps]
-
 -- QUOTE.
+
 /- TEXT:
 Another big difference between the two introductions is that
 *Theorem Proving in Lean* depends only on core Lean and its built-in

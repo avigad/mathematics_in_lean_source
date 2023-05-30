@@ -11,9 +11,7 @@ open Topology Filter ENNReal
 open MeasureTheory
 
 noncomputable section
-
 variable {α : Type _} [MeasurableSpace α]
-
 variable {μ : Measure α}
 
 /- TEXT:
@@ -33,14 +31,13 @@ Most lemmas having to do with integrals have integrability assumptions.
 EXAMPLES: -/
 -- QUOTE:
 section
-
 variable {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] {f : α → E}
 
 example {f g : α → E} (hf : Integrable f μ) (hg : Integrable g μ) :
     (∫ a, f a + g a ∂μ) = (∫ a, f a ∂μ) + ∫ a, g a ∂μ :=
   integral_add hf hg
-
 -- QUOTE.
+
 /- TEXT:
 As an example of the complex interactions between our various conventions, let us see how to integrate constant functions.
 Recall that a measure ``μ`` takes values in ``ℝ≥0∞``, the type of extended non-negative reals.
@@ -53,8 +50,8 @@ EXAMPLES: -/
 -- QUOTE:
 example {s : Set α} (c : E) : (∫ x in s, c ∂μ) = (μ s).toReal • c :=
   set_integral_const c
-
 -- QUOTE.
+
 /- TEXT:
 We now quickly explain how to access the most important theorems in integration theory, starting
 with the dominated convergence theorem. There are several versions in mathlib,
@@ -66,8 +63,8 @@ example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ 
     (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ => F n a) atTop (𝓝 (f a))) :
     Tendsto (fun n => ∫ a, F n a ∂μ) atTop (𝓝 (∫ a, f a ∂μ)) :=
   tendsto_integral_of_dominated_convergence bound hmeas hint hbound hlim
-
 -- QUOTE.
+
 /- TEXT:
 Then we have Fubini's theorem for integrals on product type.
 EXAMPLES: -/
@@ -76,8 +73,8 @@ example {α : Type _} [MeasurableSpace α] {μ : Measure α} [SigmaFinite μ] {�
     [MeasurableSpace β] {ν : Measure β} [SigmaFinite ν] (f : α × β → E)
     (hf : Integrable f (μ.Prod ν)) : (∫ z, f z ∂μ.Prod ν) = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
   integral_prod f hf
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -98,8 +95,8 @@ variable {𝕜 : Type _} {G : Type _} {E : Type _} {E' : Type _} {F : Type _} [N
 example (f : G → E) (g : G → E') (L : E →L[𝕜] E' →L[𝕜] F) (μ : Measure G) :
     f ⋆[L, μ] g = fun x => ∫ t, L (f t) (g (x - t)) ∂μ :=
   rfl
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -117,5 +114,5 @@ example {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
     (hf : ∀ x : E, x ∈ s → HasFderivWithinAt f (f' x) s x) (h_inj : InjOn f s) (g : E → F) :
     (∫ x in f '' s, g x ∂μ) = ∫ x in s, |(f' x).det| • g (f x) ∂μ :=
   integral_image_eq_integral_abs_det_fderiv_smul μ hs hf h_inj g
-
 -- QUOTE.
+

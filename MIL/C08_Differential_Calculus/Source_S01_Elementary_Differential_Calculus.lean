@@ -4,9 +4,7 @@ import Mathlib.Analysis.Calculus.TangentCone
 -- import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 -- import Mathlib.Analysis.Calculus.MeanValue
 
-
 open Set Filter
-
 open Topology Filter Classical Real
 
 noncomputable section
@@ -29,8 +27,8 @@ open Real
 
 /-- The sin function has derivative 1 at 0. -/
 example : HasDerivAt sin 1 0 := by simpa using has_deriv_at_sin 0
-
 -- QUOTE.
+
 /- TEXT:
 We can also express that ``f`` is differentiable at a point without
 specifying its derivative there
@@ -43,8 +41,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (x : ℝ) : DifferentiableAt ℝ sin x :=
   (hasDerivAt_sin x).DifferentiableAt
-
 -- QUOTE.
+
 /- TEXT:
 It would be inconvenient to have to provide a proof of differentiability
 every time we want to refer to a derivative.
@@ -58,8 +56,8 @@ example {f : ℝ → ℝ} {x a : ℝ} (h : HasDerivAt f a x) : deriv f x = a :=
 
 example {f : ℝ → ℝ} {x : ℝ} (h : ¬DifferentiableAt ℝ f x) : deriv f x = 0 :=
   deriv_zero_of_not_differentiableAt h
-
 -- QUOTE.
+
 /- TEXT:
 Of course there are many lemmas about ``deriv`` that do require differentiability assumptions.
 For instance, you should think about a counterexample to the next lemma without the
@@ -69,8 +67,8 @@ EXAMPLES: -/
 example {f g : ℝ → ℝ} {x : ℝ} (hf : DifferentiableAt ℝ f x) (hg : DifferentiableAt ℝ g x) :
     deriv (f + g) x = deriv f x + deriv g x :=
   deriv_add hf hg
-
 -- QUOTE.
+
 /- TEXT:
 Interestingly, however, there are statements that can avoid differentiability
 assumptions by taking advantage
@@ -82,8 +80,8 @@ EXAMPLES: -/
 -- QUOTE:
 example {f : ℝ → ℝ} {a : ℝ} (h : IsLocalMin f a) : deriv f a = 0 :=
   h.deriv_eq_zero
-
 -- QUOTE.
+
 /- TEXT:
 We can eve state Rolle's theorem without any differentiability assumptions, which
 seems even weirder.
@@ -92,8 +90,8 @@ EXAMPLES: -/
 example {f : ℝ → ℝ} {a b : ℝ} (hab : a < b) (hfc : ContinuousOn f (Icc a b)) (hfI : f a = f b) :
     ∃ c ∈ Ioo a b, deriv f c = 0 :=
   exists_deriv_eq_zero f hab hfc hfI
-
 -- QUOTE.
+
 /- TEXT:
 Of course, this trick does not work for the general mean value theorem.
 EXAMPLES: -/
@@ -101,8 +99,8 @@ EXAMPLES: -/
 example (f : ℝ → ℝ) {a b : ℝ} (hab : a < b) (hf : ContinuousOn f (Icc a b))
     (hf' : DifferentiableOn ℝ f (Ioo a b)) : ∃ c ∈ Ioo a b, deriv f c = (f b - f a) / (b - a) :=
   exists_deriv_eq_slope f hab hf hf'
-
 -- QUOTE.
+
 /- TEXT:
 Lean can automatically compute some simple derivatives using the ``simp`` tactic.
 EXAMPLES: -/
@@ -112,8 +110,8 @@ example : deriv (fun x : ℝ => x ^ 5) 6 = 5 * 6 ^ 4 := by simp
 example (x₀ : ℝ) (h₀ : x₀ ≠ 0) : deriv (fun x : ℝ => 1 / x) x₀ = -(x₀ ^ 2)⁻¹ := by simp
 
 example : deriv sin π = -1 := by simp
-
 -- QUOTE.
+
 /- TEXT:
 Sometimes we need to use ``ring`` and/or ``field_simp`` after ``simp``.`
 EXAMPLES: -/
@@ -129,5 +127,5 @@ example (y : ℝ) : HasDerivAt (fun x : ℝ => 2 * x + 5) 2 y := by
   rwa [mul_one] at this
 
 example (y : ℝ) : deriv (fun x : ℝ => 2 * x + 5) y = 2 := by simp
-
 -- QUOTE.
+

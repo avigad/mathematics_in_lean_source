@@ -111,12 +111,10 @@ will generally not be computable.
 BOTH: -/
 -- QUOTE:
 noncomputable section
-
 open Classical
-
 variable {α β : Type _} [Nonempty β]
-
 -- QUOTE.
+
 /- TEXT:
 The annotation ``[Nonempty β]`` specifies that ``β`` is nonempty.
 We use it because the mathlib primitive that we will use to
@@ -148,8 +146,8 @@ def sbAux : ℕ → Set α
 
 def sbSet :=
   ⋃ n, sbAux f g n
-
 -- QUOTE.
+
 /- TEXT:
 The definition ``sb_aux`` is an example of a *recursive definition*,
 which we will explain in the next chapter.
@@ -167,8 +165,8 @@ BOTH: -/
 -- QUOTE:
 def sbFun (x : α) : β :=
   if x ∈ sbSet f g then f x else invFun g x
-
 -- QUOTE.
+
 /- TEXT:
 We will need the fact that our definition of :math:`g^{-1}` is a
 right inverse on the complement of :math:`A`,
@@ -353,8 +351,8 @@ EXAMPLES: -/
 theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Injective f) (hg : Injective g) :
     ∃ h : α → β, Bijective h :=
   ⟨sbFun f g, sb_injective f g hf hg, sb_surjective f g hf hg⟩
-
 -- QUOTE.
+
 -- Auxiliary information
 section
 variable (g : β → α) (x : α)

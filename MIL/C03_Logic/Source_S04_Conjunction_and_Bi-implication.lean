@@ -9,11 +9,11 @@ import Mathlib.Tactic.NormNum
 Conjunction and Bi-implication
 ------------------------------
 
-.. index:: split, tactics ; split
+.. index:: constructor, tactics ; constructor
 
 You have already seen that the conjunction symbol, ``∧``,
 is used to express "and."
-The ``split`` tactic allows you to prove a statement of
+The ``constructor`` tactic allows you to prove a statement of
 the form ``A ∧ B``
 by proving ``A`` and then proving ``B``.
 TEXT. -/
@@ -24,8 +24,8 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
   intro h
   apply h₁
   rw [h]
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: assumption, tactics ; assumption
 
@@ -49,8 +49,8 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
     contrapose! h₁
     rw [h₁]
   ⟨h₀, h⟩
-
 -- QUOTE.
+
 /- TEXT:
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
@@ -71,8 +71,8 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x := by
 
 example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
   fun ⟨h₀, h₁⟩ h' => h₁ (le_antisymm h₀ h')
-
 -- QUOTE.
+
 /- TEXT:
 In contrast to using an existential quantifier,
 you can also extract proofs of the two components
@@ -88,16 +88,16 @@ example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
 
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x :=
   fun h' => h.right (le_antisymm h.left h')
-
 -- QUOTE.
+
 /- TEXT:
 Try using these techniques to come up with various ways of proving of the following:
 TEXT. -/
 -- QUOTE:
 example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
   cases' h with h0 h1
@@ -121,8 +121,8 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
   fun ⟨z, xltz, zlty⟩ => lt_trans xltz zlty
-
 -- QUOTE.
+
 /- TEXT:
 You can also use the ``use`` tactic:
 TEXT. -/
@@ -141,10 +141,10 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
   rintro ⟨h₀, h₁⟩
   use h₀
   exact fun h' => h₁ (le_antisymm h₀ h')
-
 -- QUOTE.
+
 /- TEXT:
-In the first example, the semicolon after the ``split`` command tells Lean to use the
+In the first example, the semicolon after the ``constructor`` command tells Lean to use the
 ``norm_num`` tactic on both of the goals that result.
 
 In Lean, ``A ↔ B`` is *not* defined to be ``(A → B) ∧ (B → A)``,
@@ -154,7 +154,7 @@ You have already seen that you can write ``h.mp`` and ``h.mpr``
 or ``h.1`` and ``h.2`` for the two directions of ``h : A ↔ B``.
 You can also use ``cases`` and friends.
 To prove an if-and-only-if statement,
-you can uses ``split`` or angle brackets,
+you can uses ``constructor`` or angle brackets,
 just as you would if you were proving a conjunction.
 TEXT. -/
 -- QUOTE:
@@ -168,8 +168,8 @@ example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y := by
 
 example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y :=
   ⟨fun h₀ h₁ => h₀ (by rw [h₁]), fun h₀ h₁ => h₀ (le_antisymm h h₁)⟩
-
 -- QUOTE.
+
 /- TEXT:
 The last proof term is inscrutable. Remember that you can
 use underscores while writing an expression like that to
@@ -181,8 +181,8 @@ TEXT. -/
 -- QUOTE:
 example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y := by
   constructor
@@ -213,8 +213,8 @@ theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem auxαα {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   have h' : x ^ 2 = 0 := by linarith [pow_two_nonneg x, pow_two_nonneg y]
@@ -256,8 +256,8 @@ example (x : ℝ) : abs (x + 3) < 5 → -8 < x ∧ x < 2 := by
 example : 3 ∣ Nat.gcd 6 15 := by
   rw [Nat.dvd_gcd_iff]
   constructor <;> norm_num
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -276,8 +276,8 @@ theorem not_monotone_iff {f : ℝ → ℝ} : ¬Monotone f ↔ ∃ x y, x ≤ y �
 -- EXAMPLES:
 example : ¬Monotone fun x : ℝ => -x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : ¬Monotone fun x : ℝ => -x := by
   rw [not_monotone_iff]
@@ -300,18 +300,16 @@ then ``a < b`` is equivalent to ``a ≤ b ∧ a ≠ b``:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [PartialOrder α]
-
 variable (a b : α)
 
 -- EXAMPLES:
 example : a < b ↔ a ≤ b ∧ a ≠ b := by
   rw [lt_iff_le_not_le]
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : a < b ↔ a ≤ b ∧ a ≠ b := by
   rw [lt_iff_le_not_le]
@@ -352,10 +350,8 @@ to be instantiated to different values.
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [Preorder α]
-
 variable (a b c : α)
 
 -- EXAMPLES:
@@ -366,8 +362,8 @@ example : ¬a < a := by
 example : a < b → b < c → a < c := by
   simp only [lt_iff_le_not_le]
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : ¬a < a := by
   rw [lt_iff_le_not_le]

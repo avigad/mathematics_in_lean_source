@@ -21,20 +21,16 @@ like ``≤`` on the real numbers.
 Lean knows about partial orders:
 TEXT. -/
 section
-
 -- QUOTE:
 variable {α : Type _} [PartialOrder α]
-
 variable (x y z : α)
 
 -- EXAMPLES:
 #check x ≤ y
-
 #check (le_refl x : x ≤ x)
-
 #check (le_trans : x ≤ y → y ≤ z → x ≤ z)
-
 -- QUOTE.
+
 /- TEXT:
 Here we are adopting the mathlib convention of using
 letters like ``α``, ``β``, and ``γ``
@@ -56,19 +52,15 @@ and not equal to ``y``.
 TEXT. -/
 -- QUOTE:
 #check x < y
-
 #check (lt_irrefl x : ¬x < x)
-
 #check (lt_trans : x < y → y < z → x < z)
-
 #check (lt_of_le_of_lt : x ≤ y → y < z → x < z)
-
 #check (lt_of_lt_of_le : x < y → y ≤ z → x < z)
 
 example : x < y ↔ x ≤ y ∧ x ≠ y :=
   lt_iff_le_and_ne
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -87,30 +79,21 @@ analogous to ``min`` and ``max`` on the real numbers:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [Lattice α]
-
 variable (x y z : α)
 
 -- EXAMPLES:
 #check x ⊓ y
-
 #check (inf_le_left : x ⊓ y ≤ x)
-
 #check (inf_le_right : x ⊓ y ≤ y)
-
 #check (le_inf : z ≤ x → z ≤ y → z ≤ x ⊓ y)
-
 #check x ⊔ y
-
 #check (le_sup_left : x ≤ x ⊔ y)
-
 #check (le_sup_right : y ≤ x ⊔ y)
-
 #check (sup_le : x ≤ z → y ≤ z → x ⊔ y ≤ z)
-
 -- QUOTE.
+
 /- TEXT:
 The characterizations of ``⊓`` and ``⊔`` justify calling them
 the *greatest lower bound* and *least upper bound*, respectively.
@@ -166,8 +149,8 @@ example : x ⊔ y = y ⊔ x := by
 
 example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : x ⊓ y = y ⊓ x := by
   apply le_antisymm
@@ -238,8 +221,8 @@ theorem absorb1 : x ⊓ (x ⊔ y) = x := by
 
 theorem absorb2 : x ⊔ x ⊓ y = x := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem absorb1αα : x ⊓ (x ⊔ y) = x := by
   apply le_antisymm
@@ -268,20 +251,14 @@ is called a *distributive lattice*. Lean knows about these too:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [DistribLattice α]
-
 variable (x y z : α)
 
 #check (inf_sup_left : x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z)
-
 #check (inf_sup_right : (x ⊔ y) ⊓ z = x ⊓ z ⊔ y ⊓ z)
-
 #check (sup_inf_left : x ⊔ y ⊓ z = (x ⊔ y) ⊓ (x ⊔ z))
-
 #check (sup_inf_right : x ⊓ y ⊔ z = (x ⊔ z) ⊓ (y ⊔ z))
-
 -- QUOTE.
 end
 
@@ -297,10 +274,8 @@ either distributivity law implies the other:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {α : Type _} [Lattice α]
-
 variable (a b c : α)
 
 -- EXAMPLES:
@@ -309,8 +284,8 @@ example (h : ∀ x y z : α, x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z) : a ⊔ b �
 
 example (h : ∀ x y z : α, x ⊔ y ⊓ z = (x ⊔ y) ⊓ (x ⊔ z)) : a ⊓ (b ⊔ c) = a ⊓ b ⊔ a ⊓ c := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : ∀ x y z : α, x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z) : a ⊔ b ⊓ c = (a ⊔ b) ⊓ (a ⊔ c) := by
   rw [h, @inf_comm _ _ (a ⊔ b), absorb1, @inf_comm _ _ (a ⊔ b), h, ← sup_assoc, @inf_comm _ _ c a,
@@ -332,26 +307,23 @@ are compatible with the order:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {R : Type _} [StrictOrderedRing R]
-
 variable (a b c : R)
 
 -- EXAMPLES:
 #check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
-
 #check (mul_pos : 0 < a → 0 < b → 0 < a * b)
-
 -- QUOTE.
+
 /- TEXT:
 :numref:`Chapter %s <logic>` will provide the means to derive the following from ``mul_pos``
 and the definition of ``<``:
 TEXT. -/
 -- QUOTE:
 #check (mul_nonneg : 0 ≤ a → 0 ≤ b → 0 ≤ a * b)
-
 -- QUOTE.
+
 /- TEXT:
 It is then an extended exercise to show that many common facts
 used to reason about arithmetic and the ordering on the real
@@ -369,8 +341,8 @@ example : 0 ≤ b - a → a ≤ b := by
 
 example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem aux1 : a ≤ b → 0 ≤ b - a := by
   intro h
@@ -401,20 +373,16 @@ The distance function is assumed to satisfy the following axioms:
 TEXT. -/
 -- BOTH:
 section
-
 -- QUOTE:
 variable {X : Type _} [MetricSpace X]
-
 variable (x y z : X)
 
 -- EXAMPLES:
 #check (dist_self x : dist x x = 0)
-
 #check (dist_comm x y : dist x y = dist y x)
-
 #check (dist_triangle x y z : dist x z ≤ dist x y + dist y z)
-
 -- QUOTE.
+
 /- TEXT:
 Having mastered this section,
 you can show that it follows from these axioms that distances are
@@ -423,8 +391,8 @@ TEXT. -/
 -- QUOTE:
 example (x y : X) : 0 ≤ dist x y := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (x y : X) : 0 ≤ dist x y :=by
   have : 0 ≤ dist x y + dist y x := by

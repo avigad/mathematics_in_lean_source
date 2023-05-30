@@ -3,7 +3,6 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Tactic
 
 variable (a b c d e : ℝ)
-
 open Real
 
 /- TEXT:
@@ -26,10 +25,9 @@ Consider the library theorems ``le_refl`` and ``le_trans``:
 TEXT. -/
 -- QUOTE:
 #check (le_refl : ∀ a : ℝ, a ≤ a)
-
 #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
-
 -- QUOTE.
+
 /- TEXT:
 As we explain in more detail in  :numref:`implication_and_the_universal_quantifier`,
 the implicit parentheses in the statement of ``le_trans``
@@ -43,21 +41,16 @@ are in the context,
 all the following work:
 TEXT. -/
 section
-
 -- QUOTE:
 variable (h : a ≤ b) (h' : b ≤ c)
 
 #check (le_refl : ∀ a : Real, a ≤ a)
-
 #check (le_refl a : a ≤ a)
-
 #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
-
 #check (le_trans h : b ≤ c → a ≤ c)
-
 #check (le_trans h h' : a ≤ c)
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -89,8 +82,8 @@ example (x : ℝ) : x ≤ x := by
 
 example (x : ℝ) : x ≤ x :=
   le_refl x
-
 -- QUOTE.
+
 /- TEXT:
 In the first example, applying ``le_trans``
 creates two goals,
@@ -108,16 +101,12 @@ Here are a few more library theorems:
 TEXT. -/
 -- QUOTE:
 #check (le_refl : ∀ a, a ≤ a)
-
 #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
-
 #check (lt_of_le_of_lt : a ≤ b → b < c → a < c)
-
 #check (lt_of_lt_of_le : a < b → b ≤ c → a < c)
-
 #check (lt_trans : a < b → b < c → a < c)
-
 -- QUOTE.
+
 /- TEXT:
 Use them together with ``apply`` and ``exact`` to prove the following:
 TEXT. -/
@@ -125,8 +114,8 @@ TEXT. -/
 -- QUOTE:
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by
   apply lt_of_le_of_lt h₀
@@ -141,8 +130,8 @@ TEXT. -/
 -- QUOTE:
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by
   linarith
-
 -- QUOTE.
+
 /- TEXT:
 The ``linarith`` tactic is designed to handle *linear arithmetic*.
 TEXT. -/
@@ -151,8 +140,8 @@ section
 -- QUOTE:
 example (h : 2 * a ≤ 3 * b) (h' : 1 ≤ a) (h'' : d = 2) : d + a ≤ 5 * b := by
   linarith
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -171,8 +160,8 @@ TEXT. -/
 -- QUOTE:
 example (h : 1 ≤ a) (h' : b ≤ c) : 2 + a + exp b ≤ 3 * a + exp c := by
   linarith [exp_le_exp.mpr h']
-
 -- QUOTE.
+
 /- TEXT:
 .. index:: exponential, logarithm
 
@@ -181,38 +170,23 @@ inequalities on the real numbers.
 TEXT. -/
 -- QUOTE:
 #check (exp_le_exp : exp a ≤ exp b ↔ a ≤ b)
-
 #check (exp_lt_exp : exp a < exp b ↔ a < b)
-
 #check (log_le_log : 0 < a → 0 < b → (log a ≤ log b ↔ a ≤ b))
-
 #check (log_lt_log : 0 < a → a < b → log a < log b)
-
 #check (add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d)
-
 #check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
-
 #check (add_le_add_right : a ≤ b → ∀ c, a + c ≤ b + c)
-
 #check (add_lt_add_of_le_of_lt : a ≤ b → c < d → a + c < b + d)
-
 #check (add_lt_add_of_lt_of_le : a < b → c ≤ d → a + c < b + d)
-
 #check (add_lt_add_left : a < b → ∀ c, c + a < c + b)
-
 #check (add_lt_add_right : a < b → ∀ c, a + c < b + c)
-
 #check (add_nonneg : 0 ≤ a → 0 ≤ b → 0 ≤ a + b)
-
 #check (add_pos : 0 < a → 0 < b → 0 < a + b)
-
 #check (add_pos_of_pos_of_nonneg : 0 < a → 0 ≤ b → 0 < a + b)
-
 #check (exp_pos : ∀ a, 0 < exp a)
-
 #check @add_le_add_left
-
 -- QUOTE.
+
 /- TEXT:
 Some of the theorems, ``exp_le_exp``, ``exp_lt_exp``, and ``log_le_log``
 use a *bi-implication*, which represents the
@@ -226,8 +200,8 @@ TEXT. -/
 example (h : a ≤ b) : exp a ≤ exp b := by
   rw [exp_le_exp]
   exact h
-
 -- QUOTE.
+
 /- TEXT:
 In this section, however, we will use the fact that if ``h : A ↔ B``
 is such an equivalence,
@@ -245,8 +219,8 @@ example (h₀ : a ≤ b) (h₁ : c < d) : a + exp c + e < b + exp d + e := by
   · apply add_lt_add_of_le_of_lt h₀
     apply exp_lt_exp.mpr h₁
   apply le_refl
-
 -- QUOTE.
+
 /- TEXT:
 The first line, ``apply add_lt_add_of_lt_of_le``,
 creates two goals,
@@ -269,8 +243,8 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   have h₁ : 0 < 1 + exp b := by sorry
   apply (log_le_log h₀ h₁).mpr
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
   apply add_le_add_left
@@ -325,8 +299,8 @@ TEXT. -/
 example : 0 ≤ a ^ 2 := by
   -- library_search
   exact sq_nonneg a
-
 -- QUOTE.
+
 /- TEXT:
 To try out ``library_search`` in this example,
 delete the ``exact`` command and uncomment the previous line.
@@ -341,8 +315,8 @@ TEXT. -/
 -- QUOTE:
 example (h : a ≤ b) : c - exp b ≤ c - exp a := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (h : a ≤ b) : c - exp b ≤ c - exp a := by
   apply sub_le_sub_left
@@ -371,8 +345,8 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
       add_le_add (le_refl _) h
     _ = a ^ 2 + b ^ 2 := by ring
 
-
 -- QUOTE.
+
 /- TEXT:
 Mathlib tends to put spaces around binary operations like ``*`` and ``^``,
 but in this example, the more compressed format increases readability.
@@ -400,8 +374,8 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
     a ^ 2 - 2 * a * b + b ^ 2 = (a - b) ^ 2 := by ring
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
-
 -- QUOTE.
+
 /- TEXT:
 How nice! We challenge you to use these ideas to prove the
 following theorem. You can use the theorem ``abs_le'.mpr``.
@@ -411,8 +385,8 @@ example : abs (a * b) ≤ (a ^ 2 + b ^ 2) / 2 := by
   sorry
 
 #check abs_le'.mpr
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem fact1 : a * b * 2 ≤ a ^ 2 + b ^ 2 := by
   have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2

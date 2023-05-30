@@ -59,8 +59,8 @@ example {f : ι → Set α} (h : ∀ b, MeasurableSet (f b)) : MeasurableSet (�
 
 example {f : ι → Set α} (h : ∀ b, MeasurableSet (f b)) : MeasurableSet (⋂ b, f b) :=
   MeasurableSet.iInter h
-
 -- QUOTE.
+
 /- TEXT:
 Once a type is measurable, we can measure it. On paper, a measure on a set
 (or type) equipped with a
@@ -76,7 +76,6 @@ measurability assumptions, but not all.
 BOTH: -/
 -- QUOTE:
 open MeasureTheory
-
 variable {μ : Measure α}
 
 -- EXAMPLES:
@@ -89,8 +88,8 @@ example (s : ι → Set α) : μ (⋃ i, s i) ≤ ∑' i, μ (s i) :=
 example {f : ℕ → Set α} (hmeas : ∀ i, MeasurableSet (f i)) (hdis : Pairwise (Disjoint on f)) :
     μ (⋃ i, f i) = ∑' i, μ (f i) :=
   μ.m_iUnion hmeas hdis
-
 -- QUOTE.
+
 /- TEXT:
 Once a type has a measure associated with it, we say that a property ``P``
 holds *almost everywhere* if the set of elements where the property fails
@@ -102,5 +101,5 @@ EXAMPLES: -/
 -- QUOTE:
 example {P : α → Prop} : (∀ᵐ x ∂μ, P x) ↔ ∀ᶠ x in μ.ae, P x :=
   Iff.rfl
-
 -- QUOTE.
+

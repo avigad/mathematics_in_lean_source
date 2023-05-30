@@ -40,8 +40,8 @@ theorem two_le {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
     cases m; contradiction
     repeat' apply Nat.succ_le_succ
     apply zero_le
-
 -- QUOTE.
+
 /- TEXT:
 Another strategy is to use the tactic ``interval_cases``,
 which automatically splits the goal into cases when
@@ -54,8 +54,8 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   by_contra h
   push_neg at h
   interval_cases m <;> contradiction
-
 -- QUOTE.
+
 /- TEXT:
 Recall that the semicolon after ``interval_cases m`` means
 that the next tactic is applied to each of the cases that it generates.
@@ -72,8 +72,8 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   revert h0 h1
   revert h m
   decide
-
 -- QUOTE.
+
 /- TEXT:
 With the theorem ``two_le`` in hand, let's start by showing that every
 natural number greater than two has a prime divisor.
@@ -123,8 +123,8 @@ theorem exists_prime_factor {n : Nat} (h : 2 ≤ n) : ∃ p : Nat, p.Prime ∧ p
   . rcases ih m mltn mgt2 mp with ⟨p, pp, pdvd⟩
     use p, pp
     apply pdvd.trans mdvdn
-
 -- QUOTE.
+
 /- TEXT:
 We can now prove the following formulation of our theorem.
 See if you can fill out the sketch.
@@ -205,7 +205,6 @@ open Finset
 
 -- EXAMPLES:
 section
-
 variable {α : Type _} [DecidableEq α] (r s t : Finset α)
 
 example : r ∩ (s ∪ t) ⊆ r ∩ s ∪ r ∩ t := by
@@ -230,8 +229,8 @@ example : r ∩ s ∪ r ∩ t = r ∩ (s ∪ t) := by
   tauto
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 We have used a new trick: the ``tauto`` tactic (and a strengthened
 version, ``tauto!``, which uses classical logic) can be used to
@@ -239,7 +238,6 @@ dispense with propositional tautologies. See if you can use
 these methods to prove the two examples below.
 BOTH: -/
 section
-
 variable {α : Type _} [DecidableEq α] (r s t : Finset α)
 
 -- QUOTE:
@@ -269,8 +267,8 @@ example : (r \ s) \ t = r \ (s ∪ t) := by
   ext x
   simp
   tauto
-
 -- QUOTE.
+
 -- BOTH:
 end
 
@@ -282,8 +280,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (s : Finset ℕ) (n : ℕ) (h : n ∈ s) : n ∣ ∏ i in s, i :=
   Finset.dvd_prod_of_mem _ h
-
 -- QUOTE.
+
 /- TEXT:
 We also need to know that the converse holds in the case where
 ``n`` is prime and ``s`` is a set of primes.
@@ -299,8 +297,8 @@ SOLUTIONS: -/
   cases prime_q.eq_one_or_self_of_dvd _ h
   · linarith [prime_p.two_le]
   assumption
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 We can use this lemma to show that if a prime ``p`` divides a product of a finite
@@ -352,8 +350,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (s : Finset ℕ) (x : ℕ) : x ∈ s.filter Nat.Prime ↔ x ∈ s ∧ x.Prime :=
   mem_filter
-
 -- QUOTE.
+
 /- TEXT:
 We now prove an alternative formulation of the statement that there are infinitely many
 primes, namely, that given any ``s : Finset ℕ``, there is a prime ``p`` that is not
@@ -440,8 +438,8 @@ theorem ex_finset_of_bounded (Q : ℕ → Prop) [DecidablePred Q] :
   intro k
   simp [Nat.lt_succ_iff]
   exact hn k
-
 -- QUOTE.
+
 /- TEXT:
 A small variation on our second proof that there are infinitely many primes
 shows that there are infinitely many primes congruent to 3 modulo 4.
@@ -475,8 +473,8 @@ denotes the remainder of the division of ``n`` by ``m``.
 EXAMPLES: -/
 -- QUOTE:
 example : 27 % 4 = 3 := by norm_num
-
 -- QUOTE.
+
 /- TEXT:
 We can then render the statement "``n`` is congruent to 3 modulo 4"
 as ``n % 4 = 3``. The following example and theorems sum up
@@ -506,8 +504,8 @@ theorem two_le_of_mod_4_eq_3 {n : ℕ} (h : n % 4 = 3) : 2 ≤ n := by
     · intro neq
       rw [neq] at h
       norm_num at h
-
 -- QUOTE.
+
 /- TEXT:
 We will also need the following fact, which says that if
 ``m`` is a nontrivial divisor of ``n``, then so is ``n / m``.
@@ -522,8 +520,8 @@ SOLUTIONS: -/
   constructor
   · exact Nat.div_dvd_of_dvd h₀
   exact Nat.div_lt_self (lt_of_le_of_lt (zero_le _) h₂) h₁
-
 -- QUOTE.
+
 -- BOTH:
 /- TEXT:
 Now put all the pieces together to prove that any
@@ -583,8 +581,8 @@ example (m n : ℕ) (s : Finset ℕ) (h : m ∈ erase s n) : m ≠ n ∧ m ∈ s
 example (m n : ℕ) (s : Finset ℕ) (h : m ∈ erase s n) : m ≠ n ∧ m ∈ s := by
   simp at h
   assumption
-
 -- QUOTE.
+
 /- TEXT:
 We are now ready to prove that there are infinitely many primes
 congruent to 3 modulo 4.
@@ -657,8 +655,8 @@ SOLUTIONS: -/
     apply pp.eq_of_dvd_of_prime Nat.prime_three this
 -- BOTH:
   contradiction
-
 -- QUOTE.
+
 /- TEXT:
 If you managed to complete the proof, congratulations! This has been a serious
 feat of formalization.

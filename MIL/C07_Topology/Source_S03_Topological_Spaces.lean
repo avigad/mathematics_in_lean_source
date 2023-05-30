@@ -25,11 +25,9 @@ The first way to think about the transition from metric spaces to topological sp
 remember the notion of open sets (or equivalently the notion of closed sets). From this point of view,
 a topological space is a type equipped with a collection of sets that are called open sets. This collection
 has to satisfy a number of axioms presented below (this collection is slightly redundant but we will ignore that).
-
 BOTH: -/
 -- QUOTE:
 section
-
 variable {X : Type _} [TopologicalSpace X]
 
 example : IsOpen (univ : Set X) :=
@@ -43,8 +41,8 @@ example {ι : Type _} {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) : IsOpen (�
 
 example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) : IsOpen (⋂ i, s i) :=
   isOpen_iInter hs
-
 -- QUOTE.
+
 /- TEXT:
 
 Closed sets are then defined as sets whose complement  is open. A function between topological spaces
@@ -55,8 +53,8 @@ variable {Y : Type _} [TopologicalSpace Y]
 
 example {f : X → Y} : Continuous f ↔ ∀ s, IsOpen s → IsOpen (f ⁻¹' s) :=
   continuous_def
-
 -- QUOTE.
+
 /- TEXT:
 With this definition we already see that, compared to metric spaces, topological spaces only remember
 enough information to talk about continuous functions: two topological structures on a type are
@@ -79,8 +77,8 @@ BOTH: -/
 -- QUOTE:
 example {f : X → Y} {x : X} : ContinuousAt f x ↔ map f (𝓝 x) ≤ 𝓝 (f x) :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 One can also spell it using both neighborhoods seen as ordinary sets and a neighborhood filter
 seen as a generalized set: "for any neighborhood ``U`` of ``f x``, all points close to ``x``
@@ -91,8 +89,8 @@ BOTH: -/
 -- QUOTE:
 example {f : X → Y} {x : X} : ContinuousAt f x ↔ ∀ U ∈ 𝓝 (f x), ∀ᶠ x in 𝓝 x, f x ∈ U :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 We now explain how to go from one point of view to the other. In terms of open sets, we can
 simply define members of ``𝓝 x`` as sets that contain an open set containing ``x``.
@@ -102,8 +100,8 @@ BOTH: -/
 -- QUOTE:
 example {x : X} {s : Set X} : s ∈ 𝓝 x ↔ ∃ t, t ⊆ s ∧ IsOpen t ∧ x ∈ t :=
   mem_nhds_iff
-
 -- QUOTE.
+
 /- TEXT:
 To go in the other direction we need to discuss the condition that ``𝓝 : X → Filter X`` must satisfy
 in order to be the neighborhood function of a topology.
@@ -119,8 +117,8 @@ example (x : X) : pure x ≤ 𝓝 x :=
 
 example (x : X) (P : X → Prop) (h : ∀ᶠ y in 𝓝 x, P y) : P x :=
   pure_le_nhds x h
-
 -- QUOTE.
+
 /- TEXT:
 Then a more subtle requirement is that, for any predicate ``P : X → Prop`` and any ``x``, if ``P y`` holds for ``y`` close
 to ``x`` then for ``y`` close to ``x`` and ``z`` close to ``y``, ``P z`` holds. More precisely we have:
@@ -128,8 +126,8 @@ BOTH: -/
 -- QUOTE:
 example {P : X → Prop} {x : X} (h : ∀ᶠ y in 𝓝 x, P y) : ∀ᶠ y in 𝓝 x, ∀ᶠ z in 𝓝 y, P z :=
   eventually_eventually_nhds.mpr h
-
 -- QUOTE.
+
 /- TEXT:
 Those two results characterize the functions ``X → Filter X`` that are neighborhood functions for a topological space
 structure on ``X``. There is a still a function ``topological_space.mk_of_nhds : (X → Filter X) → topological_space X``
@@ -146,8 +144,8 @@ example {α : Type _} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
     ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {α : Type _} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
@@ -199,8 +197,8 @@ example (f : X → Y) : TopologicalSpace Y → TopologicalSpace X :=
 example (f : X → Y) (T_X : TopologicalSpace X) (T_Y : TopologicalSpace Y) :
     TopologicalSpace.coinduced f T_X ≤ T_Y ↔ T_X ≤ TopologicalSpace.induced f T_Y :=
   coinduced_le_iff_le_induced
-
 -- QUOTE.
+
 /- TEXT:
 Those operations are compactible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
@@ -226,8 +224,8 @@ BOTH: -/
 -- QUOTE:
 example {T T' : TopologicalSpace X} : T ≤ T' ↔ ∀ s, T'.IsOpen s → T.IsOpen s :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 
 Now we can recover continuity by combining the push-foward (or pull-back) operation with the order relation.
@@ -237,8 +235,8 @@ BOTH: -/
 example (T_X : TopologicalSpace X) (T_Y : TopologicalSpace Y) (f : X → Y) :
     Continuous f ↔ TopologicalSpace.coinduced f T_X ≤ T_Y :=
   continuous_iff_coinduced_le
-
 -- QUOTE.
+
 /- TEXT:
 With this definition and the compatibility of push-forward and composition, we
 get for free the universal property that, for any topological space :math:`Z`,
@@ -256,8 +254,8 @@ BOTH: -/
 example {Z : Type _} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : TopologicalSpace Z) (g : Y → Z) :
     @Continuous Y Z (TopologicalSpace.coinduced f T_X) T_Z g ↔ @Continuous X Z T_X T_Z (g ∘ f) := by
   rw [continuous_iff_coinduced_le, coinduced_compose, continuous_iff_coinduced_le]
-
 -- QUOTE.
+
 /- TEXT:
 
 So we already get quotient topologies (using the projection map as ``f``). This wasn't using that
@@ -282,8 +280,8 @@ example (ι : Type _) (X : ι → Type _) (T_X : ∀ i, TopologicalSpace <| X i)
     (Pi.topologicalSpace : TopologicalSpace (∀ i, X i)) =
       ⨅ i, TopologicalSpace.induced (fun x => x i) (T_X i) :=
   rfl
-
 -- QUOTE.
+
 /- TEXT:
 
 This ends our tour of how mathlib thinks that topological spaces fix defects of the theory of metric spaces
@@ -309,8 +307,8 @@ example [TopologicalSpace X] [T2Space X] {u : ℕ → X} {a b : X} (ha : Tendsto
 example [TopologicalSpace X] [RegularSpace X] (a : X) :
     (𝓝 a).HasBasis (fun s : Set X => s ∈ 𝓝 a ∧ IsClosed s) id :=
   closed_nhds_basis a
-
 -- QUOTE.
+
 /- TEXT:
 Note that, in every topological space, each point has a basis of open neighborhood, by definition.
 
@@ -318,8 +316,8 @@ BOTH: -/
 -- QUOTE:
 example [TopologicalSpace X] {x : X} : (𝓝 x).HasBasis (fun t : Set X => t ∈ 𝓝 x ∧ IsOpen t) id :=
   nhds_basis_opens' x
-
 -- QUOTE.
+
 /- TEXT:
 Our main goal is now to prove the basic theorem which allows extension by continuity.
 From Bourbaki's general topology book, I.8.5, Theorem 1 (taking only the non-trivial implication):
@@ -347,8 +345,8 @@ theorem aux {X Y A : Type _} [TopologicalSpace X] {c : A → X} {f : A → Y} {x
     (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {X Y A : Type _} [TopologicalSpace X] {c : A → X} {f : A → Y} {x : X} {F : Filter Y}
     (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
@@ -394,8 +392,8 @@ example [TopologicalSpace X] [TopologicalSpace Y] [RegularSpace Y] {A : Set X}
   sorry
 
 #check @HasBasis.tendsto_right_iff
-
 -- QUOTE.
+
 -- OMIT: TODO: Fix this.
 -- SOLUTIONS:
 example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : ∀ x, x ∈ closure A)
@@ -433,8 +431,8 @@ BOTH: -/
 example [TopologicalSpace X] [TopologicalSpace.FirstCountableTopology X] {s : Set X} {a : X} :
     a ∈ closure s ↔ ∃ u : ℕ → X, (∀ n, u n ∈ s) ∧ Tendsto u atTop (𝓝 a) :=
   mem_closure_iff_seq_limit
-
 -- QUOTE.
+
 /- TEXT:
 Compactness
 ^^^^^^^^^^^
@@ -458,8 +456,8 @@ example {F : Filter X} {x : X} : ClusterPt x F ↔ NeBot (𝓝 x ⊓ F) :=
 
 example {s : Set X} : IsCompact s ↔ ∀ (F : Filter X) [NeBot F], F ≤ 𝓟 s → ∃ a ∈ s, ClusterPt a F :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 For instance if ``F`` is ``map u at_top``, the image under ``u : ℕ → X`` of ``at_top``, the generalized set
 of very large natural numbers, then the assumption ``F ≤ 𝓟 s`` means that ``u n`` belongs to ``s`` for ``n``
@@ -472,8 +470,8 @@ BOTH: -/
 example [TopologicalSpace.FirstCountableTopology X] {s : Set X} {u : ℕ → X} (hs : IsCompact s)
     (hu : ∀ n, u n ∈ s) : ∃ a ∈ s, ∃ φ : ℕ → ℕ, StrictMono φ ∧ Tendsto (u ∘ φ) atTop (𝓝 a) :=
   hs.tendsto_subseq hu
-
 -- QUOTE.
+
 /- TEXT:
 Cluster points behave nicely with continuous functions.
 
@@ -484,8 +482,8 @@ variable [TopologicalSpace Y]
 example {x : X} {F : Filter X} {G : Filter Y} (H : ClusterPt x F) {f : X → Y}
     (hfx : ContinuousAt f x) (hf : Tendsto f F G) : ClusterPt (f x) G :=
   ClusterPt.map H hfx hf
-
 -- QUOTE.
+
 /- TEXT:
 As an exercise, we will prove that the image of a compact set under a continuous map is
 compact. In addition to what we saw already, you should use ``Filter.push_pull`` and
@@ -499,8 +497,8 @@ example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs :
   have Hne : (𝓟 s ⊓ comap f F).NeBot := by sorry
   have Hle : 𝓟 s ⊓ comap f F ≤ 𝓟 s := inf_le_left
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
     IsCompact (f '' s) := by
@@ -525,13 +523,13 @@ BOTH: -/
 example {ι : Type _} {s : Set X} (hs : IsCompact s) (U : ι → Set X) (hUo : ∀ i, IsOpen (U i))
     (hsU : s ⊆ ⋃ i, U i) : ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=
   hs.elim_finite_subcover U hUo hsU
-
 -- QUOTE.
+
 /- TEXT:
 A topological space ``X`` is compact if ``(univ : Set X)`` is compact.
 BOTH: -/
 -- QUOTE:
 example [CompactSpace X] : IsCompact (univ : Set X) :=
   isCompact_univ
-
 -- QUOTE.
+

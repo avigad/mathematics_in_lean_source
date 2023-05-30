@@ -40,8 +40,8 @@ example {x : E} : ‖x‖ = 0 ↔ x = 0 :=
 
 example (x y : E) : ‖x + y‖ ≤ ‖x‖ + ‖y‖ :=
   norm_add_le x y
-
 -- QUOTE.
+
 /- TEXT:
 Every normed space is a metric space with distance function
 :math:`d(x, y) = \| x - y \|`, and hence it is also a topological space.
@@ -53,8 +53,8 @@ example : MetricSpace E := by infer_instance
 example {X : Type _} [TopologicalSpace X] {f : X → E} (hf : Continuous f) :
     Continuous fun x => ‖f x‖ :=
   hf.norm
-
 -- QUOTE.
+
 /- TEXT:
 In order to use the notion of a norm with concepts from linear algebra,
 we add the assumption ``normed_space ℝ E`` on top of ``normed_add_group E``.
@@ -66,16 +66,16 @@ variable [NormedSpace ℝ E]
 
 example (a : ℝ) (x : E) : ‖a • x‖ = |a| * ‖x‖ :=
   norm_smul a x
-
 -- QUOTE.
+
 /- TEXT:
 A complete normed space is known as a *Banach space*.
 Every finite-dimensional vector space is complete.
 EXAMPLES: -/
 -- QUOTE:
 example [FiniteDimensional ℝ E] : CompleteSpace E := by infer_instance
-
 -- QUOTE.
+
 /- TEXT:
 In all the previous examples, we used the real numbers as the base field.
 More generally, we can make sense of calculus with a vector space over any
@@ -90,8 +90,8 @@ example (𝕜 : Type _) [NontriviallyNormedField 𝕜] (x y : 𝕜) : ‖x * y�
 
 example (𝕜 : Type _) [NontriviallyNormedField 𝕜] : ∃ x : 𝕜, 1 < ‖x‖ :=
   NormedField.exists_one_lt_norm 𝕜
-
 -- QUOTE.
+
 /- TEXT:
 A finite-dimensional vector space over a nondiscrete normed field is
 complete as long as the field itself is complete.
@@ -100,8 +100,8 @@ EXAMPLES: -/
 example (𝕜 : Type _) [NontriviallyNormedField 𝕜] (E : Type _) [NormedAddCommGroup E]
     [NormedSpace 𝕜 E] [CompleteSpace 𝕜] [FiniteDimensional 𝕜 E] : CompleteSpace E :=
   FiniteDimensional.complete 𝕜 E
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -138,8 +138,8 @@ example (f : E →L[𝕜] F) (x y : E) : f (x + y) = f x + f y :=
 
 example (f : E →L[𝕜] F) (a : 𝕜) (x : E) : f (a • x) = a • f x :=
   f.map_smul a x
-
 -- QUOTE.
+
 /- TEXT:
 Continuous linear maps have an operator norm that is characterized by the
 following properties.
@@ -152,8 +152,8 @@ example (x : E) : ‖f x‖ ≤ ‖f‖ * ‖x‖ :=
 
 example {M : ℝ} (hMp : 0 ≤ M) (hM : ∀ x, ‖f x‖ ≤ M * ‖x‖) : ‖f‖ ≤ M :=
   f.op_norm_le_bound hMp hM
-
 -- QUOTE.
+
 end
 
 /- TEXT:
@@ -201,8 +201,8 @@ example {ι : Type _} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, 
   refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i => ContinuousLinearMap.op_norm_le_of_shell ε_pos _ hk _⟩
   sorry
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {ι : Type _} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, ∃ C, ∀ i, ‖g i x‖ ≤ C) :
     ∃ C', ∀ i, ‖g i‖ ≤ C' := by
@@ -278,8 +278,8 @@ example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] 
 example {α : Type _} {E : Type _} [NormedAddCommGroup E] (c : ℝ) (l : Filter α) (f g : α → E) :
     f ~[l] g ↔ (f - g) =o[l] g :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 Differentiability
 ^^^^^^^^^^^^^^^^^
@@ -302,8 +302,8 @@ example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) :
 
 example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : HasFDerivAt f f' x₀) : fderiv 𝕜 f x₀ = f' :=
   hff'.fderiv
-
 -- QUOTE.
+
 /- TEXT:
 We also have iterated derivatives that take values in the type of multilinear maps
 ``E [×n]→L[𝕜] F``,
@@ -322,8 +322,8 @@ example (n : WithTop ℕ) {f : E → F} :
       (∀ m : ℕ, (m : WithTop ℕ) ≤ n → Continuous fun x => iteratedFderiv 𝕜 m f x) ∧
         ∀ m : ℕ, (m : WithTop ℕ) < n → Differentiable 𝕜 fun x => iteratedFderiv 𝕜 m f x :=
   contDiff_iff_continuous_differentiable
-
 -- QUOTE.
+
 /- TEXT:
 There is a stricter notion of differentiability called
 ``has_strict_fderiv_at``, which is used in the statement
@@ -337,8 +337,8 @@ example {𝕂 : Type _} [IsROrC 𝕂] {E : Type _} [NormedAddCommGroup E] [Norme
     [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ}
     (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFderivAt f (fderiv 𝕂 f x) x :=
   hf.HasStrictFderivAt hn
-
 -- QUOTE.
+
 /- TEXT:
 The local inverse theorem is stated using an operation that produces an
 inverse function from a
@@ -351,7 +351,6 @@ from the left and from the right, and that it is strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
 section LocalInverse
-
 variable [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
 
 example (hf : HasStrictFderivAt f (↑f') a) : F → E :=
@@ -370,8 +369,8 @@ example [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E} (hf : HasS
   HasStrictFderivAt.to_localInverse hf
 
 end LocalInverse
-
 -- QUOTE.
+
 /- TEXT:
 This has been only a quick tour of the differential calculus in mathlib.
 The library contains many variations that we have not discussed.

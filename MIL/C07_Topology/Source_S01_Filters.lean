@@ -63,8 +63,8 @@ def principal {α : Type _} (s : Set α) : Filter α
   univ_sets := sorry
   sets_of_superset := sorry
   inter_sets := sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 -- In the next example we could use `tauto` in each proof instead of knowing the lemmas
 example {α : Type _} (s : Set α) : Filter α :=
@@ -83,8 +83,8 @@ example : Filter ℕ :=
     univ_sets := sorry
     sets_of_superset := sorry
     inter_sets := sorry }
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example : Filter ℕ :=
   { sets := { s | ∃ a, ∀ b, a ≤ b → b ∈ s }
@@ -116,8 +116,8 @@ BOTH: -/
 -- QUOTE:
 def Tendsto₁ {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :=
   ∀ V ∈ G, f ⁻¹' V ∈ F
-
 -- QUOTE.
+
 /- TEXT:
 When ``X`` is ``ℕ`` and ``Y`` is ``ℝ``, ``Tendsto₁ u at_top (𝓝 x)`` is equivalent to saying that the sequence ``u : ℕ → ℝ``
 converges to the real number ``x``. When both ``X`` and ``Y`` are ``ℝ``, ``Tendsto f (𝓝 x₀) (𝓝 y₀)``
@@ -145,8 +145,8 @@ def Tendsto₂ {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :=
 example {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :
     Tendsto₂ f F G ↔ Tendsto₁ f F G :=
   Iff.rfl
-
 -- QUOTE.
+
 /- TEXT:
 It may seem that the order relation on filters is backward. But recall that we can view filters on ``X`` as
 generalized elements of ``Set X``, via the inclusion of ``𝓟 : Set X → Filter X`` which maps any set ``s`` to the corresponding principal filter.
@@ -170,8 +170,8 @@ EXAMPLES: -/
 #check
   (@Filter.map_map :
     ∀ {α β γ} {f : Filter α} {m : α → β} {m' : β → γ}, map m' (map m f) = map (m' ∘ m) f)
-
 -- QUOTE.
+
 /- TEXT:
 Together these two properties allow us to prove that limits compose, yielding in one shot all 256 variants
 of the composition lemma described in the introduction, and lots more.
@@ -184,8 +184,8 @@ EXAMPLES: -/
 example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
     (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
     (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H :=
@@ -228,22 +228,21 @@ variable (f : ℝ → ℝ) (x₀ y₀ : ℝ)
 #check comap ((↑) : ℚ → ℝ) (𝓝 x₀)
 
 #check Tendsto (f ∘ (↑)) (comap ((↑) : ℚ → ℝ) (𝓝 x₀)) (𝓝 y₀)
-
 -- QUOTE.
+
 /- TEXT:
 The pullback operation is also compatible with composition, but it *contravariant*,
 which is to say, it reverses the order of the arguments.
 EXAMPLES: -/
 -- QUOTE:
 section
-
 variable {α β γ : Type _} (F : Filter α) {m : γ → β} {n : β → α}
 
 #check (comap_comap : comap m (comap n F) = comap (n ∘ m) F)
 
 end
-
 -- QUOTE.
+
 /- TEXT:
 Let's now shift attention to the plane ``ℝ × ℝ`` and try to understand how the neighborhoods of a point
 ``(x₀, y₀)`` are related to ``𝓝 x₀`` and ``𝓝 y₀``. There is a product operation
@@ -252,8 +251,8 @@ EXAMPLES: -/
 -- QUOTE:
 example : 𝓝 (x₀, y₀) = 𝓝 x₀ ×ᶠ 𝓝 y₀ :=
   nhds_prod_eq
-
 -- QUOTE.
+
 /- TEXT:
 The product operation is defined in terms of the pullback operation and the ``inf`` operation:
 
@@ -275,8 +274,8 @@ example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
     Tendsto f atTop (𝓝 (x₀, y₀)) ↔
       Tendsto (Prod.fst ∘ f) atTop (𝓝 x₀) ∧ Tendsto (Prod.snd ∘ f) atTop (𝓝 y₀) :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
     Tendsto f atTop (𝓝 (x₀, y₀)) ↔
@@ -360,8 +359,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (x₀ : ℝ) : HasBasis (𝓝 x₀) (fun ε : ℝ => 0 < ε) fun ε => Ioo (x₀ - ε) (x₀ + ε) :=
   nhds_basis_Ioo_pos x₀
-
 -- QUOTE.
+
 /- TEXT:
 There is also a nice basis for the filter ``at_top``. The lemma
 ``Filter.has_basis.tendsto_iff`` allows
@@ -376,8 +375,8 @@ example (u : ℕ → ℝ) (x₀ : ℝ) :
   have : atTop.HasBasis (fun _ : ℕ => True) Ici := atTop_basis
   rw [this.tendsto_iff (nhds_basis_Ioo_pos x₀)]
   simp
-
 -- QUOTE.
+
 /- TEXT:
 We now show how filters facilitate working with properties that hold for sufficiently large numbers
 or for points that are sufficiently close to a given point. In :numref:`sequences_and_convergence`, we were often faced with the situation where
@@ -402,8 +401,8 @@ EXAMPLES: -/
 example (P Q : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in atTop, Q n) :
     ∀ᶠ n in atTop, P n ∧ Q n :=
   hP.and hQ
-
 -- QUOTE.
+
 /- TEXT:
 This notation is so convenient and intuitive that we also have specializations
 when ``P`` is an equality or inequality statement. For example, let ``u`` and ``v`` be
@@ -422,8 +421,8 @@ example (u v : ℕ → ℝ) (h : ∀ᶠ n in atTop, u n = v n) (x₀ : ℝ) :
 example (u v : ℕ → ℝ) (h : u =ᶠ[atTop] v) (x₀ : ℝ) :
     Tendsto u atTop (𝓝 x₀) ↔ Tendsto v atTop (𝓝 x₀) :=
   tendsto_congr' h
-
 -- QUOTE.
+
 /- TEXT:
 It is instructive to review the definition of filters in terms of ``Eventually``.
 Given ``F : Filter X``, for any predicates ``P`` and ``Q`` on ``X``,
@@ -438,8 +437,8 @@ EXAMPLES: -/
 #check @Eventually.mono
 
 #check @Eventually.and
-
 -- QUOTE.
+
 /- TEXT:
 The second item, corresponding to ``eventually.mono``, supports nice ways
 of using filters, especially when combined
@@ -458,8 +457,8 @@ example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in a
   filter_upwards [hP, hQ, hR]
   intro n h h' h''
   exact h'' ⟨h, h'⟩
-
 -- QUOTE.
+
 /- TEXT:
 Readers who know about measure theory will note that the filter ``μ.ae`` of sets whose complement has measure zero
 (aka "the set consisting of almost every point") is not very useful as the source or target of ``Tendsto``, but it can be conveniently
@@ -496,8 +495,8 @@ EXAMPLES: -/
 example (u : ℕ → ℝ) (M : Set ℝ) (x : ℝ) (hux : Tendsto u atTop (𝓝 x))
     (huM : ∀ᶠ n in atTop, u n ∈ M) : x ∈ closure M :=
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 example (u : ℕ → ℝ) (M : Set ℝ) (x : ℝ) (hux : Tendsto u atTop (𝓝 x))
     (huM : ∀ᶠ n in atTop, u n ∈ M) : x ∈ closure M :=
