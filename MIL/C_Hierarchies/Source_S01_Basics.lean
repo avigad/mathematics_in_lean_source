@@ -454,7 +454,7 @@ to provide a parent structure and some extra fields.
 BOTH: -/
 
 -- QUOTE:
-class Ring₃ (R : Type) extends AddGroup₃ R, Monoid₃ R where
+class Ring₃ (R : Type) extends AddGroup₃ R, Monoid₃ R, MulZeroClass R where
   /-- Multiplication is left distributive over addition -/
   left_distrib : ∀ a b c : R, a * (b + c) = a * b + a * c
   /-- Multiplication is right distributive over addition -/
@@ -478,6 +478,29 @@ SOLUTIONS: -/
     exact add_right_cancel₃ (add_left_cancel₃ this) }
 -- QUOTE.
 /- TEXT:
+Of course we can also build concrete instances.
+BOTH: -/
+-- QUOTE:
+instance : Ring₃ ℤ where
+  add := (· + ·)
+  add_assoc₃ := add_assoc
+  zero := 0
+  zero_add := by simp
+  add_zero := by simp
+  neg := (- ·)
+  neg_add := by simp
+  mul := (· * ·)
+  mul_assoc₃ := mul_assoc
+  one := 1
+  one_mul := by simp
+  mul_one := by simp
+  zero_mul := by simp
+  mul_zero := by simp
+  left_distrib := Int.mul_add
+  right_distrib := Int.add_mul
+-- QUOTE.
+/- TEXT:
+
 We now want to discuss algebraic structures involving several types. The prime example
 is modules over rings. If you don't know what is a module, you can pretend it means vector space
 and think that all our rings are fields. Those structures are commutative additive groups
@@ -501,7 +524,7 @@ BOTH: -/
 
 -- QUOTE:
 class Module₁ (R : Type) [Ring₃ R] (M : Type) [AddCommGroup₃ M] extends SMul₃ R M where
-  zero_smul : ∀ m : M, (0 : R) • m = m
+  zero_smul : ∀ m : M, (0 : R) • m = 0
   one_smul : ∀ m : M, (1 : R) • m = m
   mul_smul : ∀ (a b : R) (m : M), (a * b) • m = a • b • m
   add_smul : ∀ (a b : R) (m : M), (a + b) • m = a • m + b • m
@@ -532,4 +555,28 @@ What about ``extends SMul₃ R M`` then? That one creates a field
 whose end result ``SMul₃ R M`` mentions both ``R`` and ``M`` so this field can
 safely be used as an instance. The rule is easy to remember: each class appearing in the
 ``extends`` clause should mention every type appearing in the parameters.
+
+Let us create our first module instance: a ring is a module over itself using its multiplication
+as a scalar multiplication.
+BOTH: -/
+-- QUOTE:
+instance selfModule (R : Type) [Ring₃ R] : Module₁ R R where
+  smul := fun r s ↦ r*s
+  zero_smul := zero_mul
+  one_smul := one_mul
+  mul_smul := mul_assoc₃
+  add_smul := Ring₃.right_distrib
+  smul_add := Ring₃.left_distrib
+
+instance abGrpModule (A : Type) [AddCommGroup₃ A] : Module₁ ℤ A := sorry
+
+#synth Module₁ ℤ ℤ
+
+#check selfModule ℤ
+
+#check abGrpModule ℤ
+
+-- QUOTE.
+/- TEXT:
+To be continued...
 -/
