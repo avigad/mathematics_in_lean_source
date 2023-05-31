@@ -1,9 +1,9 @@
-.. _structures:
+.. _hierarchies:
 
 Hierarchies
 ===========
 
-We have seen in :numref:`Chapter %s <structures>` how to define the class
+We have seen in :numref:`Chapter %s <abstract_algebra>` how to define the class
 of groups and build instances of this class, and then how to build an instance
 of the commutative ring class. But of course there is a hierarchy here: a
 commutative ring is in particular an additive group. In this chapter we
@@ -17,7 +17,3 @@ but without trying too hard to remember everything on your first read, then read
 the following chapters and come back here for a second reading.
 
 .. include:: C_Hierarchies/S01_Basics.inc
-.. include:: C_Hierarchies/S02_Forgetful_Inheritance.inc
-.. include:: C_Hierarchies/S03_Morphisms.inc
-.. include:: C_Hierarchies/S04_Subobjects.inc
-.. include:: C_Hierarchies/S05_Quotients.inc

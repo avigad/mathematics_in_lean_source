@@ -346,6 +346,7 @@ class Monoid₃ (α : Type) extends Semigroup₃ α, MulOneClass α
 attribute [to_additive existing] Monoid₃.toMulOneClass
 
 export Semigroup₃ (mul_assoc₃)
+export AddSemigroup₃ (add_assoc₃)
 
 whatsnew in
 @[to_additive]
@@ -356,7 +357,8 @@ lemma left_inv_eq_right_inv' {M : Type} [Monoid₃ M] {a b c : M} (hba : b * a =
 -- QUOTE.
 
 /- TEXT:
-Equipped with this technology, we can define rings, after some more intermediate classes.
+Equipped with this technology, we can easily define also commutative semigroups, monoids and
+groups, and then define rings.
 
 BOTH: -/
 -- QUOTE:
@@ -378,19 +380,102 @@ class AddGroup₃ (G : Type) extends AddMonoid₃ G, Neg G where
 @[to_additive AddGroup₃]
 class Group₃ (G : Type) extends Monoid₃ G, Inv G where
   inv_mul : ∀ a : G, a⁻¹ * a = 1
+-- QUOTE.
+
+/- TEXT:
+We should remember to tagged lemmas with ``simp`` when approriate.
+BOTH: -/
+
+-- QUOTE:
+attribute [simp] Group₃.inv_mul AddGroup₃.neg_add
+
+-- QUOTE.
+
+/- TEXT:
+Then we need to repeat ourselves a bit since we switch to standard notations, but at least
+``to_additive`` does the work of translating from the multiplicative notation to the additive one.
+BOTH: -/
+
+-- QUOTE:
+@[to_additive]
+lemma inv_eq_of_mul [Group₃ G] {a b : G} (h : a * b = 1) : a⁻¹ = b :=
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  left_inv_eq_right_inv' (Group₃.inv_mul a) h
+-- BOTH:
+-- QUOTE.
+
+/- TEXT:
+Note that ``to_additive`` can be ask to tag a lemma with ``simp`` and propagate that attribute
+to the additive version as follows.
+BOTH: -/
+
+-- QUOTE:
+@[to_additive (attr := simp)]
+lemma Group₃.mul_inv {G : Type} [Group₃ G] {a : G} : a * a⁻¹ = 1 := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  rw [← inv_mul a⁻¹, inv_eq_of_mul (inv_mul a)]
+-- BOTH:
+
+@[to_additive]
+lemma mul_left_cancel₃ {G : Type} [Group₃ G] {a b c : G} (h : a * b = a * c) : b = c := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  simpa [← mul_assoc₃] using congr_arg (a⁻¹ * ·) h
+-- BOTH:
+
+@[to_additive]
+lemma mul_right_cancel₃ {G : Type} [Group₃ G] {a b c : G} (h : b*a = c*a) : b = c := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  simpa [mul_assoc₃] using congr_arg (· * a⁻¹) h
+-- BOTH:
 
 class AddCommGroup₃ (G : Type) extends AddGroup₃ G, AddCommMonoid₃ G
 
 @[to_additive AddCommGroup₃]
 class CommGroup₃ (G : Type) extends Group₃ G, CommMonoid₃ G
 
+-- QUOTE.
+
+/- TEXT:
+We are now ready for rings. For demonstration puprposes we won't assume that addition is
+commutative, and then immediately provide an instance of ``AddCommGroup₃``. Mathlib does not
+play this game, first because in practice this does not make any ring instance easier and
+also because Mathlib's algebraic hierarchy goes through semi-rings which are like rings but without
+opposites so that the proof below does not work for them. What we gain here, besides a nice exercise
+if you have never seen it, is an example of building an instance using the syntax that allows
+to provide a parent structure and some extra fields.
+BOTH: -/
+
+-- QUOTE:
 class Ring₃ (R : Type) extends AddGroup₃ R, Monoid₃ R where
   /-- Multiplication is left distributive over addition -/
   left_distrib : ∀ a b c : R, a * (b + c) = a * b + a * c
   /-- Multiplication is right distributive over addition -/
   right_distrib : ∀ a b c : R, (a + b) * c = a * c + b * c
 
-instance {R : Type} [Ring₃ R] : AddCommGroup₃ R := sorry
+instance {R : Type} [Ring₃ R] : AddCommGroup₃ R :=
+{ Ring₃.toAddGroup₃ with
+  add_comm := by
+/- EXAMPLES:
+    sorry }
+SOLUTIONS: -/
+    intro a b
+    have : a + (a + b + b) = a + (b + a + b) := calc
+      a + (a + b + b) = (a + a) + (b + b) := by simp [add_assoc₃, add_assoc₃]
+      _ = (1 * a + 1 * a) + (1 * b + 1 * b) := by simp
+      _ = (1 + 1) * a + (1 + 1) * b := by simp [Ring₃.right_distrib]
+      _ = (1 + 1) * (a + b) := by simp [Ring₃.left_distrib]
+      _ = 1 * (a + b) + 1 * (a + b) := by simp [Ring₃.right_distrib]
+      _ = (a + b) + (a + b) := by simp
+      _ = a + (b + a + b) := by simp [add_assoc₃]
+    exact add_right_cancel₃ (add_left_cancel₃ this) }
 -- QUOTE.
 /- TEXT:
 We now want to discuss algebraic structures involving several types. The prime example
@@ -400,16 +485,51 @@ equipped with a scalar multiplication by elements of some ring.
 
 We first define the data-carrying type class of scalar multiplication by some type ``α`` on some
 type ``β``, and give it a right associative notation.
--/
+BOTH: -/
+
+-- QUOTE:
 class SMul₃ (α : Type) (β : Type) where
   /-- Scalar multiplication -/
   smul : α → β → β
 
 infixr:73 " • " => SMul₃.smul
+-- QUOTE.
 
-class Module₁ (R : outParam Type) [Ring₃ R] (M : Type) extends AddCommGroup₃ M, SMul₃ R M where
+/- TEXT:
+Then we can define modules (again think about vector spaces if you don't know what is a module).
+BOTH: -/
+
+-- QUOTE:
+class Module₁ (R : Type) [Ring₃ R] (M : Type) [AddCommGroup₃ M] extends SMul₃ R M where
   zero_smul : ∀ m : M, (0 : R) • m = m
   one_smul : ∀ m : M, (1 : R) • m = m
   mul_smul : ∀ (a b : R) (m : M), (a * b) • m = a • b • m
   add_smul : ∀ (a b : R) (m : M), (a + b) • m = a • m + b • m
   smul_add : ∀ (a : R) (m n : M), a • (m + n) = a • m + a • n
+-- QUOTE.
+
+/- TEXT:
+There is something interesting going on here. While it isn't too surprising that the
+ring structure on ``R`` is a parameter in this definition, you probably expected ``AddCommGroup3 M``
+to be part of the ``extends`` clause just as ``SMul₃ R M`` is.  Trying to do that would lead
+to a mysterious sounding error message:
+``cannot find synthesization order for instance Module₁.toAddCommGroup₃ with type (R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M
+all remaining arguments have metavariables: Ring₃ ?R @Module₁ ?R ?inst✝ M``.
+In order to understand this message, you need to remember that such an ``extends`` clause would
+lead to a field ``Module₃.toAddCommGroup₃`` marked as an instance. This instance
+would have the signature appearing in the error message:
+``(R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M``.
+With such an instance in the type class database, each time Lean would look for a
+``AddCommGroup₃ M`` instance for some ``M``, it would need to go hunting for a completely
+unspecified type ``R``and a ``Ring₃ R`` instance before embarking on the main quest of finding a
+``Module₁ R M`` instance. Those two side-quests are represented by the meta-variables mentionned in
+the error message and denoted by ``?R`` and ``?inst✝`` there. Such a ``Module₃.toAddCommGroup₃``
+instance would then be a huge trap for the instance resolution procedure and then ``class`` command
+refuses to set it up.
+
+What about ``extends SMul₃ R M`` then? That one creates a field
+``Module₁.toSMul₃ : {R : Type} →  [inst : Ring₃ R] → {M : Type} → [inst_1 : AddCommGroup₃ M] → [self : Module₁ R M] → SMul₃ R M``
+whose end result ``SMul₃ R M`` mentions both ``R`` and ``M`` so this field can
+safely be used as an instance. The rule is easy to remember: each class appearing in the
+``extends`` clause should mention every type appearing in the parameters.
+-/
