@@ -315,24 +315,101 @@ a notation ``⋄`` for all our operations. More fundamentally, the type class sy
 assumes every type has only one instance of each type class. There are various
 ways to solve this issue. Surprisingly mathlib uses the naive idea to duplicate
 everything for additive and multiplicative theories with the help of some code-generating
-attribute. Definitions and lemmas are stated in multiplicative notation
-and marked with the attribute ``to_additive`` to generate the additive version.
+attribute. Structures and classes are defined in both additive and multiplicative notation
+with an attibute ``to_additive`` linking them. In case of multiple inheritance like for
+semi-groups, the auto-generated "symmetry-restoring" instances need also to be marked.
+This is a bit technical you don't need to understand details. The important point is that
+lemmas are then only stated in multiplicative notation and marked with the attribute ``to_additive``
+to generate the additive version as ``left_inv_eq_right_inv'`` with it's auto-generated additive
+version ``left_neg_eq_right_neg'``. In order to check the name of this additive version we
+used that ``wathsnew in`` command on top of ``left_inv_eq_right_inv'``.
 BOTH: -/
 
 -- QUOTE:
 
-class Semigroup₃ (α : Type) extends Mul α where
-/-- Multiplication is associative -/
-  mul_assoc : ∀ a b c : α, a * b * c = a * (b * c)
+
 
 class AddSemigroup₃ (α : Type) extends Add α where
 /-- Multiplication is associative -/
-  add_assoc : ∀ a b c : α, a + b + c = a + (b + c)
+  add_assoc₃ : ∀ a b c : α, a + b + c = a + (b + c)
 
+@[to_additive AddSemigroup₃]
+class Semigroup₃ (α : Type) extends Mul α where
+/-- Multiplication is associative -/
+  mul_assoc₃ : ∀ a b c : α, a * b * c = a * (b * c)
+
+class AddMonoid₃ (α : Type) extends AddSemigroup₃ α, AddZeroClass α
+
+@[to_additive AddMonoid₃]
+class Monoid₃ (α : Type) extends Semigroup₃ α, MulOneClass α
+
+attribute [to_additive existing] Monoid₃.toMulOneClass
+
+export Semigroup₃ (mul_assoc₃)
+
+whatsnew in
+@[to_additive]
+lemma left_inv_eq_right_inv' {M : Type} [Monoid₃ M] {a b c : M} (hba : b * a = 1) (hac : a * c = 1) : b = c := by
+  rw [← one_mul c, ← hba, mul_assoc₃, hac, mul_one b]
+
+#check left_neg_eq_right_neg'
 -- QUOTE.
 
 /- TEXT:
-**FIXME** I can't get ``to_additive`` to work here, I'll ask Floris about it.
+Equipped with this technology, we can define rings, after some more intermediate classes.
 
+BOTH: -/
+-- QUOTE:
+class AddCommSemigroup₃ (α : Type) extends AddSemigroup₃ α where
+  add_comm : ∀ a b : α, a + b = b + a
 
+@[to_additive AddCommSemigroup₃]
+class CommSemigroup₃ (α : Type) extends Semigroup₃ α where
+  mul_comm : ∀ a b : α, a * b = b * a
+
+class AddCommMonoid₃ (α : Type) extends AddMonoid₃ α, AddCommSemigroup₃ α
+
+@[to_additive AddCommMonoid₃]
+class CommMonoid₃ (α : Type) extends Monoid₃ α, CommSemigroup₃ α
+
+class AddGroup₃ (G : Type) extends AddMonoid₃ G, Neg G where
+  neg_add : ∀ a : G, -a + a = 0
+
+@[to_additive AddGroup₃]
+class Group₃ (G : Type) extends Monoid₃ G, Inv G where
+  inv_mul : ∀ a : G, a⁻¹ * a = 1
+
+class AddCommGroup₃ (G : Type) extends AddGroup₃ G, AddCommMonoid₃ G
+
+@[to_additive AddCommGroup₃]
+class CommGroup₃ (G : Type) extends Group₃ G, CommMonoid₃ G
+
+class Ring₃ (R : Type) extends AddGroup₃ R, Monoid₃ R where
+  /-- Multiplication is left distributive over addition -/
+  left_distrib : ∀ a b c : R, a * (b + c) = a * b + a * c
+  /-- Multiplication is right distributive over addition -/
+  right_distrib : ∀ a b c : R, (a + b) * c = a * c + b * c
+
+instance {R : Type} [Ring₃ R] : AddCommGroup₃ R := sorry
+-- QUOTE.
+/- TEXT:
+We now want to discuss algebraic structures involving several types. The prime example
+is modules over rings. If you don't know what is a module, you can pretend it means vector space
+and think that all our rings are fields. Those structures are commutative additive groups
+equipped with a scalar multiplication by elements of some ring.
+
+We first define the data-carrying type class of scalar multiplication by some type ``α`` on some
+type ``β``, and give it a right associative notation.
 -/
+class SMul₃ (α : Type) (β : Type) where
+  /-- Scalar multiplication -/
+  smul : α → β → β
+
+infixr:73 " • " => SMul₃.smul
+
+class Module₁ (R : outParam Type) [Ring₃ R] (M : Type) extends AddCommGroup₃ M, SMul₃ R M where
+  zero_smul : ∀ m : M, (0 : R) • m = m
+  one_smul : ∀ m : M, (1 : R) • m = m
+  mul_smul : ∀ (a b : R) (m : M), (a * b) • m = a • b • m
+  add_smul : ∀ (a b : R) (m : M), (a + b) • m = a • m + b • m
+  smul_add : ∀ (a : R) (m n : M), a • (m + n) = a • m + a • n
