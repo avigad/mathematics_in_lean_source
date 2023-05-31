@@ -20,7 +20,8 @@ you should be able to work with the files. `lake update` will update the manifes
 to the most recent version of mathlib, which may require fixing anything that breaks.
 
 To build the textbook, you need to have
-[Sphinx and ReadTheDocs installed](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html).
+[Sphinx and ReadTheDocs installed](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html)
+and `regex` installed. In simple cases, this means running some variant of `pip install sphinx sphinx-rtd-theme regex`.
 The following files are maintained by hand:
 - The file `source/index.rst` should have an entry for each chapter.
 - For each chapter, there should be a `.rst` file in `source`. It should include
