@@ -1,6 +1,7 @@
 -- BOTH:
 import Mathlib.Data.Real.Basic
 
+namespace C02S04
 /- TEXT:
 .. _more_on_order_and_divisibility:
 

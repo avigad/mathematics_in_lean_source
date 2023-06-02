@@ -1,6 +1,7 @@
 -- BOTH:
 import Mathlib.Data.Real.Basic
 
+namespace C03S01
 /- TEXT:
 .. _implication_and_the_universal_quantifier:
 

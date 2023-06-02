@@ -1,6 +1,7 @@
 import Mathlib.Algebra.BigOperators.Ring
 import Mathlib.Data.Real.Basic
 
+namespace C06S01
 noncomputable section
 
 /- TEXT:

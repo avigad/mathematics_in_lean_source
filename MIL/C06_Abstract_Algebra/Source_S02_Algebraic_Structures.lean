@@ -1,5 +1,6 @@
 import Mathlib.Data.Real.Basic
 
+namespace C06S02
 /- TEXT:
 .. _section_algebraic_structures:
 

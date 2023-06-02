@@ -1,6 +1,7 @@
 -- BOTH:
 import Mathlib.Data.Real.Basic
 
+namespace C03S03
 /- TEXT:
 .. _negation:
 
