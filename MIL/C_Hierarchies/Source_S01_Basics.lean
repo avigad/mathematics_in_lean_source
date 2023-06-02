@@ -567,16 +567,146 @@ instance selfModule (R : Type) [Ring₃ R] : Module₁ R R where
   mul_smul := mul_assoc₃
   add_smul := Ring₃.right_distrib
   smul_add := Ring₃.left_distrib
-
-instance abGrpModule (A : Type) [AddCommGroup₃ A] : Module₁ ℤ A := sorry
-
-#synth Module₁ ℤ ℤ
-
-#check selfModule ℤ
-
-#check abGrpModule ℤ
-
 -- QUOTE.
 /- TEXT:
-To be continued...
+As a second example, every abelian group is a module over ``ℤ`` (this is one of the reason to
+generalize the theory of vector spaces by allowing non-invertible scalars). First one can define
+scalar multiplication by a natural number for any type equipped with a zero and an addition:
+``n • a`` is defined as ``a + ⋯ + a`` where ``a`` appears ``n`` times. Then this is extended
+to scalar multiplication by an integer by ensuring ``(-1) • a = -a``.
+BOTH: -/
+-- QUOTE:
+def nsmul₁ [Zero M] [Add M] : ℕ → M → M
+  | 0, _ => 0
+  | n + 1, a => a + nsmul₁ n a
+
+def zsmul₁ {M : Type _} [Zero M] [Add M] [Neg M] : ℤ → M → M
+  | Int.ofNat n, a => nsmul₁ n a
+  | Int.negSucc n, a => -nsmul₁ n.succ a
+-- QUOTE.
+/- TEXT:
+Proving this gives rise to a module structure is a bit tedious and not interesting for the
+current discussion, so we will sorry all axioms. You are *not* asked to replace those sorries
+with proofs. If you insist on doing it then you will probably want to state and prove several
+intermediate lemmas about ``nsmul₁`` and ``zsmul₁``.
+BOTH: -/
+-- QUOTE:
+instance abGrpModule (A : Type) [AddCommGroup₃ A] : Module₁ ℤ A where
+  smul := zsmul₁
+  zero_smul := sorry
+  one_smul := sorry
+  mul_smul := sorry
+  add_smul := sorry
+  smul_add := sorry
+-- QUOTE.
+/- TEXT:
+A much more important issue is that we now have two module structures over the ring ``ℤ``
+for ``ℤ`` itself: ``abGrpModule ℤ`` since ``ℤ`` is a abelian group, and ``selfModule ℤ`` since
+``ℤ`` is a ring. Those two module structure correspond to the same abelian group structure,
+but it is not obvious that they have the same scalar multiplication. They actually do, but
+this isn't true by definition, it requires a proof. This is very bad news for the type class
+instance resolution procedure and will lead to very frustating failures for users of this
+hierarchy. When directly asked to find an instance, Lean will pick one, and we can see
+which one using:
+BOTH: -/
+-- QUOTE:
+#synth Module₁ ℤ ℤ -- abGrpModule ℤ
+-- QUOTE.
+/- TEXT:
+But in a more indirect context it can happen that Lean infers the one and then gets confused.
+This situation is known as a bad diamond. This has nothing to do with the diamond operation
+we used above, it refers to the way one can draw the path from ``ℤ`` to its ``Module₁ ℤ``
+structure as:
+                   ℤ
+            ↙            ↘
+AddCommGroup₃ ℤ         Ring₃ ℤ
+            ↘            ↙
+             Module₁ ℤ ℤ
+
+It is important to understand that not all diamonds are bad. In fact there are diamonds everywhere
+in mathlib, and also in this chapter. Already at the very beginning we saw
+
+               Monoid₁ α
+            ↙            ↘
+Semigroup₁ α          DiaOneClass₁ α
+            ↘            ↙
+               Dia₁ α
+
+where, thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
+are definitionnaly equal. In particular a diamond having a ``Prop``-valued class at the bottom
+cannot be bad since any too proofs of the same statement are definitionnaly equal.
+
+But the diamond we created with modules is definitely bad. The offending piece is the ``smul``
+field which is data, not a proof, and we have two constructions that are not definitionnaly equal.
+The robust way of fixing this issue is to make sure that going from a rich structure to a
+poor structure is always done by forgetting data, not by defining data. This well-known pattern
+as been named "forgetful inheritance" and extensively discussed in
+https://inria.hal.science/hal-02463336.
+
+In our concrete case, we can modify the definition of ``AddMonoid₃`` to include a ``nsmul`` data
+field and some ``Prop``-valued fields ensuring this operation is provably the one we constructed
+above. Those fields are given default values using ``:=`` after their type in the definition below.
+Thanks to these default values, most instances would be constructed exactly as with our previous
+definitions. But in the special case of ``ℤ`` we will be able to provide specific values.
+BOTH: -/
+-- QUOTE:
+class AddMonoid₄ (M : Type) extends AddSemigroup₃ M, AddZeroClass M where
+  /-- Multiplication by a natural number. -/
+  nsmul : ℕ → M → M := nsmul₁
+  /-- Multiplication by `(0 : ℕ)` gives `0`. -/
+  nsmul_zero : ∀ x, nsmul 0 x = 0 := by intros; rfl
+  /-- Multiplication by `(n + 1 : ℕ)` behaves as expected. -/
+  nsmul_succ : ∀ (n : ℕ) (x), nsmul (n + 1) x = x + nsmul n x := by intros; rfl
+-- QUOTE.
+/- TEXT:
+Note that we didn't use ``extends SMul ℕ M`` since this wouldn't allow to provide a default value
+for the ``nsmul`` field. So we need to register an extra instance.
+BOTH: -/
+-- QUOTE:
+
+instance mySMul {M : Type} [AddMonoid₄ M] : SMul ℕ M := ⟨AddMonoid₄.nsmul⟩
+-- QUOTE.
+/- TEXT:
+
+Let us check we can still construct a product monoid instance without providing the ``nsmul``
+related fields.
+BOTH: -/
+-- QUOTE:
+instance (M N : Type) [AddMonoid₄ M] [AddMonoid₄ N] : AddMonoid₄ (M × N) where
+  add := fun p q ↦ (p.1 + q.1, p.2 + q.2)
+  add_assoc₃ := fun a b c ↦ by ext <;> apply add_assoc₃
+  zero := (0, 0)
+  zero_add := fun a ↦ by ext <;> apply zero_add
+  add_zero := fun a ↦ by ext <;> apply add_zero
+-- QUOTE.
+/- TEXT:
+And now let us handle the special case of ``ℤ`` where we want to build ``nsmul`` using the coercion
+of ``ℕ`` to ``ℤ`` and the multiplication on ``ℤ``. Note in particular how the proof fields
+contain more work than in the default value above.
+BOTH: -/
+-- QUOTE:
+instance : AddMonoid₄ ℤ where
+  add := (· + ·)
+  add_assoc₃ := Int.add_assoc
+  zero := 0
+  zero_add := Int.zero_add
+  add_zero := Int.add_zero
+  nsmul := fun n m ↦ (n : ℤ) * m
+  nsmul_zero := Int.zero_mul
+  nsmul_succ := fun n m ↦ show (n + 1 : ℤ) * m = m + n * m
+    by rw [Int.add_mul, Int.add_comm, Int.one_mul]
+-- QUOTE.
+/- TEXT:
+Let us check we solved our issue. Because Lean already has a definition of scalar multiplication
+of a natural number and an integer, and we want to make sure our instance is used, we won't use
+the ``•`` notation but call ``SMul.mul`` and explicitly provide our instance defined above.
+BOTH: -/
+-- QUOTE:
+example (n : ℕ) (m : ℤ) : SMul.smul (self := mySMul) n m = n * m := rfl
+-- QUOTE.
+/- TEXT:
+This story then continues with incorporating a ``zsmul`` field into the definition of groups
+and similar tricks. You are now ready to read the definition of monoids, groups, rings and modules
+in mathlib. There are more complicated than what we have seen here, because they are part of a huge
+hierarchy, but all principles have been explained above.
 -/
