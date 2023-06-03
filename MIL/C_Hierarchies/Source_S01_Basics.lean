@@ -478,8 +478,10 @@ SOLUTIONS: -/
     exact add_right_cancel₃ (add_left_cancel₃ this) }
 -- QUOTE.
 /- TEXT:
-Of course we can also build concrete instances.
+Of course we can also build concrete instances, such as a ring structure on integers (of course
+the instance below uses that all the work is already done in Mathlib).
 BOTH: -/
+
 -- QUOTE:
 instance : Ring₃ ℤ where
   add := (· + ·)
@@ -500,6 +502,55 @@ instance : Ring₃ ℤ where
   right_distrib := Int.add_mul
 -- QUOTE.
 /- TEXT:
+As an exercise you can now set up a simple hierarchy for order relations, including a class
+for ordered commutative monoids, which have both a partial order and a commutative monoid structure
+such that ``∀ a b : α, a ≤ b → ∀ c : α, c * a ≤ c * b``. Of course you need to add fields and maybe
+``extends`` clauses to the following classes.
+BOTH: -/
+-- QUOTE:
+
+class LE₁ (α : Type) where
+  /-- The Less-or-Equal relation. -/
+  le : α → α → Prop
+
+@[inherit_doc] infix:50 " ≤₁ " => LE₁.le
+
+class Preorder₁ (α : Type)
+-- SOLUTIONS:
+  extends LE₁ α where
+  le_refl : ∀ a : α, a ≤₁ a
+  le_trans : ∀ a b c : α, a ≤₁ b → b ≤₁ c → a ≤₁ c
+-- BOTH:
+
+class PartialOrder₁ (α : Type)
+-- SOLUTIONS:
+  extends Preorder₁ α where
+  le_antisymm : ∀ a b : α, a ≤₁ b → b ≤₁ a → a = b
+-- BOTH:
+
+class OrderedCommMonoid₁ (α : Type)
+-- SOLUTIONS:
+  extends PartialOrder₁ α, CommMonoid₃ α where
+  mul_of_le : ∀ a b : α, a ≤₁ b → ∀ c : α, c * a ≤₁ c * b
+-- BOTH:
+
+instance : OrderedCommMonoid₁ ℕ where
+-- SOLUTIONS:
+  le := (· ≤ ·)
+  le_refl := fun _ ↦ le_rfl
+  le_trans := fun _ _ _ ↦ le_trans
+  le_antisymm := fun _ _ ↦ le_antisymm
+  mul := (· * ·)
+  mul_assoc₃ := mul_assoc
+  one := 1
+  one_mul := one_mul
+  mul_one := mul_one
+  mul_comm := mul_comm
+  mul_of_le := fun _ _ h c ↦ Nat.mul_le_mul_left c h
+-- QUOTE.
+/- TEXT:
+
+
 
 We now want to discuss algebraic structures involving several types. The prime example
 is modules over rings. If you don't know what is a module, you can pretend it means vector space
@@ -576,6 +627,7 @@ scalar multiplication by a natural number for any type equipped with a zero and 
 to scalar multiplication by an integer by ensuring ``(-1) • a = -a``.
 BOTH: -/
 -- QUOTE:
+
 def nsmul₁ [Zero M] [Add M] : ℕ → M → M
   | 0, _ => 0
   | n + 1, a => a + nsmul₁ n a
@@ -591,6 +643,7 @@ with proofs. If you insist on doing it then you will probably want to state and 
 intermediate lemmas about ``nsmul₁`` and ``zsmul₁``.
 BOTH: -/
 -- QUOTE:
+
 instance abGrpModule (A : Type) [AddCommGroup₃ A] : Module₁ ℤ A where
   smul := zsmul₁
   zero_smul := sorry
@@ -610,7 +663,9 @@ hierarchy. When directly asked to find an instance, Lean will pick one, and we c
 which one using:
 BOTH: -/
 -- QUOTE:
+
 #synth Module₁ ℤ ℤ -- abGrpModule ℤ
+
 -- QUOTE.
 /- TEXT:
 But in a more indirect context it can happen that Lean infers the one and then gets confused.
@@ -650,6 +705,7 @@ Thanks to these default values, most instances would be constructed exactly as w
 definitions. But in the special case of ``ℤ`` we will be able to provide specific values.
 BOTH: -/
 -- QUOTE:
+
 class AddMonoid₄ (M : Type) extends AddSemigroup₃ M, AddZeroClass M where
   /-- Multiplication by a natural number. -/
   nsmul : ℕ → M → M := nsmul₁
@@ -657,12 +713,6 @@ class AddMonoid₄ (M : Type) extends AddSemigroup₃ M, AddZeroClass M where
   nsmul_zero : ∀ x, nsmul 0 x = 0 := by intros; rfl
   /-- Multiplication by `(n + 1 : ℕ)` behaves as expected. -/
   nsmul_succ : ∀ (n : ℕ) (x), nsmul (n + 1) x = x + nsmul n x := by intros; rfl
--- QUOTE.
-/- TEXT:
-Note that we didn't use ``extends SMul ℕ M`` since this wouldn't allow to provide a default value
-for the ``nsmul`` field. So we need to register an extra instance.
-BOTH: -/
--- QUOTE:
 
 instance mySMul {M : Type} [AddMonoid₄ M] : SMul ℕ M := ⟨AddMonoid₄.nsmul⟩
 -- QUOTE.
@@ -672,6 +722,7 @@ Let us check we can still construct a product monoid instance without providing 
 related fields.
 BOTH: -/
 -- QUOTE:
+
 instance (M N : Type) [AddMonoid₄ M] [AddMonoid₄ N] : AddMonoid₄ (M × N) where
   add := fun p q ↦ (p.1 + q.1, p.2 + q.2)
   add_assoc₃ := fun a b c ↦ by ext <;> apply add_assoc₃
@@ -685,6 +736,7 @@ of ``ℕ`` to ``ℤ`` and the multiplication on ``ℤ``. Note in particular how 
 contain more work than in the default value above.
 BOTH: -/
 -- QUOTE:
+
 instance : AddMonoid₄ ℤ where
   add := (· + ·)
   add_assoc₃ := Int.add_assoc
@@ -702,6 +754,7 @@ of a natural number and an integer, and we want to make sure our instance is use
 the ``•`` notation but call ``SMul.mul`` and explicitly provide our instance defined above.
 BOTH: -/
 -- QUOTE:
+
 example (n : ℕ) (m : ℤ) : SMul.smul (self := mySMul) n m = n * m := rfl
 -- QUOTE.
 /- TEXT:
@@ -709,4 +762,24 @@ This story then continues with incorporating a ``zsmul`` field into the definiti
 and similar tricks. You are now ready to read the definition of monoids, groups, rings and modules
 in mathlib. There are more complicated than what we have seen here, because they are part of a huge
 hierarchy, but all principles have been explained above.
+
+As an exercise, you can come back to the order relation hierarchy you built above and try
+to incorportate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
+that every preorder comes with a ``<₁`` which has a default value built from ``≤₁`` and a
+``Prop``-valued field asserting the natural relation between those two comparison operators.
+TEXT.
 -/
+
+-- SOLUTIONS:
+
+class LT₁ (α : Type) where
+  /-- The Less-Than relation -/
+  lt : α → α → Prop
+
+@[inherit_doc] infix:50 " <₁ " => LT₁.lt
+
+class PreOrder₂ (α : Type) extends LE₁ α, LT₁ α where
+  le_refl : ∀ a : α, a ≤₁ a
+  le_trans : ∀ a b c : α, a ≤₁ b → b ≤₁ c → a ≤₁ c
+  lt := fun a b => a ≤₁ b ∧ ¬b ≤₁ a
+  lt_iff_le_not_le : ∀ a b : α, a <₁ b ↔ a ≤₁ b ∧ ¬b ≤₁ a := by intros; rfl
