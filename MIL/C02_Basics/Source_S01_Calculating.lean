@@ -16,7 +16,7 @@ is equal to the right-hand side.
 
 In Lean, stating a theorem is tantamount to stating a goal,
 namely, the goal of proving the theorem.
-Lean provides the ``rewrite`` tactic, abbreviated ``rw``,
+Lean provides the rewriting tactic ``rw``,
 to replace the left-hand side of an identity by the right-hand side
 in the goal. If ``a``, ``b``, and ``c`` are real numbers,
 ``mul_assoc a b c``  is the identity ``a * b * c = a * (b * c)``
@@ -46,8 +46,6 @@ imports the theory of the real numbers from ``mathlib``.
 For the sake of brevity,
 we generally suppress information like this when it
 is repeated from example to example.
-Clicking the ``try it!`` button displays the full
-example as it is meant to be processed and checked by Lean.
 
 You are welcome to make changes to see what happens.
 You can type the ``ℝ`` character as ``\R`` or ``\real``
@@ -55,6 +53,8 @@ in VS Code.
 The symbol doesn't appear until you hit space or the tab key.
 If you hover over a symbol when reading a Lean file,
 VS Code will show you the syntax that can be used to enter it.
+If you are curious to see all available abreviations, you can hit Ctrl-Shift-p
+and then type abbreviations to get access to the ``Lean 4: Show all abbreviations`` command.
 If your keyboard does not have an easily accessible backslash,
 you can change the leading character by changing the
 ``lean.input.leader`` setting.
@@ -99,7 +99,9 @@ in each case replacing ``sorry`` by a tactic proof.
 With the ``rw`` tactic, you can use a left arrow (``\l``)
 to reverse an identity.
 For example, ``rw ← mul_assoc a b c``
-replaces ``a * (b * c)`` by ``a * b * c`` in the current goal.
+replaces ``a * (b * c)`` by ``a * b * c`` in the current goal. Note that
+the left-pointing arrow refers to going from right to left in the identity provided
+by ``mul_assoc``, it has nothing to do with the left or right side of the goal.
 TEXT. -/
 -- Try these.
 -- QUOTE:
@@ -175,9 +177,9 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
 -- QUOTE.
 
 /- TEXT:
-Try these:
+Try these, using the theorem `sub_self` for the second one:
 TEXT. -/
--- Try these. For the second one, use the theorem `sub_self`.
+
 -- QUOTE:
 example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
   sorry
@@ -199,13 +201,8 @@ example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
   rw [sub_self]
 
 /- TEXT:
-For the second one, you can use the theorem ``sub_self``,
-where ``sub_self a`` is the identity ``a - a = 0``.
-
-We now introduce some useful features of Lean.
-First, multiple rewrite commands can be carried out
-with a single command,
-by listing the relevant identities within square brackets.
+Multiple rewrite commands can be carried out with a single command,
+by listing the relevant identities separated by commas inside the square brackets.
 TEXT. -/
 -- Examples.
 -- QUOTE:
@@ -218,9 +215,7 @@ You still see the incremental progress by placing the cursor after
 a comma in any list of rewrites.
 
 Another trick is that we can declare variables once and for all outside
-an example or theorem.
-When Lean sees them mentioned in the statement of the theorem,
-it includes them automatically.
+an example or theorem. Lean then includes them automatically.
 TEXT. -/
 section
 
@@ -235,8 +230,7 @@ end
 
 /- TEXT:
 Inspection of the tactic state at the beginning of the above proof
-reveals that Lean indeed included the relevant variables, leaving out
-`g` that doesn't feature in the statement.
+reveals that Lean indeed included all variables.
 We can delimit the scope of the declaration by putting it
 in a ``section ... end`` block.
 Finally, recall from the introduction that Lean provides us with a
@@ -399,7 +393,8 @@ because at that point ``hyp`` matches the goal exactly.
 
 We close this section by noting that ``mathlib`` provides a
 useful bit of automation with a ``ring`` tactic,
-which is designed to prove identities in any commutative ring.
+which is designed to prove identities in any commutative ring as long as they follow
+purely from the ring axioms, without using any local assumption.
 TEXT. -/
 -- QUOTE:
 example : c * b * a = b * (a * c) := by
@@ -420,11 +415,11 @@ end
 
 /- TEXT:
 The ``ring`` tactic is imported indirectly when we
-import ``Data.Real.Basic``,
+import ``Mathlib.Data.Real.Basic``,
 but we will see in the next section that it can be used
 for calculations on structures other than the real numbers.
 It can be imported explicitly with the command
-``import tactic``.
+``import Mathlib.Tactic``.
 We will see there are similar tactics for other common kind of algebraic
 structures.
 
@@ -438,9 +433,3 @@ example (a b c : ℕ) (h : a + b = c) : (a + b) * (a + b) = a * c + b * c := by
   nth_rw 2 [h]
   rw [add_mul]
 -- QUOTE.
-
-/- TEXT:
-See also ``nth_rewrite_lhs`` and ``nth_rewrite_rhs``.
-For a more sophisticated means of rewriting particular subexpressions,
-see the `documentation for the conversion tactic <https://leanprover-community.github.io/extras/conv.html>`_.
-TEXT. -/
