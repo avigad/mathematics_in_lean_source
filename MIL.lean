@@ -17,9 +17,9 @@ import MIL.C04_Sets_and_Functions.Source_S03_The_Schroeder_Bernstein_Theorem
 import MIL.C05_Number_Theory.Source_S01_Irrational_Roots
 import MIL.C05_Number_Theory.Source_S02_Induction_and_Recursion
 import MIL.C05_Number_Theory.Source_S03_Infinitely_Many_Primes
-import MIL.C06_Abstract_Algebra.Source_S01_Structures
-import MIL.C06_Abstract_Algebra.Source_S02_Algebraic_Structures 
-import MIL.C06_Abstract_Algebra.Source_S03_Building_the_Gaussian_Integers 
+import MIL.C06_Structures.Source_S01_Structures
+import MIL.C06_Structures.Source_S02_Algebraic_Structures 
+import MIL.C06_Structures.Source_S03_Building_the_Gaussian_Integers 
 import MIL.C07_Topology.Source_S01_Filters                                                                                                                                                    
 import MIL.C07_Topology.Source_S02_Metric_Spaces                                                                                                                                              
 import MIL.C07_Topology.Source_S03_Topological_Spaces                                                                                                                                         

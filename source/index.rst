@@ -12,7 +12,7 @@ Mathematics in Lean
    C03_Logic
    C04_Sets_and_Functions
    C05_Number_Theory
-   C06_Abstract_Algebra
+   C06_Structures
    C_Hierarchies
    C07_Topology
 

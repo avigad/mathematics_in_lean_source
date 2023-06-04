@@ -7,8 +7,8 @@ noncomputable section
 /- TEXT:
 .. _section_structures:
 
-Structures
-----------
+Defininf structures
+-------------------
 
 In the broadest sense of the term, a *structure* is a specification
 of a collection of data, possibly with constraints that the
