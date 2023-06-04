@@ -22,5 +22,5 @@ as our version of ``Ring``. Since we will gradually explain more powerful ways o
 structures, those indices will sometimes grow beyond one.
 
 .. include:: C_Hierarchies/S01_Basics.inc
-.. include:: C_Hierarchies/S01_Morphisms.inc
-.. include:: C_Hierarchies/S01_Subobjects.inc
+.. include:: C_Hierarchies/S02_Morphisms.inc
+.. include:: C_Hierarchies/S03_Subobjects.inc

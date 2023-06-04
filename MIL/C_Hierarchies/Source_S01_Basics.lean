@@ -154,9 +154,9 @@ this element is neutral on both sides.
 BOTH: -/
 -- QUOTE:
 class DiaOneClass₁ (α : Type) extends One₁ α, Dia₁ α where
-  /-- One is a left neutral element for diatiplication -/
+  /-- One is a left neutral element for diamond. -/
   one_dia : ∀ a : α, 𝟙 ⋄ a = a
-  /-- One is a right neutral element for diatiplication -/
+  /-- One is a right neutral element for diamond -/
   dia_one : ∀ a : α, a ⋄ 𝟙 = a
 
 -- QUOTE.
@@ -670,24 +670,13 @@ BOTH: -/
 /- TEXT:
 But in a more indirect context it can happen that Lean infers the one and then gets confused.
 This situation is known as a bad diamond. This has nothing to do with the diamond operation
-we used above, it refers to the way one can draw the path from ``ℤ`` to its ``Module₁ ℤ``
-structure as:
-                   ℤ
-            ↙            ↘
-AddCommGroup₃ ℤ         Ring₃ ℤ
-            ↘            ↙
-             Module₁ ℤ ℤ
+we used above, it refers to the way one can draw the paths from ``ℤ`` to its ``Module₁ ℤ``
+going through either ``AddCommGroup₃ ℤ`` or ``Ring₃ ℤ``.
 
 It is important to understand that not all diamonds are bad. In fact there are diamonds everywhere
-in mathlib, and also in this chapter. Already at the very beginning we saw
-
-               Monoid₁ α
-            ↙            ↘
-Semigroup₁ α          DiaOneClass₁ α
-            ↘            ↙
-               Dia₁ α
-
-where, thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
+in mathlib, and also in this chapter. Already at the very beginning we saw one can go
+from ``Monoid₁ α`` to ``Dia₁ α`` through either ``Semigroup₁ α`` or ``DiaOneClass₁ α`` and
+thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
 are definitionnaly equal. In particular a diamond having a ``Prop``-valued class at the bottom
 cannot be bad since any too proofs of the same statement are definitionnaly equal.
 

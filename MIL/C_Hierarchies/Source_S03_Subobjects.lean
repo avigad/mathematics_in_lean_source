@@ -5,7 +5,7 @@ import Mathlib.GroupTheory.QuotientGroup
 .. _section_hierarchies_subobjects:
 
 Sub-objects
-----------
+-----------
 
 After defining some algebraic structure and its morphisms, the next step is to consider sets
 that inherit this algebraic structure, for instance subgroups or subrings.
