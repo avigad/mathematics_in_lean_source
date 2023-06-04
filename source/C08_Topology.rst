@@ -77,8 +77,8 @@ Formalizing mathematics requires making the relevant notion of "sameness"
 fully explicit, and that is exactly what Bourbaki's theory of filters
 manages to do.
 
-.. include:: C07_Topology/S01_Filters.inc
+.. include:: C08_Topology/S01_Filters.inc
 
-.. include:: C07_Topology/S02_Metric_Spaces.inc
+.. include:: C08_Topology/S02_Metric_Spaces.inc
 
-.. include:: C07_Topology/S03_Topological_Spaces.inc
+.. include:: C08_Topology/S03_Topological_Spaces.inc

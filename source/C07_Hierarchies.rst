@@ -3,7 +3,7 @@
 Hierarchies
 ===========
 
-We have seen in :numref:`Chapter %s <abstract_algebra>` how to define the class
+We have seen in :numref:`Chapter %s <structures>` how to define the class
 of groups and build instances of this class, and then how to build an instance
 of the commutative ring class. But of course there is a hierarchy here: a
 commutative ring is in particular an additive group. In this chapter we
@@ -21,6 +21,6 @@ so we will used indices to distinguish our version. For instance we will have ``
 as our version of ``Ring``. Since we will gradually explain more powerful ways of formalizing
 structures, those indices will sometimes grow beyond one.
 
-.. include:: C_Hierarchies/S01_Basics.inc
-.. include:: C_Hierarchies/S02_Morphisms.inc
-.. include:: C_Hierarchies/S03_Subobjects.inc
+.. include:: C07_Hierarchies/S01_Basics.inc
+.. include:: C07_Hierarchies/S02_Morphisms.inc
+.. include:: C07_Hierarchies/S03_Subobjects.inc

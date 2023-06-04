@@ -7,7 +7,7 @@ noncomputable section
 /- TEXT:
 .. _section_structures:
 
-Defininf structures
+Defining structures
 -------------------
 
 In the broadest sense of the term, a *structure* is a specification

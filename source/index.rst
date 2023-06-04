@@ -13,8 +13,8 @@ Mathematics in Lean
    C04_Sets_and_Functions
    C05_Number_Theory
    C06_Structures
-   C_Hierarchies
-   C07_Topology
+   C07_Hierarchies
+   C08_Topology
 
 .. toctree::
    :hidden:
