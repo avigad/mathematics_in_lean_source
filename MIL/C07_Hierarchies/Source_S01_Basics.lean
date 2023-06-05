@@ -213,8 +213,8 @@ example {α : Type} [Monoid₁ α] :
 -- QUOTE.
 
 /- TEXT:
-So the ``class`` command did some magic for us. An easy way to see what are the fields of
-our classes is to check their constructor. Compare:
+So the ``class`` command did some magic for us (and the ``structure`` command would have done it
+too). An easy way to see what are the fields of our classes is to check their constructor. Compare:
 BOTH: -/
 
 -- QUOTE:
@@ -322,7 +322,7 @@ This is a bit technical you don't need to understand details. The important poin
 lemmas are then only stated in multiplicative notation and marked with the attribute ``to_additive``
 to generate the additive version as ``left_inv_eq_right_inv'`` with it's auto-generated additive
 version ``left_neg_eq_right_neg'``. In order to check the name of this additive version we
-used that ``wathsnew in`` command on top of ``left_inv_eq_right_inv'``.
+used the ``whatsnew in`` command on top of ``left_inv_eq_right_inv'``.
 BOTH: -/
 
 -- QUOTE:

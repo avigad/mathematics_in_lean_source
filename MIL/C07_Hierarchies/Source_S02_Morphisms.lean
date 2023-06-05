@@ -31,12 +31,10 @@ Once we are here, it is even tempting to make it a class and use the type class 
 procedure to automatically infer ``isMonoidHom₂`` for complicated functions out of instances for
 simpler functions. For instance a composition of monoid morphisms is a monoid morphism and this
 seems like a useful instance. However such an instance would be very tricky for the resolution
-procedure since it would need to hunt down ``g ∘ f`` everywhere. Sometimes it would not
-succeed, for instance in ``g (f x)``. And sometimes it would succeed too much by seeing
-``id ∘ f`` or ``g ∘ id`` everywhere, leading to a diverging instance search. More generally one
-must always keep in mind that recognizing which function is applied in a given expression is
-a very difficult problem, called the "higher-order unification problem".
-So Mathlib does not use this class approach.
+procedure since it would need to hunt down ``g ∘ f`` everywhere. Seeing it failing in ``g (f x)``
+would be very frustrating. More generally one must always keep in mind that recognizing which
+function is applied in a given expression is a very difficult problem, called the "higher-order
+unification problem". So Mathlib does not use this class approach.
 
 A more fundamental question is whether we use predicates as above (using either a ``def`` or a
 ``structure``) or use structures bundling a function and predicates. This is partly a psychological
@@ -247,7 +245,7 @@ to understand how morphisms are defined in Mathlib.
 As an exercise, you should try to define your class of bundled order-preserving function between
 ordered types, and then order preserving monoid morphisms. This is for training purposes only.
 Like continuous functions, order preserving functions are primarily unbundled in Mathlib where
-they are defined by the ``monontone`` predicate. Of course you need to complete the class
+they are defined by the ``Monotone`` predicate. Of course you need to complete the class
 definitions below.
 BOTH: -/
 
