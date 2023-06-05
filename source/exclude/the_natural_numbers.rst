@@ -97,7 +97,7 @@ As a result, the equations hold by the reflexivity axiom:
     example : m + (succ n) = succ (m + n) := rfl
     -- END
 
-Here, ``rfl`` is a proof term that corresponds to the ``rfl`` tactic.
+Here, ``rfl`` is a proof term that corresponds to the ``refl`` tactic.
 Numerals are also defined in a clever way in Lean so that,
 for example, ``1`` reduces to ``succ 0``.
 This means in many contexts we can use ``n + 1`` and ``succ n``
