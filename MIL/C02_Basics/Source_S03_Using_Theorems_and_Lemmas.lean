@@ -304,10 +304,6 @@ example : 0 ≤ a ^ 2 := by
 /- TEXT:
 To try out ``library_search`` in this example,
 delete the ``exact`` command and uncomment the previous line.
-If you replace ``library_search`` with ``suggest``,
-you'll see a long list of suggestions.
-In this case, the suggestions are not helpful, but in other cases
-it does better.
 Using these tricks,
 see if you can find what you need to do the
 next example:
