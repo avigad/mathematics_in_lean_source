@@ -353,7 +353,7 @@ example (a b : ℝ) : a - b = a + -b := by
 The proof term ``rfl`` is short for ``reflexivity``.
 Presenting it as a proof of ``a - b = a + -b`` forces Lean
 to unfold the definition and recognize both sides as being the same.
-The ``reflexivity`` tactic, which can be abbreviated as ``refl``,
+The ``reflexivity`` tactic, which can be abbreviated as ``rfl``,
 does the same.
 This is an instance of what is known as a *definitional equality*
 in Lean's underlying logic.

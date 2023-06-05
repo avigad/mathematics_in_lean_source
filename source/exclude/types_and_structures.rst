@@ -187,7 +187,7 @@ The following snippet defines a function that
 builds a Gaussian integer from a pair of integers,
 as well as the functions that return the
 real and imaginary parts.
-Using the ``rfl`` proof term or ``refl`` tactic
+Using the ``rfl`` proof term or ``rfl`` tactic
 causes Lean to unfold the definition and try to reduce
 both sides until they are the same.
 The theorem ``re_mk`` can be proved that way because
