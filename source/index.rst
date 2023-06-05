@@ -15,6 +15,7 @@ Mathematics in Lean
    C06_Structures
    C07_Hierarchies
    C08_Topology
+   C09_Differential_Calculus
 
 .. toctree::
    :hidden:

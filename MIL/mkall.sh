@@ -26,4 +26,6 @@ MIL/mkdoc.py C07_Hierarchies S03_Subobjects
 MIL/mkdoc.py C08_Topology S01_Filters
 MIL/mkdoc.py C08_Topology S02_Metric_Spaces
 MIL/mkdoc.py C08_Topology S03_Topological_Spaces
+MIL/mkdoc.py C09_Differential_Calculus S01_Elementary_Differential_Calculus
+MIL/mkdoc.py C09_Differential_Calculus S02_Differential_Calculus_in_Normed_Spaces
 

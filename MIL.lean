@@ -25,9 +25,10 @@ import MIL.C07_Hierarchies.Source_S02_Morphisms
 import MIL.C07_Hierarchies.Source_S03_Subobjects
 import MIL.C08_Topology.Source_S01_Filters                                                                                                                                   
 import MIL.C08_Topology.Source_S02_Metric_Spaces
-import MIL.C08_Topology.Source_S03_Topological_Spaces                                                                                                                                         
---import MIL.C09_Differential_Calculus.Source_S01_Elementary_Differential_Calculus
---import MIL.C09_Differential_Calculus.Source_S02_Differential_Calculus_in_Normed_Spaces
+import MIL.C08_Topology.Source_S03_Topological_Spaces                                                                                                                        
+import MIL.C09_Differential_Calculus.Source_S01_Elementary_Differential_Calculus
+import MIL.C09_Differential_Calculus.Source_S02_Differential_Calculus_in_Normed_Spaces
+
 --import MIL.C10_Integration_and_Measure_Theory.Source_S01_Elementary_Integration
 --import MIL.C10_Integration_and_Measure_Theory.Source_S02_Measure_Theory
 --import MIL.C10_Integration_and_Measure_Theory.Source_S03_Integration

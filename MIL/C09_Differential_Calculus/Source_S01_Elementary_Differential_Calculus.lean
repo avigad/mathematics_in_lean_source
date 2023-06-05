@@ -1,8 +1,5 @@
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse
-import Mathlib.Analysis.Calculus.TangentCone
--- correct versions:
--- import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
--- import Mathlib.Analysis.Calculus.MeanValue
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
+import Mathlib.Analysis.Calculus.MeanValue
 
 open Set Filter
 open Topology Filter Classical Real
@@ -26,7 +23,7 @@ EXAMPLES: -/
 open Real
 
 /-- The sin function has derivative 1 at 0. -/
-example : HasDerivAt sin 1 0 := by simpa using has_deriv_at_sin 0
+example : HasDerivAt sin 1 0 := by simpa using hasDerivAt_sin 0
 -- QUOTE.
 
 /- TEXT:
@@ -40,7 +37,7 @@ and being differentiable in the sense of the complex derivative.
 EXAMPLES: -/
 -- QUOTE:
 example (x : ℝ) : DifferentiableAt ℝ sin x :=
-  (hasDerivAt_sin x).DifferentiableAt
+  (hasDerivAt_sin x).differentiableAt
 -- QUOTE.
 
 /- TEXT:
@@ -105,27 +102,7 @@ example (f : ℝ → ℝ) {a b : ℝ} (hab : a < b) (hf : ContinuousOn f (Icc a 
 Lean can automatically compute some simple derivatives using the ``simp`` tactic.
 EXAMPLES: -/
 -- QUOTE:
-example : deriv (fun x : ℝ => x ^ 5) 6 = 5 * 6 ^ 4 := by simp
-
-example (x₀ : ℝ) (h₀ : x₀ ≠ 0) : deriv (fun x : ℝ => 1 / x) x₀ = -(x₀ ^ 2)⁻¹ := by simp
+example : deriv (fun x : ℝ ↦ x ^ 5) 6 = 5 * 6 ^ 4 := by simp
 
 example : deriv sin π = -1 := by simp
 -- QUOTE.
-
-/- TEXT:
-Sometimes we need to use ``ring`` and/or ``field_simp`` after ``simp``.`
-EXAMPLES: -/
--- QUOTE:
-example (x₀ : ℝ) (h : x₀ ≠ 0) :
-    deriv (fun x : ℝ => exp (x ^ 2) / x ^ 5) x₀ = (2 * x₀ ^ 2 - 5) * exp (x₀ ^ 2) / x₀ ^ 6 := by
-  have : x₀ ^ 5 ≠ 0 := pow_ne_zero 5 h
-  field_simp
-  ring
-
-example (y : ℝ) : HasDerivAt (fun x : ℝ => 2 * x + 5) 2 y := by
-  have := ((hasDerivAt_id y).const_mul 2).AddConst 5
-  rwa [mul_one] at this
-
-example (y : ℝ) : deriv (fun x : ℝ => 2 * x + 5) y = 2 := by simp
--- QUOTE.
-

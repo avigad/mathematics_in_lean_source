@@ -1,6 +1,7 @@
 import Mathlib.Analysis.NormedSpace.BanachSteinhaus
 import Mathlib.Analysis.NormedSpace.FiniteDimension
--- import Mathlib.Analysis.Calculus.Inverse
+import Mathlib.Analysis.Calculus.Inverse
+import Mathlib.Analysis.Calculus.ContDiff
 import Mathlib.Analysis.Calculus.FDeriv.Prod
 
 
@@ -267,15 +268,15 @@ example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] 
     (l : Filter α) (f : α → E) (g : α → F) : IsBigOWith c l f g ↔ ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ :=
   isBigOWith_iff
 
-example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
+example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F]
     (l : Filter α) (f : α → E) (g : α → F) : f =O[l] g ↔ ∃ C, IsBigOWith C l f g :=
   isBigO_iff_isBigOWith
 
-example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
+example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F]
     (l : Filter α) (f : α → E) (g : α → F) : f =o[l] g ↔ ∀ C > 0, IsBigOWith C l f g :=
   isLittleO_iff_forall_isBigOWith
 
-example {α : Type _} {E : Type _} [NormedAddCommGroup E] (c : ℝ) (l : Filter α) (f g : α → E) :
+example {α : Type _} {E : Type _} [NormedAddCommGroup E] (l : Filter α) (f g : α → E) :
     f ~[l] g ↔ (f - g) =o[l] g :=
   Iff.rfl
 -- QUOTE.
@@ -319,8 +320,8 @@ example (n : ℕ) (f : E → F) : E → E[×n]→L[𝕜] F :=
 
 example (n : WithTop ℕ) {f : E → F} :
     ContDiff 𝕜 n f ↔
-      (∀ m : ℕ, (m : WithTop ℕ) ≤ n → Continuous fun x => iteratedFderiv 𝕜 m f x) ∧
-        ∀ m : ℕ, (m : WithTop ℕ) < n → Differentiable 𝕜 fun x => iteratedFderiv 𝕜 m f x :=
+      (∀ m : ℕ, (m : WithTop ℕ) ≤ n → Continuous fun x => iteratedFDeriv 𝕜 m f x) ∧
+        ∀ m : ℕ, (m : WithTop ℕ) < n → Differentiable 𝕜 fun x => iteratedFDeriv 𝕜 m f x :=
   contDiff_iff_continuous_differentiable
 -- QUOTE.
 
@@ -335,8 +336,8 @@ EXAMPLES: -/
 -- QUOTE:
 example {𝕂 : Type _} [IsROrC 𝕂] {E : Type _} [NormedAddCommGroup E] [NormedSpace 𝕂 E] {F : Type _}
     [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ}
-    (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFderivAt f (fderiv 𝕂 f x) x :=
-  hf.HasStrictFderivAt hn
+    (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFDerivAt f (fderiv 𝕂 f x) x :=
+  hf.hasStrictFDerivAt hn
 -- QUOTE.
 
 /- TEXT:
@@ -353,20 +354,21 @@ EXAMPLES: -/
 section LocalInverse
 variable [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
 
-example (hf : HasStrictFderivAt f (↑f') a) : F → E :=
-  HasStrictFderivAt.localInverse f f' a hf
+example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) : F → E :=
+  HasStrictFDerivAt.localInverse f f' a hf
 
-example (hf : HasStrictFderivAt f (f' : E →L[𝕜] F) a) :
+example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     ∀ᶠ x in 𝓝 a, hf.localInverse f f' a (f x) = x :=
   hf.eventually_left_inverse
 
-example (hf : HasStrictFderivAt f (f' : E →L[𝕜] F) a) :
+example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     ∀ᶠ x in 𝓝 (f a), f (hf.localInverse f f' a x) = x :=
   hf.eventually_right_inverse
 
-example [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E} (hf : HasStrictFderivAt f (↑f') a) :
-    HasStrictFderivAt (HasStrictFderivAt.localInverse f f' a hf) (f'.symm : F →L[𝕜] E) (f a) :=
-  HasStrictFderivAt.to_localInverse hf
+example [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
+  (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
+    HasStrictFDerivAt (HasStrictFDerivAt.localInverse f f' a hf) (f'.symm : F →L[𝕜] E) (f a) :=
+  HasStrictFDerivAt.to_localInverse hf
 
 end LocalInverse
 -- QUOTE.
@@ -377,11 +379,10 @@ The library contains many variations that we have not discussed.
 For example, you may want to use one-sided derivatives in the
 one-dimensional setting. The means to do so are found in mathlib in a more
 general context;
-see ``has_fderiv_within_at`` or the even more general ``has_fderiv_at_filter``.
+see ``HasFDerivWithinAt`` or the even more general ``HasFDerivAtFilter``.
 EXAMPLES: -/
-#check HasFderivWithinAt
+#check HasFDerivWithinAt
 
-#check HasFderivAtFilter
+#check HasFDerivAtFilter
 
 end
-
