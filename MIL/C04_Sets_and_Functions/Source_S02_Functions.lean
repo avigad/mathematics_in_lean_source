@@ -59,7 +59,7 @@ example : f '' (s ∪ t) = f '' s ∪ f '' t := by
 -- QUOTE.
 
 /- TEXT:
-Notice also that the ``use`` tactic applies ``refl``
+Notice also that the ``use`` tactic applies ``rfl``
 to close goals when it can.
 
 Here is another example:
@@ -718,4 +718,3 @@ theorem Cantorαα : ∀ f : α → Set α, ¬Surjective f := by
 
 -- BOTH:
 end
-
