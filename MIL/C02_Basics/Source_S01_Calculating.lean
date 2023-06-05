@@ -307,7 +307,7 @@ an expression that begins with ``calc`` is a *proof term*.
 A ``calc`` expression can also be used inside a tactic proof,
 but Lean interprets it as the instruction to use the resulting
 proof term to solve the goal.
-The ``calc`` syntax is finicky: the dots and underscires and justification
+The ``calc`` syntax is finicky: the dots and underscores and justification
 have to be in the format indicated above.
 Lean uses indentation to determine things like where a block
 of tactics or a ``calc`` block begins and ends;
@@ -424,8 +424,8 @@ We will see there are similar tactics for other common kind of algebraic
 structures.
 
 There is a variation of ``rw`` called ``nth_rewrite`` that allows you to replace only particular instances of an expression in the goal.
-Possible matches are enumerated starting with zero,
-so in the following example, ``nth_rewrite 1 h`` replaces the *second*
+Possible matches are enumerated starting with 1,
+so in the following example, ``nth_rewrite 2 h`` replaces the second
 occurrence of ``a + b`` with ``c``.
 EXAMPLES: -/
 -- QUOTE:
