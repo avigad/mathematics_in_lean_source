@@ -132,7 +132,7 @@ at the point where the cursor is.
 In this example, you will then see that
 the first line of the proof introduces ``m`` and ``n``
 (we could have renamed them at that point, if we wanted to),
-and also decomposes the hypothesis ``even n`` to
+and also decomposes the hypothesis ``Even n`` to
 a ``k`` and the assumption that ``n = 2 * k``.
 The second line, ``use m * k``,
 declares that we are going to show that ``m * n`` is even by
