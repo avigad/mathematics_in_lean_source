@@ -202,6 +202,14 @@ instance instCommRing : CommRing gaussInt where
   mul_zero := sorry
 -- QUOTE.
 
+@[simp]
+theorem sub_re (x y : gaussInt) : (x - y).re = x.re - y.re :=
+  rfl
+
+@[simp]
+theorem sub_im (x y : gaussInt) : (x - y).im = x.im - y.im :=
+  rfl
+
 /- TEXT:
 Lean's library defines the class of *nontrivial* types to be types with at
 least two distinct elements. In the context of a ring, this is equivalent
