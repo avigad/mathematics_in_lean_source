@@ -89,7 +89,7 @@ def FnHasLb (f : ℝ → ℝ) :=
 /- TEXT:
 We can use the theorem ``FnUb_add`` from the last section
 to prove that if ``f`` and ``g`` have upper bounds,
-then so does `` gun x => f x + g x``.
+then so does ``fun x => f x + g x``.
 TEXT. -/
 -- BOTH:
 theorem fnUb_add {f g : ℝ → ℝ} {a b : ℝ} (hfa : FnUb f a) (hgb : FnUb g b) :
@@ -104,9 +104,9 @@ variable {f g : ℝ → ℝ}
 -- EXAMPLES:
 example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
   cases' ubf with a ubfa
-  cases' ubg with b ubfb
+  cases' ubg with b ubgb
   use a + b
-  apply fnUb_add ubfa ubfb
+  apply fnUb_add ubfa ubgb
 -- QUOTE.
 
 /- TEXT:
@@ -178,12 +178,12 @@ TEXT. -/
 -- QUOTE:
 example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
   rcases ubf with ⟨a, ubfa⟩
-  rcases ubg with ⟨b, ubfb⟩
-  exact ⟨a + b, fnUb_add ubfa ubfb⟩
+  rcases ubg with ⟨b, ubgb⟩
+  exact ⟨a + b, fnUb_add ubfa ubgb⟩
 
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x := by
-  rintro ⟨a, ubfa⟩ ⟨b, ubfb⟩
-  exact ⟨a + b, fnUb_add ubfa ubfb⟩
+  rintro ⟨a, ubfa⟩ ⟨b, ubgb⟩
+  exact ⟨a + b, fnUb_add ubfa ubgb⟩
 -- QUOTE.
 
 /- TEXT:
@@ -192,7 +192,7 @@ in expressions and proof terms:
 TEXT. -/
 -- QUOTE:
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x :=
-  fun ⟨a, ubfa⟩ ⟨b, ubfb⟩ => ⟨a + b, fnUb_add ubfa ubfb⟩
+  fun ⟨a, ubfa⟩ ⟨b, ubgb⟩ => ⟨a + b, fnUb_add ubfa ubgb⟩
 -- QUOTE.
 
 -- BOTH:
@@ -425,4 +425,3 @@ example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f
 
 -- BOTH:
 end
-

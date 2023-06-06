@@ -148,7 +148,7 @@ of an if-and-only-if statement.
 Universal quantifiers are often hidden in definitions,
 and Lean will unfold definitions to expose them when necessary.
 For example, let's define two predicates,
-``fn_ub f a`` and ``fn_lb f a``,
+``FnUb f a`` and ``FnLb f a``,
 where ``f`` is a function from the real numbers to the real
 numbers and ``a`` is a real number.
 The first says that ``a`` is an upper bound on the
@@ -186,8 +186,8 @@ example (hfa : FnUb f a) (hgb : FnUb g b) : FnUb (fun x ↦ f x + g x) (a + b) :
 /- TEXT:
 .. index:: dsimp, tactics ; dsimp, change, tactics ; change
 
-Applying ``intro`` to the goal ``fn_ub (fun x ↦ f x + g x) (a + b)``
-forces Lean to unfold the definition of ``fn_ub``
+Applying ``intro`` to the goal ``FnUb (fun x ↦ f x + g x) (a + b)``
+forces Lean to unfold the definition of ``FnUb``
 and introduce ``x`` for the universal quantifier.
 The goal is then ``(fun (x : ℝ) ↦ f x + g x) x ≤ a + b``.
 But applying ``(fun x ↦ f x + g x)`` to ``x`` should result in ``f x + g x``,
@@ -205,7 +205,7 @@ and gives you more control over how the goal is transformed.
 
 The rest of the proof is routine.
 The last two ``apply`` commands force Lean to unfold the definitions
-of ``fn_ub`` in the hypotheses.
+of ``FnUb`` in the hypotheses.
 Try carrying out similar proofs of these:
 TEXT. -/
 -- QUOTE:
@@ -246,7 +246,7 @@ example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
 end
 
 /- TEXT:
-Even though we have defined ``fn_ub`` and ``fn_lb`` for functions
+Even though we have defined ``FnUb`` and ``FnLb`` for functions
 from the reals to the reals,
 you should recognize that the definitions and proofs are much
 more general.
@@ -257,7 +257,7 @@ of any structure that is an "ordered additive commutative monoid";
 the details of what that means don't matter now,
 but it is worth knowing that the natural numbers, integers, rationals,
 and real numbers are all instances.
-So if we prove the theorem ``fn_ub_add`` at that level of generality,
+So if we prove the theorem ``fnUb_add`` at that level of generality,
 it will apply in all these instances.
 TEXT. -/
 section
@@ -269,7 +269,7 @@ variable {α : Type _} {R : Type _} [OrderedCancelAddCommMonoid R]
 def FnUb' (f : α → R) (a : R) : Prop :=
   ∀ x, f x ≤ a
 
-theorem fn_ub_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) :
+theorem fnUb_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) :
     FnUb' (fun x => f x + g x) (a + b) := fun x => add_le_add (hfa x) (hgb x)
 -- QUOTE.
 
@@ -544,7 +544,7 @@ We close this section with one last important example.
 A function :math:`f` is said to be *injective* if for
 every :math:`x_1` and :math:`x_2`,
 if :math:`f(x_1) = f(x_2)` then :math:`x_1 = x_2`.
-Mathlib defines ``function.injective f`` with
+Mathlib defines ``Function.Injective f`` with
 ``x₁`` and ``x₂`` implicit.
 The next example shows that, on the real numbers,
 any function that adds a constant is injective.
