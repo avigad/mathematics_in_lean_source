@@ -89,7 +89,7 @@ def FnHasLb (f : ℝ → ℝ) :=
 /- TEXT:
 We can use the theorem ``FnUb_add`` from the last section
 to prove that if ``f`` and ``g`` have upper bounds,
-then so does ``fun x => f x + g x``.
+then so does `` gun x => f x + g x``.
 TEXT. -/
 -- BOTH:
 theorem fnUb_add {f g : ℝ → ℝ} {a b : ℝ} (hfa : FnUb f a) (hgb : FnUb g b) :
@@ -104,19 +104,19 @@ variable {f g : ℝ → ℝ}
 -- EXAMPLES:
 example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
   cases' ubf with a ubfa
-  cases' ubg with b ubgb
+  cases' ubg with b ubfb
   use a + b
-  apply fnUb_add ubfa ubgb
+  apply fnUb_add ubfa ubfb
 -- QUOTE.
 
 /- TEXT:
 .. index:: cases, tactics ; cases
 
-The ``cases`` tactic unpacks the information
+The ``cases'`` tactic unpacks the information
 in the existential quantifier.
 Given the hypothesis ``ubf`` that there is an upper bound
 for ``f``,
-``cases`` adds a new variable for an upper
+``cases'`` adds a new variable for an upper
 bound to the context,
 together with the hypothesis that it has the given property.
 The ``with`` clause allows us to specify the names
@@ -165,7 +165,7 @@ example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := 
 The task of unpacking information in a hypothesis is
 so important that Lean and mathlib provide a number of
 ways to do it.
-A cousin of the ``cases`` tactic, ``rcases``, is more
+A cousin of the ``cases'`` tactic, ``rcases``, is more
 flexible in that it allows us to unpack nested data.
 (The "r" stands for "recursive.")
 In the ``with`` clause for unpacking an existential quantifier,
@@ -178,12 +178,12 @@ TEXT. -/
 -- QUOTE:
 example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
   rcases ubf with ⟨a, ubfa⟩
-  rcases ubg with ⟨b, ubgb⟩
-  exact ⟨a + b, fnUb_add ubfa ubgb⟩
+  rcases ubg with ⟨b, ubfb⟩
+  exact ⟨a + b, fnUb_add ubfa ubfb⟩
 
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x := by
-  rintro ⟨a, ubfa⟩ ⟨b, ubgb⟩
-  exact ⟨a + b, fnUb_add ubfa ubgb⟩
+  rintro ⟨a, ubfa⟩ ⟨b, ubfb⟩
+  exact ⟨a + b, fnUb_add ubfa ubfb⟩
 -- QUOTE.
 
 /- TEXT:
@@ -192,7 +192,7 @@ in expressions and proof terms:
 TEXT. -/
 -- QUOTE:
 example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x :=
-  fun ⟨a, ubfa⟩ ⟨b, ubgb⟩ => ⟨a + b, fnUb_add ubfa ubgb⟩
+  fun ⟨a, ubfa⟩ ⟨b, ubfb⟩ => ⟨a + b, fnUb_add ubfa ubfb⟩
 -- QUOTE.
 
 -- BOTH:
@@ -200,10 +200,10 @@ end
 
 /- TEXT:
 These are power-user moves, and there is no harm
-in favoring the use of ``cases`` until you are more comfortable
+in favoring the use of ``cases'`` until you are more comfortable
 with the existential quantifier.
 But we will come to learn that all of these tools,
-including ``cases``, ``use``, and the anonymous constructors,
+including ``cases'``, ``use``, and the anonymous constructors,
 are like Swiss army knives when it comes to theorem proving.
 They can be used for a wide range of purposes,
 not just for unpacking exists statements.
@@ -386,7 +386,7 @@ example (x y : ℝ) (h : x - y ≠ 0) : (x ^ 2 - y ^ 2) / (x - y) = x + y := by
 You can use the theorem ``div_mul_cancel``.
 The next example uses a surjectivity hypothesis
 by applying it to a suitable value.
-Note that you can use ``cases`` with any expression,
+Note that you can use ``cases'`` with any expression,
 not just a hypothesis.
 TEXT. -/
 -- QUOTE:
