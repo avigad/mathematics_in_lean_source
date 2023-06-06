@@ -171,7 +171,7 @@ flexible in that it allows us to unpack nested data.
 In the ``with`` clause for unpacking an existential quantifier,
 we name the object and the hypothesis by presenting
 them as a pattern ``⟨a, h⟩`` that ``rcases`` then tries to match.
-The ``rintro`` tactic (which can also be written ``rintro``)
+The ``rintro`` tactic
 is a combination of ``intro`` and ``rcases``.
 These examples illustrate their use:
 TEXT. -/
@@ -425,4 +425,3 @@ example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f
 
 -- BOTH:
 end
-
