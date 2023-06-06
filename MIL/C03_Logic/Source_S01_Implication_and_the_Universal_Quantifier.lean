@@ -287,7 +287,7 @@ that work at a high level of generality.
 .. index:: monotone function
 
 For another example of a hidden universal quantifier,
-mathlib defines a predicate ``monotone``,
+mathlib defines a predicate ``Monotone``,
 which says that a function is nondecreasing in its arguments:
 TEXT. -/
 -- QUOTE:
