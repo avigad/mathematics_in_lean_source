@@ -61,7 +61,7 @@ You can find instructions as to how to do that on the Mathematics in Lean
 on Github.
 
 Each section in this book has an associated Lean file with examples
-and exercises. You can find them in the folder `src`,
+and exercises. You can find them in the folder `MIL`,
 organized by chapter. We recommend making a copy of that folder
 so that you can experiment with the files as you go,
 while leaving the originals intact.
