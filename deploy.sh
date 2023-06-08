@@ -15,6 +15,7 @@ cd deploy
 rm -rf * .gitignore
 cp -Lr ../user_repo/./ .
 git add .
+git add -f .vscode
 git commit -m "Update `date`"
 git push
 
