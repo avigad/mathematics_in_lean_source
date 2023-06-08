@@ -339,7 +339,7 @@ def neg (a : Point) : Point := sorry
 
 def zero : Point := sorry
 
-def add_group_point : AddGroup₁ point := sorry
+def addGroupPoint : AddGroup₁ Point := sorry
 
 SOLUTIONS: -/
 def neg (a : Point) : Point :=
