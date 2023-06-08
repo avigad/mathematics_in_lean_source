@@ -16,20 +16,6 @@ which are types generated inductively by a given list of
 *constructors*.
 In Lean, the natural numbers are declared as follows.
 OMIT: -/
-/- TEXT:
-.. _section_induction_and_recursion:
-
-Induction and Recursion
------------------------
-
-The set of natural numbers :math:`\mathbb{N} = \{ 0, 1, 2, \ldots \}`
-is not only fundamentally important in its own right,
-but also a plays a central role in the construction of new mathematical objects.
-Lean's foundation allows us to declare *inductive types*,
-which are types generated inductively by a given list of
-*constructors*.
-In Lean, the natural numbers are declared as follows.
-OMIT: -/
 namespace hidden
 
 -- QUOTE:
@@ -442,4 +428,3 @@ SOLUTIONS: -/
 -- BOTH:
 end MyNat
 -- QUOTE.
-
