@@ -22,9 +22,11 @@ Do the following:
 
 1. Install Lean 4 and VS Code following
    these [instructions](https://github.com/leanprover/lean4/blob/master/doc/quickstart.md).
+   It isn't enough just to install the Lean 4 extension; make sure you complete the steps so that Lean 4 and elan are installed.
 
-2. In a terminal, navigate to the folder where you want to put a copy of the
-   repository, and type `git clone git@github.com:leanprover-community/mathematics_in_lean.git`
+2. Make sure you have [git](https://git-scm.com/) installed.
+   In a terminal, navigate to the folder where you want to put a copy of the
+   repository, and type `git clone https://github.com/avigad/mathematics_in_lean_source.git`
    to fetch it from github.
 
 3. Navigate to `mathematics_in_lean`, and execute `lake exe cache get` to fetch a compiled
@@ -46,7 +48,7 @@ You can open the book in a side panel in VS Code as follows:
 
 Each section in the book has an associated Lean file
 with examples and exercises.
-You can find them in the folder `src`, organized by chapter.
+You can find them in the folder `MIL`, organized by chapter.
 We recommend making a copy of that folder,
 naming it something like `my_files`.
 That way you can experiment with the files as you go
@@ -58,7 +60,7 @@ and read the book in VS Code while you work on the exercises.
 You can update to a newer version of this repository
 by typing ``git pull`` followed by ``lake exe cache get``
 inside the ``mathematics_in_lean`` folder.
-This will update the `src` folder, but will not change `my_files`.
+This will update the `MIL` folder, but will not change `my_files`.
 
 ## To use this repository with Gitpod
 
@@ -68,7 +70,7 @@ This creates a virtual machine in the cloud,
 and installs Lean and mathlib.
 It then presents you with a VS Code window, running in a virtual
 copy of the repository.
-You can then make a copy of the `src` directory, and so on,
+You can then make a copy of the `MIL` directory, and so on,
 following the instructions above.
 
 Gitpod gives you 50 free hours every month.
