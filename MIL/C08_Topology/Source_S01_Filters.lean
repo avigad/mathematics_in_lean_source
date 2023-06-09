@@ -246,7 +246,7 @@ end
 /- TEXT:
 Let's now shift attention to the plane ``ℝ × ℝ`` and try to understand how the neighborhoods of a point
 ``(x₀, y₀)`` are related to ``𝓝 x₀`` and ``𝓝 y₀``. There is a product operation
-``Filter.prod : Filter X → Filter Y → Filter (X × Y)``, denoted by ``×ᶠ``, which answers this question:
+``Filter.prod : Filter X → Filter Y → Filter (X × Y)``, denoted by ``×ˢ``, which answers this question:
 EXAMPLES: -/
 -- QUOTE:
 example : 𝓝 (x₀, y₀) = 𝓝 x₀ ×ˢ 𝓝 y₀ :=
@@ -256,7 +256,7 @@ example : 𝓝 (x₀, y₀) = 𝓝 x₀ ×ˢ 𝓝 y₀ :=
 /- TEXT:
 The product operation is defined in terms of the pullback operation and the ``inf`` operation:
 
-  ``F ×ᶠ G = (comap prod.fst F) ⊓ (comap prod.snd G)``.
+  ``F ×ˢ G = (comap prod.fst F) ⊓ (comap prod.snd G)``.
 
 Here the ``inf`` operation refers to the lattice structure on ``filter X`` for any type ``X``, whereby
 ``F ⊓ G`` is the greatest filter that is smaller than both ``F`` and ``G``.
