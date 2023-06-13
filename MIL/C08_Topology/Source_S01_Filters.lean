@@ -231,7 +231,7 @@ variable (f : ℝ → ℝ) (x₀ y₀ : ℝ)
 -- QUOTE.
 
 /- TEXT:
-The pullback operation is also compatible with composition, but it *contravariant*,
+The pullback operation is also compatible with composition, but it is *contravariant*,
 which is to say, it reverses the order of the arguments.
 EXAMPLES: -/
 -- QUOTE:
