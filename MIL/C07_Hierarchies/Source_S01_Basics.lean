@@ -330,7 +330,7 @@ BOTH: -/
 
 
 class AddSemigroup₃ (α : Type) extends Add α where
-/-- Multiplication is associative -/
+/-- Addition is associative -/
   add_assoc₃ : ∀ a b c : α, a + b + c = a + (b + c)
 
 @[to_additive AddSemigroup₃]
@@ -595,7 +595,7 @@ would have the signature appearing in the error message:
 ``(R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M``.
 With such an instance in the type class database, each time Lean would look for a
 ``AddCommGroup₃ M`` instance for some ``M``, it would need to go hunting for a completely
-unspecified type ``R``and a ``Ring₃ R`` instance before embarking on the main quest of finding a
+unspecified type ``R`` and a ``Ring₃ R`` instance before embarking on the main quest of finding a
 ``Module₁ R M`` instance. Those two side-quests are represented by the meta-variables mentionned in
 the error message and denoted by ``?R`` and ``?inst✝`` there. Such a ``Module₃.toAddCommGroup₃``
 instance would then be a huge trap for the instance resolution procedure and then ``class`` command
@@ -756,7 +756,6 @@ As an exercise, you can come back to the order relation hierarchy you built abov
 to incorportate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
 that every preorder comes with a ``<₁`` which has a default value built from ``≤₁`` and a
 ``Prop``-valued field asserting the natural relation between those two comparison operators.
-TEXT.
 -/
 
 -- SOLUTIONS:
