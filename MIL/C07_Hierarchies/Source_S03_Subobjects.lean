@@ -245,6 +245,3 @@ SOLUTIONS: -/
 SOLUTIONS: -/
     rintro ⟨a⟩ ; apply Quotient.sound ; dsimp only ; rw [mul_one] ; apply @Setoid.refl M N.Setoid
 -- QUOTE.
-
-/- TEXT:
--/
