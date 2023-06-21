@@ -753,7 +753,7 @@ in mathlib. There are more complicated than what we have seen here, because they
 hierarchy, but all principles have been explained above.
 
 As an exercise, you can come back to the order relation hierarchy you built above and try
-to incorportate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
+to incorporate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
 that every preorder comes with a ``<₁`` which has a default value built from ``≤₁`` and a
 ``Prop``-valued field asserting the natural relation between those two comparison operators.
 -/
