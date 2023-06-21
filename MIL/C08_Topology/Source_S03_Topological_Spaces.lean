@@ -264,7 +264,7 @@ proves the existence of the product topology by abstract non-sense.
 We considered the case of ``ℝ → ℝ`` above, but let's now consider the general case of ``Π i, X i`` for
 some ``ι : Type*`` and ``X : ι → Type*``. We want, for any topological space ``Z`` and any function
 ``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(fun x ↦ x i) ∘ f`` is continuous.
-Let us explore that constraint "on papar" using notation :math:`p_i` for the projection
+Let us explore that constraint "on paper" using notation :math:`p_i` for the projection
 ``(fun (x : Π i, X i) ↦ x i)``:
 
 .. math::
