@@ -596,7 +596,7 @@ would have the signature appearing in the error message:
 With such an instance in the type class database, each time Lean would look for a
 ``AddCommGroup₃ M`` instance for some ``M``, it would need to go hunting for a completely
 unspecified type ``R`` and a ``Ring₃ R`` instance before embarking on the main quest of finding a
-``Module₁ R M`` instance. Those two side-quests are represented by the meta-variables mentionned in
+``Module₁ R M`` instance. Those two side-quests are represented by the meta-variables mentioned in
 the error message and denoted by ``?R`` and ``?inst✝`` there. Such a ``Module₃.toAddCommGroup₃``
 instance would then be a huge trap for the instance resolution procedure and then ``class`` command
 refuses to set it up.
@@ -658,7 +658,7 @@ for ``ℤ`` itself: ``abGrpModule ℤ`` since ``ℤ`` is a abelian group, and ``
 ``ℤ`` is a ring. Those two module structure correspond to the same abelian group structure,
 but it is not obvious that they have the same scalar multiplication. They actually do, but
 this isn't true by definition, it requires a proof. This is very bad news for the type class
-instance resolution procedure and will lead to very frustating failures for users of this
+instance resolution procedure and will lead to very frustrating failures for users of this
 hierarchy. When directly asked to find an instance, Lean will pick one, and we can see
 which one using:
 BOTH: -/
@@ -677,11 +677,11 @@ It is important to understand that not all diamonds are bad. In fact there are d
 in mathlib, and also in this chapter. Already at the very beginning we saw one can go
 from ``Monoid₁ α`` to ``Dia₁ α`` through either ``Semigroup₁ α`` or ``DiaOneClass₁ α`` and
 thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
-are definitionnaly equal. In particular a diamond having a ``Prop``-valued class at the bottom
-cannot be bad since any too proofs of the same statement are definitionnaly equal.
+are definitionally equal. In particular a diamond having a ``Prop``-valued class at the bottom
+cannot be bad since any too proofs of the same statement are definitionally equal.
 
 But the diamond we created with modules is definitely bad. The offending piece is the ``smul``
-field which is data, not a proof, and we have two constructions that are not definitionnaly equal.
+field which is data, not a proof, and we have two constructions that are not definitionally equal.
 The robust way of fixing this issue is to make sure that going from a rich structure to a
 poor structure is always done by forgetting data, not by defining data. This well-known pattern
 as been named "forgetful inheritance" and extensively discussed in
