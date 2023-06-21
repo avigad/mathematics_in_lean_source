@@ -195,7 +195,7 @@ and abandoning the computational interpretation.
 We use the command ``open Finset`` to avail ourselves of shorter names
 for the relevant theorems. Unlike the case with sets,
 most equivalences involving finsets do not hold definitionally,
-so they need to be expanded manually using equivalances like
+so they need to be expanded manually using equivalences like
 ``Finset.subset_iff``, ``Finset.mem_union``, ``Finset.mem_inter``,
 and ``Finset.mem_sdiff``. The ``ext`` tactic can still be used
 to reduce show that two finite sets are equal by showing
