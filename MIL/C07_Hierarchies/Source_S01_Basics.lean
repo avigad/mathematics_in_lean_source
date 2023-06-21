@@ -227,7 +227,7 @@ BOTH: -/
 
 /- TEXT:
 So we see that ``Monoid₁`` takes ``Semigroup₁ α`` argument as expected but then it won't
-take a would-be overlapping ``DiaOneClass₁ α`` argument but instead tears it appart and includes
+take a would-be overlapping ``DiaOneClass₁ α`` argument but instead tears it apart and includes
 only the non-overlapping parts. And it also auto-generated an instance ``Monoid₁.toDiaOneClass₁``
 which is *not* a field but has the expected signature which, from the end-user point of view,
 restores the symmetry between the two extended classes ``Semigroup₁`` and ``DiaOneClass₁``.
@@ -316,7 +316,7 @@ assumes every type has only one instance of each type class. There are various
 ways to solve this issue. Surprisingly mathlib uses the naive idea to duplicate
 everything for additive and multiplicative theories with the help of some code-generating
 attribute. Structures and classes are defined in both additive and multiplicative notation
-with an attibute ``to_additive`` linking them. In case of multiple inheritance like for
+with an attribute ``to_additive`` linking them. In case of multiple inheritance like for
 semi-groups, the auto-generated "symmetry-restoring" instances need also to be marked.
 This is a bit technical you don't need to understand details. The important point is that
 lemmas are then only stated in multiplicative notation and marked with the attribute ``to_additive``
