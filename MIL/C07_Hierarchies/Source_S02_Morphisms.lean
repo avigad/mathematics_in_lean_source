@@ -52,7 +52,7 @@ example : Continuous (id : ℝ → ℝ) := continuous_id
 We still have bundles continuous functions, which are convenient for instance to put a topology
 on a space of continuous functions, but they are not the primary tool to work with continuity.
 
-By constrast, morphisms between monoids (or other algebraic structures) are bundled as in:
+By contrast, morphisms between monoids (or other algebraic structures) are bundled as in:
 
 BOTH: -/
 -- QUOTE:
@@ -191,7 +191,7 @@ instance (R S : Type) [Ring R] [Ring S] : MonoidHomClass₂ (RingHom₁ R S) R S
 
 /- TEXT:
 As promised every lemma we prove about ``f : F`` assuming an instance of ``MonoidHomClass₁ F`` will
-apply both to monoid morphims and ring morphisms.
+apply both to monoid morphisms and ring morphisms.
 Let us see an example lemma and check it applies to both situations.
 BOTH: -/
 
@@ -214,7 +214,7 @@ But we haven't. Everything is shifted one level of abstraction up. The type clas
 procedure won't be looking for functions, it will be looking for either
 ``MonoidHom₁`` or ``RingHom₁``.
 
-One remaining issue with our approach is the presence of repeatitive code around the ``toFun``
+One remaining issue with our approach is the presence of repetitive code around the ``toFun``
 field and the corresponding ``CoeFun`` instance and ``coe`` attribute. It would also be better
 to record that this pattern is used only for function with extra properties, meaning that the
 coercion to functions should be injective. So Mathlib adds one more layer of abstraction with
