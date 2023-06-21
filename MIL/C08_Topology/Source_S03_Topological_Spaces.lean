@@ -227,7 +227,7 @@ example {T T' : TopologicalSpace X} : T ≤ T' ↔ ∀ s, T'.IsOpen s → T.IsOp
 
 /- TEXT:
 
-Now we can recover continuity by combining the push-foward (or pull-back) operation with the order relation.
+Now we can recover continuity by combining the push-forward (or pull-back) operation with the order relation.
 
 BOTH: -/
 -- QUOTE:
@@ -537,4 +537,3 @@ BOTH: -/
 example [CompactSpace X] : IsCompact (univ : Set X) :=
   isCompact_univ
 -- QUOTE.
-
