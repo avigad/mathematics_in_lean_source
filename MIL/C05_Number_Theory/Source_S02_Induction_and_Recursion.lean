@@ -27,7 +27,7 @@ inductive Nat
 end hidden
 
 /- TEXT:
-You can find this in the library by writting ``#check Nat`` and
+You can find this in the library by writing ``#check Nat`` and
 then using ``ctrl-click`` on the identifier ``Nat``.
 The command specifies that ``Nat`` is the datatype generated
 freely and inductively by the two constructors ``zero : Nat`` and
