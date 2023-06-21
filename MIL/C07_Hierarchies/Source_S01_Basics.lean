@@ -383,7 +383,7 @@ class Group₃ (G : Type) extends Monoid₃ G, Inv G where
 -- QUOTE.
 
 /- TEXT:
-We should remember to tagged lemmas with ``simp`` when approriate.
+We should remember to tagged lemmas with ``simp`` when appropriate.
 BOTH: -/
 
 -- QUOTE:
@@ -444,7 +444,7 @@ class CommGroup₃ (G : Type) extends Group₃ G, CommMonoid₃ G
 -- QUOTE.
 
 /- TEXT:
-We are now ready for rings. For demonstration puprposes we won't assume that addition is
+We are now ready for rings. For demonstration purposes we won't assume that addition is
 commutative, and then immediately provide an instance of ``AddCommGroup₃``. Mathlib does not
 play this game, first because in practice this does not make any ring instance easier and
 also because Mathlib's algebraic hierarchy goes through semi-rings which are like rings but without
