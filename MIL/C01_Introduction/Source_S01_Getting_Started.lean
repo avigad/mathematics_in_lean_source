@@ -36,7 +36,7 @@ running Lean from inside the VS Code editor.
 To get started:
 
 #. Install Lean 4 and VS Code following
-   these `instructions <https://github.com/leanprover/lean4/blob/master/doc/quickstart.md>`_.
+   these `instructions <https://leanprover-community.github.io/get_started.html#regular-install>`_.
 
 #. In a terminal, navigate to the folder where you want to put a copy of the
    repository, and type ``git clone git@github.com:leanprover-community/mathematics_in_lean.git``
