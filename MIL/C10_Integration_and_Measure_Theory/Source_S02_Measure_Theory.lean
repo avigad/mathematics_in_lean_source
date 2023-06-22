@@ -2,7 +2,7 @@ import Mathlib.Analysis.NormedSpace.FiniteDimension
 import Mathlib.Analysis.Convolution
 import Mathlib.MeasureTheory.Function.Jacobian
 import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.MeasureTheory.Measure.Lebesgue
+import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 open Set Filter
 
@@ -79,7 +79,7 @@ open MeasureTheory
 variable {μ : Measure α}
 
 -- EXAMPLES:
-example (s : Set α) : μ s = ⨅ (t) (st : s ⊆ t) (ht : MeasurableSet t), μ t :=
+example (s : Set α) : μ s = ⨅ (t : Set α) (_ : s ⊆ t) (_ : MeasurableSet t), μ t :=
   measure_eq_iInf s
 
 example (s : ι → Set α) : μ (⋃ i, s i) ≤ ∑' i, μ (s i) :=
@@ -102,4 +102,3 @@ EXAMPLES: -/
 example {P : α → Prop} : (∀ᵐ x ∂μ, P x) ↔ ∀ᶠ x in μ.ae, P x :=
   Iff.rfl
 -- QUOTE.
-

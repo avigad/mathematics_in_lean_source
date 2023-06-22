@@ -2,7 +2,7 @@ import Mathlib.Analysis.NormedSpace.FiniteDimension
 import Mathlib.Analysis.Convolution
 import Mathlib.MeasureTheory.Function.Jacobian
 import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.MeasureTheory.Measure.Lebesgue
+import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 open Set Filter
 
@@ -58,7 +58,7 @@ with the dominated convergence theorem. There are several versions in mathlib,
 and here we only show the most basic one.
 EXAMPLES: -/
 -- QUOTE:
-example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ n, AeStronglyMeasurable (F n) μ)
+example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ n, AEStronglyMeasurable (F n) μ)
     (hint : Integrable bound μ) (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
     (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ => F n a) atTop (𝓝 (f a))) :
     Tendsto (fun n => ∫ a, F n a ∂μ) atTop (𝓝 (∫ a, f a ∂μ)) :=
@@ -71,7 +71,7 @@ EXAMPLES: -/
 -- QUOTE:
 example {α : Type _} [MeasurableSpace α] {μ : Measure α} [SigmaFinite μ] {β : Type _}
     [MeasurableSpace β] {ν : Measure β} [SigmaFinite ν] (f : α × β → E)
-    (hf : Integrable f (μ.Prod ν)) : (∫ z, f z ∂μ.Prod ν) = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
+    (hf : Integrable f (μ.prod ν)) : (∫ z, f z ∂ μ.prod ν) = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
   integral_prod f hf
 -- QUOTE.
 
@@ -84,7 +84,7 @@ EXAMPLES: -/
 section
 
 -- QUOTE:
-open convolution
+open Convolution
 
 -- EXAMPLES:
 variable {𝕜 : Type _} {G : Type _} {E : Type _} {E' : Type _} {F : Type _} [NormedAddCommGroup E]
@@ -111,8 +111,7 @@ example {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
     [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure] {F : Type _}
     [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F] {s : Set E} {f : E → E}
     {f' : E → E →L[ℝ] E} (hs : MeasurableSet s)
-    (hf : ∀ x : E, x ∈ s → HasFderivWithinAt f (f' x) s x) (h_inj : InjOn f s) (g : E → F) :
+    (hf : ∀ x : E, x ∈ s → HasFDerivWithinAt f (f' x) s x) (h_inj : InjOn f s) (g : E → F) :
     (∫ x in f '' s, g x ∂μ) = ∫ x in s, |(f' x).det| • g (f x) ∂μ :=
   integral_image_eq_integral_abs_det_fderiv_smul μ hs hf h_inj g
 -- QUOTE.
-
