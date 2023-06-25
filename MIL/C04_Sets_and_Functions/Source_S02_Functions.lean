@@ -531,7 +531,7 @@ such that ``f x = y``,
 the inverse function needs to *choose* one of them.
 This requires an appeal to the *axiom of choice*.
 Lean allows various ways of accessing it;
-one convenient method is to use the classical ``some``
+one convenient method is to use the classical ``choose``
 operator, illustrated below.
 TEXT. -/
 -- BOTH:
@@ -551,9 +551,9 @@ example : P (Classical.choose h) :=
 -- QUOTE.
 
 /- TEXT:
-Given ``h : ∃ x, P x``, the value of ``Classical.some h``
+Given ``h : ∃ x, P x``, the value of ``Classical.choose h``
 is some ``x`` satisfying ``P x``.
-The theorem ``Classical.some_spec h`` says that ``Classical.some h``
+The theorem ``Classical.choose_spec h`` says that ``Classical.choose h``
 meets this specification.
 
 With these in hand, we can define the inverse function
