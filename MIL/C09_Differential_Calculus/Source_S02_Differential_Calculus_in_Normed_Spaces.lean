@@ -365,7 +365,7 @@ example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     ∀ᶠ x in 𝓝 (f a), f (hf.localInverse f f' a x) = x :=
   hf.eventually_right_inverse
 
-example [CompleteSpace E] {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
+example {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
   (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     HasStrictFDerivAt (HasStrictFDerivAt.localInverse f f' a hf) (f'.symm : F →L[𝕜] E) (f a) :=
   HasStrictFDerivAt.to_localInverse hf
