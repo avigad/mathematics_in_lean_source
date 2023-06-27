@@ -262,8 +262,6 @@ EXAMPLES: -/
 -- QUOTE:
 open Asymptotics
 
-open Asymptotics
-
 example {α : Type _} {E : Type _} [NormedGroup E] {F : Type _} [NormedGroup F] (c : ℝ)
     (l : Filter α) (f : α → E) (g : α → F) : IsBigOWith c l f g ↔ ∀ᶠ x in l, ‖f x‖ ≤ c * ‖g x‖ :=
   isBigOWith_iff
