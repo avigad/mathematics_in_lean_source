@@ -103,6 +103,7 @@ latex_elements = {
    # load packages and make box around code lighter
     'preamble': r'''
 \usepackage{unixode}
+\usepackage{bbm}
 \definecolor{VerbatimBorderColor}{rgb}{0.7,0.7,0.7}
 % from sphinxmanual.cls: put authors on separate lines
 \DeclareRobustCommand{\and}{%
