@@ -488,12 +488,12 @@ instance {α : Type _} : Group₂ (Equiv.Perm α) where
 The following illustrates their use.
 EXAMPLES: -/
 -- QUOTE:
-#check @Group₂.mul
+#check Group₂.mul
 
 def mySquare {α : Type _} [Group₂ α] (x : α) :=
   Group₂.mul x x
 
-#check @mySquare
+#check mySquare
 
 section
 variable {β : Type _} (f g : Equiv.Perm β)

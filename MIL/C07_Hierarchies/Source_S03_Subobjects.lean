@@ -186,7 +186,9 @@ is the ``HasQuotient`` class which allows notations like ``M ⧸ N``. Beware the
 ``⧸`` is a special unicode character, not a regular ASCII division symbol.
 
 As an example, we will build the quotient of a commutative monoid by a submonoid, leave proofs
-to you.
+to you. In the last example, you can use ``Setoid.refl`` but it won't automatically pick up
+the relevant ``Setoid`` structure. You can fix this issue by providing all arguments using
+the ``@`` syntax, as in ``@Setoid.refl M N.Setoid``.
 
 BOTH: -/
 

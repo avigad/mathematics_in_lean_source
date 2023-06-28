@@ -394,7 +394,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [RegularSpace Y] {A : Set X}
     ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a :=
   sorry
 
-#check @HasBasis.tendsto_right_iff
+#check HasBasis.tendsto_right_iff
 -- QUOTE.
 
 -- OMIT: TODO: Fix this.

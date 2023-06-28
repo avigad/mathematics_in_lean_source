@@ -248,7 +248,6 @@ variable (a b c : ℝ)
 #check mul_assoc c a b
 #check mul_comm a
 #check mul_comm
-#check @mul_comm
 
 end
 -- QUOTE.

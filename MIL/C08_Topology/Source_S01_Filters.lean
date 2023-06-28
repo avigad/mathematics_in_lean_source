@@ -432,9 +432,9 @@ Given ``F : Filter X``, for any predicates ``P`` and ``Q`` on ``X``,
 * the condition ``U ∈ F → V ∈ F → U ∩ V ∈ F`` ensures ``(∀ᶠ x in F, P x) → (∀ᶠ x in F, Q x) → ∀ᶠ x in F, P x ∧ Q x``.
 EXAMPLES: -/
 -- QUOTE:
-#check @eventually_of_forall
-#check @Eventually.mono
-#check @Eventually.and
+#check eventually_of_forall
+#check Eventually.mono
+#check Eventually.and
 -- QUOTE.
 
 /- TEXT:

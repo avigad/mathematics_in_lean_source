@@ -267,7 +267,7 @@ section
 -- QUOTE:
 variable {α : Type _} {R : Type _} [OrderedCancelAddCommMonoid R]
 
-#check @add_le_add
+#check add_le_add
 
 def FnUb' (f : α → R) (a : R) : Prop :=
   ∀ x, f x ≤ a

@@ -72,7 +72,7 @@ The theorem ``Nat.prime_def_lt`` provides one familiar characterization,
 and ``Nat.Prime.eq_one_or_self_of_dvd`` provides another.
 EXAMPLES: -/
 -- QUOTE:
-#check @Nat.prime_def_lt
+#check Nat.prime_def_lt
 
 example (p : ℕ) (prime_p : Nat.Prime p) : 2 ≤ p ∧ ∀ m : ℕ, m < p → m ∣ p → m = 1 := by
   rwa [Nat.prime_def_lt] at prime_p
@@ -111,7 +111,7 @@ but for reasons that will become clear below,
 we will simply use ``2 ∣ m`` to express that ``m`` is even.
 EXAMPLES: -/
 -- QUOTE:
-#check @Nat.Prime.dvd_mul
+#check Nat.Prime.dvd_mul
 #check Nat.Prime.dvd_mul Nat.prime_two
 #check Nat.prime_two.dvd_mul
 
@@ -436,7 +436,7 @@ EXAMPLES: -/
 #check multiplicity
 
 -- OMIT: TODO: add when available
--- #check @irrational_nrt_of_n_not_dvd_multiplicity
+-- #check irrational_nrt_of_n_not_dvd_multiplicity
 
 -- #check irrational_sqrt_two
 
@@ -454,7 +454,7 @@ variable (r : ℚ)
 #check r.reduced
 
 #check Rat.num_den'
-#check @Rat.num_den r
+#checkRat.num_den r
 
 end
 
