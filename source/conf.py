@@ -17,8 +17,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Mathematics in Lean'
-copyright = '2020, Jeremy Avigad, Kevin Buzzard, Robert Y. Lewis, Patrick Massot'
-author = 'Jeremy Avigad, Kevin Buzzard, Robert Y. Lewis, Patrick Massot'
+copyright = '2020, Jeremy Avigad, Patrick Massot'
+author = 'Jeremy Avigad, Patrick Massot'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
@@ -121,7 +121,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'mathematics_in_lean.tex', 'Mathematics in Lean',
-     'Jeremy Avigad \\and Kevin Buzzard \\and Robert Y. Lewis \\and Patrick Massot', 'manual'),
+     'Jeremy Avigad \\and Patrick Massot', 'manual'),
 ]
 
 
