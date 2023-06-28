@@ -58,6 +58,8 @@ with the dominated convergence theorem. There are several versions in mathlib,
 and here we only show the most basic one.
 EXAMPLES: -/
 -- QUOTE:
+open Filter
+
 example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ n, AEStronglyMeasurable (F n) μ)
     (hint : Integrable bound μ) (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
     (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ => F n a) atTop (𝓝 (f a))) :
