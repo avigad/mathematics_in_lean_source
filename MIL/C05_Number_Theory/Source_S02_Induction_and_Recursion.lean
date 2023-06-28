@@ -105,7 +105,7 @@ The principle of induction says that we can prove a general statement
 about the natural numbers by proving that the statement holds of 0
 and that whenever it holds of a natural number :math:`n`,
 it also holds of :math:`n + 1`.
-The line ``induction n with n ih`` in the proof
+The line ``induction' n with n ih`` in the proof
 below therefore results in two goals:
 in the first we need to prove ``0 < fac 0``,
 and in the second we have the added assumption ``ih : 0 < fac n``
