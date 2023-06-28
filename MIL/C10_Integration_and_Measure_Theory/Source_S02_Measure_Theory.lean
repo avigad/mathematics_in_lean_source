@@ -24,14 +24,14 @@ not necessarily finite dimensional.
 The first component in the development of measure theory
 is the notion of a :math:`\sigma`-algebra of sets, which are called the
 *measurable* sets.
-The type class ``measurable_space`` serves to equip a type with such a structure.
+The type class ``MeasurableSpace`` serves to equip a type with such a structure.
 The sets ``empty`` and ``univ`` are measurable,
 the complement of a measurable set is measurable,
 and a countable union or intersection of measurable sets is measurable.
-Note that these axioms are redundant; if you ``#print measurable_space``,
+Note that these axioms are redundant; if you ``#print MeasurableSpace``,
 you will see the ones that mathlib uses.
 As the examples below show, countability assumptions can be expressed using the
-``encodable`` type class.
+``Encodable`` type class.
 BOTH: -/
 -- QUOTE:
 variable {α : Type _} [MeasurableSpace α]
