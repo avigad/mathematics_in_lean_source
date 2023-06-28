@@ -84,6 +84,8 @@ We can eve state Rolle's theorem without any differentiability assumptions, whic
 seems even weirder.
 EXAMPLES: -/
 -- QUOTE:
+open Set
+
 example {f : ℝ → ℝ} {a b : ℝ} (hab : a < b) (hfc : ContinuousOn f (Icc a b)) (hfI : f a = f b) :
     ∃ c ∈ Ioo a b, deriv f c = 0 :=
   exists_deriv_eq_zero f hab hfc hfI
