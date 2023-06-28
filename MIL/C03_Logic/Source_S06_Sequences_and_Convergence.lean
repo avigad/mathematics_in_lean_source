@@ -20,7 +20,7 @@ In Lean, we can render this as follows:
 BOTH: -/
 -- QUOTE:
 def ConvergesTo (s : ℕ → ℝ) (a : ℝ) :=
-  ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
+  ∀ ε > 0, ∃ N, ∀ n ≥ N, |s n - a| < ε
 -- QUOTE.
 
 /- TEXT:
@@ -46,7 +46,7 @@ by proving that their values are the same
 at all the values of their arguments.
 TEXT. -/
 -- QUOTE:
-example : (fun x y : ℝ => (x + y) ^ 2) = fun x y : ℝ => x ^ 2 + 2 * x * y + y ^ 2 := by
+example : (fun x y : ℝ ↦ (x + y) ^ 2) = fun x y : ℝ ↦ x ^ 2 + 2 * x * y + y ^ 2 := by
   ext
   ring
 -- QUOTE.
@@ -63,7 +63,7 @@ allows us to prove an equation between two expressions
 by reconciling the parts that are different:
 TEXT. -/
 -- QUOTE:
-example (a b : ℝ) : abs a = abs (a - b + b) := by
+example (a b : ℝ) : |a| = |a - b + b| := by
   congr
   ring
 -- QUOTE.
@@ -103,10 +103,10 @@ The following shows that any constant sequence :math:`a, a, a, \ldots`
 converges.
 BOTH: -/
 -- QUOTE:
-theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ => a) a := by
+theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ ↦ a) a := by
   intro ε εpos
   use 0
-  intro n nge; dsimp
+  intro n nge
   rw [sub_self, abs_zero]
   apply εpos
 -- QUOTE.
@@ -140,9 +140,9 @@ TEXT. -/
 -- QUOTE:
 theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ}
       (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
-    ConvergesTo (fun n => s n + t n) (a + b) := by
+    ConvergesTo (fun n ↦ s n + t n) (a + b) := by
   intro ε εpos
-  dsimp
+  dsimp -- this line is not needed but cleans up the goal a bit.
   have ε2pos : 0 < ε / 2 := by linarith
   cases' cs (ε / 2) ε2pos with Ns hs
   cases' ct (ε / 2) ε2pos with Nt ht
@@ -153,7 +153,7 @@ theorem convergesTo_add {s t : ℕ → ℝ} {a b : ℝ}
 -- SOLUTIONS:
 theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ}
       (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
-    ConvergesTo (fun n => s n + t n) (a + b) := by
+    ConvergesTo (fun n ↦ s n + t n) (a + b) := by
   intro ε εpos
   dsimp
   have ε2pos : 0 < ε / 2 := by linarith
@@ -175,8 +175,8 @@ theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ}
 As hints, you can use ``le_of_max_le_left`` and ``le_of_max_le_right``,
 and ``norm_num`` can prove ``ε / 2 + ε / 2 = ε``.
 Also, it is helpful to use the ``congr`` tactic to
-show that ``abs (s n + t n - (a + b))`` is equal to
-``abs ((s n - a) + (t n - b)),``
+show that ``|s n + t n - (a + b)|`` is equal to
+``|(s n - a) + (t n - b)|,``
 since then you can use the triangle inequality.
 Notice that we marked all the variables ``s``, ``t``, ``a``, and ``b``
 implicit because they can be inferred from the hypotheses.
@@ -186,7 +186,7 @@ of addition is tricky.
 We will get there by proving some auxiliary statements first.
 See if you can also finish off the next proof,
 which shows that if ``s`` converges to ``a``,
-then ``fun n => c * s n`` converges to ``c * a``.
+then ``fun n ↦ c * s n`` converges to ``c * a``.
 It is helpful to split into cases depending on whether ``c``
 is equal to zero or not.
 We have taken care of the zero case,
@@ -195,27 +195,31 @@ the extra assumption that ``c`` is nonzero.
 TEXT. -/
 -- QUOTE:
 theorem convergesTo_mul_const {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : ConvergesTo s a) :
-    ConvergesTo (fun n => c * s n) (c * a) := by
+    ConvergesTo (fun n ↦ c * s n) (c * a) := by
   by_cases h : c = 0
   · convert convergesTo_const 0
-    · rw [h, MulZeroClass.zero_mul]
-    rw [h, MulZeroClass.zero_mul]
-  have acpos : 0 < abs c := abs_pos.mpr h
+    · rw [h]
+      ring
+    rw [h]
+    ring
+  have acpos : 0 < |c| := abs_pos.mpr h
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
 theorem convergesTo_mul_constαα {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : ConvergesTo s a) :
-    ConvergesTo (fun n => c * s n) (c * a) := by
+    ConvergesTo (fun n ↦ c * s n) (c * a) := by
   by_cases h : c = 0
   · convert convergesTo_const 0
-    · rw [h, MulZeroClass.zero_mul]
-    rw [h, MulZeroClass.zero_mul]
-  have acpos : 0 < abs c := abs_pos.mpr h
+    · rw [h]
+      ring
+    rw [h]
+    ring
+  have acpos : 0 < |c| := abs_pos.mpr h
   intro ε εpos
   dsimp
-  have εcpos : 0 < ε / abs c := by apply div_pos εpos acpos
-  cases' cs (ε / abs c) εcpos with Ns hs
+  have εcpos : 0 < ε / |c| := by apply div_pos εpos acpos
+  cases' cs (ε / |c|) εcpos with Ns hs
   use Ns
   intro n ngt
   calc
@@ -231,17 +235,17 @@ We have started you off; see if you can finish it.
 TEXT. -/
 -- QUOTE:
 theorem exists_abs_le_of_convergesTo {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
-    ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
+    ∃ N b, ∀ n, N ≤ n → |s n| < b := by
   cases' cs 1 zero_lt_one with N h
-  use N, abs a + 1
+  use N, |a| + 1
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
 theorem exists_abs_le_of_convergesToαα {s : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) :
-    ∃ N b, ∀ n, N ≤ n → abs (s n) < b := by
+    ∃ N b, ∀ n, N ≤ n → |s n| < b := by
   cases' cs 1 zero_lt_one with N h
-  use N, abs a + 1
+  use N, |a| + 1
   intro n ngt
   calc
     |s n| = |s n - a + a| := by
@@ -259,7 +263,7 @@ holds more generally.
 
 The next lemma is auxiliary: we prove that if
 ``s`` converges to ``a`` and ``t`` converges to ``0``,
-then ``fun n => s n * t n`` converges to ``0``.
+then ``fun n ↦ s n * t n`` converges to ``0``.
 To do so, we use the previous theorem to find a ``B``
 that bounds ``s`` beyond some point ``N₀``.
 See if you can understand the strategy we have outlined
@@ -267,7 +271,7 @@ and finish the proof.
 TEXT. -/
 -- QUOTE:
 theorem aux {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t 0) :
-    ConvergesTo (fun n => s n * t n) 0 := by
+    ConvergesTo (fun n ↦ s n * t n) 0 := by
   intro ε εpos
   dsimp
   rcases exists_abs_le_of_convergesTo cs with ⟨N₀, B, h₀⟩
@@ -279,7 +283,7 @@ theorem aux {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : Converges
 
 -- SOLUTIONS:
 theorem auxαα {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : ConvergesTo t 0) :
-    ConvergesTo (fun n => s n * t n) 0 := by
+    ConvergesTo (fun n ↦ s n * t n) 0 := by
   intro ε εpos
   dsimp
   rcases exists_abs_le_of_convergesTo cs with ⟨N₀, B, h₀⟩
@@ -304,8 +308,8 @@ TEXT. -/
 -- BOTH:
 theorem convergesTo_mul {s t : ℕ → ℝ} {a b : ℝ}
       (cs : ConvergesTo s a) (ct : ConvergesTo t b) :
-    ConvergesTo (fun n => s n * t n) (a * b) := by
-  have h₁ : ConvergesTo (fun n => s n * (t n + -b)) 0 := by
+    ConvergesTo (fun n ↦ s n * t n) (a * b) := by
+  have h₁ : ConvergesTo (fun n ↦ s n * (t n + -b)) 0 := by
     apply aux cs
     convert convergesTo_add ct (convergesTo_const (-b))
     ring
@@ -327,17 +331,17 @@ theorem convergesTo_unique {s : ℕ → ℝ} {a b : ℝ}
       (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
     a = b := by
   by_contra abne
-  have : abs (a - b) > 0 := by sorry
-  let ε := abs (a - b) / 2
+  have : |a - b| > 0 := by sorry
+  let ε := |a - b| / 2
   have εpos : ε > 0 := by
-    change abs (a - b) / 2 > 0
+    change |a - b| / 2 > 0
     linarith
   cases' sa ε εpos with Na hNa
   cases' sb ε εpos with Nb hNb
   let N := max Na Nb
-  have absa : abs (s N - a) < ε := by sorry
-  have absb : abs (s N - b) < ε := by sorry
-  have : abs (a - b) < abs (a - b) := by sorry
+  have absa : |s N - a| < ε := by sorry
+  have absb : |s N - b| < ε := by sorry
+  have : |a - b| < |a - b| := by sorry
   exact lt_irrefl _ this
 -- QUOTE.
 
@@ -346,34 +350,34 @@ theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ}
       (sa : ConvergesTo s a) (sb : ConvergesTo s b) :
     a = b := by
   by_contra abne
-  have : abs (a - b) > 0 := by
+  have : |a - b| > 0 := by
     apply lt_of_le_of_ne
     · apply abs_nonneg
     intro h''
     apply abne
     apply eq_of_abs_sub_eq_zero h''.symm
-  let ε := abs (a - b) / 2
+  let ε := |a - b| / 2
   have εpos : ε > 0 := by
-    change abs (a - b) / 2 > 0
+    change |a - b| / 2 > 0
     linarith
   cases' sa ε εpos with Na hNa
   cases' sb ε εpos with Nb hNb
   let N := max Na Nb
-  have absa : abs (s N - a) < ε := by
+  have absa : |s N - a| < ε := by
     apply hNa
     apply le_max_left
-  have absb : abs (s N - b) < ε := by
+  have absb : |s N - b| < ε := by
     apply hNb
     apply le_max_right
-  have : abs (a - b) < abs (a - b)
+  have : |a - b| < |a - b|
   calc
-    abs (a - b) = abs (-(s N - a) + (s N - b)) := by
+    |a - b| = |(-(s N - a)) + (s N - b)| := by
       congr
       ring
-    _ ≤ abs (-(s N - a)) + abs (s N - b) := (abs_add _ _)
-    _ = abs (s N - a) + abs (s N - b) := by rw [abs_neg]
+    _ ≤ |(-(s N - a))| + |s N - b| := (abs_add _ _)
+    _ = |s N - a| + |s N - b| := by rw [abs_neg]
     _ < ε + ε := (add_lt_add absa absb)
-    _ = abs (a - b) := by norm_num
+    _ = |a - b| := by norm_num
 
   exact lt_irrefl _ this
 
@@ -390,7 +394,7 @@ section
 variable {α : Type _} [LinearOrder α]
 
 def ConvergesTo' (s : α → ℝ) (a : ℝ) :=
-  ∀ ε > 0, ∃ N, ∀ n ≥ N, abs (s n - a) < ε
+  ∀ ε > 0, ∃ N, ∀ n ≥ N, |s n - a| < ε
 -- QUOTE.
 
 end

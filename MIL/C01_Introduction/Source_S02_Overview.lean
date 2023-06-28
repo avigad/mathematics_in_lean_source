@@ -93,7 +93,7 @@ if ``n`` is even then so is ``m * n``:
 TEXT. -/
 -- Here are some proofs.
 -- QUOTE:
-example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, (hk : n = k + k)⟩ =>
+example : ∀ m n : Nat, Even n → Even (m * n) := fun m n ⟨k, (hk : n = k + k)⟩ ↦
   have hmn : m * n = m * k + m * k := by rw [hk, mul_add]
   show ∃ l, m * n = l + l from ⟨_, hmn⟩
 -- QUOTE.
@@ -103,11 +103,12 @@ The *proof term* can be compressed to a single line:
 TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) :=
-fun m n ⟨k, hk⟩ => ⟨m * k, by rw [hk, mul_add]⟩
+fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 -- QUOTE.
 
 /- TEXT:
-The following is, instead, a *tactic-style* proof of the same theorem:
+The following is, instead, a *tactic-style* proof of the same theorem, where lines
+starting with ``--`` are comments, hence ignored by Lean:
 TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) := by
@@ -180,11 +181,11 @@ powerful and ever-growing library, *mathlib*.
 As a result, we can show you how to use some of the mathematical
 objects and theorems in the library,
 and some of the very useful tactics.
-This book is not meant to be used as an overview of the library;
+This book is not meant to be used as an complete overview of the library;
 the `community <https://leanprover-community.github.io/>`_
 web pages contain extensive documentation.
 Rather, our goal is to introduce you to the style of thinking that
-underlies that formalization,
+underlies that formalization, and point out basic entry points
 so that you are comfortable browsing the library and
 finding things on your own.
 

@@ -89,12 +89,12 @@ def FnHasLb (f : ℝ → ℝ) :=
 /- TEXT:
 We can use the theorem ``FnUb_add`` from the last section
 to prove that if ``f`` and ``g`` have upper bounds,
-then so does ``fun x => f x + g x``.
+then so does ``fun x ↦ f x + g x``.
 TEXT. -/
 -- BOTH:
 theorem fnUb_add {f g : ℝ → ℝ} {a b : ℝ} (hfa : FnUb f a) (hgb : FnUb g b) :
-    FnUb (fun x => f x + g x) (a + b) :=
-  fun x => add_le_add (hfa x) (hgb x)
+    FnUb (fun x ↦ f x + g x) (a + b) :=
+  fun x ↦ add_le_add (hfa x) (hgb x)
 
 section
 
@@ -102,7 +102,7 @@ section
 variable {f g : ℝ → ℝ}
 
 -- EXAMPLES:
-example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
   cases' ubf with a ubfa
   cases' ubg with b ubgb
   use a + b
@@ -138,22 +138,22 @@ or you can insert the arguments directly
 into the proofs.
 TEXT. -/
 -- QUOTE:
-example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
+example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x ↦ f x + g x := by
   sorry
 
-example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := by
+example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x ↦ c * f x := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x => f x + g x := by
+example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x ↦ f x + g x := by
   cases' lbf with a lbfa
   cases' lbg with b lbgb
   use a + b
   intro x
   exact add_le_add (lbfa x) (lbgb x)
 
-example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x => c * f x := by
+example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x ↦ c * f x := by
   cases' ubf with a lbfa
   use c * a
   intro x
@@ -176,23 +176,23 @@ is a combination of ``intro`` and ``rcases``.
 These examples illustrate their use:
 TEXT. -/
 -- QUOTE:
-example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x => f x + g x := by
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
   rcases ubf with ⟨a, ubfa⟩
   rcases ubg with ⟨b, ubgb⟩
   exact ⟨a + b, fnUb_add ubfa ubgb⟩
 
-example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x := by
+example : FnHasUb f → FnHasUb g → FnHasUb fun x ↦ f x + g x := by
   rintro ⟨a, ubfa⟩ ⟨b, ubgb⟩
   exact ⟨a + b, fnUb_add ubfa ubgb⟩
 -- QUOTE.
 
 /- TEXT:
-In fact, Lean also supports a pattern-matching lambda
+In fact, Lean also supports a pattern-matching fun
 in expressions and proof terms:
 TEXT. -/
 -- QUOTE:
-example : FnHasUb f → FnHasUb g → FnHasUb fun x => f x + g x :=
-  fun ⟨a, ubfa⟩ ⟨b, ubgb⟩ => ⟨a + b, fnUb_add ubfa ubgb⟩
+example : FnHasUb f → FnHasUb g → FnHasUb fun x ↦ f x + g x :=
+  fun ⟨a, ubfa⟩ ⟨b, ubgb⟩ ↦ ⟨a + b, fnUb_add ubfa ubgb⟩
 -- QUOTE.
 
 -- BOTH:
@@ -255,7 +255,7 @@ then :math:`xy` is the norm of :math:`(a + bi) (c + di)`.
 Our cryptic proof illustrates the fact that
 the proof that is easiest to formalize isn't always
 the most perspicuous one.
-In the chapters to come,
+In :numref:`section_building_the_gaussian_integers`,
 we will provide you with the means to define the Gaussian
 integers and use them to provide an alternative proof.
 
@@ -344,27 +344,27 @@ open Function
 
 -- EXAMPLES:
 -- QUOTE:
-example {c : ℝ} : Surjective fun x => x + c := by
+example {c : ℝ} : Surjective fun x ↦ x + c := by
   intro x
   use x - c
   dsimp; ring
 -- QUOTE.
 
 /- TEXT:
-Try this example yourself:
+Try this example yourself using the theorem ``mul_div_cancel'``.:
 TEXT. -/
 -- QUOTE:
-example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
   dsimp; rw [mul_div_cancel' _ h]
 
-example {c : ℝ} (h : c ≠ 0) : Surjective fun x => c * x := by
+example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
   field_simp [h] ; ring
@@ -383,7 +383,6 @@ example (x y : ℝ) (h : x - y ≠ 0) : (x ^ 2 - y ^ 2) / (x - y) = x + y := by
 -- QUOTE.
 
 /- TEXT:
-You can use the theorem ``div_mul_cancel``.
 The next example uses a surjectivity hypothesis
 by applying it to a suitable value.
 Note that you can use ``cases'`` with any expression,
@@ -412,12 +411,12 @@ variable {α : Type _} {β : Type _} {γ : Type _}
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
-example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
+example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x ↦ g (f x) := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x => g (f x) := by
+example (surjg : Surjective g) (surjf : Surjective f) : Surjective fun x ↦ g (f x) := by
   intro z
   rcases surjg z with ⟨y, rfl⟩
   rcases surjf y with ⟨x, rfl⟩

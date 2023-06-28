@@ -69,7 +69,7 @@ In the next example, we tell Lean
 to use the name ``h`` on each branch.
 TEXT. -/
 -- QUOTE:
-example : x < abs y → x < y ∨ x < -y := by
+example : x < |y| → x < y ∨ x < -y := by
   cases' le_or_gt 0 y with h h
   · rw [abs_of_nonneg h]
     intro h
@@ -82,9 +82,9 @@ example : x < abs y → x < y ∨ x < -y := by
 /- TEXT:
 The absolute value function is defined in such a way
 that we can immediately prove that
-``x ≥ 0`` implies ``abs x = x``
+``x ≥ 0`` implies ``|x| = x``
 (this is the theorem ``abs_of_nonneg``)
-and ``x < 0`` implies ``abs x = -x`` (this is ``abs_of_neg``).
+and ``x < 0`` implies ``|x| = -x`` (this is ``abs_of_neg``).
 The expression ``le_or_gt 0 x`` establishes ``0 ≤ x ∨ x < 0``,
 allowing us to split on those two cases.
 Try proving the triangle inequality using the two
@@ -96,30 +96,30 @@ TEXT. -/
 namespace MyAbs
 
 -- EXAMPLES:
-theorem le_abs_self (x : ℝ) : x ≤ abs x := by
+theorem le_abs_self (x : ℝ) : x ≤ |x| := by
   sorry
 
-theorem neg_le_abs_self (x : ℝ) : -x ≤ abs x := by
+theorem neg_le_abs_self (x : ℝ) : -x ≤ |x| := by
   sorry
 
-theorem abs_add (x y : ℝ) : abs (x + y) ≤ abs x + abs y := by
+theorem abs_add (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem le_abs_selfαα (x : ℝ) : x ≤ abs x := by
+theorem le_abs_selfαα (x : ℝ) : x ≤ |x| := by
   cases' le_or_gt 0 x with h h
   · rw [abs_of_nonneg h]
   rw [abs_of_neg h]
   linarith
 
-theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ abs x := by
+theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ |x| := by
   cases' le_or_gt 0 x with h h
   · rw [abs_of_nonneg h]
     linarith
   rw [abs_of_neg h]
 
-theorem abs_addαα (x y : ℝ) : abs (x + y) ≤ abs x + abs y := by
+theorem abs_addαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   cases' le_or_gt 0 (x + y) with h h
   · rw [abs_of_nonneg h]
     linarith [le_abs_self x, le_abs_self y]
@@ -132,15 +132,15 @@ you want more practice with disjunction,
 try these.
 TEXT. -/
 -- QUOTE:
-theorem lt_abs : x < abs y ↔ x < y ∨ x < -y := by
+theorem lt_abs : x < |y| ↔ x < y ∨ x < -y := by
   sorry
 
-theorem abs_lt : abs x < y ↔ -y < x ∧ x < y := by
+theorem abs_lt : |x| < y ↔ -y < x ∧ x < y := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y := by
+theorem lt_absαα : x < |y| ↔ x < y ∨ x < -y := by
   cases' le_or_gt 0 y with h h
   · rw [abs_of_nonneg h]
     constructor
@@ -161,7 +161,7 @@ theorem lt_absαα : x < abs y ↔ x < y ∨ x < -y := by
   · linarith
   exact h'
 
-theorem abs_ltαα : abs x < y ↔ -y < x ∧ x < y := by
+theorem abs_ltαα : |x| < y ↔ -y < x ∧ x < y := by
   cases' le_or_gt 0 x with h h
   · rw [abs_of_nonneg h]
     constructor
@@ -390,5 +390,3 @@ example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
     exact absurd h' h
   intro
   exact h
-
-

@@ -43,7 +43,7 @@ specifies how to compute integrals of derivatives.
 which are not shown here, are not equivalent.)
 EXAMPLES: -/
 -- QUOTE:
-example (f : ℝ → ℝ) (hf : Continuous f) (a b : ℝ) : deriv (fun u => ∫ x : ℝ in a..u, f x) b = f b :=
+example (f : ℝ → ℝ) (hf : Continuous f) (a b : ℝ) : deriv (fun u ↦ ∫ x : ℝ in a..u, f x) b = f b :=
   (integral_hasStrictDerivAt_right (hf.intervalIntegrable _ _) (hf.stronglyMeasurableAtFilter _ _)
         hf.continuousAt).hasDerivAt.deriv
 
@@ -58,6 +58,6 @@ EXAMPLES: -/
 -- QUOTE:
 open Convolution
 
-example (f : ℝ → ℝ) (g : ℝ → ℝ) : f ⋆ g = fun x => ∫ t, f t * g (x - t) :=
+example (f : ℝ → ℝ) (g : ℝ → ℝ) : f ⋆ g = fun x ↦ ∫ t, f t * g (x - t) :=
   rfl
 -- QUOTE.

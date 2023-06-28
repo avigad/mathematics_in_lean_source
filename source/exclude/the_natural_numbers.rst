@@ -673,7 +673,7 @@ The tactic should still succeed in a few seconds.
 .. words ``local attribute`` tells
 .. the simplifier that in the current section or file,
 .. it should use the rule ``abs_of_nonneg``,
-.. which says ``abs a = a`` when ``a ≥ 0``.
+.. which says ``|a| = a`` when ``a ≥ 0``.
 .. The command ``simp *`` tells the simplifier to use the
 .. facts in the local context as well as its battery of
 .. simplification rules.
@@ -684,7 +684,7 @@ The tactic should still succeed in a few seconds.
 
 ..     local attribute [simp] abs_of_nonneg
 
-..     example (a : ℝ) (f : ℝ → ℝ) (h: a ≥ 0) : f (abs a) = f a :=
+..     example (a : ℝ) (f : ℝ → ℝ) (h: a ≥ 0) : f (|a|) = f a :=
 ..     by simp *
 
 .. The simplifier can also use *permutative conversions* like

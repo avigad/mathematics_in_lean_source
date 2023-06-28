@@ -60,8 +60,8 @@ EXAMPLES: -/
 -- QUOTE:
 example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ n, AEStronglyMeasurable (F n) μ)
     (hint : Integrable bound μ) (hbound : ∀ n, ∀ᵐ a ∂μ, ‖F n a‖ ≤ bound a)
-    (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ => F n a) atTop (𝓝 (f a))) :
-    Tendsto (fun n => ∫ a, F n a ∂μ) atTop (𝓝 (∫ a, f a ∂μ)) :=
+    (hlim : ∀ᵐ a ∂μ, Tendsto (fun n : ℕ ↦ F n a) atTop (𝓝 (f a))) :
+    Tendsto (fun n ↦ ∫ a, F n a ∂μ) atTop (𝓝 (∫ a, f a ∂μ)) :=
   tendsto_integral_of_dominated_convergence bound hmeas hint hbound hlim
 -- QUOTE.
 
@@ -93,7 +93,7 @@ variable {𝕜 : Type _} {G : Type _} {E : Type _} {E' : Type _} {F : Type _} [N
   [Sub G]
 
 example (f : G → E) (g : G → E') (L : E →L[𝕜] E' →L[𝕜] F) (μ : Measure G) :
-    f ⋆[L, μ] g = fun x => ∫ t, L (f t) (g (x - t)) ∂μ :=
+    f ⋆[L, μ] g = fun x ↦ ∫ t, L (f t) (g (x - t)) ∂μ :=
   rfl
 -- QUOTE.
 

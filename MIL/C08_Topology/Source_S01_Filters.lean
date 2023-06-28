@@ -20,7 +20,7 @@ supports two related ideas:
 
 The filters that correspond to these descriptions will be defined later in this section, but we can already name them:
 
-* ``(at_top : Filter ℕ)``, made of sets of ``ℕ`` containing ``{n | n ≥ N}`` for some ``N``
+* ``(atTop : Filter ℕ)``, made of sets of ``ℕ`` containing ``{n | n ≥ N}`` for some ``N``
 * ``𝓝 x``, made of neighborhoods of ``x`` in a topological space
 * ``𝓤 X``, made of entourages of a uniform space (uniform spaces generalize metric spaces and topological groups)
 * ``μ.a_e`` , made of sets whose complement has zero measure with respect to a measure ``μ``.
@@ -49,7 +49,7 @@ large set is sufficiently large and the third one says that the intersection of 
 is sufficiently large.
 
 It may be even  more useful to think of a filter on a type ``X``
-as a generalized element of ``Set X``. For instance, ``at_top`` is the
+as a generalized element of ``Set X``. For instance, ``atTop`` is the
 "set of very large numbers" and ``𝓝 x₀`` is the "set of points very close to ``x₀``."
 One manifestation of this view is that we can associate to any ``s : Set X`` the so-called *principal filter*
 consisting of all sets that contain ``s``.
@@ -70,11 +70,11 @@ def principal {α : Type _} (s : Set α) : Filter α
 example {α : Type _} (s : Set α) : Filter α :=
   { sets := { t | s ⊆ t }
     univ_sets := subset_univ s
-    sets_of_superset := fun hU hUV => Subset.trans hU hUV
-    inter_sets := fun hU hV => subset_inter hU hV }
+    sets_of_superset := fun hU hUV ↦ Subset.trans hU hUV
+    inter_sets := fun hU hV ↦ subset_inter hU hV }
 
 /- TEXT:
-For our second example, we ask you to define the filter ``at_top : Filter ℕ``.
+For our second example, we ask you to define the filter ``atTop : Filter ℕ``.
 (We could use any type with a preorder instead of ``ℕ``.)
 EXAMPLES: -/
 -- QUOTE:
@@ -119,7 +119,7 @@ def Tendsto₁ {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :=
 -- QUOTE.
 
 /- TEXT:
-When ``X`` is ``ℕ`` and ``Y`` is ``ℝ``, ``Tendsto₁ u at_top (𝓝 x)`` is equivalent to saying that the sequence ``u : ℕ → ℝ``
+When ``X`` is ``ℕ`` and ``Y`` is ``ℝ``, ``Tendsto₁ u atTop (𝓝 x)`` is equivalent to saying that the sequence ``u : ℕ → ℝ``
 converges to the real number ``x``. When both ``X`` and ``Y`` are ``ℝ``, ``Tendsto f (𝓝 x₀) (𝓝 y₀)``
 is equivalent to the familiar notion :math:`\lim_{x \to x₀} f(x) = y₀`.
 All of the other kinds of limits mentioned in the introduction are
@@ -155,7 +155,7 @@ between generalized sets. In this analogy, pushforward is analogous to the direc
 And, indeed, ``map f (𝓟 s) = 𝓟 (f '' s)``.
 
 We can now understand intuitively why a sequence ``u : ℕ → ℝ`` converges to
-a point ``x₀`` if and only if we have ``map u at_top ≤ 𝓝 x₀``.
+a point ``x₀`` if and only if we have ``map u atTop ≤ 𝓝 x₀``.
 The inequality means the "direct image under ``u``" of
 "the set of very big natural numbers" is "included" in "the set of points very close to ``x₀``."
 
@@ -256,7 +256,7 @@ example : 𝓝 (x₀, y₀) = 𝓝 x₀ ×ˢ 𝓝 y₀ :=
 /- TEXT:
 The product operation is defined in terms of the pullback operation and the ``inf`` operation:
 
-  ``F ×ˢ G = (comap prod.fst F) ⊓ (comap prod.snd G)``.
+  ``F ×ˢ G = (comap Prod.fst F) ⊓ (comap Prod.snd G)``.
 
 Here the ``inf`` operation refers to the lattice structure on ``filter X`` for any type ``X``, whereby
 ``F ⊓ G`` is the greatest filter that is smaller than both ``F`` and ``G``.
@@ -332,16 +332,16 @@ from the subtype corresponding to ``s`` is nontrivial if and only if ``x₀`` be
 closure of ``s``.
 
 In order to manage lemmas that do need to assume some filter is nontrivial, mathlib has
-a type class ``Filter.ne_bot``, and the library has lemmas that assume
-``(F : Filter X) [F.ne_bot]``. The instance database knows, for example, that ``(at_top : Filter ℕ).ne_bot``,
+a type class ``Filter.NeBot``, and the library has lemmas that assume
+``(F : Filter X) [F.NeBot]``. The instance database knows, for example, that ``(atTop : Filter ℕ).NeBot``,
 and it knows that pushing forward a nontrivial filter gives a nontrivial filter.
-As a result, a lemma assuming ``[F.ne_bot]`` will automatically apply to ``map u at_top`` for any sequence ``u``.
+As a result, a lemma assuming ``[F.NeBot]`` will automatically apply to ``map u atTop`` for any sequence ``u``.
 
 Our tour of the algebraic properties of filters and their relation to limits is essentially done,
 but we have not yet justified our claim to have recaptured the usual limit notions.
-Superficially, it may seem that ``Tendsto u at_top (𝓝 x₀)``
+Superficially, it may seem that ``Tendsto u atTop (𝓝 x₀)``
 is stronger than the notion of convergence defined in :numref:`sequences_and_convergence` because we ask that *every* neighborhood of ``x₀``
-has a preimage belonging to ``at_top``, whereas the usual definition only requires
+has a preimage belonging to ``atTop``, whereas the usual definition only requires
 this for the standard neighborhoods ``Ioo (x₀ - ε) (x₀ + ε)``.
 The key is that, by definition, every neighborhood contains such a standard one.
 This observation leads to the notion of a *filter basis*.
@@ -357,12 +357,12 @@ So the fact that the sets ``Ioo  (x₀ - ε) (x₀ + ε)`` form a basis for the
 neighborhood topology on ``ℝ`` is stated as follows:
 EXAMPLES: -/
 -- QUOTE:
-example (x₀ : ℝ) : HasBasis (𝓝 x₀) (fun ε : ℝ => 0 < ε) fun ε => Ioo (x₀ - ε) (x₀ + ε) :=
+example (x₀ : ℝ) : HasBasis (𝓝 x₀) (fun ε : ℝ ↦ 0 < ε) fun ε ↦ Ioo (x₀ - ε) (x₀ + ε) :=
   nhds_basis_Ioo_pos x₀
 -- QUOTE.
 
 /- TEXT:
-There is also a nice basis for the filter ``at_top``. The lemma
+There is also a nice basis for the filter ``atTop``. The lemma
 ``Filter.has_basis.tendsto_iff`` allows
 us to reformulate a statement of the form ``Tendsto f F G``
 given bases for ``F`` and ``G``.
@@ -372,7 +372,7 @@ EXAMPLES: -/
 -- QUOTE:
 example (u : ℕ → ℝ) (x₀ : ℝ) :
     Tendsto u atTop (𝓝 x₀) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, u n ∈ Ioo (x₀ - ε) (x₀ + ε) := by
-  have : atTop.HasBasis (fun _ : ℕ => True) Ici := atTop_basis
+  have : atTop.HasBasis (fun _ : ℕ ↦ True) Ici := atTop_basis
   rw [this.tendsto_iff (nhds_basis_Ioo_pos x₀)]
   simp
 -- QUOTE.
@@ -388,11 +388,11 @@ eventually prove ``∀ n ≥ N, P n ∧ Q n``.
 Doing this repeatedly becomes tiresome.
 
 We can do better by noting that the statement "``P n`` and ``Q n`` hold for large enough ``n``" means
-that we have ``{n | P n} ∈ at_top`` and ``{n | Q n} ∈ at_top``.
-The fact that ``at_top`` is a filter implies that the intersection of two elements of ``at_top``
-is again in ``at_top``, so we have ``{n | P n ∧ Q n} ∈ at_top``.
-Writing ``{n | P n} ∈ at_top`` is unpleasant,
-but we can use the more suggestive notation ``∀ᶠ n in at_top, P n``.
+that we have ``{n | P n} ∈ atTop`` and ``{n | Q n} ∈ atTop``.
+The fact that ``atTop`` is a filter implies that the intersection of two elements of ``atTop``
+is again in ``atTop``, so we have ``{n | P n ∧ Q n} ∈ atTop``.
+Writing ``{n | P n} ∈ atTop`` is unpleasant,
+but we can use the more suggestive notation ``∀ᶠ n in atTop, P n``.
 Here the superscripted ``f`` stands for "Filter."
 You can think of the notation as saying that for all ``n`` in the "set of very large numbers," ``P n`` holds. The ``∀ᶠ``
 notation stands for ``Filter.Eventually``, and the lemma ``Filter.Eventually.and`` uses the intersection property of filters to do what we just described:
@@ -464,7 +464,7 @@ used with ``eventually`` to say that a property holds for almost every point.
 
 There is a dual version of ``∀ᶠ x in F, P x``, which is occasionally useful:
 ``∃ᶠ x in F, P x`` means
-``{x | ¬P x} ∉ F``. For example, ``∃ᶠ n in at_top, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
+``{x | ¬P x} ∉ F``. For example, ``∃ᶠ n in atTop, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
 The ``∃ᶠ`` notation stands for ``Filter.frequently``.
 
 For a more sophisticated example, consider the following statement about a sequence
@@ -475,13 +475,13 @@ For a more sophisticated example, consider the following statement about a seque
 
 This can be formalized as follows:
 
-  ``Tendsto u at_top (𝓝 x) → (∀ᶠ n in at_top, u n ∈ M) → x ∈ closure M``.
+  ``Tendsto u atTop (𝓝 x) → (∀ᶠ n in atTop, u n ∈ M) → x ∈ closure M``.
 
 This is a special case of the theorem ``mem_closure_of_tendsto`` from the
 topology library.
 See if you can prove it using the quoted lemmas,
-using the fact that ``cluster_pt x F`` means ``(𝓝 x ⊓ F).ne_bot``.
-
+using the fact that ``ClusterPt x F`` means ``(𝓝 x ⊓ F).NeBot`` and that,
+by definition, the assumption ``∀ᶠ n in atTop, u n ∈ M`` means  ``M ∈ map u atTop``.
 EXAMPLES: -/
 -- QUOTE:
 #check mem_closure_iff_clusterPt

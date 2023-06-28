@@ -150,7 +150,7 @@ example {α : Type _} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
     ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' := by
   intro a s s_in
-  refine' ⟨{ y | s ∈ n y }, H a (fun x => x ∈ s) s_in, _, by tauto⟩
+  refine' ⟨{ y | s ∈ n y }, H a (fun x ↦ x ∈ s) s_in, _, by tauto⟩
   rintro y (hy : s ∈ n y)
   exact H₀ y hy
 
@@ -278,7 +278,7 @@ BOTH: -/
 -- QUOTE:
 example (ι : Type _) (X : ι → Type _) (T_X : ∀ i, TopologicalSpace <| X i) :
     (Pi.topologicalSpace : TopologicalSpace (∀ i, X i)) =
-      ⨅ i, TopologicalSpace.induced (fun x => x i) (T_X i) :=
+      ⨅ i, TopologicalSpace.induced (fun x ↦ x i) (T_X i) :=
   rfl
 -- QUOTE.
 
@@ -305,7 +305,7 @@ example [TopologicalSpace X] [T2Space X] {u : ℕ → X} {a b : X} (ha : Tendsto
   tendsto_nhds_unique ha hb
 
 example [TopologicalSpace X] [RegularSpace X] (a : X) :
-    (𝓝 a).HasBasis (fun s : Set X => s ∈ 𝓝 a ∧ IsClosed s) id :=
+    (𝓝 a).HasBasis (fun s : Set X ↦ s ∈ 𝓝 a ∧ IsClosed s) id :=
   closed_nhds_basis a
 -- QUOTE.
 
@@ -315,7 +315,7 @@ Note that, in every topological space, each point has a basis of open neighborho
 BOTH: -/
 -- QUOTE:
 example [TopologicalSpace X] {x : X} :
-    (𝓝 x).HasBasis (fun t : Set X => t ∈ 𝓝 x ∧ IsOpen t) id :=
+    (𝓝 x).HasBasis (fun t : Set X ↦ t ∈ 𝓝 x ∧ IsOpen t) id :=
   nhds_basis_opens' x
 -- QUOTE.
 
@@ -492,7 +492,7 @@ example {x : X} {F : Filter X} {G : Filter Y} (H : ClusterPt x F) {f : X → Y}
 /- TEXT:
 As an exercise, we will prove that the image of a compact set under a continuous map is
 compact. In addition to what we saw already, you should use ``Filter.push_pull`` and
-``ne_bot.of_map``.
+``NeBot.of_map``.
 BOTH: -/
 -- QUOTE:
 example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :

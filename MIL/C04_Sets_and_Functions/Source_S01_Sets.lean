@@ -55,7 +55,7 @@ open Set
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   rw [subset_def, inter_def, inter_def]
   rw [subset_def] at h
-  dsimp
+  simp only [mem_setOf]
   rintro x ⟨xs, xu⟩
   exact ⟨h _ xs, xu⟩
 
@@ -85,10 +85,10 @@ The following examples also illustrate the phenomenon:
 TEXT. -/
 -- QUOTE:
 theorem foo (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun x ⟨xs, xu⟩ => ⟨h xs, xu⟩
+  fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun x ⟨xs, xu⟩ => ⟨h xs, xu⟩
+  fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -227,15 +227,10 @@ the following one-line proof is for you:
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
-  Set.ext fun x => ⟨fun ⟨xs, xt⟩ => ⟨xt, xs⟩, fun ⟨xt, xs⟩ => ⟨xs, xt⟩⟩
+  Set.ext fun x ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
 -- QUOTE.
 
 /- TEXT:
-The dollar sign is a useful syntax:
-writing ``f $ ...``
-is essentially the same as writing ``f (...)``,
-but it saves us the trouble of having to close
-a set of parentheses at the end of a long expression.
 Here is an even shorter proof,
 using the simplifier:
 TEXT. -/
@@ -266,7 +261,7 @@ example : s ∩ t = t ∩ s :=
     Subset.antisymm sorry sorry
 SOLUTIONS: -/
     Subset.antisymm
-    (fun x ⟨xs, xt⟩ => ⟨xt, xs⟩) fun x ⟨xt, xs⟩ => ⟨xs, xt⟩
+    (fun x ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun x ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
 -- QUOTE.
 
 -- BOTH:
@@ -628,8 +623,8 @@ example : (s ∪ ⋂ i, A i) = ⋂ i, A i ∪ s := by
 /- TEXT:
 Mathlib also has bounded unions and intersections,
 which are analogous to the bounded quantifiers.
-You can unpack their meaning with ``mem_Union₂``
-and ``mem_Inter₂``.
+You can unpack their meaning with ``mem_iUnion₂``
+and ``mem_iInter₂``.
 As the following examples show,
 Lean's simplifier carries out these replacements as well.
 TEXT. -/

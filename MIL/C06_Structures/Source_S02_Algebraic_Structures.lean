@@ -533,7 +533,7 @@ Here is one way it comes up.
 In Lean's foundation, a data type ``α`` may be empty.
 In a number of applications, however, it is useful to know that a
 type has at least one element.
-For example, the function ``List.head``, which returns the first
+For example, the function ``List.headI``, which returns the first
 element of a list, can return the default value when the list is empty.
 To make that work, the Lean library defines a class ``Inhabited α``,
 which does nothing more than store a default value.

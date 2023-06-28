@@ -259,8 +259,16 @@ After that, we are back to proving the original goal,
 except a new hypothesis ``h`` has been added:
 having proved it, we are now free to use it.
 At this point, the goal is exactly the result of ``add_left_cancel h``.
+.. index:: apply, tactics ; apply, exact, tactics ; exact
 We could equally well have closed the proof with
 ``apply add_left_cancel h`` or ``exact add_left_cancel h``.
+The ``exact`` tactic takes as argument a proof term which completely proves the
+current goal, without creating any new goal. The ``apply`` tactic is a variant
+whose argument is not necessarily a complete proof. The missing pieces are either
+inferred automatically by Lean or become new goals to prove.
+While the ``exact`` tactic is technically redundant since it is strictly less powerful
+than ``apply``, it makes proof scripts slightly clearer tho
+human readers and easier to maintain when the library evolves.
 
 Remember that multiplication is not assumed to be commutative,
 so the following theorem also requires some work.
@@ -350,11 +358,10 @@ example (a b : ℝ) : a - b = a + -b := by
 /- TEXT:
 .. index:: rfl, reflexivity, tactics ; refl and reflexivity, definitional equality
 
-The proof term ``rfl`` is short for ``reflexivity``.
+The proof term ``rfl`` is short for "reflexivity".
 Presenting it as a proof of ``a - b = a + -b`` forces Lean
 to unfold the definition and recognize both sides as being the same.
-The ``reflexivity`` tactic, which can be abbreviated as ``rfl``,
-does the same.
+The ``rfl`` tactic does the same.
 This is an instance of what is known as a *definitional equality*
 in Lean's underlying logic.
 This means that not only can one rewrite with ``sub_eq_add_neg``

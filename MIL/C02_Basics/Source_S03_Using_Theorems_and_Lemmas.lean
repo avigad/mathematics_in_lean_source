@@ -32,7 +32,7 @@ TEXT. -/
 As we explain in more detail in  :numref:`implication_and_the_universal_quantifier`,
 the implicit parentheses in the statement of ``le_trans``
 associate to the right, so it should be interpreted as ``a ≤ b → (b ≤ c → a ≤ c)``.
-The library designers have set the arguments to ``le_trans`` implicit,
+The library designers have set the arguments ``a``, ``b`` and ``c`` to ``le_trans`` implicit,
 so that Lean will *not* let you provide them explicitly (unless you
 really insist, as we will discuss later).
 Rather, it expects to infer them from the context in which they are used.
@@ -54,7 +54,7 @@ variable (h : a ≤ b) (h' : b ≤ c)
 end
 
 /- TEXT:
-.. index:: apply, tactics ; apply
+.. index:: apply, tactics ; apply, exact, tactics ; exact
 
 The ``apply`` tactic takes a proof of a general statement or implication,
 tries to match the conclusion with the current goal,
@@ -272,37 +272,39 @@ part of formalization.
 There are a number of strategies you can use:
 
 * You can browse mathlib in its
-  `GitHub repository <https://github.com/leanprover-community/mathlib>`_.
+  `GitHub repository <https://github.com/leanprover-community/mathlib4>`_.
 
 * You can use the API documentation on the mathlib
-  `web pages <https://leanprover-community.github.io/mathlib_docs/>`_.
+  `web pages <https://leanprover-community.github.io/mathlib4_docs/>`_.
 
-* You can rely on mathlib naming conventions and tab completion in
-  the editor to guess a theorem name.
+* You can rely on mathlib naming conventions and Ctrl-space completion in
+  the editor to guess a theorem name (or Cmd-space on a Mac keyboard).
   In Lean, a theorem named ``A_of_B_of_C`` establishes
   something of the form ``A`` from hypotheses of the form ``B`` and ``C``,
   where ``A``, ``B``, and ``C``
   approximate the way we might read the goals out loud.
   So a theorem establishing something like ``x + y ≤ ...`` will probably
   start with ``add_le``.
-  Typing ``add_le`` and hitting tab will give you some helpful choices.
+  Typing ``add_le`` and hitting Ctrl-space will give you some helpful choices.
+  Note that hitting Ctrl-space twice displays more information about the available
+  completions.
 
 * If you right-click on an existing theorem name in VS Code,
   the editor will show a menu with the option to
   jump to the file where the theorem is defined,
   and you can find similar theorems nearby.
 
-* You can use the ``library_search`` tactic,
+* You can use the ``apply?`` tactic,
   which tries to find the relevant theorem in the library.
 TEXT. -/
 -- QUOTE:
 example : 0 ≤ a ^ 2 := by
-  -- library_search
+  -- apply?
   exact sq_nonneg a
 -- QUOTE.
 
 /- TEXT:
-To try out ``library_search`` in this example,
+To try out ``apply?`` in this example,
 delete the ``exact`` command and uncomment the previous line.
 Using these tricks,
 see if you can find what you need to do the
@@ -323,7 +325,7 @@ example (h : a ≤ b) : c - exp b ≤ c - exp a := by
   linarith [exp_le_exp.mpr h]
 
 /- TEXT:
-Using the same tricks, confirm that ``linarith`` instead of ``library_search``
+Using the same tricks, confirm that ``linarith`` instead of ``apply?``
 can also finish the job.
 
 Here is another example of an inequality:
@@ -377,7 +379,7 @@ How nice! We challenge you to use these ideas to prove the
 following theorem. You can use the theorem ``abs_le'.mpr``.
 TEXT. -/
 -- QUOTE:
-example : abs (a * b) ≤ (a ^ 2 + b ^ 2) / 2 := by
+example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by
   sorry
 
 #check abs_le'.mpr
@@ -398,7 +400,7 @@ theorem fact2 : -(a * b) * 2 ≤ a ^ 2 + b ^ 2 := by
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
 
-example : abs (a * b) ≤ (a ^ 2 + b ^ 2) / 2 := by
+example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by
   have h : (0 : ℝ) < 2 := by norm_num
   apply abs_le'.mpr
   constructor

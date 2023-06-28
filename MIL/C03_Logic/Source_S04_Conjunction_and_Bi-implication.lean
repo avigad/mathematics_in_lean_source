@@ -43,7 +43,7 @@ which drops into tactic mode at the keyword ``by``.
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
-  ⟨h₀, fun h => h₁ (by rw [h])⟩
+  ⟨h₀, fun h ↦ h₁ (by rw [h])⟩
 
 example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
   have h : x ≠ y := by
@@ -56,7 +56,7 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
 You can use the ``cases`` tactic for that,
-as well as ``rcases``, ``rintro``, or a pattern-matching lambda,
+as well as ``rcases``, ``rintro``, or a pattern-matching ``fun``,
 all in a manner similar to the way they are used with
 the existential quantifier.
 TEXT. -/
@@ -71,7 +71,7 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x := by
   exact h₁ (le_antisymm h₀ h')
 
 example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
-  fun ⟨h₀, h₁⟩ h' => h₁ (le_antisymm h₀ h')
+  fun ⟨h₀, h₁⟩ h' ↦ h₁ (le_antisymm h₀ h')
 -- QUOTE.
 
 /- TEXT:
@@ -88,7 +88,7 @@ example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
   exact le_antisymm h.left h'
 
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x :=
-  fun h' => h.right (le_antisymm h.left h')
+  fun h' ↦ h.right (le_antisymm h.left h')
 -- QUOTE.
 
 /- TEXT:
@@ -121,7 +121,7 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
   exact lt_trans xltz zlty
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-  fun ⟨z, xltz, zlty⟩ => lt_trans xltz zlty
+  fun ⟨z, xltz, zlty⟩ ↦ lt_trans xltz zlty
 -- QUOTE.
 
 /- TEXT:
@@ -141,7 +141,7 @@ example : ∃ m n : ℕ, 4 < m ∧ m < n ∧ n < 10 ∧ Nat.Prime m ∧ Nat.Prim
 example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
   rintro ⟨h₀, h₁⟩
   use h₀
-  exact fun h' => h₁ (le_antisymm h₀ h')
+  exact fun h' ↦ h₁ (le_antisymm h₀ h')
 -- QUOTE.
 
 /- TEXT:
@@ -168,7 +168,7 @@ example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y := by
   exact le_antisymm h
 
 example {x y : ℝ} (h : x ≤ y) : ¬y ≤ x ↔ x ≠ y :=
-  ⟨fun h₀ h₁ => h₀ (by rw [h₁]), fun h₀ h₁ => h₀ (le_antisymm h h₁)⟩
+  ⟨fun h₀ h₁ ↦ h₀ (by rw [h₁]), fun h₀ h₁ ↦ h₀ (le_antisymm h h₁)⟩
 -- QUOTE.
 
 /- TEXT:
@@ -241,7 +241,7 @@ and you can also use it with ``calc`` and ``rw``.
 It is often convenient to rewrite a statement to
 an equivalent one.
 In the next example, we use ``abs_lt`` to
-replace an expression of the form ``abs x < y``
+replace an expression of the form ``|x| < y``
 by the equivalent expression ``- y < x ∧ x < y``,
 and in the one after that we use ``Nat.dvd_gcd_iff``
 to replace an expression of the form ``m ∣ Nat.gcd n k`` by the equivalent expression ``m ∣ n ∧ m ∣ k``.
@@ -249,7 +249,7 @@ TEXT. -/
 section
 
 -- QUOTE:
-example (x : ℝ) : abs (x + 3) < 5 → -8 < x ∧ x < 2 := by
+example (x : ℝ) : |x + 3| < 5 → -8 < x ∧ x < 2 := by
   rw [abs_lt]
   intro h
   constructor <;> linarith
@@ -275,12 +275,12 @@ theorem not_monotone_iff {f : ℝ → ℝ} : ¬Monotone f ↔ ∃ x y, x ≤ y �
   rfl
 
 -- EXAMPLES:
-example : ¬Monotone fun x : ℝ => -x := by
+example : ¬Monotone fun x : ℝ ↦ -x := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example : ¬Monotone fun x : ℝ => -x := by
+example : ¬Monotone fun x : ℝ ↦ -x := by
   rw [not_monotone_iff]
   use 0, 1
   norm_num
@@ -382,4 +382,3 @@ example : a < b → b < c → a < c := by
 
 -- BOTH:
 end
-

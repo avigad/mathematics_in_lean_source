@@ -5,8 +5,8 @@ namespace C02S04
 /- TEXT:
 .. _more_on_order_and_divisibility:
 
-More on Order and Divisibility
-------------------------------
+More examples using apply and rw
+--------------------------------
 
 .. index:: min, max
 
@@ -230,29 +230,29 @@ Lean's naming convention is made manifest
 in the library's name for the triangle inequality:
 TEXT. -/
 -- QUOTE:
-#check (abs_add : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
+#check (abs_add : ∀ a b : ℝ, |a + b| ≤ |a| + |b|)
 -- QUOTE.
 
 /- TEXT:
 Use it to prove the following variant:
 TEXT. -/
 -- QUOTE:
-example : abs a - abs b ≤ abs (a - b) :=
+example : |a| - |b| ≤ |a - b| :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example : abs a - abs b ≤ abs (a - b) :=
+example : |a| - |b| ≤ |a - b| :=
   calc
-    abs a - abs b = abs (a - b + b) - abs b := by rw [sub_add_cancel]
-    _ ≤ abs (a - b) + abs b - abs b := by
+    |a| - |b| = |a - b + b| - |b| := by rw [sub_add_cancel]
+    _ ≤ |a - b| + |b| - |b| := by
       apply sub_le_sub_right
       apply abs_add
-    _ ≤ abs (a - b) := by rw [add_sub_cancel]
+    _ ≤ |a - b| := by rw [add_sub_cancel]
 
 
 -- alternatively
-example : abs a - abs b ≤ abs (a - b) := by
+example : |a| - |b| ≤ |a - b| := by
   have h := abs_add (a - b) b
   rw [sub_add_cancel] at h
   linarith

@@ -11,7 +11,7 @@ Implication and the Universal Quantifier
 Consider the statement after the ``#check``:
 TEXT. -/
 -- QUOTE:
-#check ∀ x : ℝ, 0 ≤ x → abs x = x
+#check ∀ x : ℝ, 0 ≤ x → |x| = x
 -- QUOTE.
 
 /- TEXT:
@@ -20,7 +20,7 @@ the absolute value of ``x`` equals ``x``".
 We can also have more complicated statements like:
 TEXT. -/
 -- QUOTE:
-#check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε
+#check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε
 -- QUOTE.
 
 /- TEXT:
@@ -31,7 +31,7 @@ then the absolute value of ``x * y`` is less than ``ε``."
 In Lean, in a sequence of implications there are
 implicit parentheses grouped to the right.
 So the expression above means
-"if ``0 < ε`` then if ``ε ≤ 1`` then if ``abs x < ε`` ..."
+"if ``0 < ε`` then if ``ε ≤ 1`` then if ``|x| < ε`` ..."
 As a result, the expression says that all the
 assumptions together imply the conclusion.
 
@@ -40,16 +40,18 @@ in this statement
 ranges over objects and the implication arrows introduce hypotheses,
 Lean treats the two in very similar ways.
 In particular, if you have proved a theorem of that form,
-you can apply it to objects and hypotheses in the same way:
+you can apply it to objects and hypotheses in the same way.
+We will use as an example the following statement that we will help you to prove a
+bit later:
 TEXT. -/
 -- QUOTE:
-theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε :=
   sorry
 
 section
 variable (a b δ : ℝ)
 variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-variable (ha : abs a < δ) (hb : abs b < δ)
+variable (ha : |a| < δ) (hb : |b| < δ)
 
 #check my_lemma a b δ
 #check my_lemma a b δ h₀ h₁
@@ -66,13 +68,13 @@ When we do that, we can just apply a lemma to the hypotheses without
 mentioning the objects.
 TEXT. -/
 -- QUOTE:
-theorem my_lemma2 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε :=
+theorem my_lemma2 : ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε :=
   sorry
 
 section
 variable (a b δ : ℝ)
 variable (h₀ : 0 < δ) (h₁ : δ ≤ 1)
-variable (ha : abs a < δ) (hb : abs b < δ)
+variable (ha : |a| < δ) (hb : |b| < δ)
 
 #check my_lemma2 h₀ h₁ ha hb
 
@@ -82,7 +84,7 @@ end
 /- TEXT:
 At this stage, you also know that if you use
 the ``apply`` tactic to apply ``my_lemma``
-to a goal of the form ``abs (a * b) < δ``,
+to a goal of the form ``|a * b| < δ``,
 you are left with new goals that require you to  prove
 each of the hypotheses.
 
@@ -93,7 +95,7 @@ Take a look at what it does in this example:
 TEXT. -/
 -- QUOTE:
 theorem my_lemma3 :
-    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
+    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
   intro x y ε epos ele1 xlt ylt
   sorry
 -- QUOTE.
@@ -118,11 +120,11 @@ To help you prove the lemma, we will start you off:
 TEXT. -/
 -- QUOTE:
 theorem my_lemma4 :
-    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → abs x < ε → abs y < ε → abs (x * y) < ε := by
+    ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
   intro x y ε epos ele1 xlt ylt
   calc
-    abs (x * y) = abs x * abs y := sorry
-    _ ≤ abs x * ε := sorry
+    |x * y| = |x| * |y| := sorry
+    _ ≤ |x| * ε := sorry
     _ < 1 * ε := sorry
     _ = ε := sorry
 -- QUOTE.
@@ -140,7 +142,7 @@ Finish the proof using the theorems
 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
 ``mul_lt_mul_right``, and ``one_mul``.
 Remember that you can find theorems like these using
-tab completion.
+Ctrl-space completion (or Cmd-space completion on a Mac).
 Remember also that you can use ``.mp`` and ``.mpr``
 or ``.1`` and ``.2`` to extract the two directions
 of an if-and-only-if statement.
@@ -167,8 +169,9 @@ def FnLb (f : ℝ → ℝ) (a : ℝ) : Prop :=
 /- TEXT:
 .. index:: lambda abstraction
 
-In the next example, ``fun x ↦ f x + g x`` is a name for the
-function that maps ``x`` to ``f x + g x``.
+In the next example, ``fun x ↦ f x + g x`` is the
+function that maps ``x`` to ``f x + g x``. Going from the expression ``f x + g x``
+to this function is called a lambda abstraction in type theory.
 BOTH: -/
 section
 variable (f g : ℝ → ℝ) (a b : ℝ)
@@ -209,32 +212,32 @@ of ``FnUb`` in the hypotheses.
 Try carrying out similar proofs of these:
 TEXT. -/
 -- QUOTE:
-example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) :=
+example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x ↦ f x + g x) (a + b) :=
   sorry
 
-example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 :=
+example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x ↦ f x * g x) 0 :=
   sorry
 
 example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
-    FnUb (fun x => f x * g x) (a * b) :=
+    FnUb (fun x ↦ f x * g x) (a * b) :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x => f x + g x) (a + b) := by
+example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x ↦ f x + g x) (a + b) := by
   intro x
   apply add_le_add
   apply hfa
   apply hgb
 
-example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x => f x * g x) 0 := by
+example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x ↦ f x * g x) 0 := by
   intro x
   apply mul_nonneg
   apply nnf
   apply nng
 
 example (hfa : FnUb f a) (hfb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
-    FnUb (fun x => f x * g x) (a * b) := by
+    FnUb (fun x ↦ f x * g x) (a * b) := by
   intro x
   apply mul_le_mul
   apply hfa
@@ -270,7 +273,7 @@ def FnUb' (f : α → R) (a : R) : Prop :=
   ∀ x, f x ≤ a
 
 theorem fnUb_add {f g : α → R} {a b : R} (hfa : FnUb' f a) (hgb : FnUb' g b) :
-    FnUb' (fun x => f x + g x) (a + b) := fun x => add_le_add (hfa x) (hgb x)
+    FnUb' (fun x ↦ f x + g x) (a + b) := fun x ↦ add_le_add (hfa x) (hgb x)
 -- QUOTE.
 
 end
@@ -316,7 +319,7 @@ variable (f g : ℝ → ℝ)
 
 -- EXAMPLES:
 -- QUOTE:
-example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x := by
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x := by
   intro a b aleb
   apply add_le_add
   apply mf aleb
@@ -328,9 +331,9 @@ When a proof is this short, it is often convenient
 to give a proof term instead.
 To describe a proof that temporarily introduces objects
 ``a`` and ``b`` and a hypothesis ``aleb``,
-Lean uses the notation ``fun a b aleb => ...``.
+Lean uses the notation ``fun a b aleb ↦ ...``.
 This is analogous to the way that an expression
-like ``fun x => x^2`` describes a function
+like ``fun x ↦ x^2`` describes a function
 by temporarily naming an object, ``x``,
 and then using it to describe a value.
 So the ``intro`` command in the previous proof
@@ -339,13 +342,13 @@ The ``apply`` commands then correspond to building
 the application of the theorem to its arguments.
 TEXT. -/
 -- QUOTE:
-example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f x + g x :=
-  fun a b aleb => add_le_add (mf aleb) (mg aleb)
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x :=
+  fun a b aleb ↦ add_le_add (mf aleb) (mg aleb)
 -- QUOTE.
 
 /- TEXT:
 Here is a useful trick: if you start writing
-the proof term ``fun a b aleb => _`` using
+the proof term ``fun a b aleb ↦ _`` using
 an underscore where the rest of the
 expression should go,
 Lean will flag an error,
@@ -358,30 +361,30 @@ expression has to solve.
 Try proving these, with either tactics or proof terms:
 TEXT. -/
 -- QUOTE:
-example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x :=
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
   sorry
 
-example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) :=
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x := by
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x := by
   intro a b aleb
   apply mul_le_mul_of_nonneg_left _ nnc
   apply mf aleb
 
-example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x => c * f x :=
-  fun a b aleb => mul_le_mul_of_nonneg_left (mf aleb) nnc
+example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
+  fun a b aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
 
-example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) := by
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   intro a b aleb
   apply mf
   apply mg
   apply aleb
 
-example (mf : Monotone f) (mg : Monotone g) : Monotone fun x => f (g x) :=
-  fun a b aleb => mf (mg aleb)
+example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
+  fun a b aleb ↦ mf (mg aleb)
 
 /- TEXT:
 Here are some more examples.
@@ -402,37 +405,37 @@ def FnOdd (f : ℝ → ℝ) : Prop :=
   ∀ x, f x = -f (-x)
 
 -- EXAMPLES:
-example (ef : FnEven f) (eg : FnEven g) : FnEven fun x => f x + g x := by
+example (ef : FnEven f) (eg : FnEven g) : FnEven fun x ↦ f x + g x := by
   intro x
   calc
-    (fun x => f x + g x) x = f x + g x := rfl
+    (fun x ↦ f x + g x) x = f x + g x := rfl
     _ = f (-x) + g (-x) := by rw [ef, eg]
 
 
-example (of : FnOdd f) (og : FnOdd g) : FnEven fun x => f x * g x := by
+example (of : FnOdd f) (og : FnOdd g) : FnEven fun x ↦ f x * g x := by
   sorry
 
-example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x => f x * g x := by
+example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x ↦ f x * g x := by
   sorry
 
-example (ef : FnEven f) (og : FnOdd g) : FnEven fun x => f (g x) := by
+example (ef : FnEven f) (og : FnOdd g) : FnEven fun x ↦ f (g x) := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (of : FnOdd f) (og : FnOdd g) : FnEven fun x => f x * g x := by
+example (of : FnOdd f) (og : FnOdd g) : FnEven fun x ↦ f x * g x := by
   intro x
   calc
-    (fun x => f x * g x) x = f x * g x := rfl
+    (fun x ↦ f x * g x) x = f x * g x := rfl
     _ = f (-x) * g (-x) := by rw [of, og, neg_mul_neg]
 
 
-example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x => f x * g x := by
+example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x ↦ f x * g x := by
   intro x
   dsimp
   rw [ef, og, neg_mul_eq_mul_neg]
 
-example (ef : FnEven f) (og : FnOdd g) : FnEven fun x => f (g x) := by
+example (ef : FnEven f) (og : FnOdd g) : FnEven fun x ↦ f (g x) := by
   intro x
   dsimp
   rw [og, ← ef]
@@ -444,9 +447,9 @@ end
 .. index:: erw, tactics ; erw
 
 The first proof can be shortened using ``dsimp`` or ``change``
-to get rid of the lambda.
+to get rid of the lambda abstraction.
 But you can check that the subsequent ``rw`` won't work
-unless we get rid of the lambda explicitly,
+unless we get rid of the lambda abstraction explicitly,
 because otherwise it cannot find the patterns ``f x`` and ``g x``
 in the expression.
 Contrary to some other tactics, ``rw`` operates on the syntactic level,
@@ -456,12 +459,24 @@ direction, but not much harder).
 
 You can find implicit universal quantifiers all over the place,
 once you know how to spot them.
-Mathlib includes a good library for rudimentary set theory.
-Lean's logical foundation imposes the restriction that when
-we talk about sets, we are always talking about sets of
-elements of some type. If ``x`` has type ``α`` and ``s`` has
-type ``Set α``, then ``x ∈ s`` is a proposition that
-asserts that ``x`` is an element of ``s``.
+
+Mathlib includes a good library for manipulating sets. Recall that Lean does not
+use foundations based on set theory, so here the word set has its mundane meaning
+of a collection of mathematical objets of some given type ``α``.
+If ``x`` has type ``α`` and ``s`` has type ``Set α``, then ``x ∈ s`` is a proposition
+that asserts that ``x`` is an element of ``s``. If ``y`` has some different type ``β`` then the
+expression ``y ∈ s`` makes no sense. Here "makes no sense" means "has no type hence Lean does not
+accept it as a well-formed statement". This contrasts with Zermelo-Fraenkel set theory for instance
+where ``a ∈ b`` is a well-formed statement for every mathematical objects ``a`` and ``b``.
+For instance ``sin ∈ cos`` is a well-formed statement in ZF. This defect of set theoretic
+foundations is an important motivation for not using it in a proof assistant which is meant to assist
+us by detecting meaningless expressions. In Lean ``sin`` has type ``ℝ → ℝ`` and ``cos`` has type
+``ℝ → ℝ`` which is not equal to ``Set (ℝ → ℝ)``, even after unfolding definitions, so the statement
+``sin ∈ cos`` makes no sense.
+One can also use Lean to work on set theory itself. For instance the independence of the continuum
+hypothesis from the axioms of Zermelo-Fraenkel has been formalized in Lean. But such a meta-theory
+of set theory is completely beyond the scope of this book.
+
 If ``s`` and ``t`` are of type ``Set α``,
 then the subset relation ``s ⊆ t`` is defined to mean
 ``∀ {x : α}, x ∈ s → x ∈ t``.
@@ -483,7 +498,7 @@ example : s ⊆ s := by
   intro x xs
   exact xs
 
-theorem Subset.refl : s ⊆ s := fun x xs => xs
+theorem Subset.refl : s ⊆ s := fun x xs ↦ xs
 
 theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
   sorry
@@ -497,7 +512,7 @@ example : r ⊆ s → s ⊆ t → r ⊆ t := by
   apply xr
 
 theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
-  fun rsubs ssubt x xr => ssubt (rsubs xr)
+  fun rsubs ssubt x xr ↦ ssubt (rsubs xr)
 
 -- BOTH:
 end
@@ -532,7 +547,7 @@ example (h : SetUb s a) (h' : a ≤ b) : SetUb s b := by
   apply le_trans (h x xs) h'
 
 example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
-  fun x xs => le_trans (h x xs) h'
+  fun x xs ↦ le_trans (h x xs) h'
 
 -- BOTH:
 end
@@ -549,7 +564,9 @@ Mathlib defines ``Function.Injective f`` with
 The next example shows that, on the real numbers,
 any function that adds a constant is injective.
 We then ask you to show that multiplication by a nonzero
-constant is also injective.
+constant is also injective, using the lemma name in the example as a source
+of inspiration. Recall you should use Ctrl-space completion after guessing the beginning of
+a lemma name.
 TEXT. -/
 -- BOTH:
 section
@@ -558,16 +575,16 @@ section
 open Function
 
 -- EXAMPLES:
-example (c : ℝ) : Injective fun x => x + c := by
+example (c : ℝ) : Injective fun x ↦ x + c := by
   intro x₁ x₂ h'
   exact (add_left_inj c).mp h'
 
-example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
+example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {c : ℝ} (h : c ≠ 0) : Injective fun x => c * x := by
+example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
   intro x₁ x₂ h'
   apply (mul_right_inj' h).mp h'
 
@@ -579,12 +596,12 @@ variable {α : Type _} {β : Type _} {γ : Type _}
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:
-example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
+example (injg : Injective g) (injf : Injective f) : Injective fun x ↦ g (f x) := by
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example (injg : Injective g) (injf : Injective f) : Injective fun x => g (f x) := by
+example (injg : Injective g) (injf : Injective f) : Injective fun x ↦ g (f x) := by
   intro x₁ x₂ h
   apply injf
   apply injg

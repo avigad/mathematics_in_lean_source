@@ -143,7 +143,7 @@ don't hesitate to ask on
 EXAMPLES: -/
 -- QUOTE:
 example (a b c : Nat) (h : a * b = a * c) (h' : a ≠ 0) : b = c :=
-  -- library_search suggests the following:
+  -- apply? suggests the following:
   (mul_right_inj' h').mp h
 -- QUOTE.
 
@@ -366,7 +366,7 @@ example {m n k r : ℕ} (nnz : n ≠ 0) (pow_eq : m ^ k = r * n ^ k) {p : ℕ} (
     k ∣ r.factorization p := by
   cases' r with r
   · simp
-  have npow_nz : n ^ k ≠ 0 := fun npowz => nnz (pow_eq_zero npowz)
+  have npow_nz : n ^ k ≠ 0 := fun npowz ↦ nnz (pow_eq_zero npowz)
   have eq1 : (m ^ k).factorization p = k * m.factorization p := by
 /- EXAMPLES:
     sorry
@@ -468,4 +468,3 @@ end
 --   field_simp [this]  at h
 --   norm_cast  at h
 --   sorry
-

@@ -89,13 +89,17 @@ example (h : ∀ a, ∃ x, f x > a) : ¬FnHasUb f := by
 -- QUOTE.
 
 /- TEXT:
+Remember that it is often convenient to use ``linarith``
+when a goal follows from linear equations and
+inequalities that in the context.
+
 See if you can prove these in a similar way:
 TEXT. -/
 -- QUOTE:
 example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f :=
   sorry
 
-example : ¬FnHasUb fun x => x :=
+example : ¬FnHasUb fun x ↦ x :=
   sorry
 -- QUOTE.
 
@@ -106,7 +110,7 @@ example (h : ∀ a, ∃ x, f x < a) : ¬FnHasLb f := by
   have := ha x
   linarith
 
-example : ¬FnHasUb fun x => x := by
+example : ¬FnHasUb fun x ↦ x := by
   rintro ⟨a, ha⟩
   have : a + 1 ≤ a := ha (a + 1)
   linarith
@@ -149,10 +153,6 @@ example (h : a ≤ b) (h' : f b < f a) : ¬Monotone f := by
   apply h'' h
 
 /- TEXT:
-Remember that it is often convenient to use ``linarith``
-when a goal follows from linear equations and
-inequalities that in the context.
-
 We can show that the first example in the last snippet
 cannot be proved if we replace ``<`` by ``≤``.
 Notice that we can prove the negation of a universally
@@ -162,7 +162,7 @@ TEXT. -/
 -- QUOTE:
 example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a ≤ b := by
   intro h
-  let f := fun x : ℝ => (0 : ℝ)
+  let f := fun x : ℝ ↦ (0 : ℝ)
   have monof : Monotone f := by sorry
   have h' : f 1 ≤ f 0 := le_refl _
   sorry
@@ -171,7 +171,7 @@ example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a �
 -- SOLUTIONS:
 example : ¬∀ {f : ℝ → ℝ}, Monotone f → ∀ {a b}, f a ≤ f b → a ≤ b := by
   intro h
-  let f := fun x : ℝ => (0 : ℝ)
+  let f := fun x : ℝ ↦ (0 : ℝ)
   have monof : Monotone f := by
     intro a b leab
     rfl
@@ -186,7 +186,7 @@ This example introduces the ``let`` tactic,
 which adds a *local definition* to the context.
 If you put the cursor after the ``let`` command,
 in the goal window you will see that the definition
-``f : ℝ → ℝ := fun x => 0`` has been added to the context.
+``f : ℝ → ℝ := fun x ↦ 0`` has been added to the context.
 Lean will unfold the definition of ``f`` when it has to.
 In particular, when we prove ``f 1 ≤ f 0`` with ``le_refl``,
 Lean reduces ``f 1`` and ``f 0`` to ``0``.

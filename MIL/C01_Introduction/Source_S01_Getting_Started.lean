@@ -49,9 +49,7 @@ To get started:
    choose ``Open Folder`` from the ``File`` menu. Be sure to open the folder ``mathematics_in_lean``,
    not any other folder.
 
-Opening any Lean file will simultaneously open this
-book in a VS Code window. You can update to a newer version by tying
-``git pull`` followed by ``lake exe cache get`` inside
+You can update to a newer version by tying ``git pull`` followed by ``lake exe cache get`` inside
 the ``mathematics_in_lean`` folder.
 
 Alternatively, you can run Lean and VS Code in the cloud,
