@@ -584,7 +584,7 @@ class Module₁ (R : Type) [Ring₃ R] (M : Type) [AddCommGroup₃ M] extends SM
 
 /- TEXT:
 There is something interesting going on here. While it isn't too surprising that the
-ring structure on ``R`` is a parameter in this definition, you probably expected ``AddCommGroup3 M``
+ring structure on ``R`` is a parameter in this definition, you probably expected ``AddCommGroup₃ M``
 to be part of the ``extends`` clause just as ``SMul₃ R M`` is.  Trying to do that would lead
 to a mysterious sounding error message:
 ``cannot find synthesization order for instance Module₁.toAddCommGroup₃ with type (R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M
