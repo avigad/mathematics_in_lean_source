@@ -1,6 +1,3 @@
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Real.Basic
-
 /- TEXT:
 Calculating
 -----------
@@ -35,6 +32,8 @@ Let's try out ``rw``.
 TEXT. -/
 -- An example.
 -- QUOTE:
+import Mathlib.Data.Real.Basic
+
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
   rw [mul_assoc b a c]
