@@ -1,7 +1,7 @@
 -- BOTH:
+import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Prime
-import Mathlib.Tactic.NormNum
 
 namespace C03S04
 /- TEXT:

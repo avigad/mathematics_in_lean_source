@@ -32,6 +32,7 @@ Let's try out ``rw``.
 TEXT. -/
 -- An example.
 -- QUOTE:
+import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 
 example (a b c : ℝ) : a * b * c = b * (a * c) := by

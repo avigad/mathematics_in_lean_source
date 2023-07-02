@@ -1,7 +1,6 @@
+import Mathlib.Tactic
 import Mathlib.Data.Nat.Factorization.Basic
 import Mathlib.Data.Nat.Prime
-import Mathlib.Tactic.NormNum.GCD
-import Mathlib.Tactic.NormNum.Prime
 /- OMIT:
 -- fix this.
 -- import Mathlib.Data.Real.Irrational
