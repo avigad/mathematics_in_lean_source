@@ -296,7 +296,7 @@ In Lean, the components of any ``Group`` are named
 and in a moment we will see how multiplicative notation is
 set up to refer to them.
 If we want to use additive notation, we instead use an isomorphic structure
-``AdditiveGroup``. Its components are named ``add``, ``zero``,
+``AddGroup`` (the structure underlying additive groups). Its components are named ``add``, ``zero``,
 and ``neg``, and the associated notation is what you would expect it to be.
 
 Recall the type ``Point`` that we defined in :numref:`section_structures`,

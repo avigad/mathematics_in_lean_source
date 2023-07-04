@@ -213,7 +213,7 @@ theorem sub_im (x y : gaussInt) : (x - y).im = x.im - y.im :=
 /- TEXT:
 Lean's library defines the class of *nontrivial* types to be types with at
 least two distinct elements. In the context of a ring, this is equivalent
-to saying the the zero is not equal to the one. Since some common theorems
+to saying that the zero is not equal to the one. Since some common theorems
 depend on that fact, we may as well establish it now.
 BOTH: -/
 -- QUOTE:
@@ -333,7 +333,8 @@ between these number systems appropriately.
 In fact, this is exactly the approach that is followed in mathlib,
 where the Gaussian integers themselves are constructed as a special case
 of a ring of *quadratic integers*.
-See the file `gaussian_int.lean <https://github.com/leanprover-community/mathlib/blob/master/src/number_theory/zsqrtd/gaussian_int.lean>`_.
+See the file `GaussianInt.lean
+<https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean>`_.
 
 Here we will instead carry out an argument that stays in the integers.
 This illustrates an choice one commonly faces when formalizing mathematics.

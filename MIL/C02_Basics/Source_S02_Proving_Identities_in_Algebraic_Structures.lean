@@ -259,7 +259,9 @@ After that, we are back to proving the original goal,
 except a new hypothesis ``h`` has been added:
 having proved it, we are now free to use it.
 At this point, the goal is exactly the result of ``add_left_cancel h``.
+
 .. index:: apply, tactics ; apply, exact, tactics ; exact
+
 We could equally well have closed the proof with
 ``apply add_left_cancel h`` or ``exact add_left_cancel h``.
 The ``exact`` tactic takes as argument a proof term which completely proves the
@@ -267,7 +269,7 @@ current goal, without creating any new goal. The ``apply`` tactic is a variant
 whose argument is not necessarily a complete proof. The missing pieces are either
 inferred automatically by Lean or become new goals to prove.
 While the ``exact`` tactic is technically redundant since it is strictly less powerful
-than ``apply``, it makes proof scripts slightly clearer tho
+than ``apply``, it makes proof scripts slightly clearer to
 human readers and easier to maintain when the library evolves.
 
 Remember that multiplication is not assumed to be commutative,
@@ -497,7 +499,7 @@ end
 Explicitly invoking those lemmas is tedious, so mathlib provides
 tactics similar to `ring` in order to cover most uses: `group`
 is for non-commutative multiplicative groups, `abel` for abelian
-additive groups, and `noncomm_ring` for non-commutative groups.
+additive groups, and `noncomm_ring` for non-commutative rings.
 It may seem odd that the algebraic structures are called
 `Ring` and `CommRing` while the tactics are named
 `noncomm_ring` and `ring`. This is partly for historical reasons,

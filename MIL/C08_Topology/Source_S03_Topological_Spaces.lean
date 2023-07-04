@@ -167,10 +167,10 @@ The next thing to know in order to efficiently use topological spaces in mathlib
 of formal properties of ``topological_space : Type u → Type u``. From a purely mathematical point of view,
 those formal properties are a very clean way to explain how topological spaces solve issues that metric spaces
 have. From this point of view, the issues solved by topological spaces is that metric spaces enjoy very
-little fonctoriality, and have very bad categorical properties in general. This comes on top of the fact
+little functoriality, and have very bad categorical properties in general. This comes on top of the fact
 already discussed that metric spaces contain a lot of geometrical information that is not topologically relevant.
 
-Let us focus on fonctoriality first. A metric space structure can be induced on a subset or,
+Let us focus on functoriality first. A metric space structure can be induced on a subset or,
 equivalently, it can be pulled back by an injective map. But that's pretty much everything.
 They cannot be pulled back by general map or pushed forward, even by surjective maps.
 

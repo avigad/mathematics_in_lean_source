@@ -373,7 +373,7 @@ example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
 /- TEXT:
 .. index:: field_simp, tactic ; field_simp
 
-At this point, it is worth mentioning that there is a tactic, `field_simp`,
+At this point, it is worth mentioning that there is a tactic, ``field_simp``,
 that will often clear denominators in a useful way.
 It can be used in conjunction with the ``ring`` tactic.
 TEXT. -/
