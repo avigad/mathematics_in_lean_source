@@ -453,7 +453,6 @@ variable (r : ℚ)
 #check r.reduced
 
 #check Rat.num_den'
-#checkRat.num_den r
 
 end
 
