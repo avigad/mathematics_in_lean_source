@@ -57,7 +57,7 @@ If you are curious to see all available abbreviations, you can hit Ctrl-Shift-p
 and then type abbreviations to get access to the ``Lean 4: Show all abbreviations`` command.
 If your keyboard does not have an easily accessible backslash,
 you can change the leading character by changing the
-``lean.input.leader`` setting.
+``lean4.input.leader`` setting.
 
 .. index:: proof state, local context, goal
 
@@ -98,7 +98,7 @@ Try proving these identities,
 in each case replacing ``sorry`` by a tactic proof.
 With the ``rw`` tactic, you can use a left arrow (``\l``)
 to reverse an identity.
-For example, ``rw ← mul_assoc a b c``
+For example, ``rw [← mul_assoc a b c]``
 replaces ``a * (b * c)`` by ``a * b * c`` in the current goal. Note that
 the left-pointing arrow refers to going from right to left in the identity provided
 by ``mul_assoc``, it has nothing to do with the left or right side of the goal.
@@ -177,7 +177,7 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
 -- QUOTE.
 
 /- TEXT:
-Try these, using the theorem `sub_self` for the second one:
+Try these, using the theorem ``sub_self`` for the second one:
 TEXT. -/
 
 -- QUOTE:
@@ -306,7 +306,7 @@ an expression that begins with ``calc`` is a *proof term*.
 A ``calc`` expression can also be used inside a tactic proof,
 but Lean interprets it as the instruction to use the resulting
 proof term to solve the goal.
-The ``calc`` syntax is finicky: the dots and underscores and justification
+The ``calc`` syntax is finicky: the underscores and justification
 have to be in the format indicated above.
 Lean uses indentation to determine things like where a block
 of tactics or a ``calc`` block begins and ends;

@@ -259,7 +259,7 @@ The product operation is defined in terms of the pullback operation and the ``in
 
   ``F ×ˢ G = (comap Prod.fst F) ⊓ (comap Prod.snd G)``.
 
-Here the ``inf`` operation refers to the lattice structure on ``filter X`` for any type ``X``, whereby
+Here the ``inf`` operation refers to the lattice structure on ``Filter X`` for any type ``X``, whereby
 ``F ⊓ G`` is the greatest filter that is smaller than both ``F`` and ``G``.
 Thus the ``inf`` operation generalizes the notion of the intersection of sets.
 
@@ -348,7 +348,7 @@ The key is that, by definition, every neighborhood contains such a standard one.
 This observation leads to the notion of a *filter basis*.
 
 Given ``F : Filter X``,
-a family of sets `s : ι → Set X` is a basis for ``F`` if for every set ``U``,
+a family of sets ``s : ι → Set X`` is a basis for ``F`` if for every set ``U``,
 we have ``U ∈ F`` if and only if it contains some ``s i``. In other words, formally speaking,
 ``s`` is a basis if it satisfies
 ``∀ U : Set X, U ∈ F ↔ ∃ i, s i ⊆ U``. It is even more flexible to consider

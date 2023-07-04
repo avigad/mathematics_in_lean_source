@@ -81,7 +81,7 @@ and indicate what is being proved in each block.
 The proof still works without the ``show`` commands,
 but using them makes the proof easier to read and maintain.
 
-It may bother you that the the proof is repetitive.
+It may bother you that the proof is repetitive.
 To foreshadow skills you will learn later on,
 we note that one way to avoid the repetition
 is to state a local lemma and then use it:

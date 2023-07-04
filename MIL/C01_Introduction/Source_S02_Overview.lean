@@ -62,7 +62,7 @@ theorem hard : FermatLastTheorem :=
 -- QUOTE.
 
 /- TEXT:
-If you manage to construct an expression of type `fermat_last_theorem` and
+If you manage to construct an expression of type ``FermatLastTheorem`` and
 Lean accepts it as a term of that type,
 you have done something very impressive.
 (Using ``sorry`` is cheating, and Lean knows it.)
@@ -140,7 +140,7 @@ declares that we are going to show that ``m * n`` is even by
 showing ``m * n = 2 * (m * k)``.
 The next line uses the ``rewrite`` tactic
 to replace ``n`` by ``2 * k`` in the goal,
-and the `ring` tactic solves the resulting goal ``m * (2 * k) = 2 * (m * k)``.
+and the ``ring`` tactic solves the resulting goal ``m * (2 * k) = 2 * (m * k)``.
 
 The ability to build a proof in small steps with incremental feedback
 is extremely powerful. For that reason,

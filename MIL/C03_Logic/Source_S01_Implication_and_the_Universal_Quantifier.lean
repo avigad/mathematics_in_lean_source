@@ -463,7 +463,7 @@ once you know how to spot them.
 
 Mathlib includes a good library for manipulating sets. Recall that Lean does not
 use foundations based on set theory, so here the word set has its mundane meaning
-of a collection of mathematical objets of some given type ``α``.
+of a collection of mathematical objects of some given type ``α``.
 If ``x`` has type ``α`` and ``s`` has type ``Set α``, then ``x ∈ s`` is a proposition
 that asserts that ``x`` is an element of ``s``. If ``y`` has some different type ``β`` then the
 expression ``y ∈ s`` makes no sense. Here "makes no sense" means "has no type hence Lean does not

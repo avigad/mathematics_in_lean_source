@@ -264,7 +264,7 @@ end
 See if you can use ``rw`` with the theorem below
 to provide a short proof that negation is not a
 nondecreasing function. (Note that ``push_neg`` won't
-unfold definitions for you, so the ``rw monotone`` in
+unfold definitions for you, so the ``rw [Monotone]`` in
 the proof of the theorem is needed.)
 BOTH: -/
 -- QUOTE:

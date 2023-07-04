@@ -286,7 +286,7 @@ Differentiability
 
 We are now ready to discuss differentiable functions between normed spaces.
 In analogy the elementary one-dimensional,
-mathlib defines a predicate ``has_fderiv_at`` and a function ``fderiv``.
+mathlib defines a predicate ``HasFDerivAt`` and a function ``fderiv``.
 Here the letter
 "f" stands for *Fréchet*.
 EXAMPLES: -/
@@ -328,7 +328,7 @@ example (n : WithTop ℕ) {f : E → F} :
 
 /- TEXT:
 There is a stricter notion of differentiability called
-``has_strict_fderiv_at``, which is used in the statement
+``HasStrictFDerivAt``, which is used in the statement
 of the inverse function theorem and the statement of the implicit function
 theorem, both of which are in mathlib.
 Over ``ℝ`` or ``ℂ``, continuously differentiable

@@ -349,7 +349,7 @@ end StandardTwoSimplex
 Structures can depend on parameters.
 For example, we can generalize the standard 2-simplex to the standard
 :math:`n`-simplex for any :math:`n`.
-At this stage, you don't have to know anything about the type `Fin n`
+At this stage, you don't have to know anything about the type ``Fin n``
 except that it has :math:`n` elements, and that Lean knows
 how to sum over it.
 BOTH: -/
