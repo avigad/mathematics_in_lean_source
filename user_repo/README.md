@@ -40,8 +40,8 @@ Do the following:
    You can find them in the folder `MIL`, organized by chapter.
    We strongly recommend making a copy of that folder and experimenting and doing the
    exercises in that copy.
-   This leaves the originals intact, and also makes it easier to update the repository as it changes (see below).
-   You can call the copy `my_files` or whatever you want, and use it to create
+   This leaves the originals intact, and it also makes it easier to update the repository as it changes (see below).
+   You can call the copy `my_files` or whatever you want and use it to create
    your own Lean files as well.
 
 At that point, you can open the textbook in a side panel in VS Code as follows:

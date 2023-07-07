@@ -35,27 +35,39 @@ it designed to be read interactively,
 running Lean from inside the VS Code editor.
 To get started:
 
-#. Install Lean 4 and VS Code following
+1. Install Lean 4 and VS Code following
    these `instructions <https://leanprover-community.github.io/get_started.html#regular-install>`_.
+   It isn't enough just to install the Lean 4 extension for VSCode; make sure you complete the steps so that Lean 4 and elan are installed.
 
-#. In a terminal, navigate to the folder where you want to put a copy of the
+2. Make sure you have `git <https://git-scm.com/>`_ installed.
+   In a terminal, navigate to the folder where you want to put a copy of the
    repository, and type ``git clone git@github.com:leanprover-community/mathematics_in_lean.git``
    to fetch it from github.
 
-#. Navigate to ``mathematics_in_lean``, and execute ``lake exe cache get`` to fetch a compiled
-   version of the library, ``mathlib``.
+3. Navigate to ``mathematics_in_lean``, and execute ``lake exe cache get`` to fetch a compiled
+   version of the library, ``Mathlib``.
 
-#. Type ``code .`` to open the folder in ``VS Code``, or run ``VS Code`` and
+4. Type ``code .`` to open the folder in ``VS Code``, or run ``VS Code`` and
    choose ``Open Folder`` from the ``File`` menu. Be sure to open the folder ``mathematics_in_lean``,
    not any other folder.
 
-#. Each section in this book has an associated Lean file with examples and exercises.
-   You can find them in the folder `MIL`, organized by chapter.
+5. Each section in this book has an associated Lean file with examples and exercises.
+   You can find them in the folder ``MIL``, organized by chapter.
    We strongly recommend making a copy of that folder and experimenting and doing the
-   exercises in that copy, while leaving the originals intact. This will also
-   make it easier to update the repository as it changes (see below).
-   You can call the copy `my_files` or whatever you want, and use it to create
+   exercises in that copy.
+   This leaves the originals intact, and also makes it easier to update the repository as it changes (see below).
+   You can call the copy ``my_files`` or whatever you want and use it to create
    your own Lean files as well.
+
+At that point, you can open the textbook in a side panel in VS Code as follows:
+
+1. Type ``ctrl-shift-P``.
+
+2. Type ``Lean 4: Open Documentation View`` in the bar that appears, and then
+   press return. (You can press return to select it as soon as it is highlighted
+   in the menu.)
+
+3. In the window that opens, click on ``Open documentation of current project``.
 
 Alternatively, you can run Lean and VS Code in the cloud,
 using `Gitpod <https://gitpod.io/>`_.
@@ -67,7 +79,8 @@ as described above.
 This textbook and the associated repository are still a work in progress.
 You can update the repository by typing ``git pull``
 followed by ``lake exe cache get`` inside the ``mathematics_in_lean`` folder.
-(This assumes that you have not changed the `MIL`)
+(This assumes that you have not changed the contents of the `MIL` folder,
+which is why we suggested making a copy.)
 
 We intend for you to work on the exercises in the `MIL` folder while reading the
 textbook, which contains explanations, instructions, and hints.
