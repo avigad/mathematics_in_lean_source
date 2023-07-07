@@ -130,22 +130,22 @@ whether or not you use these tricks,
 we encourage you to prove the following:
 TEXT. -/
 -- QUOTE:
+-- BOTH:
 example : max a b = max b a := by
+/- EXAMPLES:
   sorry
-
-example : min (min a b) c = min a (min b c) := by
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-example : max a b = max b a := by
+SOLUTIONS: -/
   apply le_antisymm
   repeat'
     apply max_le
     apply le_max_right
     apply le_max_left
 
+-- BOTH:
 example : min (min a b) c = min a (min b c) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   apply le_antisymm
   · apply le_min
     · apply le_trans
@@ -165,6 +165,7 @@ example : min (min a b) c = min a (min b c) := by
   apply le_trans
   apply min_le_right
   apply min_le_right
+-- QUOTE.
 
 /- TEXT:
 Of course, you are welcome to prove the associativity of ``max`` as well.
@@ -191,22 +192,22 @@ but for now we will stick to examples that don't require the case split.
 Here is one such example:
 TEXT. -/
 -- QUOTE:
+-- BOTH:
 theorem aux : min a b + c ≤ min (a + c) (b + c) := by
+/- EXAMPLES:
   sorry
-
-example : min a b + c = min (a + c) (b + c) := by
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-theorem auxαα : min a b + c ≤ min (a + c) (b + c) := by
+SOLUTIONS: -/
   apply le_min
   · apply add_le_add_right
     apply min_le_left
   apply add_le_add_right
   apply min_le_right
 
+-- BOTH:
 example : min a b + c = min (a + c) (b + c) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   apply le_antisymm
   · apply aux
   have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c := by rw [sub_add_cancel]
@@ -216,6 +217,7 @@ example : min a b + c = min (a + c) (b + c) := by
   apply le_trans
   apply aux
   rw [add_neg_cancel_right, add_neg_cancel_right]
+-- QUOTE.
 
 /- TEXT:
 It is clear that ``aux`` provides one of the two inequalities
@@ -238,12 +240,11 @@ TEXT. -/
 Use it to prove the following variant:
 TEXT. -/
 -- QUOTE:
+-- BOTH:
 example : |a| - |b| ≤ |a - b| :=
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example : |a| - |b| ≤ |a - b| :=
+SOLUTIONS: -/
   calc
     |a| - |b| = |a - b + b| - |b| := by rw [sub_add_cancel]
     _ ≤ |a - b| + |b| - |b| := by
@@ -260,6 +261,7 @@ example : |a| - |b| ≤ |a - b| := by
 
 -- BOTH:
 end
+-- QUOTE.
 
 /- TEXT:
 See if you can do this in three lines or less.
@@ -302,12 +304,11 @@ See if you can guess the names of the theorems
 you need to prove the following:
 TEXT. -/
 -- QUOTE:
+-- BOTH:
 example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
+SOLUTIONS: -/
   apply dvd_add
   · apply dvd_add
     · apply dvd_mul_of_dvd_right
@@ -319,6 +320,7 @@ example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
 
 -- BOTH:
 end
+-- QUOTE.
 
 /- TEXT:
 .. index:: gcd, lcm
@@ -333,37 +335,28 @@ TEXT. -/
 section
 -- QUOTE:
 variable (m n : ℕ)
-open Nat
 
-#check (gcd_zero_right n : gcd n 0 = n)
-#check (gcd_zero_left n : gcd 0 n = n)
-#check (lcm_zero_right n : lcm n 0 = 0)
-#check (lcm_zero_left n : lcm 0 n = 0)
+#check (Nat.gcd_zero_right n : Nat.gcd n 0 = n)
+#check (Nat.gcd_zero_left n : Nat.gcd 0 n = n)
+#check (Nat.lcm_zero_right n : Nat.lcm n 0 = 0)
+#check (Nat.lcm_zero_left n : Nat.lcm 0 n = 0)
 -- QUOTE.
 
 /- TEXT:
-The functions ``gcd`` and ``lcm`` for natural numbers are in the
-``Nat`` namespace,
-which means that the full identifiers are ``Nat.gcd`` and ``Nat.lcm``.
-Similarly, the names of the theorems listed are prefixed by ``Nat``.
-The command ``open Nat`` opens the namespace,
-allowing us to use the shorter names.
-
 See if you can guess the names of the theorems you will need to
 prove the following:
 TEXT. -/
 -- QUOTE:
-example : gcd m n = gcd n m := by
+-- BOTH:
+example : Nat.gcd m n = Nat.gcd n m := by
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example : gcd m n = gcd n m := by
-  apply _root_.dvd_antisymm
+SOLUTIONS: -/
+  apply Nat.dvd_antisymm
   repeat'
-    apply dvd_gcd
-    apply gcd_dvd_right
-    apply gcd_dvd_left
+    apply Nat.dvd_gcd
+    apply Nat.gcd_dvd_right
+    apply Nat.gcd_dvd_left
 
 -- BOTH:
 end
