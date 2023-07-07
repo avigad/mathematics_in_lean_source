@@ -63,7 +63,7 @@ like the integers, ``ℤ``, the rational numbers,  ``ℚ``,
 and the complex numbers ``ℂ``.
 It can also be applied to any instance of an abstract
 structure that extends rings,
-such as any *ordered ring* or any *field*.
+such as any ordered ring or any field.
 
 .. index:: commutative ring
 
@@ -207,7 +207,7 @@ With enough planning, you can do each of them with three rewrites.
 
 .. index:: implicit argument
 
-We can now explain the use of the curly braces.
+We will now explain the use of the curly braces.
 Imagine you are in a situation where you have ``a``, ``b``, and ``c``
 in your context,
 as well as a hypothesis ``h : a + b = a + c``,

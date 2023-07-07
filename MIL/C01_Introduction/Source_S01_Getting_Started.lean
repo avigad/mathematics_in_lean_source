@@ -54,16 +54,20 @@ To get started:
    We strongly recommend making a copy of that folder and experimenting and doing the
    exercises in that copy, while leaving the originals intact. This will also
    make it easier to update the repository as it changes (see below).
+   You can call the copy `my_files` or whatever you want, and use it to create
+   your own Lean files as well.
 
 Alternatively, you can run Lean and VS Code in the cloud,
 using `Gitpod <https://gitpod.io/>`_.
 You can find instructions as to how to do that on the Mathematics in Lean
 `project page <https://github.com/leanprover-community/mathematics_in_lean>`_
-on Github.
+on Github. We still recommend working in a copy of the `MIL` folder,
+as described above.
 
 This textbook and the associated repository are still a work in progress.
 You can update the repository by typing ``git pull``
 followed by ``lake exe cache get`` inside the ``mathematics_in_lean`` folder.
+(This assumes that you have not changed the `MIL`)
 
 We intend for you to work on the exercises in the `MIL` folder while reading the
 textbook, which contains explanations, instructions, and hints.
