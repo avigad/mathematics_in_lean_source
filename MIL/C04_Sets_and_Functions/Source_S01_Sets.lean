@@ -108,13 +108,13 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   intro x hx
   have xs : x ∈ s := hx.1
   have xtu : x ∈ t ∪ u := hx.2
-  cases' xtu with xt xu
+  rcases xtu with xt | xu
   · left
     show x ∈ s ∩ t
     exact ⟨xs, xt⟩
-  right
-  show x ∈ s ∩ u
-  exact ⟨xs, xu⟩
+  . right
+    show x ∈ s ∩ u
+    exact ⟨xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -126,9 +126,8 @@ TEXT. -/
 -- QUOTE:
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
-  · left
-    exact ⟨xs, xt⟩
-  right; exact ⟨xs, xu⟩
+  · left; exact ⟨xs, xt⟩
+  . right; exact ⟨xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -140,10 +139,8 @@ example : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
   sorry
 SOLUTIONS: -/
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
-  · use xs
-    left
-    exact xt
-  use xs; right; exact xu
+  · use xs; left; exact xt
+  . use xs; right; exact xu
 -- QUOTE.
 
 -- BOTH:
@@ -172,10 +169,9 @@ example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
   · exact xs
   intro xtu
   -- x ∈ t ∨ x ∈ u
-  cases' xtu with xt xu
-  · show False
-    exact xnt xt
-  show False; exact xnu xu
+  rcases xtu with xt | xu
+  · show False; exact xnt xt
+  . show False; exact xnu xu
 
 example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
   rintro x ⟨⟨xs, xnt⟩, xnu⟩
@@ -214,9 +210,8 @@ example : s ∩ t = t ∩ s := by
   ext x
   simp only [mem_inter_iff]
   constructor
-  · rintro ⟨xs, xt⟩
-    exact ⟨xt, xs⟩
-  rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
+  · rintro ⟨xs, xt⟩; exact ⟨xt, xs⟩
+  . rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
 -- QUOTE.
 
 /- TEXT:
@@ -247,9 +242,8 @@ TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s := by
   apply Subset.antisymm
-  · rintro x ⟨xs, xt⟩
-    exact ⟨xt, xs⟩
-  rintro x ⟨xt, xs⟩; exact ⟨xs, xt⟩
+  · rintro x ⟨xs, xt⟩; exact ⟨xt, xs⟩
+  . rintro x ⟨xt, xs⟩; exact ⟨xs, xt⟩
 -- QUOTE.
 
 /- TEXT:
@@ -291,21 +285,21 @@ example : s ∩ (s ∪ t) = s := by
   ext x; constructor
   · rintro ⟨xs, _⟩
     exact xs
-  intro xs
-  use xs; left; exact xs
+  . intro xs
+    use xs; left; exact xs
 
 example : s ∪ s ∩ t = s := by
   ext x; constructor
   · rintro (xs | ⟨xs, xt⟩) <;> exact xs
-  intro xs; left; exact xs
+  . intro xs; left; exact xs
 
 example : s \ t ∪ t = s ∪ t := by
   ext x; constructor
   · rintro (⟨xs, nxt⟩ | xt)
     · left
       exact xs
-    right
-    exact xt
+    . right
+      exact xt
   by_cases h : x ∈ t
   · intro
     right
@@ -324,20 +318,20 @@ example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
       exact xs
       rintro ⟨_, xt⟩
       contradiction
-    constructor
-    right
-    exact xt
-    rintro ⟨xs, _⟩
-    contradiction
+    . constructor
+      right
+      exact xt
+      rintro ⟨xs, _⟩
+      contradiction
   rintro ⟨xs | xt, nxst⟩
   · left
     use xs
     intro xt
     apply nxst
     constructor <;> assumption
-  right; use xt; intro xs
-  apply nxst
-  constructor <;> assumption
+  . right; use xt; intro xs
+    apply nxst
+    constructor <;> assumption
 
 /- TEXT:
 When it comes to representing sets,
@@ -415,7 +409,7 @@ example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   intro n
   simp
   intro nprime
-  cases' Nat.Prime.eq_two_or_odd nprime with h h
+  rcases Nat.Prime.eq_two_or_odd nprime with h | h
   · rw [h]
     intro
     linarith

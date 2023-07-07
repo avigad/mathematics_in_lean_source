@@ -3,6 +3,7 @@ import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 
 namespace C03S02
+
 /- TEXT:
 .. _the_existential_quantifier:
 
@@ -104,8 +105,8 @@ variable {f g : ℝ → ℝ}
 
 -- EXAMPLES:
 example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
-  cases' ubf with a ubfa
-  cases' ubg with b ubgb
+  rcases ubf with ⟨a, ubfa⟩
+  rcases ubg with ⟨b, ubgb⟩
   use a + b
   apply fnUb_add ubfa ubgb
 -- QUOTE.
@@ -113,25 +114,27 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
 /- TEXT:
 .. index:: cases, tactics ; cases
 
-The ``cases'`` tactic unpacks the information
+The ``rcases`` tactic unpacks the information
 in the existential quantifier.
+The annotations like ``⟨a, ubfa⟩``, written with the
+same angle brackets as the anonymous constructors,
+are known as *patterns*, and they describe the information
+that we expect to find when we unpack the main argument.
 Given the hypothesis ``ubf`` that there is an upper bound
 for ``f``,
-``cases'`` adds a new variable for an upper
-bound to the context,
-together with the hypothesis that it has the given property.
-The ``with`` clause allows us to specify the names
-we want Lean to use.
+``rcases ubf with ⟨a, ubfa⟩`` adds a new variable ``a``
+for an upper bound to the context,
+together with the hypothesis ``ubfa`` that it has the given property.
 The goal is left unchanged;
 what *has* changed is that we can now use
 the new object and the new hypothesis
 to prove the goal.
-This is a common pattern in mathematics:
+This is a common method of reasoning in mathematics:
 we unpack objects whose existence is asserted or implied
 by some hypothesis, and then use it to establish the existence
 of something else.
 
-Try using this pattern to establish the following.
+Try using this method to establish the following.
 You might find it useful to turn some of the examples
 from the last section into named theorems,
 as we did with ``fn_ub_add``,
@@ -148,14 +151,14 @@ example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x ↦ c * f x :=
 
 -- SOLUTIONS:
 example (lbf : FnHasLb f) (lbg : FnHasLb g) : FnHasLb fun x ↦ f x + g x := by
-  cases' lbf with a lbfa
-  cases' lbg with b lbgb
+  rcases lbf with ⟨a, lbfa⟩
+  rcases lbg with ⟨b, lbgb⟩
   use a + b
   intro x
   exact add_le_add (lbfa x) (lbgb x)
 
 example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x ↦ c * f x := by
-  cases' ubf with a lbfa
+  rcases ubf with ⟨a, lbfa⟩
   use c * a
   intro x
   exact mul_le_mul_of_nonneg_left (lbfa x) h
@@ -163,25 +166,12 @@ example {c : ℝ} (ubf : FnHasUb f) (h : c ≥ 0) : FnHasUb fun x ↦ c * f x :=
 /- TEXT:
 .. index:: rintro, tactics ; rintro, rcases, tactics ; rcases
 
-The task of unpacking information in a hypothesis is
-so important that Lean and mathlib provide a number of
-ways to do it.
-A cousin of the ``cases'`` tactic, ``rcases``, is more
-flexible in that it allows us to unpack nested data.
-(The "r" stands for "recursive.")
-In the ``with`` clause for unpacking an existential quantifier,
-we name the object and the hypothesis by presenting
-them as a pattern ``⟨a, h⟩`` that ``rcases`` then tries to match.
+The "r" in ``rcases`` stands for "recursive," because it allows
+us to use arbitrarily complex patterns to unpack nested data.
 The ``rintro`` tactic
-is a combination of ``intro`` and ``rcases``.
-These examples illustrate their use:
+is a combination of ``intro`` and ``rcases``:
 TEXT. -/
 -- QUOTE:
-example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
-  rcases ubf with ⟨a, ubfa⟩
-  rcases ubg with ⟨b, ubgb⟩
-  exact ⟨a + b, fnUb_add ubfa ubgb⟩
-
 example : FnHasUb f → FnHasUb g → FnHasUb fun x ↦ f x + g x := by
   rintro ⟨a, ubfa⟩ ⟨b, ubgb⟩
   exact ⟨a + b, fnUb_add ubfa ubgb⟩
@@ -200,14 +190,70 @@ example : FnHasUb f → FnHasUb g → FnHasUb fun x ↦ f x + g x :=
 end
 
 /- TEXT:
-These are power-user moves, and there is no harm
-in favoring the use of ``cases'`` until you are more comfortable
-with the existential quantifier.
-But we will come to learn that all of these tools,
-including ``cases'``, ``use``, and the anonymous constructors,
-are like Swiss army knives when it comes to theorem proving.
-They can be used for a wide range of purposes,
-not just for unpacking exists statements.
+The task of unpacking information in a hypothesis is
+so important that Lean and mathlib provide a number of
+ways to do it. For example, the ``obtain`` tactic provides suggestive syntax:
+TEXT. -/
+-- QUOTE:
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
+  obtain ⟨a, ubfa⟩ := ubf
+  obtain ⟨b, ubgb⟩ := ubg
+  exact ⟨a + b, fnUb_add ubfa ubgb⟩
+-- QUOTE.
+
+/- TEXT:
+Think of the first ``obtain`` instruction as matching the "contents" of ``ubf``
+with the given pattern and assigning the components to the named variables.
+``rcases`` and ``obtain`` are said to ``destruct`` their arguments, though
+there is a small difference in that ``rcases`` clears ``ubf`` from the context
+when it is done, whereas it is still present after ``obtain``.
+
+Lean also supports syntax that is similar to that used in other functional programming
+languages:
+TEXT. -/
+-- QUOTE:
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
+  cases ubf
+  case intro a ubfa =>
+    cases ubg
+    case intro b ubgb =>
+      exact ⟨a + b, fnUb_add ubfa ubgb⟩
+
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
+  cases ubf
+  next a ubfa =>
+    cases ubg
+    next b ubgb =>
+      exact ⟨a + b, fnUb_add ubfa ubgb⟩
+
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
+  match ubf, ubg with
+    | ⟨a, ubfa⟩, ⟨b, ubgb⟩ =>
+      exact ⟨a + b, fnUb_add ubfa ubgb⟩
+
+example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x :=
+  match ubf, ubg with
+    | ⟨a, ubfa⟩, ⟨b, ubgb⟩ =>
+      ⟨a + b, fnUb_add ubfa ubgb⟩
+-- QUOTE.
+
+/- TEXT:
+In the first example, if you put your cursor after ``cases ubf``,
+you will see that the tactic produces a single goal, which Lean has tagged
+``intro``. (The particular name chosen comes from the internal name for
+the axiomatic primitive that bulids a proof of an existential statement.)
+The ``case`` tactic then names the components. The second example is similar,
+except using ``next`` instead of ``case`` means that you can avoid mentioning
+``intro``. The word ``match`` in the last two examples highlights that
+what we are doing here is what computer scientists call "pattern matching."
+Notice that the third proof begins by ``by``, after which the tactic version
+of ``match`` expects a tactic proof on the right side of the arrow.
+The last example is a proof term: there are no tactics in sight.
+
+For the rest of this book, we will stick to ``rcases``, ``rintros``, and ``obtain``,
+as the preferred ways of using an existential quantifier.
+But it can't hurt to see the alternative syntax, especially if there is
+a chance you will find yourself in the company of computer scientists.
 
 To illustrate one way that ``rcases`` can be used,
 we prove an old mathematical chestnut:
@@ -293,8 +339,8 @@ variable {a b c : ℕ}
 -- EXAMPLES:
 -- QUOTE:
 example (divab : a ∣ b) (divbc : b ∣ c) : a ∣ c := by
-  cases' divab with d beq
-  cases' divbc with e ceq
+  rcases divab with ⟨d, beq⟩
+  rcases divbc with ⟨e, ceq⟩
   rw [ceq, beq]
   use d * e; ring
 -- QUOTE.
@@ -386,12 +432,12 @@ example (x y : ℝ) (h : x - y ≠ 0) : (x ^ 2 - y ^ 2) / (x - y) = x + y := by
 /- TEXT:
 The next example uses a surjectivity hypothesis
 by applying it to a suitable value.
-Note that you can use ``cases'`` with any expression,
+Note that you can use ``rcases`` with any expression,
 not just a hypothesis.
 TEXT. -/
 -- QUOTE:
 example {f : ℝ → ℝ} (h : Surjective f) : ∃ x, f x ^ 2 = 4 := by
-  cases' h 2 with x hx
+  rcases h 2 with ⟨x, hx⟩
   use x
   rw [hx]
   norm_num

@@ -134,7 +134,7 @@ theorem dvd_fac {i n : ℕ} (ipos : 0 < i) (ile : i ≤ n) : i ∣ fac n := by
   induction' n with n ih
   · exact absurd ipos (not_lt_of_ge ile)
   rw [fac]
-  cases' Nat.of_le_succ ile with h h
+  rcases Nat.of_le_succ ile with h | h
   · apply dvd_mul_of_dvd_right (ih h)
   rw [h]
   apply dvd_mul_right
@@ -150,7 +150,7 @@ See if you can complete the argument with a proof by induction.
 BOTH: -/
 -- QUOTE:
 theorem pow_two_le_fac (n : ℕ) : 2 ^ (n - 1) ≤ fac n := by
-  cases' n with n
+  rcases n with _ | n
   · simp [fac]
 /- EXAMPLES:
   sorry

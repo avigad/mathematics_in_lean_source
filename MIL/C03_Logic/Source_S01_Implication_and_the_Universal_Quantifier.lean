@@ -3,6 +3,7 @@ import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 
 namespace C03S01
+
 /- TEXT:
 .. _implication_and_the_universal_quantifier:
 
@@ -130,14 +131,6 @@ theorem my_lemma4 :
     _ = ε := sorry
 -- QUOTE.
 
--- OMIT:
-/- TODO : remember to introduce ``suffices`` eventually
-
-   We have introduced another new tactic here:
-   ``suffices`` works like ``have`` in reverse,
-   asking you to prove the goal using the
-   stated fact,
-   and then leaving you the new goal of proving that fact. -/
 /- TEXT:
 Finish the proof using the theorems
 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,

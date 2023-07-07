@@ -4,6 +4,7 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Prime
 
 namespace C03S04
+
 /- TEXT:
 .. _conjunction_and_biimplication:
 
@@ -55,14 +56,14 @@ example {x y : ℝ} (h₀ : x ≤ y) (h₁ : ¬y ≤ x) : x ≤ y ∧ x ≠ y :=
 /- TEXT:
 *Using* a conjunction instead of proving one involves unpacking the proofs of the
 two parts.
-You can use the ``cases`` tactic for that,
-as well as ``rcases``, ``rintro``, or a pattern-matching ``fun``,
+You can use the ``rcases`` tactic for that,
+as well as ``rintro`` or a pattern-matching ``fun``,
 all in a manner similar to the way they are used with
 the existential quantifier.
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
-  cases' h with h₀ h₁
+  rcases h with ⟨h₀, h₁⟩
   contrapose! h₁
   exact le_antisymm h₀ h₁
 
@@ -72,6 +73,42 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x := by
 
 example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
   fun ⟨h₀, h₁⟩ h' ↦ h₁ (le_antisymm h₀ h')
+-- QUOTE.
+
+/- TEXT:
+In analogy to the ``obtain`` tactic, which we used with the existential
+quantifier, there is also a pattern-matching ``have``:
+TEXT. -/
+-- QUOTE:
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  have ⟨h₀, h₁⟩ := h
+  contrapose! h₁
+  exact le_antisymm h₀ h₁
+-- QUOTE.
+
+/- TEXT:
+In contrast to ``rcases``, here the ``have`` tactic leaves ``h`` in the context.
+And even though we won't use them, once again we have the computer scientists'
+pattern-matching syntax:
+TEXT. -/
+-- QUOTE:
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  cases h
+  case intro h₀ h₁ =>
+    contrapose! h₁
+    exact le_antisymm h₀ h₁
+
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  cases h
+  next h₀ h₁ =>
+    contrapose! h₁
+    exact le_antisymm h₀ h₁
+
+example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
+  match h with
+    | ⟨h₀, h₁⟩ =>
+        contrapose! h₁
+        exact le_antisymm h₀ h₁
 -- QUOTE.
 
 /- TEXT:
@@ -101,7 +138,7 @@ example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m :=
 
 -- SOLUTIONS:
 example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
-  cases' h with h0 h1
+  rcases h with ⟨h0, h1⟩
   constructor
   · exact h0
   intro h2

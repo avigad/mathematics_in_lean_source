@@ -2,6 +2,7 @@ import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 
 namespace C03S05
+
 /- TEXT:
 .. _disjunction:
 
@@ -54,33 +55,39 @@ It may seem strange to prove a disjunction by proving one side
 or the other.
 In practice, which case holds usually depends a case distinction
 that is implicit or explicit in the assumptions and the data.
-The ``cases`` tactic allows us to make use of a hypothesis
+The ``rcases`` tactic allows us to make use of a hypothesis
 of the form ``A ∨ B``.
-In contrast to the use of ``cases`` with conjunction or an
+In contrast to the use of ``rcases`` with conjunction or an
 existential quantifier,
-here the ``cases`` tactic produces *two* goals.
+here the ``rcases`` tactic produces *two* goals.
 Both have the same conclusion, but in the first case,
 ``A`` is assumed to be true,
 and in the second case,
 ``B`` is assumed to be true.
 In other words, as the name suggests,
-the ``cases`` tactic carries out a proof by cases.
+the ``rcases`` tactic carries out a proof by cases.
 As usual, we can tell Lean what names to use for the hypotheses.
 In the next example, we tell Lean
 to use the name ``h`` on each branch.
 TEXT. -/
 -- QUOTE:
 example : x < |y| → x < y ∨ x < -y := by
-  cases' le_or_gt 0 y with h h
+  rcases le_or_gt 0 y with h | h
   · rw [abs_of_nonneg h]
-    intro h
-    left
-    exact h
-  rw [abs_of_neg h]
-  intro h; right; exact h
+    intro h; left; exact h
+  . rw [abs_of_neg h]
+    intro h; right; exact h
 -- QUOTE.
 
 /- TEXT:
+Notice that the pattern changes from ``⟨h₀, h₁⟩`` in the case of
+a conjunction to ``h₀ | h₁`` in the case of a disjunction.
+Think of the first pattern as matching against data the contains
+*both* an ``h₀`` and a ``h₁``, whereas second pattern, with the bar,
+matches against data that contains *either* an ``h₀`` or ``h₁``.
+In this case, because the two goals are separate, we have chosen
+to use the same name, ``h``, in each case.
+
 The absolute value function is defined in such a way
 that we can immediately prove that
 ``x ≥ 0`` implies ``|x| = x``
@@ -88,6 +95,57 @@ that we can immediately prove that
 and ``x < 0`` implies ``|x| = -x`` (this is ``abs_of_neg``).
 The expression ``le_or_gt 0 x`` establishes ``0 ≤ x ∨ x < 0``,
 allowing us to split on those two cases.
+
+Lean also supports the computer scientists' pattern-matching
+syntax for disjunction. Now the ``cases`` tactic is more attractive,
+because it allows us to name each ``case``, and name the hypothesis
+that is introduced closer to where it is used.
+TEXT. -/
+-- QUOTE:
+example : x < |y| → x < y ∨ x < -y := by
+  cases le_or_gt 0 y
+  case inl h =>
+    rw [abs_of_nonneg h]
+    intro h; left; exact h
+  case inr h =>
+    rw [abs_of_neg h]
+    intro h; right; exact h
+-- QUOTE.
+
+/- TEXT:
+The names ``inl`` and ``inr`` are short for "intro left" and "intro right,"
+respectively. Using ``case`` has the advantage is that you can prove the
+cases in either order; Lean uses the tag to find the relevant goal.
+If you don't care about that, you can use ``next``, or ``match``,
+or even a pattern-matching ``have``.
+TEXT. -/
+-- QUOTE:
+example : x < |y| → x < y ∨ x < -y := by
+  cases le_or_gt 0 y
+  next h =>
+    rw [abs_of_nonneg h]
+    intro h; left; exact h
+  next h =>
+    rw [abs_of_neg h]
+    intro h; right; exact h
+
+
+example : x < |y| → x < y ∨ x < -y := by
+  match le_or_gt 0 y with
+    | Or.inl h =>
+      rw [abs_of_nonneg h]
+      intro h; left; exact h
+    | Or.inr h =>
+      rw [abs_of_neg h]
+      intro h; right; exact h
+-- QUOTE.
+
+/- TEXT:
+In the case of the ``match``, we need to use the full names
+``Or.inl`` and ``Or.inr`` of the canonical ways to prove a disjunction.
+In this textbook, we will generally use ``rcases`` to split on the
+caess of a disjunction.
+
 Try proving the triangle inequality using the two
 first two theorems in the next snippet.
 They are given the same names they have in mathlib.
@@ -109,23 +167,23 @@ theorem abs_add (x y : ℝ) : |x + y| ≤ |x| + |y| := by
 
 -- SOLUTIONS:
 theorem le_abs_selfαα (x : ℝ) : x ≤ |x| := by
-  cases' le_or_gt 0 x with h h
+  rcases le_or_gt 0 x with h | h
   · rw [abs_of_nonneg h]
-  rw [abs_of_neg h]
-  linarith
+  . rw [abs_of_neg h]
+    linarith
 
 theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ |x| := by
-  cases' le_or_gt 0 x with h h
+  rcases le_or_gt 0 x with h | h
   · rw [abs_of_nonneg h]
     linarith
-  rw [abs_of_neg h]
+  . rw [abs_of_neg h]
 
 theorem abs_addαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
-  cases' le_or_gt 0 (x + y) with h h
+  rcases le_or_gt 0 (x + y) with h | h
   · rw [abs_of_nonneg h]
     linarith [le_abs_self x, le_abs_self y]
-  rw [abs_of_neg h]
-  linarith [neg_le_abs_self x, neg_le_abs_self y]
+  . rw [abs_of_neg h]
+    linarith [neg_le_abs_self x, neg_le_abs_self y]
 
 /- TEXT:
 In case you enjoyed these (pun intended) and
@@ -142,45 +200,45 @@ theorem abs_lt : |x| < y ↔ -y < x ∧ x < y := by
 
 -- SOLUTIONS:
 theorem lt_absαα : x < |y| ↔ x < y ∨ x < -y := by
-  cases' le_or_gt 0 y with h h
+  rcases le_or_gt 0 y with h | h
   · rw [abs_of_nonneg h]
     constructor
     · intro h'
       left
       exact h'
-    intro h'
-    cases' h' with h' h'
-    · exact h'
-    linarith
+    . intro h'
+      rcases h' with h' | h'
+      · exact h'
+      . linarith
   rw [abs_of_neg h]
   constructor
   · intro h'
     right
     exact h'
-  intro h'
-  cases' h' with h' h'
-  · linarith
-  exact h'
+  . intro h'
+    rcases h' with h' | h'
+    · linarith
+    . exact h'
 
 theorem abs_ltαα : |x| < y ↔ -y < x ∧ x < y := by
-  cases' le_or_gt 0 x with h h
+  rcases le_or_gt 0 x with h | h
   · rw [abs_of_nonneg h]
     constructor
     · intro h'
       constructor
       · linarith
       exact h'
-    intro h'
-    cases' h' with h1 h2
-    exact h2
-  rw [abs_of_neg h]
-  constructor
-  · intro h'
+    . intro h'
+      rcases h' with ⟨h1, h2⟩
+      exact h2
+  . rw [abs_of_neg h]
     constructor
-    · linarith
-    linarith
-  intro h'
-  linarith
+    · intro h'
+      constructor
+      · linarith
+      . linarith
+    . intro h'
+      linarith
 
 -- BOTH:
 end MyAbs
@@ -188,17 +246,17 @@ end MyAbs
 end
 
 /- TEXT:
-You can also use ``rcases`` and ``rintro`` with disjunctions.
+You can also use ``rcases`` and ``rintro`` with nested disjunctions.
 When these result in a genuine case split with multiple goals,
 the patterns for each new goal are separated by a vertical bar.
 TEXT. -/
 -- QUOTE:
 example {x : ℝ} (h : x ≠ 0) : x < 0 ∨ x > 0 := by
-  rcases lt_trichotomy x 0 with (xlt | xeq | xgt)
+  rcases lt_trichotomy x 0 with xlt | xeq | xgt
   · left
     exact xlt
   · contradiction
-  right; exact xgt
+  . right; exact xgt
 -- QUOTE.
 
 /- TEXT:
@@ -207,11 +265,11 @@ to substitute equations:
 TEXT. -/
 -- QUOTE:
 example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k := by
-  rcases h with (⟨a, rfl⟩ | ⟨b, rfl⟩)
+  rcases h with ⟨a, rfl⟩ | ⟨b, rfl⟩
   · rw [mul_assoc]
     apply dvd_mul_right
-  rw [mul_comm, mul_assoc]
-  apply dvd_mul_right
+  . rw [mul_comm, mul_assoc]
+    apply dvd_mul_right
 -- QUOTE.
 
 /- TEXT:
@@ -249,22 +307,22 @@ example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h'' : (x + 1) * (x - 1) = 0 := by
     rw [← h']
     ring
-  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
   · right
     exact eq_neg_iff_add_eq_zero.mpr h1
-  left
-  exact eq_of_sub_eq_zero h1
+  . left
+    exact eq_of_sub_eq_zero h1
 
 example {x y : ℝ} (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
   have h'' : (x + y) * (x - y) = 0 := by
     rw [← h']
     ring
-  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
   · right
     exact eq_neg_iff_add_eq_zero.mpr h1
-  left
-  exact eq_of_sub_eq_zero h1
+  . left
+    exact eq_of_sub_eq_zero h1
 
 /- TEXT:
 Remember that you can use the ``ring`` tactic to help
@@ -304,22 +362,22 @@ example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h'' : (x + 1) * (x - 1) = 0 := by
     rw [← h']
     ring
-  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
   · right
     exact eq_neg_iff_add_eq_zero.mpr h1
-  left
-  exact eq_of_sub_eq_zero h1
+  . left
+    exact eq_of_sub_eq_zero h1
 
 example (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
   have h'' : (x + y) * (x - y) = 0 := by
     rw [← h']
     ring
-  cases' eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
   · right
     exact eq_neg_iff_add_eq_zero.mpr h1
-  left
-  exact eq_of_sub_eq_zero h1
+  . left
+    exact eq_of_sub_eq_zero h1
 
 -- BOTH:
 end
@@ -343,7 +401,7 @@ example (P : Prop) : ¬¬P → P := by
   intro h
   cases em P
   · assumption
-  contradiction
+  . contradiction
 -- QUOTE.
 
 /- TEXT:
@@ -384,10 +442,10 @@ example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
     by_cases h' : P
     · right
       exact h h'
-    left
-    exact h'
+    . left
+      exact h'
   rintro (h | h)
   · intro h'
     exact absurd h' h
-  intro
-  exact h
+  . intro
+    exact h

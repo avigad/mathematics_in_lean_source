@@ -3,6 +3,7 @@ import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 
 namespace C03S03
+
 /- TEXT:
 .. _negation:
 
@@ -83,8 +84,8 @@ variable (f : ℝ → ℝ)
 -- QUOTE:
 example (h : ∀ a, ∃ x, f x > a) : ¬FnHasUb f := by
   intro fnub
-  cases' fnub with a fnuba
-  cases' h a with x hx
+  rcases fnub with ⟨a, fnuba⟩
+  rcases h a with ⟨x, hx⟩
   have : f x ≤ a := fnuba x
   linarith
 -- QUOTE.
@@ -357,19 +358,19 @@ example (h : ¬∀ a, ∃ x, f x > a) : FnHasUb f := by
   exact h
 
 example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
-  simp only [FnHasUb, FnUb] at h
+  dsimp only [FnHasUb, FnUb] at h
   push_neg at h
   exact h
 -- QUOTE.
 
 /- TEXT:
-In the second example, we use Lean's simplifier to
+In the second example, we use dsimp to
 expand the definitions of ``FnHasUb`` and ``FnUb``.
-(We need to use ``simp`` rather than ``rw``
+(We need to use ``dsimp`` rather than ``rw``
 to expand ``FnUb``,
 because it appears in the scope of a quantifier.)
 You can verify that in the examples above
-with ``¬ ∃ x, P x`` and ``¬ ∀ x, P x``,
+with ``¬∃ x, P x`` and ``¬∀ x, P x``,
 the ``push_neg`` tactic does the expected thing.
 Without even knowing how to use the conjunction
 symbol,
@@ -391,11 +392,11 @@ example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
 .. index:: contrapose, tactics ; contrapose
 
 Mathlib also has a tactic, ``contrapose``,
-which transforms a goal ``A → B`` to ``¬ B → ¬ A``.
+which transforms a goal ``A → B`` to ``¬B → ¬A``.
 Similarly, given a goal of proving ``B`` from
 hypothesis ``h : A``,
 ``contrapose h`` leaves you with a goal of proving
-``¬ A`` from hypothesis ``¬ B``.
+``¬A`` from hypothesis ``¬B``.
 Using ``contrapose!`` instead of ``contrapose``
 applies ``push_neg`` to the goal and the relevant
 hypothesis as well.
@@ -418,9 +419,6 @@ end
 We have not yet explained the ``constructor`` command
 or the use of the semicolon after it,
 but we will do that in the next section.
-
-.. TODO: make sure we explain split and the semicolon
-   in the next section
 
 We close this section with
 the principle of *ex falso*,
