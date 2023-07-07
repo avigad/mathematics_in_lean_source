@@ -55,7 +55,7 @@ To get started:
    You can find them in the folder ``MIL``, organized by chapter.
    We strongly recommend making a copy of that folder and experimenting and doing the
    exercises in that copy.
-   This leaves the originals intact, and also makes it easier to update the repository as it changes (see below).
+   This leaves the originals intact, and it also makes it easier to update the repository as it changes (see below).
    You can call the copy ``my_files`` or whatever you want and use it to create
    your own Lean files as well.
 
@@ -79,10 +79,10 @@ as described above.
 This textbook and the associated repository are still a work in progress.
 You can update the repository by typing ``git pull``
 followed by ``lake exe cache get`` inside the ``mathematics_in_lean`` folder.
-(This assumes that you have not changed the contents of the `MIL` folder,
+(This assumes that you have not changed the contents of the ``MIL`` folder,
 which is why we suggested making a copy.)
 
-We intend for you to work on the exercises in the `MIL` folder while reading the
+We intend for you to work on the exercises in the ``MIL`` folder while reading the
 textbook, which contains explanations, instructions, and hints.
 The text will often include examples, like this one:
 TEXT. -/
