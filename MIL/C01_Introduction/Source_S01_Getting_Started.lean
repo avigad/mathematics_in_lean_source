@@ -10,7 +10,7 @@ to measure theory and analysis,
 we will focus on elementary aspects of those fields,
 in the hopes that if they are not familiar to you,
 you can pick them up as you go.
-We also don't presuppose any background in formalization.
+We also don't presuppose any background with formal methods.
 Formalization can be seen as a kind of computer programming:
 we will write mathematical definitions, theorems, and proofs in
 a regimented language, like a programming language,
@@ -24,7 +24,7 @@ You can learn more about Lean from the
 and the
 `Lean community web pages <https://leanprover-community.github.io/>`_.
 This tutorial is based on Lean's large and ever-growing library, *mathlib*.
-We also strongly recommend taking a look at the
+We also strongly recommend joining the
 `Lean Zulip online chat group <https://leanprover.zulipchat.com/>`_
 if you haven't already.
 You'll find a lively and welcoming community of Lean enthusiasts there,
@@ -45,12 +45,15 @@ To get started:
 #. Navigate to ``mathematics_in_lean``, and execute ``lake exe cache get`` to fetch a compiled
    version of the library, ``mathlib``.
 
-#. Type ``code .`` to open the folder in ``VS Code``. Alternatively, you can run ``VS Code`` and
+#. Type ``code .`` to open the folder in ``VS Code``, or run ``VS Code`` and
    choose ``Open Folder`` from the ``File`` menu. Be sure to open the folder ``mathematics_in_lean``,
    not any other folder.
 
-You can update to a newer version by tying ``git pull`` followed by ``lake exe cache get`` inside
-the ``mathematics_in_lean`` folder.
+#. Each section in this book has an associated Lean file with examples and exercises.
+   You can find them in the folder `MIL`, organized by chapter.
+   We strongly recommend making a copy of that folder and experimenting and doing the
+   exercises in that copy, while leaving the originals intact. This will also
+   make it easier to update the repository as it changes (see below).
 
 Alternatively, you can run Lean and VS Code in the cloud,
 using `Gitpod <https://gitpod.io/>`_.
@@ -58,11 +61,12 @@ You can find instructions as to how to do that on the Mathematics in Lean
 `project page <https://github.com/leanprover-community/mathematics_in_lean>`_
 on Github.
 
-Each section in this book has an associated Lean file with examples
-and exercises. You can find them in the folder `MIL`,
-organized by chapter. We recommend making a copy of that folder
-so that you can experiment with the files as you go,
-while leaving the originals intact.
+This textbook and the associated repository are still a work in progress.
+You can update the repository by typing ``git pull``
+followed by ``lake exe cache get`` inside the ``mathematics_in_lean`` folder.
+
+We intend for you to work on the exercises in the `MIL` folder while reading the
+textbook, which contains explanations, instructions, and hints.
 The text will often include examples, like this one:
 TEXT. -/
 -- QUOTE:
@@ -82,6 +86,8 @@ This book moreover provides lots of challenging exercises for you to try.
 Don't rush past these!
 Lean is about *doing* mathematics interactively, not just reading about it.
 Working through the exercises is central to the experience.
+You don't have to do all of them; when you feel comfortable that you have mastered
+the relevant skills, feel free to move on.
 You can always compare your solutions to the ones in the ``solutions``
 folder associated with each section.
 TEXT. -/

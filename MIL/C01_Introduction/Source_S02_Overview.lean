@@ -70,7 +70,7 @@ So now you know the game.
 All that is left to learn are the rules.
 
 This book is complementary to a companion tutorial,
-`Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean/>`_,
+`Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean4/>`_,
 which provides a more thorough introduction to the underlying logical framework
 and core syntax of Lean.
 *Theorem Proving in Lean* is for people who prefer to read a user manual cover to cover before
@@ -112,13 +112,13 @@ starting with ``--`` are comments, hence ignored by Lean:
 TEXT. -/
 -- QUOTE:
 example : ∀ m n : Nat, Even n → Even (m * n) := by
-  -- say m and n are natural numbers, and assume n=2*k
+  -- Say m and n are natural numbers, and assume n=2*k.
   rintro m n ⟨k, hk⟩
   -- We need to prove m*n is twice a natural number. Let's show it's twice m*k.
   use m * k
-  -- substitute in for n
+  -- Substitute for n,
   rw [hk]
-  -- and now it's obvious
+  -- and now it's obvious.
   ring
 -- QUOTE.
 
@@ -208,11 +208,12 @@ Your life may never be the same.
 
 *Acknowledgments.* We are grateful to Gabriel Ebner for setting up the
 infrastructure for running this tutorial in VS Code,
-and to Scott Morrison and Mario Carneiro for help porting it from Lean 3.
+and to Scott Morrison and Mario Carneiro for help porting it from Lean 4.
 We are also grateful for help and corrections from
-Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
-Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Bartosz Piotrowski,
-and Guilherme Silva.
+Julian Berman, Alex Best,
+Bulwi Cha, Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
+Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Oliver Nash,
+Bartosz Piotrowski, and Guilherme Silva.
 Our work has been partially supported by the Hoskinson Center for
 Formal Mathematics.
 TEXT. -/
