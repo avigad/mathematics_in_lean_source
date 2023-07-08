@@ -41,7 +41,7 @@ To get started:
 
 2. Make sure you have `git <https://git-scm.com/>`_ installed.
    In a terminal, navigate to the folder where you want to put a copy of the
-   repository, and type ``git clone git@github.com:leanprover-community/mathematics_in_lean.git``
+   repository, and type ``git clone https://github.com/leanprover-community/mathematics_in_lean.git``
    to fetch it from github.
 
 3. Navigate to ``mathematics_in_lean``, and execute ``lake exe cache get`` to fetch a compiled
