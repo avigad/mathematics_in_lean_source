@@ -530,11 +530,3 @@ example {ι : Type _} {s : Set X} (hs : IsCompact s) (U : ι → Set X) (hUo : �
     (hsU : s ⊆ ⋃ i, U i) : ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=
   hs.elim_finite_subcover U hUo hsU
 -- QUOTE.
-
-/- TEXT:
-A topological space ``X`` is compact if ``(univ : Set X)`` is compact.
-BOTH: -/
--- QUOTE:
-example [CompactSpace X] : IsCompact (univ : Set X) :=
-  isCompact_univ
--- QUOTE.
