@@ -377,7 +377,7 @@ Let's first prove ``φ`` is continuous. Fix any ``x : X``.
 Since ``Y`` is regular, it suffices to check that for every *closed* neighborhood
 ``V'`` of ``φ x``, ``φ ⁻¹' V' ∈ 𝓝 x``.
 The limit assumption gives (through the auxiliary lemma above)
-some ``V ∈ 𝓝 x`` such ``is_open V ∧ (↑) ⁻¹' V ⊆ f ⁻¹' V'``.
+some ``V ∈ 𝓝 x`` such ``IsOpen V ∧ (↑) ⁻¹' V ⊆ f ⁻¹' V'``.
 Since ``V ∈ 𝓝 x``, it suffices to prove ``V ⊆ φ ⁻¹' V'``, ie  ``∀ y ∈ V, φ y ∈ V'``.
 Let's fix ``y`` in ``V``. Because ``V`` is *open*, it is a neighborhood of ``y``.
 In particular ``(↑) ⁻¹' V ∈ comap (↑) (𝓝 y)`` and a fortiori ``f ⁻¹' V' ∈ comap (↑) (𝓝 y)``.
