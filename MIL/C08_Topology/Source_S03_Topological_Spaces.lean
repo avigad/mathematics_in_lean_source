@@ -35,10 +35,10 @@ example : IsOpen (univ : Set X) :=
 example : IsOpen (∅ : Set X) :=
   isOpen_empty
 
-example {ι : Type _} {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) : IsOpen (⋃ i, s i) :=
+example {ι : Type _} {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) : IsOpen (⋃ i, s i) :=
   isOpen_iUnion hs
 
-example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen <| s i) :
+example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) :
     IsOpen (⋂ i, s i) :=
   isOpen_iInter hs
 -- QUOTE.
@@ -62,7 +62,7 @@ the same if and only if they have the same continuous functions (indeed the iden
 be continuous in both direction if and only if the two structures have the same open sets).
 
 However as soon as we move on to continuity at a point we see the limitations of the approach based
-on open sets. In mathlib it is much more frequent to think of topological spaces as types equipped
+on open sets. In mathlib we frequently think of topological spaces as types equipped
 with a neighborhood filter ``𝓝 x`` attached to each point ``x`` (the corresponding function
 ``X → Filter X`` satisfies certain conditions explained further down). Remember from the filters section that
 these gadget play two related roles. First ``𝓝 x`` is seen as the generalized set of points of ``X``
@@ -116,7 +116,7 @@ example (x : X) : pure x ≤ 𝓝 x :=
   pure_le_nhds x
 
 example (x : X) (P : X → Prop) (h : ∀ᶠ y in 𝓝 x, P y) : P x :=
-  pure_le_nhds x h
+  h.self_of_nhds
 -- QUOTE.
 
 /- TEXT:
@@ -130,9 +130,9 @@ example {P : X → Prop} {x : X} (h : ∀ᶠ y in 𝓝 x, P y) : ∀ᶠ y in �
 
 /- TEXT:
 Those two results characterize the functions ``X → Filter X`` that are neighborhood functions for a topological space
-structure on ``X``. There is a still a function ``topological_space.mk_of_nhds : (X → Filter X) → topological_space X``
+structure on ``X``. There is a still a function ``TopologicalSpace.mkOfNhds : (X → Filter X) → TopologicalSpace X``
 but it will give back its input as a neighborhood function only if it satisfies the above two constraints.
-More precisely we have a lemma ``topological_space.nhds_mk_of_nhds`` saying that in a different way and our
+More precisely we have a lemma ``TopologicalSpace.nhds_mkOfNhds`` saying that in a different way and our
 next exercise deduces this different way from how we stated it above.
 BOTH: -/
 #check TopologicalSpace.mkOfNhds
@@ -160,11 +160,11 @@ end
 
 -- BOTH.
 /- TEXT:
-Note that ``topological_space.mk_of_nhds`` is not so frequently used, but it still good to know in what
+Note that ``TopologicalSpace.mkOfNhds`` is not so frequently used, but it still good to know in what
 precise sense the neighborhood filters is all there is in a topological space structure.
 
 The next thing to know in order to efficiently use topological spaces in mathlib is that we use a lot
-of formal properties of ``topological_space : Type u → Type u``. From a purely mathematical point of view,
+of formal properties of ``TopologicalSpace : Type u → Type u``. From a purely mathematical point of view,
 those formal properties are a very clean way to explain how topological spaces solve issues that metric spaces
 have. From this point of view, the issues solved by topological spaces is that metric spaces enjoy very
 little functoriality, and have very bad categorical properties in general. This comes on top of the fact
@@ -202,8 +202,8 @@ example (f : X → Y) (T_X : TopologicalSpace X) (T_Y : TopologicalSpace Y) :
 /- TEXT:
 Those operations are compactible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
-On paper we will use notations :math:`f_*T` for ``topological_space.coinduced f T`` and
-:math:`f^*T` for ``topological_space.induced f T``.
+On paper we will use notations :math:`f_*T` for ``TopologicalSpace.coinduced f T`` and
+:math:`f^*T` for ``TopologicalSpace.induced f T``.
 BOTH: -/
 #check coinduced_compose
 
@@ -211,12 +211,13 @@ BOTH: -/
 
 /- TEXT:
 
-Then the next big piece is a complete lattice structure on ``topological_structure X``
+Then the next big piece is a complete lattice structure on ``TopologicalSpace X``
 for any given structure. If you think of topologies are being primarily the data of open sets then you expect
-the order relation on ``topological_structure X`` to come from ``Set (Set X)``, ie you expect ``t ≤ t'``
+the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, ie you expect ``t ≤ t'``
 if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that mathlib focuses
-on neighborhoods more than open sets so, for any ``x : X`` we want ``fun T : topological_space X ↦ @nhds X T x``
-to be order preserving. And we know the order relation on ``filter X`` is designed to ensure an order
+on neighborhoods more than open sets so, for any ``x : X`` we want the map from topological spaces to neighborhoods
+``fun T : TopologicalSpace X ↦ @nhds X T x`` to be order preserving.
+And we know the order relation on ``Filter X`` is designed to ensure an order
 preserving ``principal : Set X → Filter X``, allowing to see filters as generalized sets.
 So the order relation we do use on  ``topological_structure X`` is opposite to the one coming from ``Set (Set X)``.
 
@@ -260,11 +261,11 @@ example {Z : Type _} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : Topological
 
 /- TEXT:
 So we already get quotient topologies (using the projection map as ``f``). This wasn't using that
-``topological_space X`` is a complete lattice for all ``X``. Let's now see how all this structure
+``TopologicalSpace X`` is a complete lattice for all ``X``. Let's now see how all this structure
 proves the existence of the product topology by abstract non-sense.
 We considered the case of ``ℝ → ℝ`` above, but let's now consider the general case of ``Π i, X i`` for
 some ``ι : Type*`` and ``X : ι → Type*``. We want, for any topological space ``Z`` and any function
-``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(fun x ↦ x i) ∘ f`` is continuous.
+``f : Z → Π i, X i``, that ``f`` is continuous if and only if ``(fun x ↦ x i) ∘ f`` is continuous for all ``i``.
 Let us explore that constraint "on paper" using notation :math:`p_i` for the projection
 ``(fun (x : Π i, X i) ↦ x i)``:
 
@@ -277,7 +278,7 @@ Let us explore that constraint "on paper" using notation :math:`p_i` for the pro
 So we see that what is the topology we want on ``Π i, X i``:
 BOTH: -/
 -- QUOTE:
-example (ι : Type _) (X : ι → Type _) (T_X : ∀ i, TopologicalSpace <| X i) :
+example (ι : Type _) (X : ι → Type _) (T_X : ∀ i, TopologicalSpace (X i)) :
     (Pi.topologicalSpace : TopologicalSpace (∀ i, X i)) =
       ⨅ i, TopologicalSpace.induced (fun x ↦ x i) (T_X i) :=
   rfl
@@ -360,16 +361,15 @@ example {X Y A : Type _} [TopologicalSpace X] {c : A → X}
 /- TEXT:
 Let's now turn to the main proof of the extension by continuity theorem.
 
-When Lean needs a topology on ``↥A`` it will use the induced topology, thanks to the instance
-``subtype.topological_space``.
-This all happens automatically. The only relevant lemma is
+When Lean needs a topology on ``↥A`` it will automatically use the induced topology.
+The only relevant lemma is
 ``nhds_induced (↑) : ∀ a : ↥A, 𝓝 a = comap (↑) (𝓝 ↑a)``
 (this is actually a general lemma about induced topologies).
 
 The proof outline is:
 
 The main assumption and the axiom of choice give a function ``φ`` such that
-``∀ x, Tendsto f (comap (↑) $ 𝓝 x) (𝓝 (φ x))``
+``∀ x, Tendsto f (comap (↑) (𝓝 x)) (𝓝 (φ x))``
 (because ``Y`` is Hausdorff, ``φ`` is entirely determined, but we won't need that until we try to
 prove that ``φ`` indeed extends ``f``).
 
@@ -381,8 +381,8 @@ some ``V ∈ 𝓝 x`` such ``is_open V ∧ (↑) ⁻¹' V ⊆ f ⁻¹' V'``.
 Since ``V ∈ 𝓝 x``, it suffices to prove ``V ⊆ φ ⁻¹' V'``, ie  ``∀ y ∈ V, φ y ∈ V'``.
 Let's fix ``y`` in ``V``. Because ``V`` is *open*, it is a neighborhood of ``y``.
 In particular ``(↑) ⁻¹' V ∈ comap (↑) (𝓝 y)`` and a fortiori ``f ⁻¹' V' ∈ comap (↑) (𝓝 y)``.
-In addition ``comap (↑)$ 𝓝 y ≠ ⊥`` because ``A`` is dense.
-Because we know ``Tendsto f (comap (↑) $ 𝓝 y) (𝓝 (φ y))`` this implies
+In addition ``comap (↑) (𝓝 y) ≠ ⊥`` because ``A`` is dense.
+Because we know ``Tendsto f (comap (↑) (𝓝 y)) (𝓝 (φ y))`` this implies
 ``φ y ∈ closure V'`` and, since ``V'`` is closed, we have proved ``φ y ∈ V'``.
 
 It remains to prove that ``φ`` extends ``f``. This is were continuity of ``f`` enters the discussion,
@@ -391,7 +391,7 @@ BOTH: -/
 -- QUOTE:
 example [TopologicalSpace X] [TopologicalSpace Y] [RegularSpace Y] {A : Set X}
     (hA : ∀ x, x ∈ closure A) {f : A → Y} (f_cont : Continuous f)
-    (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) <| 𝓝 x) <| 𝓝 c) :
+    (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) (𝓝 x)) (𝓝 c)) :
     ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a :=
   sorry
 
@@ -402,7 +402,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [RegularSpace Y] {A : Set X}
 -- SOLUTIONS:
 example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : ∀ x, x ∈ closure A)
     {f : A → Y} (f_cont : Continuous f)
-    (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) <| 𝓝 x) <| 𝓝 c) :
+    (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) (𝓝 x)) (𝓝 c)) :
     ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a := by
   choose φ hφ using hf
   use φ
@@ -421,7 +421,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : 
     apply V'_closed.mem_of_tendsto (hφ y)
     exact mem_of_superset (preimage_mem_comap hVx) hV
   · intro a
-    have lim : Tendsto f (𝓝 a) (𝓝 <| φ a) := by simpa [nhds_induced] using hφ a
+    have lim : Tendsto f (𝓝 a) (𝓝 (φ a)) := by simpa [nhds_induced] using hφ a
     exact tendsto_nhds_unique lim f_cont.continuousAt
 
 /- TEXT:

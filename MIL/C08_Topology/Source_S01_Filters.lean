@@ -453,8 +453,7 @@ example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in a
 
 example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in atTop, Q n)
     (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n := by
-  filter_upwards [hP, hQ, hR]
-  intro n h h' h''
+  filter_upwards [hP, hQ, hR] with n h h' h''
   exact h'' ⟨h, h'⟩
 -- QUOTE.
 
@@ -466,7 +465,7 @@ used with ``Eventually`` to say that a property holds for almost every point.
 There is a dual version of ``∀ᶠ x in F, P x``, which is occasionally useful:
 ``∃ᶠ x in F, P x`` means
 ``{x | ¬P x} ∉ F``. For example, ``∃ᶠ n in atTop, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
-The ``∃ᶠ`` notation stands for ``Filter.frequently``.
+The ``∃ᶠ`` notation stands for ``Filter.Frequently``.
 
 For a more sophisticated example, consider the following statement about a sequence
 ``u``, a set ``M``, and a value ``x``:

@@ -65,7 +65,7 @@ example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} :
 .. index:: continuity, tactics ; continuity
 
 
-A *lot* of lemmas have some continuity assumptions, no we end up proving a lot of continuity results and there
+A *lot* of lemmas have some continuity assumptions, so we end up proving a lot of continuity results and there
 is a ``continuity`` tactic devoted to this task. Let's prove a continuity statement that will be needed
 in an exercise below. Notice that Lean knows how to treat a product of two metric spaces as a metric space, so
 it makes sense to consider continuous functions from ``X × X`` to ``ℝ``.
@@ -204,7 +204,7 @@ example (s : Set X) : IsOpen s ↔ ∀ x ∈ s, ∃ ε > 0, Metric.ball x ε ⊆
 -- QUOTE.
 
 /- TEXT:
-Then closed sets are sets whose complement is open. Their important property is they are closed under limits. The closure of a set is the smallest subset containing it.
+Then closed sets are sets whose complement is open. Their important property is they are closed under limits. The closure of a set is the smallest closed set containing it.
 BOTH: -/
 -- QUOTE:
 example {s : Set X} : IsClosed s ↔ IsOpen (sᶜ) :=
@@ -298,7 +298,7 @@ example {s : Set X} (hs : IsCompact s) : IsClosed s :=
 
 /- TEXT:
 
-We can also metric spaces which are globally compact, using an extra ``Prop``-valued type class:
+We can also specify that a metric spaces is globally compact, using an extra ``Prop``-valued type class:
 
 BOTH: -/
 -- QUOTE:
@@ -308,7 +308,7 @@ example {X : Type _} [MetricSpace X] [CompactSpace X] : IsCompact (univ : Set X)
 
 /- TEXT:
 
-In a compact metric space any closed set is compact, this is ``IsCompact.isClosed``.
+In a compact metric space any closed set is compact, this is ``IsClosed.isCompact``.
 
 BOTH: -/
 #check IsCompact.isClosed
