@@ -24,7 +24,7 @@ The filters that correspond to these descriptions will be defined later in this 
 * ``(atTop : Filter ℕ)``, made of sets of ``ℕ`` containing ``{n | n ≥ N}`` for some ``N``
 * ``𝓝 x``, made of neighborhoods of ``x`` in a topological space
 * ``𝓤 X``, made of entourages of a uniform space (uniform spaces generalize metric spaces and topological groups)
-* ``μ.a_e`` , made of sets whose complement has zero measure with respect to a measure ``μ``.
+* ``μ.ae`` , made of sets whose complement has zero measure with respect to a measure ``μ``.
 
 The general definition is as follows: a filter ``F : Filter X`` is a
 collection of sets ``F.sets : Set (Set X)`` satisfying the following:
@@ -301,7 +301,7 @@ example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
   erw [le_inf_iff, ← map_le_iff_le_comap, map_map, ← map_le_iff_le_comap, map_map]
 
 /- TEXT:
-The ordered type ``filter X`` is actually a *complete* lattice,
+The ordered type ``Filter X`` is actually a *complete* lattice,
 which is to say, there is a bottom element, there is a top element, and
 every set of filters on ``X`` has an ``Inf`` and a ``Sup``.
 
@@ -316,7 +316,7 @@ definition of a filter does not prohibit ``∅ ∈ F``,
 but if the empty set is in ``F`` then
 every set is in ``F``, which is to say, ``∀ U : Set X, U ∈ F``.
 In this case, ``F`` is a rather trivial filter, which is precisely the
-bottom element of the complete lattice ``filter X``.
+bottom element of the complete lattice ``Filter X``.
 This contrasts with the definition of filters in
 Bourbaki, which doesn't allow filters containing the empty set.
 
@@ -439,9 +439,9 @@ EXAMPLES: -/
 -- QUOTE.
 
 /- TEXT:
-The second item, corresponding to ``eventually.mono``, supports nice ways
+The second item, corresponding to ``Eventually.mono``, supports nice ways
 of using filters, especially when combined
-with ``eventually.and``. The ``filter_upwards`` tactic allows us to combine them.
+with ``Eventually.and``. The ``filter_upwards`` tactic allows us to combine them.
 Compare:
 EXAMPLES: -/
 -- QUOTE:
@@ -453,20 +453,19 @@ example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in a
 
 example (P Q R : ℕ → Prop) (hP : ∀ᶠ n in atTop, P n) (hQ : ∀ᶠ n in atTop, Q n)
     (hR : ∀ᶠ n in atTop, P n ∧ Q n → R n) : ∀ᶠ n in atTop, R n := by
-  filter_upwards [hP, hQ, hR]
-  intro n h h' h''
+  filter_upwards [hP, hQ, hR] with n h h' h''
   exact h'' ⟨h, h'⟩
 -- QUOTE.
 
 /- TEXT:
 Readers who know about measure theory will note that the filter ``μ.ae`` of sets whose complement has measure zero
 (aka "the set consisting of almost every point") is not very useful as the source or target of ``Tendsto``, but it can be conveniently
-used with ``eventually`` to say that a property holds for almost every point.
+used with ``Eventually`` to say that a property holds for almost every point.
 
 There is a dual version of ``∀ᶠ x in F, P x``, which is occasionally useful:
 ``∃ᶠ x in F, P x`` means
 ``{x | ¬P x} ∉ F``. For example, ``∃ᶠ n in atTop, P n`` means there are arbitrarily large ``n`` such that ``P n`` holds.
-The ``∃ᶠ`` notation stands for ``Filter.frequently``.
+The ``∃ᶠ`` notation stands for ``Filter.Frequently``.
 
 For a more sophisticated example, consider the following statement about a sequence
 ``u``, a set ``M``, and a value ``x``:
