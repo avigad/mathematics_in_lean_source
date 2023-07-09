@@ -465,9 +465,9 @@ example {s : Set X} :
 -- QUOTE.
 
 /- TEXT:
-For instance if ``F`` is ``map u at_top``, the image under ``u : ℕ → X`` of ``at_top``, the generalized set
+For instance if ``F`` is ``map u atTop``, the image under ``u : ℕ → X`` of ``atTop``, the generalized set
 of very large natural numbers, then the assumption ``F ≤ 𝓟 s`` means that ``u n`` belongs to ``s`` for ``n``
-large enough. Saying that ``x`` is a cluster point of ``map u at_top`` says the image of very large numbers
+large enough. Saying that ``x`` is a cluster point of ``map u atTop`` says the image of very large numbers
 intersects the set of points that are close to ``x``. In case ``𝓝 x`` has a countable basis, we can
 interpret this as saying that ``u`` has a subsequence converging to ``x``, and we get back what compactness
 looks like in metric spaces.
