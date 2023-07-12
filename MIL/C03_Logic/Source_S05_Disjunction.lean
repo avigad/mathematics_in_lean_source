@@ -144,7 +144,7 @@ example : x < |y| → x < y ∨ x < -y := by
 In the case of the ``match``, we need to use the full names
 ``Or.inl`` and ``Or.inr`` of the canonical ways to prove a disjunction.
 In this textbook, we will generally use ``rcases`` to split on the
-caess of a disjunction.
+cases of a disjunction.
 
 Try proving the triangle inequality using the two
 first two theorems in the next snippet.
