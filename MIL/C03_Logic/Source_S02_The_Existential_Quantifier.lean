@@ -241,7 +241,7 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x :=
 In the first example, if you put your cursor after ``cases ubf``,
 you will see that the tactic produces a single goal, which Lean has tagged
 ``intro``. (The particular name chosen comes from the internal name for
-the axiomatic primitive that bulids a proof of an existential statement.)
+the axiomatic primitive that builds a proof of an existential statement.)
 The ``case`` tactic then names the components. The second example is similar,
 except using ``next`` instead of ``case`` means that you can avoid mentioning
 ``intro``. The word ``match`` in the last two examples highlights that
