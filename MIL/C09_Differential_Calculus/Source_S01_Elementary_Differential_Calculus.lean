@@ -30,7 +30,7 @@ example : HasDerivAt sin 1 0 := by simpa using hasDerivAt_sin 0
 /- TEXT:
 We can also express that ``f`` is differentiable at a point without
 specifying its derivative there
-by writing ``differentiable_at ℝ``.
+by writing ``DifferentiableAt ℝ``.
 We specify ``ℝ`` explicitly because in a slightly more general context,
 when talking about functions from ``ℂ`` to ``ℂ``,
 we want to be able to distinguish between being differentiable in the real sense
