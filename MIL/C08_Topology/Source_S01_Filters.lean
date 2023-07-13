@@ -411,7 +411,7 @@ two sequences of real numbers, and let us show that if
 ``u n`` and ``v n`` coincide for sufficiently large ``n`` then
 ``u`` tends to ``x₀`` if and only if ``v`` tends to ``x₀``.
 First we'll use the generic ``Eventually`` and then the one
-specialized for the equality predicate, ``Eventually_eq``. The two statements are
+specialized for the equality predicate, ``EventuallyEq``. The two statements are
 definitionally equivalent so the same proof work in both cases.
 EXAMPLES: -/
 -- QUOTE:

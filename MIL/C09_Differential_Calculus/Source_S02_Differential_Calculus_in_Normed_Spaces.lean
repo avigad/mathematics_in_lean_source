@@ -59,7 +59,7 @@ example {X : Type _} [TopologicalSpace X] {f : X → E} (hf : Continuous f) :
 
 /- TEXT:
 In order to use the notion of a norm with concepts from linear algebra,
-we add the assumption ``normed_space ℝ E`` on top of ``normed_add_group E``.
+we add the assumption ``NormedSpace ℝ E`` on top of ``NormedAddGroup E``.
 This stipulates that ``E`` is a vector space over ``ℝ`` and that
 scalar multiplication satisfies the following condition.
 EXAMPLES: -/
@@ -168,9 +168,9 @@ The principle states that a family of continuous linear maps from a Banach space
 into a normed space is pointwise
 bounded, then the norms of these linear maps are uniformly bounded.
 The main ingredient is Baire's theorem
-``nonempty_interior_of_Union_of_closed.`` (You proved a version of this in the topology chapter.)
+``nonempty_interior_of_iUnion_of_closed``. (You proved a version of this in the topology chapter.)
 Minor ingredients include ``continuous_linear_map.op_norm_le_of_shell``,
-``interior_subset`` and ``interior_Inter_subset`` and ``is_closed_le``.
+``interior_subset`` and ``interior_iInter_subset`` and ``is_closed_le``.
 BOTH: -/
 section
 
@@ -310,10 +310,10 @@ example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : HasFDerivAt f f' 
 We also have iterated derivatives that take values in the type of multilinear maps
 ``E [×n]→L[𝕜] F``,
 and we have continuously differential functions.
-The type ``with_top ℕ`` is ``ℕ`` with an additional element ``⊤`` that
+The type ``WithTop ℕ`` is ``ℕ`` with an additional element ``⊤`` that
 is bigger than every natural number.
 So :math:`\mathcal{C}^\infty` functions are functions ``f`` that satisfy
-``cont_diff 𝕜 ⊤ f``.
+``ContDiff 𝕜 ⊤ f``.
 EXAMPLES: -/
 -- QUOTE:
 example (n : ℕ) (f : E → F) : E → E[×n]→L[𝕜] F :=
