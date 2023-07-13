@@ -219,7 +219,7 @@ on neighborhoods more than open sets so, for any ``x : X`` we want the map from 
 ``fun T : TopologicalSpace X ↦ @nhds X T x`` to be order preserving.
 And we know the order relation on ``Filter X`` is designed to ensure an order
 preserving ``principal : Set X → Filter X``, allowing to see filters as generalized sets.
-So the order relation we do use on  ``topological_structure X`` is opposite to the one coming from ``Set (Set X)``.
+So the order relation we do use on  ``TopologicalSpace X`` is opposite to the one coming from ``Set (Set X)``.
 
 BOTH: -/
 -- QUOTE:
