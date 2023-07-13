@@ -81,7 +81,7 @@ example {f : ℝ → ℝ} {a : ℝ} (h : IsLocalMin f a) : deriv f a = 0 :=
 -- QUOTE.
 
 /- TEXT:
-We can eve state Rolle's theorem without any differentiability assumptions, which
+We can even state Rolle's theorem without any differentiability assumptions, which
 seems even weirder.
 EXAMPLES: -/
 -- QUOTE:
