@@ -81,7 +81,7 @@ example [FiniteDimensional ℝ E] : CompleteSpace E := by infer_instance
 /- TEXT:
 In all the previous examples, we used the real numbers as the base field.
 More generally, we can make sense of calculus with a vector space over any
-*non-discrete normed field*. These are fields that are equipped with a
+*nontrivially normed field*. These are fields that are equipped with a
 real-valued norm that is multiplicative and has the property that
 not every element has norm zero or one
 (equivalently, there is an element whose norm is bigger than one).
@@ -95,7 +95,7 @@ example (𝕜 : Type _) [NontriviallyNormedField 𝕜] : ∃ x : 𝕜, 1 < ‖x�
 -- QUOTE.
 
 /- TEXT:
-A finite-dimensional vector space over a nondiscrete normed field is
+A finite-dimensional vector space over a nontrivially normed field is
 complete as long as the field itself is complete.
 EXAMPLES: -/
 -- QUOTE:
