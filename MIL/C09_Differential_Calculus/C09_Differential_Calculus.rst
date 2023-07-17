@@ -13,6 +13,3 @@ setting of functions from the real numbers to the real numbers,
 which is familiar from any introductory calculus class.
 In :numref:`normed_spaces`, we then consider the notion of a derivative in
 a much broader setting.
-
-.. include:: C09_Differential_Calculus/S01_Elementary_Differential_Calculus.inc
-.. include:: C09_Differential_Calculus/S02_Differential_Calculus_in_Normed_Spaces.inc

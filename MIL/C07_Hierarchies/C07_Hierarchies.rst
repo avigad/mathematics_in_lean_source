@@ -20,7 +20,3 @@ In this chapter, we will redefine (simpler versions of) many things that appear 
 so we will used indices to distinguish our version. For instance we will have ``Ring₁``
 as our version of ``Ring``. Since we will gradually explain more powerful ways of formalizing
 structures, those indices will sometimes grow beyond one.
-
-.. include:: C07_Hierarchies/S01_Basics.inc
-.. include:: C07_Hierarchies/S02_Morphisms.inc
-.. include:: C07_Hierarchies/S03_Subobjects.inc

@@ -37,9 +37,3 @@ such as a set natural numbers or a set of functions
 from real numbers to real numbers.
 The distinction between types and set takes some getting used to,
 but this chapter will take you through the essentials.
-
-.. include:: C04_Sets_and_Functions/S01_Sets.inc
-
-.. include:: C04_Sets_and_Functions/S02_Functions.inc
-
-.. include:: C04_Sets_and_Functions/S03_The_Schroeder_Bernstein_Theorem.inc
