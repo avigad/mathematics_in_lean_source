@@ -81,7 +81,7 @@ if __name__ == '__main__':
                 quoting = False
             elif match_literalinclude := literalinclude.match(line):
                 tag = match_literalinclude.group(1)
-                rst_file.write(".. literalinclude:: /../MIL/{}/Source_{}.lean\n".format(chapter_name, section_name))
+                rst_file.write(".. literalinclude:: /../MIL/{}/{}.lean\n".format(chapter_name, section_name))
                 rst_file.write("   :start-after: -- TAG: {}\n".format(tag))
                 rst_file.write("   :end-before: -- TAG: end\n")
             # Content lines.
