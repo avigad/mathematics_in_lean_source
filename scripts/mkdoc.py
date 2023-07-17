@@ -1,29 +1,106 @@
-#!/usr/bin/env python3
-
-import sys
 import regex
 from pathlib import Path
+import shutil
 
-chapter_name = sys.argv[1]
-section_name = sys.argv[2]
+# Main repository directories
+repository_root = Path(__file__).parent.parent.resolve()
+lean_source_dir = repository_root/'MIL'
+sphinx_source_dir = repository_root/'sphinx_source'
+user_repo_source_dir = repository_root/'user_repo_source'
 
-# Paths to input and output files.
-root = Path(__file__).parent
-source_path = root/chapter_name/('Source_' + section_name + '.lean')
-rst_chapter_path = root.resolve().parent/'source'/chapter_name
-if not rst_chapter_path.exists():
-    rst_chapter_path.mkdir()
-rst_path = rst_chapter_path/(section_name + '.inc')
-lean_chapter_path = root.resolve().parent/'src'/chapter_name
-if not lean_chapter_path.exists():
-    lean_chapter_path.mkdir(parents=True)
-lean_solutions_path = lean_chapter_path/'solutions'
-if not lean_solutions_path.exists():
-    lean_solutions_path.mkdir()
-lean_file_path = lean_chapter_path/(section_name + '.lean')
-solutions_path = lean_solutions_path/('Solutions_' + section_name + '.lean')
+# Generated directories
+sphinx_dir = repository_root/'source'
+user_repo_dir = repository_root/'user_repo'
+user_repo_lean_dir = user_repo_dir/'MIL'
 
-# Regular expressions.
+# Generated files
+lean_main_import_file = repository_root/'MIL.lean'
+sphinx_index_file = sphinx_dir/'index.rst'
+
+def clean_generated_directories():
+    """
+    Deletes automatically generated directories.
+    """
+    if sphinx_dir.exists():
+        shutil.rmtree(sphinx_dir)
+    if user_repo_dir.exists():
+        shutil.rmtree(user_repo_dir)
+
+def ensure_generated_directories_exist():
+    """
+    Makes sure the Sphinx source and user repo directories exist.
+    """
+    if not sphinx_dir.exists():
+        sphinx_dir.mkdir()
+    if not user_repo_lean_dir.exists():
+        user_repo_lean_dir.mkdir(parents=True)
+
+def make_lean_main_import_file():
+    """
+    Generates a Lean file with all the imports.
+    """
+    with lean_main_import_file.open('w', encoding='utf8') as import_file:
+        chapter_dirs = sorted(
+            [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+            key=lambda d: d.name)
+        for chapter_dir in chapter_dirs:
+            section_files= sorted([file for file in chapter_dir.glob("S*.lean")], key=lambda f: f.name)
+            for section_file in section_files:
+                section_name = section_file.name[:-5]
+                import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
+
+index_file_start = """
+Mathematics in Lean
+===================
+
+.. toctree::
+   :numbered:
+   :maxdepth: 2
+
+"""
+
+index_file_end = """
+.. toctree::
+   :hidden:
+
+   genindex
+"""
+
+def make_sphinx_index_file():
+    """
+    Generates the index file in the Sphinx source directory.
+    """
+    ensure_generated_directories_exist()
+    with sphinx_index_file.open('w', encoding='utf8') as index_file:
+        index_file.write(index_file_start)
+        chapter_dirs = sorted(
+            [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+            key=lambda d: d.name)
+        for chapter_dir in chapter_dirs:
+            index_file.write("   " + chapter_dir.name + "\n")
+        index_file.write(index_file_end)
+
+def make_sphinx_chapter_files():
+    """
+    Generates the chapter files in the Sphinx source directory.
+    """
+    ensure_generated_directories_exist()
+    chapter_dirs = sorted(
+        [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+        key=lambda d: d.name)
+    for chapter_dir in chapter_dirs:
+        chapter_name = chapter_dir.name
+        chapter_file = chapter_dir/(chapter_name + ".rst")
+        shutil.copy2(chapter_file, sphinx_dir)
+        dest_file = sphinx_dir/(chapter_name + ".rst")
+        with dest_file.open('a', encoding='utf8') as dest:
+            dest.write("\n")
+            section_files= sorted([file for file in chapter_dir.glob("S*.lean")], key=lambda f: f.name)
+            for section_file in section_files:
+                section_name = section_file.name[:-5]
+                dest.write(f".. include:: {chapter_name}/{section_name}.inc\n")
+
+# Regular expressions for parsing Lean source directives
 main_mode = regex.compile(r'-- EXAMPLES:.*|/- EXAMPLES:.*|EXAMPLES: -/.*')
 both_mode = regex.compile(r'-- BOTH:.*|/- BOTH:.*|BOTH: -/.*')
 solutions_mode = regex.compile(r'-- SOLUTIONS:.*|/- SOLUTIONS:.*|SOLUTIONS: -/.*')
@@ -38,13 +115,35 @@ literalinclude = regex.compile(r'-- LITERALINCLUDE: (.*)')
 # Used to avoid name collisions.
 dummy_chars = 'αα'
 
-print('processing {0}/{1}'.format(chapter_name, section_name))
+def process_section(chapter_name, section_name):
+    """
+    Creates the user repository examples file, the user repository solutions file, and the
+    Sphinx section file associated with a Lean section source file.
+    """
+    lean_source_file = lean_source_dir/chapter_name/(section_name + '.lean')
+    if not lean_source_file.exists():
+        raise Exception (f'File {lean_source_file.name()} not found')
 
-if __name__ == '__main__':
-    with source_path.open(encoding='utf8') as source_file, \
-            rst_path.open('w', encoding='utf8') as rst_file, \
-            lean_file_path.open('w', encoding='utf8') as lean_file, \
-            solutions_path.open('w', encoding='utf8') as solutions:
+    ensure_generated_directories_exist()
+    print('processing {0}/{1}'.format(chapter_name, section_name))
+
+    sphinx_chapter_dir = sphinx_dir/chapter_name
+    if not sphinx_chapter_dir.exists():
+        sphinx_chapter_dir.mkdir()
+    sphinx_section_file = sphinx_chapter_dir/(section_name + '.inc')
+
+    user_repo_chapter_dir = user_repo_dir/chapter_name
+    user_repo_chapter_solutions_dir = user_repo_chapter_dir/'solutions'
+    if not user_repo_chapter_solutions_dir.exists():
+        user_repo_chapter_solutions_dir.mkdir(parents=True)
+
+    user_repo_examples_file = user_repo_chapter_dir/(section_name + '.lean')
+    user_repo_solutions_file = user_repo_chapter_solutions_dir/('Solutions_' + section_name + '.lean')
+
+    with lean_source_file.open(encoding='utf8') as source_file, \
+            sphinx_section_file.open('w', encoding='utf8') as rst_file, \
+            user_repo_examples_file.open('w', encoding='utf8') as examples_file, \
+            user_repo_solutions_file.open('w', encoding='utf8') as solutions_file:
         mode = 'both'
         quoting = False
         line_num = 0
@@ -88,12 +187,12 @@ if __name__ == '__main__':
             else:
                 line = line.replace(dummy_chars, '')
                 if mode == 'main':
-                    lean_file.write(line)
+                    examples_file.write(line)
                 elif mode == 'solutions':
-                    solutions.write(line)
+                    solutions_file.write(line)
                 elif mode == 'both':
-                    lean_file.write(line)
-                    solutions.write(line)
+                    examples_file.write(line)
+                    solutions_file.write(line)
                 elif mode == 'omit':
                     pass
                 elif mode == 'text':

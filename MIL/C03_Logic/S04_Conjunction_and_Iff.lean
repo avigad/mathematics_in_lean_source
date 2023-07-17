@@ -8,8 +8,8 @@ namespace C03S04
 /- TEXT:
 .. _conjunction_and_biimplication:
 
-Conjunction and Bi-implication
-------------------------------
+Conjunction and Iff
+-------------------
 
 .. index:: constructor, tactics ; constructor
 
