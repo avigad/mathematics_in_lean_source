@@ -102,11 +102,11 @@ TEXT. -/
 ```
 The lines between the comments are sent only to the associated Sphinx source file.
 
-After the line `TEXT. -/`, by default, lines of text are again sent to both the
-exercises file and the solutions file.
-You can replace the last line with `BOTH: -/`, which has the same effect,
-`EXAMPLES: -/` to send the lines to the examples file,
+After the line `TEXT. -/`, by default, lines of text are only to the
+examples file.
+You can replace the last line with `EXAMPLES: -/`, which has the same effect,
 `SOLUTIONS: -/` to send the lines to the solutions file,
+`BOTH: -/` to send the lines to the both files,
 or `OMIT: -/` to send the lines to neither.
 
 You can subsequently modify the behavior with the additional comment lines
