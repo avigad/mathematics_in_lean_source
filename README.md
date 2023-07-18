@@ -47,7 +47,7 @@ The scripts sort the chapters and ignore folders that do not begin with `C`.
 Each folder should contain an `.rst` file with the same name, which has the chapter header
 for Sphinx. Each folder also has a Lean source file for each section,
 the name of which begins with `S` and the section number.
-The scripts ignores Lean files that do not begin with `S`.
+The scripts ignore Lean files that do not begin with `S`.
 The markup that is used to generate the content is described below.
 
 The folder `sphinx_source` contains files that are automatically added to a generated folder
@@ -90,7 +90,7 @@ The Lean files in the `MIL` folder generate three types of files:
 A line of text from the Lean file may go to any combination of these destinations simultaneously,
 or nowhere at all, as determined by simple markup directives in the file.
 
-When `scripts/process_lean` starts processing a file,
+When `scripts/mkall.py` starts processing a file,
 it sends output to both the associated examples file and the associated solutions file by default.
 This makes sense, for example, for the import lines.
 
