@@ -62,7 +62,7 @@ It includes, in particular, the `README` file for that repository.
 Build
 -----
 
-Running `scripts/compile_lean` does the following:
+Running `scripts/mkall.py` does the following:
 - It initializes and creates a `source` directory, for use by Sphinx.
 - It initializes and creates a `user_repo` directory with files that will be
   deployed to the user repository.
@@ -77,7 +77,7 @@ copies the HTML and PDF versions of the book to `user_repo`,
 and deploys the user repository to github.
 You can change `leanprover-community` to another destination for testing.
 
-Running `scripts/clean` deletes the `source`, `user_repo`, and `build` directories.
+Running `scripts/clean.py` deletes the `source`, `user_repo`, and `build` directories.
 
 
 Markup
@@ -90,7 +90,7 @@ The Lean files in the `MIL` folder generate three types of files:
 A line of text from the Lean file may go to any combination of these destinations simultaneously,
 or nowhere at all, as determined by simple markup directives in the file.
 
-When `scripts/compile_lean` starts processing a file,
+When `scripts/process_lean` starts processing a file,
 it sends output to both the associated examples file and the associated solutions file by default.
 This makes sense, for example, for the import lines.
 
@@ -239,7 +239,20 @@ in the middle of a text block anywhere in the file will insert the tagged text a
 block quote in the textbook,
 using a Sphinx directive that is designed for exactly that purpose.
 
-## How to contribute
+
+Processing one section
+----------------------
+
+Instead of building everything, you can test build a single section with `scripts/process_lean_section`. For example,
+```
+  scripts/process_section C03_Logic S02_The_Existential_Quantifier
+```
+creates the examples file, the solutions file, and the Sphinx restructured text file
+for the section indicated.
+
+
+How to contribute
+-----------------
 
 The textbook is still a work in progress, but feedback and corrections are welcome.
 You can open a pull request,

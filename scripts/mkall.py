@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from mkdoc import make_sphinx_chapter_files
+from mkdoc import make_everything
 
 if __name__ == '__main__':
-    make_sphinx_chapter_files()
+    make_everything()
