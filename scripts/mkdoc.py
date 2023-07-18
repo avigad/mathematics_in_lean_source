@@ -267,9 +267,10 @@ def make_everything():
 
     # copy Lean configuration files to the user repo
     shutil.copy2(repository_root/'lake-manifest.json', user_repo_dir)
+    shutil.copy2(repository_root/'lakefile.lean', user_repo_dir)
     shutil.copy2(repository_root/'lean-toolchain', user_repo_dir)
 
-    # general import file in the user repo
+    # make the main import file in the user repo
     make_lean_user_main_import_file()
 
     # copy initial files to the Sphinx folder

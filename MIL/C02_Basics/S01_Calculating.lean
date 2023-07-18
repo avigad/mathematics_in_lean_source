@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Data.Real.Basic
 /- TEXT:
 Calculating
 -----------
@@ -32,9 +34,6 @@ Let's try out ``rw``.
 TEXT. -/
 -- An example.
 -- QUOTE:
-import Mathlib.Tactic
-import Mathlib.Data.Real.Basic
-
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
   rw [mul_assoc b a c]
@@ -179,7 +178,6 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
 /- TEXT:
 Try these, using the theorem ``sub_self`` for the second one:
 TEXT. -/
-
 -- QUOTE:
 example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
   sorry
@@ -204,7 +202,6 @@ example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
 Multiple rewrite commands can be carried out with a single command,
 by listing the relevant identities separated by commas inside the square brackets.
 TEXT. -/
--- Examples.
 -- QUOTE:
 example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
   rw [h', ← mul_assoc, h, mul_assoc]
