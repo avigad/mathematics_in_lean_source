@@ -243,9 +243,10 @@ using a Sphinx directive that is designed for exactly that purpose.
 Processing one section
 ----------------------
 
-Instead of building everything, you can test build a single section with `scripts/process_lean_section`. For example,
+Instead of building everything, you can test build a single section with `scripts/mksection.py`.
+For example,
 ```
-  scripts/process_section C03_Logic S02_The_Existential_Quantifier
+  scripts/mksection.py C03_Logic S02_The_Existential_Quantifier
 ```
 creates the examples file, the solutions file, and the Sphinx restructured text file
 for the section indicated.

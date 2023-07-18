@@ -58,7 +58,8 @@ def make_lean_user_main_import_file():
     Generates a Lean file with all the imports for the user repository,
     including solution files as well as the exercise files.
     """
-    ensure_generated_directories_exist()
+    if not user_repo_lean_dir.exists():
+        user_repo_lean_dir.mkdir(parents=True)
     with lean_user_main_import_file.open('w', encoding='utf8') as import_file:
         chapter_dirs = sorted(
             [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
@@ -158,7 +159,7 @@ def process_section(chapter_name, section_name):
         sphinx_chapter_dir.mkdir()
     sphinx_section_file = sphinx_chapter_dir/(section_name + '.inc')
 
-    user_repo_chapter_dir = user_repo_dir/chapter_name
+    user_repo_chapter_dir = user_repo_lean_dir/chapter_name
     user_repo_chapter_solutions_dir = user_repo_chapter_dir/'solutions'
     if not user_repo_chapter_solutions_dir.exists():
         user_repo_chapter_solutions_dir.mkdir(parents=True)
@@ -255,14 +256,14 @@ def make_everything():
     if user_repo_dir.exists():
         shutil.rmtree(user_repo_dir)
 
-    # re-create generated directories
-    ensure_generated_directories_exist()
-
     # make the main import file
     make_lean_main_import_file()
 
     # copy initial files to the user repo
     shutil.copytree(user_repo_source_dir, user_repo_dir)
+
+    # create the main subdirectory in the user repo
+    user_repo_lean_dir.mkdir()
 
     # copy Lean configuration files to the user repo
     shutil.copy2(repository_root/'lake-manifest.json', user_repo_dir)
