@@ -6,9 +6,12 @@ if [ "$#" -ne 2 ]; then
 fi
 
 # Build
+scripts/mkall.py
 make clean html latexpdf
+cp -Lr build/html user_repo/
+cp build/latex/mathematics_in_lean.pdf user_repo/
 
-# 3. Deploy
+# Deploy
 rm -rf deploy
 git clone git@github.com:$1/$2 deploy
 cd deploy

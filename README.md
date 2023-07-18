@@ -72,10 +72,10 @@ With the `source` directory in place, you can use `make html` and `make latexpdf
 call Sphinx to build the HTML and PDF versions of the book, respectively.
 Sphinx puts these in a generated `build` directory.
 
-Running `scripts/deploy leanprover-community` calls all three of the previous scripts,
-copies the HTML and PDF versions of the book to `user_repo`,
-and deploys the user repository to github.
-You can change `leanprover-community` to another destination for testing.
+Running `scripts/deploy leanprover-community mathematics_in_lean` calls all three of the
+previous scripts, copies the HTML and PDF versions of the book to `user_repo`,
+and deploys the user repository to the github repository `leanprover-community/mathematics_in_lean`.
+You can deploy to another destination for testing.
 
 Running `scripts/clean.py` deletes the `source`, `user_repo`, and `build` directories.
 
