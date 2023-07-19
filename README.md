@@ -5,7 +5,7 @@ Mathematics in Lean Source
 This repository is used to generate the textbook and user repository for
 [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
 
-Our build process applies a rudimentary scripts to marked up Lean files to generate
+Our build process applies rudimentary scripts to marked up Lean files to generate
 - source files for the textbook,
 - Lean exercise files, and
 - Lean solution files,
