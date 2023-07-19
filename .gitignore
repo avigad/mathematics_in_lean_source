@@ -1,7 +1,9 @@
 /.venv
 /.vscode
 /build
-/__pycache__
+/source
+/user_repo
+/scripts/__pycache__
 *.olean
 /_target
 /leanpkg.path

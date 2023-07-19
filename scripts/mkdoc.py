@@ -55,8 +55,7 @@ def make_lean_main_import_file():
 
 def make_lean_user_main_import_file():
     """
-    Generates a Lean file with all the imports for the user repository,
-    including solution files as well as the exercise files.
+    Generates a Lean file with all imports for all the exercise files in the user repository.
     """
     if not user_repo_lean_dir.exists():
         user_repo_lean_dir.mkdir(parents=True)
@@ -69,10 +68,6 @@ def make_lean_user_main_import_file():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
-            for section_file in section_files:
-                section_name = section_file.name[:-5]
-                import_file.write(f"import MIL.{chapter_dir.name}.solutions.Solutions_{section_name}\n")
-
 
 index_file_start = """
 Mathematics in Lean
@@ -280,5 +275,58 @@ def make_everything():
     make_sphinx_index_file()
     make_sphinx_chapter_files()
 
-    # generate the examples files, solutions files, and Sphnix files for each section
+    # generate the examples files, solutions files, and Sphinx files for each section
     process_sections()
+
+def make_examples_test():
+    """
+    Assuming the `user_repo` has been built, this copies the examples files and solutions files into
+    a test folder, and replaces the main build repository import file with a file that imports
+    all the examples files.
+    """
+    test_dir = lean_source_dir/"Test"
+    if test_dir.exists():
+        shutil.rmtree(test_dir)
+    shutil.copytree(user_repo_lean_dir, test_dir)
+
+    # TODO: this is copy-pasted-modified from make_lean_user_main_import_file()
+    with lean_main_import_file.open('w', encoding='utf8') as import_file:
+        chapter_dirs = sorted(
+            [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+            key=lambda d: d.name)
+        for chapter_dir in chapter_dirs:
+            section_files= sorted([file for file in chapter_dir.glob("S*.lean")], key=lambda f: f.name)
+            for section_file in section_files:
+                section_name = section_file.name[:-5]
+                import_file.write(f"import MIL.Test.{chapter_dir.name}.{section_name}\n")
+
+def make_solutions_test():
+    """
+    Assuming the `user_repo` has been built, this copies the examples files and solutions files into
+    a test folder, and replaces the main build repository import file with a file that imports
+    all the solutions files.
+    """
+    test_dir = lean_source_dir/"Test"
+    if test_dir.exists():
+        shutil.rmtree(test_dir)
+    shutil.copytree(user_repo_lean_dir, test_dir)
+
+    # TODO: this is copy-pasted-modified from the procedure above()
+    with lean_main_import_file.open('w', encoding='utf8') as import_file:
+        chapter_dirs = sorted(
+            [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+            key=lambda d: d.name)
+        for chapter_dir in chapter_dirs:
+            section_files= sorted([file for file in chapter_dir.glob("S*.lean")], key=lambda f: f.name)
+            for section_file in section_files:
+                section_name = section_file.name[:-5]
+                import_file.write(f"import MIL.Test.{chapter_dir.name}.solutions.Solutions_{section_name}\n")
+
+def clean_test():
+    """
+    Removes the test folder and restores the main import file.
+    """
+    test_dir = lean_source_dir/"Test"
+    if test_dir.exists():
+        shutil.rmtree(test_dir)
+    make_lean_main_import_file()
