@@ -5,7 +5,7 @@ Mathematics in Lean Source
 This repository is used to generate the textbook and user repository for
 [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
 
-Our build process applies a rudimentary Python script to marked up Lean files to generate
+Our build process applies a rudimentary scripts to marked up Lean files to generate
 - source files for the textbook,
 - Lean exercise files, and
 - Lean solution files,
@@ -16,7 +16,7 @@ We use [Sphinx](https://www.sphinx-doc.org/en/master/)
  and the [Read the Docs theme](https://sphinx-rtd-theme.readthedocs.io/en/stable/) to generate
  the HTML and PDF versions of the textbook.
 
-Finally, we use another Python script to deploy the contents to the
+Finally, we use another script to deploy the contents to the
 [user repository](https://github.com/leanprover-community/mathematics_in_lean).
 
 
@@ -63,8 +63,8 @@ Build
 -----
 
 Running `scripts/mkall.py` does the following:
-- It initializes and creates a `source` directory, for use by Sphinx.
-- It initializes and creates a `user_repo` directory with files that will be
+- It creates and initializes a `source` directory, for use by Sphinx.
+- It creates and initializes a `user_repo` directory with files that will be
   deployed to the user repository.
 - It updates the file `MIL.lean` to match the contents of the `MIL` folder.
 
@@ -102,7 +102,7 @@ TEXT. -/
 ```
 The lines between the comments are sent only to the associated Sphinx source file.
 
-After the line `TEXT. -/`, by default, lines of text are only to the
+After the line `TEXT. -/`, by default, lines of text are sent only to the
 examples file.
 You can replace the last line with `EXAMPLES: -/`, which has the same effect,
 `SOLUTIONS: -/` to send the lines to the solutions file,
@@ -177,7 +177,7 @@ but there is a blank line after `--QUOTE.`
 
 It is common to use sections to declare and scope variables in the examples and solutions
 files, but to omit the section commands from quote.
-Thus an example above could have begun as follows:
+Thus you might use the following pattern:
 ```
 /- TEXT:
 Here is an example of the way that ``rintro`` is used:
@@ -185,6 +185,7 @@ BOTH: -/
 section
 variable (s t u : Set α)
 
+-- EXAMPLES:
 -- QUOTE:
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
@@ -193,7 +194,8 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
 -- QUOTE.
 
 ```
-Just make sure that the matching `end` and a blank line after are sent to both outputs.
+Just make sure that, later in the file, the matching `end` and a blank line after are sent to
+both outputs.
 
 The weird pair of characters `αα` in a Lean input file is simply deleted from any
 output produced by the script.
@@ -207,8 +209,8 @@ EXAMPLES: -/
 -- QUOTE:
 theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
   sorry
-
 -- QUOTE.
+
 -- SOLUTIONS:
 theorem fooαα : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
@@ -216,12 +218,13 @@ theorem fooαα : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
   . use xs; right; exact xu
 
 ```
-The theorem is named `foo` in both the examples and the solutions.
+The theorem is named `foo` in both the examples and the solutions, but Lean doesn't
+complain about a duplicate identifier in the source file.
 
 Finally, there is a mechanism that allows you to quote any part of the file
 in the textbook, before or after it appears in the Lean source file.
-This can be used, for example, to present a long proof, and then refer back to parts of it.
-Encode the lines you are interested in quoting with a pair of tags:
+This can be used, for example, to present a long proof and then refer back to parts of it.
+Encode the lines you want to quote with a pair of tags:
 ```
 theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
 -- TAG: my_tag
@@ -251,13 +254,14 @@ This does not, however, confirm that the examples files and solutions files that
 from the lean source files are well formed.
 
 To test the examples, use `scripts/examples_test.py`.
-This compiles all the lean source files as in `scripts/mkall.py`, copies the Lean files
-from `user_repo` into a folder `MIL/Test`, and sets `MIL.lean` to import each of those.
+This compiles all the lean source files as with `scripts/mkall.py`,
+but then it copies the Lean files from `user_repo` into a folder `MIL/Test` and
+constructs `MIL.lean` to import each of those.
 Use `lake build` to compile them.
 
 Similarly, use `scripts/solutions_test.py` followed by `lake build` to test all the solutions files.
 
-Use `scripts/clean_test.py` to remove the `MIL/Test` and restore `MIL.lean` to import the
+Use `scripts/clean_test.py` to remove the directory `MIL/Test` and restore `MIL.lean` to import the
 Lean source files.
 
 
