@@ -213,7 +213,7 @@ We are also grateful for help and corrections from
 Julian Berman, Alex Best,
 Bulwi Cha, Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
 Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Oliver Nash,
-Bartosz Piotrowski, and Guilherme Silva.
+Bartosz Piotrowski, Guilherme Silva, and Floris van Doorn.
 Our work has been partially supported by the Hoskinson Center for
 Formal Mathematics.
 TEXT. -/
