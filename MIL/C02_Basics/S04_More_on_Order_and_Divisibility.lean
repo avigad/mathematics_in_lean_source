@@ -358,6 +358,7 @@ SOLUTIONS: -/
     apply Nat.dvd_gcd
     apply Nat.gcd_dvd_right
     apply Nat.gcd_dvd_left
+-- QUOTE.
 
 -- BOTH:
 end
