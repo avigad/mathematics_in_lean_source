@@ -52,9 +52,7 @@ First, when you use ``have`` without providing
 a label,
 Lean uses the name ``this``,
 providing a convenient way to refer back to it.
-Also, the ``from`` tactic is syntactic sugar for ``exact``,
-providing a nice way to justify a ``have`` with an explicit
-proof term.
+Because the proof is so short, we provide an explicit proof term.
 But what you should really be paying attention to in this
 proof is the result of the ``intro`` tactic,
 which leaves a goal of ``False``,

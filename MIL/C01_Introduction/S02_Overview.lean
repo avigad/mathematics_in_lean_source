@@ -211,8 +211,9 @@ infrastructure for running this tutorial in VS Code,
 and to Scott Morrison and Mario Carneiro for help porting it from Lean 4.
 We are also grateful for help and corrections from
 Julian Berman, Alex Best,
-Bulwi Cha, Bryan Gin-ge Chen, Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
-Giovanni Mascellani, Hunter Monroe, Pietro Monticone, Oliver Nash,
+Bulwi Cha, Bryan Gin-ge Chen, Mauricio Collaris,
+Johan Commelin, Mathieu Guay-Paquet, Julian Külshammer,
+Giovanni Mascellani, Isaiah Mindich, Hunter Monroe, Pietro Monticone, Oliver Nash,
 Bartosz Piotrowski, Guilherme Silva, and Floris van Doorn.
 Our work has been partially supported by the Hoskinson Center for
 Formal Mathematics.
