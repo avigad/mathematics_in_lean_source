@@ -74,7 +74,7 @@ in :numref:`sequences_and_convergence` if you tried to state for instance that
 ``0 < 1`` without telling Lean whether you meant this inequality to be about natural numbers
 or real numbers.
 
-Our next task is to assign a notation to ``One₁.one``. This we don't want collisions
+Our next task is to assign a notation to ``One₁.one``. Since we don't want collisions
 with the builtin notation for ``1``, we will use ``𝟙``. This is achieved by the following
 command where the first line tells Lean to use the documentation
 of ``One₁.one`` as documentation for the symbol ``𝟙``.
