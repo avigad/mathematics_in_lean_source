@@ -34,7 +34,7 @@ after fetching this repository to get the compiled version of Mathlib.
 To build the textbook, you need to have
 [Sphinx and ReadTheDocs](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html)
 installed, as well as the Python `regex` package.
-Ideally, `pip install sphinx sphinx-rtd-theme regex` should suffice.
+Ideally, `pip install -r scripts/requirements.txt` should suffice.
 
 
 Overview
