@@ -271,13 +271,13 @@ find the library theorems you need constitutes an important
 part of formalization.
 There are a number of strategies you can use:
 
-* You can browse mathlib in its
+* You can browse Mathlib in its
   `GitHub repository <https://github.com/leanprover-community/mathlib4>`_.
 
-* You can use the API documentation on the mathlib
+* You can use the API documentation on the Mathlib
   `web pages <https://leanprover-community.github.io/mathlib4_docs/>`_.
 
-* You can rely on mathlib naming conventions and Ctrl-space completion in
+* You can rely on Mathlib naming conventions and Ctrl-space completion in
   the editor to guess a theorem name (or Cmd-space on a Mac keyboard).
   In Lean, a theorem named ``A_of_B_of_C`` establishes
   something of the form ``A`` from hypotheses of the form ``B`` and ``C``,
@@ -352,7 +352,7 @@ There are a number of things worth noticing.
 First, an expression ``s ≥ t`` is definitionally equivalent to ``t ≤ s``.
 In principle, this means one should be able to use them interchangeably.
 But some of Lean's automation does not recognize the equivalence,
-so mathlib tends to favor ``≤`` over ``≥``.
+so Mathlib tends to favor ``≤`` over ``≥``.
 Second, we have used the ``ring`` tactic extensively.
 It is a real timesaver!
 Finally, notice that in the second line of the

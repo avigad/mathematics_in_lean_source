@@ -23,7 +23,7 @@ You can learn more about Lean from the
 `Lean project page <https://leanprover.github.io>`_
 and the
 `Lean community web pages <https://leanprover-community.github.io/>`_.
-This tutorial is based on Lean's large and ever-growing library, *mathlib*.
+This tutorial is based on Lean's large and ever-growing library, *Mathlib*.
 We also strongly recommend joining the
 `Lean Zulip online chat group <https://leanprover.zulipchat.com/>`_
 if you haven't already.

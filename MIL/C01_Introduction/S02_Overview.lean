@@ -177,7 +177,7 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
 Another big difference between the two introductions is that
 *Theorem Proving in Lean* depends only on core Lean and its built-in
 tactics, whereas *Mathematics in Lean* is built on top of Lean's
-powerful and ever-growing library, *mathlib*.
+powerful and ever-growing library, *Mathlib*.
 As a result, we can show you how to use some of the mathematical
 objects and theorems in the library,
 and some of the very useful tactics.
@@ -197,7 +197,7 @@ and people are available on the
 to answer questions.
 We hope to see you there, and have no doubt that
 soon enough you, too, will be able to answer such questions
-and contribute to the development of *mathlib*.
+and contribute to the development of *Mathlib*.
 
 So here is your mission, should you choose to accept it:
 dive in, try the exercises, come to Zulip with questions, and have fun.

@@ -201,7 +201,7 @@ example : ∀ a b : Point, add a b = add b a := fun ⟨xa, ya, za⟩ ⟨xb, yb, 
 /- TEXT:
 Mathematical constructions often involve taking apart bundled information and
 putting it together again in different ways.
-It therefore makes sense that Lean and mathlib offer so many ways
+It therefore makes sense that Lean and Mathlib offer so many ways
 of doing this efficiently.
 As an exercise, try proving that ``Point.add`` is associative.
 Then define scalar multiplication for a point and show that it

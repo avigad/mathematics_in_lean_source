@@ -37,7 +37,7 @@ The first condition says that the set of all elements of ``X`` belongs to ``F.se
 The second condition says that if ``U`` belongs to ``F.sets`` then anything
 containing ``U`` also belongs to ``F.sets``.
 The third condition says that ``F.sets`` is closed under finite intersections.
-In mathlib, a filter ``F`` is defined to be a structure bundling ``F.sets`` and its
+In Mathlib, a filter ``F`` is defined to be a structure bundling ``F.sets`` and its
 three properties, but the properties carry no additional data,
 and it is convenient to blur the distinction between ``F`` and ``F.sets``. We
 therefore define ``U ∈ F`` to mean ``U ∈ F.sets``.
@@ -54,7 +54,7 @@ as a generalized element of ``Set X``. For instance, ``atTop`` is the
 "set of very large numbers" and ``𝓝 x₀`` is the "set of points very close to ``x₀``."
 One manifestation of this view is that we can associate to any ``s : Set X`` the so-called *principal filter*
 consisting of all sets that contain ``s``.
-This definition is already in mathlib and has a notation ``𝓟`` (localized in the ``Filter`` namespace).
+This definition is already in Mathlib and has a notation ``𝓟`` (localized in the ``Filter`` namespace).
 For the purpose of demonstration, we ask you to take this opportunity to work out the definition here.
 EXAMPLES: -/
 -- QUOTE:
@@ -107,8 +107,8 @@ example : Filter ℕ :=
 We can also directly define the filter ``𝓝 x`` of neighborhoods of any ``x : ℝ``.
 In the real numbers, a neighborhood of ``x`` is a set containing an open interval
 :math:`(x_0 - \varepsilon, x_0 + \varepsilon)`,
-defined in mathlib as ``Ioo (x₀ - ε) (x₀ + ε)``.
-(This is notion of a neighborhood is only a special case of a more general construction in mathlib.)
+defined in Mathlib as ``Ioo (x₀ - ε) (x₀ + ε)``.
+(This is notion of a neighborhood is only a special case of a more general construction in Mathlib.)
 
 With these examples, we can already define what is means for a function ``f : X → Y``
 to converge to some ``G : Filter Y`` along some ``F : Filter X``,
@@ -126,13 +126,13 @@ is equivalent to the familiar notion :math:`\lim_{x \to x₀} f(x) = y₀`.
 All of the other kinds of limits mentioned in the introduction are
 also equivalent to instances of ``Tendsto₁`` for suitable choices of filters on the source and target.
 
-The notion ``Tendsto₁`` above is definitionally equivalent to the notion ``Tendsto`` that is defined in mathlib,
+The notion ``Tendsto₁`` above is definitionally equivalent to the notion ``Tendsto`` that is defined in Mathlib,
 but the latter is defined more abstractly.
 The problem with the definition of ``Tendsto₁`` is that it exposes a quantifier and elements of ``G``,
 and it hides the intuition that we get by viewing filters as generalized sets. We can
 hide the quantifier ``∀ V`` and make the intuition more salient by using more algebraic and set-theoretic machinery.
 The first ingredient is the *pushforward* operation :math:`f_*` associated to any map ``f : X → Y``,
-denoted ``Filter.map f`` in mathlib. Given a filter ``F`` on ``X``, ``Filter.map f F : Filter Y`` is defined so that
+denoted ``Filter.map f`` in Mathlib. Given a filter ``F`` on ``X``, ``Filter.map f F : Filter Y`` is defined so that
 ``V ∈ Filter.map f F ↔ f ⁻¹' V ∈ F`` holds definitionally.
 In this examples file we've opened the ``Filter`` namespace so that
 ``Filter.map`` can be written as ``map``. This means that we can rewrite the definition of ``Tendsto`` using
@@ -216,7 +216,7 @@ which is to say, they satisfy
 
 for every ``F`` and ``G``.
 This operation could be used to provided another formulation of ``Tendsto`` that would be provably
-(but not definitionally) equivalent to the one in mathlib.
+(but not definitionally) equivalent to the one in Mathlib.
 
 The ``comap`` operation can be used to restrict filters to a subtype. For instance, suppose we have ``f : ℝ → ℝ``,
 ``x₀ : ℝ`` and ``y₀ : ℝ``, and suppose we want to state that ``f x`` approaches ``y₀`` when ``x`` approaches ``x₀`` within the rational numbers.
@@ -263,7 +263,7 @@ Here the ``inf`` operation refers to the lattice structure on ``Filter X`` for a
 ``F ⊓ G`` is the greatest filter that is smaller than both ``F`` and ``G``.
 Thus the ``inf`` operation generalizes the notion of the intersection of sets.
 
-A lot of proofs in mathlib use all of the aforementioned structure (``map``, ``comap``, ``inf``, ``sup``, and ``prod``)
+A lot of proofs in Mathlib use all of the aforementioned structure (``map``, ``comap``, ``inf``, ``sup``, and ``prod``)
 to give algebraic proofs about convergence without ever referring to members of filters.
 You can practice doing this in a proof of the following lemma, unfolding the definition of ``Tendsto``
 and ``Filter.prod`` if needed.
@@ -332,7 +332,7 @@ given ``x₀ : ℝ`` and ``s : Set ℝ``, the pullback of ``𝓝 x₀`` under th
 from the subtype corresponding to ``s`` is nontrivial if and only if ``x₀`` belongs to the
 closure of ``s``.
 
-In order to manage lemmas that do need to assume some filter is nontrivial, mathlib has
+In order to manage lemmas that do need to assume some filter is nontrivial, Mathlib has
 a type class ``Filter.NeBot``, and the library has lemmas that assume
 ``(F : Filter X) [F.NeBot]``. The instance database knows, for example, that ``(atTop : Filter ℕ).NeBot``,
 and it knows that pushing forward a nontrivial filter gives a nontrivial filter.

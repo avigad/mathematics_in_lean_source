@@ -54,7 +54,7 @@ example {f : ℝ → ℝ} {a b : ℝ} {f' : ℝ → ℝ} (h : ∀ x ∈ [[a, b]]
 -- QUOTE.
 
 /- TEXT:
-Convolution is also defined in mathlib and its basic properties are proved.
+Convolution is also defined in Mathlib and its basic properties are proved.
 EXAMPLES: -/
 -- QUOTE:
 open Convolution

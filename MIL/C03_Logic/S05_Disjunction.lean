@@ -148,7 +148,7 @@ cases of a disjunction.
 
 Try proving the triangle inequality using the two
 first two theorems in the next snippet.
-They are given the same names they have in mathlib.
+They are given the same names they have in Mathlib.
 TEXT. -/
 -- BOTH:
 -- QUOTE:
@@ -289,7 +289,7 @@ example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z
 /- TEXT:
 On the real numbers, an equation ``x * y = 0``
 tells us that ``x = 0`` or ``y = 0``.
-In mathlib, this fact is known as ``eq_zero_or_eq_zero_of_mul_eq_zero``,
+In Mathlib, this fact is known as ``eq_zero_or_eq_zero_of_mul_eq_zero``,
 and it is another nice example of how a disjunction can arise.
 See if you can use it to prove the following:
 TEXT. -/

@@ -344,7 +344,7 @@ a negation in front,
 and it is a common mathematical pattern to replace such
 statements with equivalent forms in which the negation
 has been pushed inward.
-To facilitate this, mathlib offers a ``push_neg`` tactic,
+To facilitate this, Mathlib offers a ``push_neg`` tactic,
 which restates the goal in this way.
 The command ``push_neg at h`` restates the hypothesis ``h``.
 TEXT. -/

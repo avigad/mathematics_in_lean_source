@@ -417,7 +417,7 @@ is a procedure for ``Nat.Prime``. In general, if we use classical logic
 by writing ``open Classical``,
 we can dispense with the assumption.
 
-In mathlib, ``Finset.sup s f`` denotes the supremum of the values of ``f x`` as ``x``
+In Mathlib, ``Finset.sup s f`` denotes the supremum of the values of ``f x`` as ``x``
 ranges over ``s``, returning ``0`` in the case where ``s`` is empty and
 the codomain of ``f`` is ``ℕ``. In the first proof, we use ``s.sup id``,
 where ``id`` is the identity function, to refer to the maximum value in ``s``.

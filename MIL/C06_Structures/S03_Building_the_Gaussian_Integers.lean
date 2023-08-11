@@ -330,7 +330,7 @@ is therefore to embed the Gaussian integers in the complex numbers, embed
 the integers in the Gaussian integers, define the rounding function from the
 real numbers to the integers, and take great care to pass back and forth
 between these number systems appropriately.
-In fact, this is exactly the approach that is followed in mathlib,
+In fact, this is exactly the approach that is followed in Mathlib,
 where the Gaussian integers themselves are constructed as a special case
 of a ring of *quadratic integers*.
 See the file `GaussianInt.lean
@@ -617,7 +617,7 @@ theorem not_norm_mul_left_lt_norm (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) :
 We can now put it together to show that the Gaussian integers are an
 instance of a Euclidean domain. We use the quotient and remainder function we
 have defined.
-The mathlib definition of a Euclidean domain is more general than the one
+The Mathlib definition of a Euclidean domain is more general than the one
 above in that it allows us to show that remainder decreases with respect
 to any well-founded measure.
 Comparing the values of a norm function that returns natural numbers is

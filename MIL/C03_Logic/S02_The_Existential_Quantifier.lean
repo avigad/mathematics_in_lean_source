@@ -211,7 +211,7 @@ end
 
 /- TEXT:
 The task of unpacking information in a hypothesis is
-so important that Lean and mathlib provide a number of
+so important that Lean and Mathlib provide a number of
 ways to do it. For example, the ``obtain`` tactic provides suggestive syntax:
 TEXT. -/
 -- QUOTE:

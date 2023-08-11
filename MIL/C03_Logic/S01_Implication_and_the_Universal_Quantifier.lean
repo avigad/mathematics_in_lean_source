@@ -287,13 +287,13 @@ Section :numref:`proving_identities_in_algebraic_structures`,
 though we still haven't explained what they mean.
 For concreteness, we will stick to the real numbers
 for most of our examples,
-but it is worth knowing that mathlib contains definitions and theorems
+but it is worth knowing that Mathlib contains definitions and theorems
 that work at a high level of generality.
 
 .. index:: monotone function
 
 For another example of a hidden universal quantifier,
-mathlib defines a predicate ``Monotone``,
+Mathlib defines a predicate ``Monotone``,
 which says that a function is nondecreasing in its arguments:
 TEXT. -/
 -- QUOTE:

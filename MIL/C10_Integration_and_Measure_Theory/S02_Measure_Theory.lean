@@ -17,7 +17,7 @@ noncomputable section
 Measure Theory
 --------------
 
-The general context for integration in mathlib is measure theory. Even the elementary
+The general context for integration in Mathlib is measure theory. Even the elementary
 integrals of the previous section are in fact Bochner integrals. Bochner integration is
 a generalization of Lebesgue integration where the target space can be any Banach space,
 not necessarily finite dimensional.
@@ -30,7 +30,7 @@ The sets ``empty`` and ``univ`` are measurable,
 the complement of a measurable set is measurable,
 and a countable union or intersection of measurable sets is measurable.
 Note that these axioms are redundant; if you ``#print MeasurableSpace``,
-you will see the ones that mathlib uses.
+you will see the ones that Mathlib uses.
 As the examples below show, countability assumptions can be expressed using the
 ``Encodable`` type class.
 BOTH: -/
@@ -68,7 +68,7 @@ Once a type is measurable, we can measure it. On paper, a measure on a set
 :math:`\sigma`-algebra is a function from the measurable sets to
 the extended non-negative reals that is
 additive on countable disjoint unions.
-In mathlib, we don't want to carry around measurability assumptions
+In Mathlib, we don't want to carry around measurability assumptions
 every time we write an application of the measure to a set.
 So we extend the measure to any set ``s``
 as the infimum of measures of measurable sets containing ``s``.
@@ -96,7 +96,7 @@ Once a type has a measure associated with it, we say that a property ``P``
 holds *almost everywhere* if the set of elements where the property fails
 has measure 0.
 The collection of properties that hold almost everywhere form a filter,
-but mathlib introduces special notation for saying that a property holds
+but Mathlib introduces special notation for saying that a property holds
 almost everywhere.
 EXAMPLES: -/
 -- QUOTE:

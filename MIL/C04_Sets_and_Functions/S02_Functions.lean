@@ -418,7 +418,7 @@ to ``InjOn f univ``.
 Similarly, the library defines ``range f`` to be
 ``{x | ∃y, f y = x}``,
 so ``range f`` is provably equal to ``f '' univ``.
-This is a common theme in mathlib:
+This is a common theme in Mathlib:
 although many properties of functions are defined relative
 to their full domain,
 there are often relativized versions that restrict

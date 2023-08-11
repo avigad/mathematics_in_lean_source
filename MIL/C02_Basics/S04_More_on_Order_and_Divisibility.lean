@@ -277,7 +277,7 @@ Be careful: the divisibility symbol is *not* the
 ordinary bar on your keyboard.
 Rather, it is a unicode character obtained by
 typing ``\|`` in VS Code.
-By convention, mathlib uses ``dvd``
+By convention, Mathlib uses ``dvd``
 to refer to it in theorem names.
 TEXT. -/
 -- BOTH:

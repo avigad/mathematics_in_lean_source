@@ -423,7 +423,7 @@ products and sums over a finite set,
 which is also a topic we will return to.
 
 In fact, the results in this section are all established in much
-greater generality in mathlib,
+greater generality in Mathlib,
 in ``Data.Real.Irrational``.
 The notion of ``multiplicity`` is defined for an
 arbitrary commutative monoid,

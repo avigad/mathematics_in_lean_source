@@ -239,7 +239,7 @@ example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n,
 
 /- TEXT:
 
-Remember from the filters sections that neighborhood filters play a big role in mathlib.
+Remember from the filters sections that neighborhood filters play a big role in Mathlib.
 In the metric space context, the crucial point is that balls provide bases for those filters.
 The main lemmas here are ``Metric.nhds_basis_ball`` and ``Metric.nhds_basis_closedBall``
 that claim this for open and closed balls with positive radius. The center point is an implicit
@@ -411,7 +411,7 @@ example [CompleteSpace X] (u : ℕ → X) (hu : CauchySeq u) :
 /- TEXT:
 
 We'll practice using this definition by proving a convenient criterion which is a special case of a
-criterion appearing in mathlib. This is also a good opportunity to practice using big sums in
+criterion appearing in Mathlib. This is also a good opportunity to practice using big sums in
 a geometric context. In addition to the explanations from the filters section, you will probably need
 ``tendsto_pow_atTop_nhds_0_of_lt_1``, ``Tendsto.mul`` and ``dist_le_range_sum_dist``.
 BOTH: -/

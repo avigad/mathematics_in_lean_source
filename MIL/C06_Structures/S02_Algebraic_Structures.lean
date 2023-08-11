@@ -158,12 +158,12 @@ follows from the other group axioms, so there is no need
 to add it to the definition.
 
 This definition of a group is similar to the definition of ``Group`` in
-mathlib,
+Mathlib,
 and we have chosen the name ``Group₁`` to distinguish our version.
 If you write ``#check Group`` and ctrl-click on the definition,
-you will see that the mathlib version of ``Group`` is defined to
+you will see that the Mathlib version of ``Group`` is defined to
 extend another structure; we will explain how to do that later.
-If you type ``#print Group`` you will also see that the mathlib
+If you type ``#print Group`` you will also see that the Mathlib
 version of ``Group`` has a number of extra fields.
 For reasons we will explain later, sometimes it is useful to add
 redundant information to a structure,
@@ -171,10 +171,10 @@ so that there are additional fields for objects and functions
 that can be defined from the core
 data. Don't worry about that for now.
 Rest assured that our simplified version ``Group₁`` is
-morally the same as the definition of a group that mathlib uses.
+morally the same as the definition of a group that Mathlib uses.
 
 It is sometimes useful to bundle
-the type together with the structure, and mathlib also
+the type together with the structure, and Mathlib also
 contains a definition of a ``GroupCat`` structure that is equivalent to
 the following:
 EXAMPLES: -/
@@ -185,7 +185,7 @@ structure Group₁Cat where
 -- QUOTE.
 
 /- TEXT:
-The mathlib version is found in ``Algebra.Category.Group.Basic``,
+The Mathlib version is found in ``Algebra.Category.Group.Basic``,
 and you can ``#check`` it if you add this to the imports at the
 beginning of the examples file.
 
@@ -193,7 +193,7 @@ For reasons that will become clearer below, it is more often
 useful to keep the type ``α`` separate from the structure ``Group α``.
 We refer to the two objects together as a *partially bundled structure*,
 since the representation combines most, but not all, of the components
-into one structure. It is common in mathlib
+into one structure. It is common in Mathlib
 to use capital roman letters like ``G`` for a type
 when it is used as the carrier type for a group.
 
@@ -276,7 +276,7 @@ def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
 -- QUOTE.
 
 /- TEXT:
-In fact, mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
+In fact, Mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
 in the file ``GroupTheory.Perm.Basic``.
 As always, you can hover over the theorems used in the definition of
 ``permGroup`` to see their statements,
@@ -374,7 +374,7 @@ on a structure and use it with any particular instance,
 and we want to arrange it so that we can prove a theorem about
 a structure and use it with any instance.
 
-In fact, mathlib is already set up to use generic group notation,
+In fact, Mathlib is already set up to use generic group notation,
 definitions, and theorems for ``Equiv.Perm α``.
 EXAMPLES: -/
 section
@@ -624,7 +624,7 @@ In fact, Lean favors more recent declarations unless you explicitly
 specify a different priority.
 Also, there is another way to tell Lean that one structure is an
 instance of another, using the ``extends`` keyword.
-This is how ``mathlib`` specifies that, for example,
+This is how Mathlib specifies that, for example,
 every commutative ring is a ring.
 You can find more information in a
 `section on class inference <https://leanprover.github.io/theorem_proving_in_lean4/type_classes.html#managing-type-class-inference>`_ in *Theorem Proving in Lean*.

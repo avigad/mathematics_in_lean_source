@@ -47,7 +47,7 @@ example (x y : E) : ‖x + y‖ ≤ ‖x‖ + ‖y‖ :=
 /- TEXT:
 Every normed space is a metric space with distance function
 :math:`d(x, y) = \| x - y \|`, and hence it is also a topological space.
-Lean and mathlib know this.
+Lean and Mathlib know this.
 EXAMPLES: -/
 -- QUOTE:
 example : MetricSpace E := by infer_instance
@@ -112,7 +112,7 @@ Continuous linear maps
 
 We now turn to the morphisms in the category of normed spaces, namely,
 continuous linear maps.
-In mathlib, the type of ``𝕜``-linear continuous maps between normed spaces
+In Mathlib, the type of ``𝕜``-linear continuous maps between normed spaces
 ``E`` and ``F`` is written ``E →L[𝕜] F``.
 They are implemented as *bundled maps*, which means that an element of this type
 a structure that that includes the function itself and the properties
@@ -286,7 +286,7 @@ Differentiability
 
 We are now ready to discuss differentiable functions between normed spaces.
 In analogy the elementary one-dimensional,
-mathlib defines a predicate ``HasFDerivAt`` and a function ``fderiv``.
+Mathlib defines a predicate ``HasFDerivAt`` and a function ``fderiv``.
 Here the letter
 "f" stands for *Fréchet*.
 EXAMPLES: -/
@@ -330,7 +330,7 @@ example (n : WithTop ℕ) {f : E → F} :
 There is a stricter notion of differentiability called
 ``HasStrictFDerivAt``, which is used in the statement
 of the inverse function theorem and the statement of the implicit function
-theorem, both of which are in mathlib.
+theorem, both of which are in Mathlib.
 Over ``ℝ`` or ``ℂ``, continuously differentiable
 functions are strictly differentiable.
 EXAMPLES: -/
@@ -375,10 +375,10 @@ end LocalInverse
 -- QUOTE.
 
 /- TEXT:
-This has been only a quick tour of the differential calculus in mathlib.
+This has been only a quick tour of the differential calculus in Mathlib.
 The library contains many variations that we have not discussed.
 For example, you may want to use one-sided derivatives in the
-one-dimensional setting. The means to do so are found in mathlib in a more
+one-dimensional setting. The means to do so are found in Mathlib in a more
 general context;
 see ``HasFDerivWithinAt`` or the even more general ``HasFDerivAtFilter``.
 EXAMPLES: -/

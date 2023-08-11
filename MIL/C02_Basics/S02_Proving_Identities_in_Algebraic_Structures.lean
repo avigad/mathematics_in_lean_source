@@ -111,7 +111,7 @@ you have developed in the last section
 and apply them to reasoning axiomatically about rings.
 We will start with the axioms listed above,
 and use them to derive other facts.
-Most of the facts we prove are already in ``mathlib``.
+Most of the facts we prove are already in Mathlib.
 We will give the versions we prove the same names
 to help you learn the contents of the library
 as well as the naming conventions.
@@ -496,7 +496,7 @@ end
 /- TEXT:
 .. index:: group (tactic), tactics ; group, tactics ; noncomm_ring, tactics ; abel
 
-Explicitly invoking those lemmas is tedious, so mathlib provides
+Explicitly invoking those lemmas is tedious, so Mathlib provides
 tactics similar to `ring` in order to cover most uses: `group`
 is for non-commutative multiplicative groups, `abel` for abelian
 additive groups, and `noncomm_ring` for non-commutative rings.

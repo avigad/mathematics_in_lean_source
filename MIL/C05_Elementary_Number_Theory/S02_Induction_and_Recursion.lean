@@ -92,7 +92,7 @@ example (n : ℕ) : fac (n + 1) = (n + 1) * fac n := by
 -- QUOTE.
 
 /- TEXT:
-The factorial function is actually already defined in mathlib as
+The factorial function is actually already defined in Mathlib as
 ``Nat.factorial``. Once again, you can jump to it by typing
 ``#check Nat.factorial`` and using ``ctrl-click.``
 For illustrative purposes, we will continue using ``fac`` in the examples.

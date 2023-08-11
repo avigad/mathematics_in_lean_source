@@ -33,7 +33,7 @@ variable (x y z : α)
 -- QUOTE.
 
 /- TEXT:
-Here we are adopting the mathlib convention of using
+Here we are adopting the Mathlib convention of using
 letters like ``α``, ``β``, and ``γ``
 (entered as ``\a``, ``\b``, and ``\g``)
 for arbitrary types.
@@ -101,7 +101,7 @@ the *greatest lower bound* and *least upper bound*, respectively.
 You can type them in VS code using ``\glb`` and ``\lub``.
 The symbols are also often called then *infimum* and
 the *supremum*,
-and mathlib refers to them as ``inf`` and ``sup`` in
+and Mathlib refers to them as ``inf`` and ``sup`` in
 theorem names.
 To further complicate matters,
 they are also often called *meet* and *join*.
@@ -210,7 +210,7 @@ example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
   apply le_sup_right
 
 /- TEXT:
-You can find these theorems in the mathlib as ``inf_comm``, ``inf_assoc``,
+You can find these theorems in the Mathlib as ``inf_comm``, ``inf_assoc``,
 ``sup_comm``, and ``sup_assoc``, respectively.
 
 Another good exercise is to prove the *absorption laws*
@@ -243,7 +243,7 @@ theorem absorb2αα : x ⊔ x ⊓ y = x := by
 end
 
 /- TEXT:
-These can be found in mathlib with the names ``inf_sup_self`` and ``sup_inf_self``.
+These can be found in Mathlib with the names ``inf_sup_self`` and ``sup_inf_self``.
 
 A lattice that satisfies the additional identities
 ``x ⊓ (y ⊔ z) = (x ⊓ y) ⊔ (x ⊓ z)`` and
@@ -406,5 +406,5 @@ end
 
 /- TEXT:
 We recommend making use of the theorem ``nonneg_of_mul_nonneg_left``.
-As you may have guessed, this theorem is called ``dist_nonneg`` in mathlib.
+As you may have guessed, this theorem is called ``dist_nonneg`` in Mathlib.
 TEXT. -/

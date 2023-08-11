@@ -19,7 +19,7 @@ Elementary Differential Calculus
 Let ``f`` be a function from the reals to the reals. There is a difference
 between talking about the derivative of ``f`` at a single point and
 talking about the derivative function.
-In mathlib, the first notion is represented as follows.
+In Mathlib, the first notion is represented as follows.
 EXAMPLES: -/
 -- QUOTE:
 open Real
@@ -45,7 +45,7 @@ example (x : ℝ) : DifferentiableAt ℝ sin x :=
 /- TEXT:
 It would be inconvenient to have to provide a proof of differentiability
 every time we want to refer to a derivative.
-So mathlib provides a function ``deriv f : ℝ → ℝ`` that is defined for any
+So Mathlib provides a function ``deriv f : ℝ → ℝ`` that is defined for any
 function ``f : ℝ → ℝ``
 but is defined to take the value ``0`` at any point where ``f`` is not differentiable.
 EXAMPLES: -/
