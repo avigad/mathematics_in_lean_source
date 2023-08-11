@@ -40,11 +40,10 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 -- QUOTE.
 
 /- TEXT:
-The ``import`` line at the beginning of the example
-imports the theory of the real numbers from ``mathlib``.
+The ``import`` lines at the beginning of the associated examples file
+import the theory of the real numbers from ``mathlib``, as well as useful automation.
 For the sake of brevity,
-we generally suppress information like this when it
-is repeated from example to example.
+we generally suppress information like this in the textbook.
 
 You are welcome to make changes to see what happens.
 You can type the ``ℝ`` character as ``\R`` or ``\real``
