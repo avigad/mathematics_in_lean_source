@@ -36,10 +36,29 @@ example : ∃ x : ℝ, 2 < x ∧ x < 3 := by
 -- QUOTE.
 
 /- TEXT:
+You can give the ``use`` tactic proofs as well as data:
+TEXT. -/
+-- QUOTE:
+example : ∃ x : ℝ, 2 < x ∧ x < 3 := by
+  have h1 : 2 < (5 : ℝ) / 2 := by norm_num
+  have h2 : (5 : ℝ) / 2 < 3 := by norm_num
+  use 5 / 2, h1, h2
+-- QUOTE.
+
+/- TEXT:
+In fact, the ``use`` tactic automatically tries to use available assumptions as well.
+TEXT. -/
+-- QUOTE:
+example : ∃ x : ℝ, 2 < x ∧ x < 3 := by
+  have h : 2 < (5 : ℝ) / 2 ∧ (5 : ℝ) / 2 < 3 := by norm_num
+  use 5 / 2
+-- QUOTE.
+
+/- TEXT:
 .. index:: anonymous constructor
 
 Alternatively, we can use Lean's *anonymous constructor* notation
-to construct the proof.
+to construct a proof of an existential quantifier.
 TEXT. -/
 -- QUOTE:
 example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
@@ -48,6 +67,7 @@ example : ∃ x : ℝ, 2 < x ∧ x < 3 :=
 -- QUOTE.
 
 /- TEXT:
+Notice that there is no ``by``; here we are giving an explicit proof term.
 The left and right angle brackets,
 which can be entered as ``\<`` and ``\>`` respectively,
 tell Lean to put together the given data using
