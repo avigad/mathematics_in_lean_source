@@ -222,7 +222,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} (P : α → Prop) (Q : Prop)
+variable {α : Type*} (P : α → Prop) (Q : Prop)
 
 -- EXAMPLES:
 example (h : ¬∃ x, P x) : ∀ x, ¬P x := by

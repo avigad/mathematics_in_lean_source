@@ -338,7 +338,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [PartialOrder α]
+variable {α : Type*} [PartialOrder α]
 variable (a b : α)
 
 -- EXAMPLES:
@@ -388,7 +388,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [Preorder α]
+variable {α : Type*} [Preorder α]
 variable (a b c : α)
 
 -- EXAMPLES:

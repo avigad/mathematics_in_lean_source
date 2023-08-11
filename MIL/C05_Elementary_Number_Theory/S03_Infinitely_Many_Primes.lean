@@ -205,7 +205,7 @@ open Finset
 
 -- EXAMPLES:
 section
-variable {α : Type _} [DecidableEq α] (r s t : Finset α)
+variable {α : Type*} [DecidableEq α] (r s t : Finset α)
 
 example : r ∩ (s ∪ t) ⊆ r ∩ s ∪ r ∩ t := by
   rw [subset_iff]
@@ -238,7 +238,7 @@ dispense with propositional tautologies. See if you can use
 these methods to prove the two examples below.
 BOTH: -/
 section
-variable {α : Type _} [DecidableEq α] (r s t : Finset α)
+variable {α : Type*} [DecidableEq α] (r s t : Finset α)
 
 -- QUOTE:
 example : (r ∪ s) ∩ (r ∪ t) = r ∪ s ∩ t := by

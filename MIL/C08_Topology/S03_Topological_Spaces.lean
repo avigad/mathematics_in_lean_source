@@ -27,7 +27,7 @@ has to satisfy a number of axioms presented below (this collection is slightly r
 BOTH: -/
 -- QUOTE:
 section
-variable {X : Type _} [TopologicalSpace X]
+variable {X : Type*} [TopologicalSpace X]
 
 example : IsOpen (univ : Set X) :=
   isOpen_univ
@@ -35,10 +35,10 @@ example : IsOpen (univ : Set X) :=
 example : IsOpen (∅ : Set X) :=
   isOpen_empty
 
-example {ι : Type _} {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) : IsOpen (⋃ i, s i) :=
+example {ι : Type*} {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) : IsOpen (⋃ i, s i) :=
   isOpen_iUnion hs
 
-example {ι : Type _} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) :
+example {ι : Type*} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) :
     IsOpen (⋂ i, s i) :=
   isOpen_iInter hs
 -- QUOTE.
@@ -49,7 +49,7 @@ Closed sets are then defined as sets whose complement  is open. A function betwe
 is (globally) continuous if all preimages of open sets are open.
 BOTH: -/
 -- QUOTE:
-variable {Y : Type _} [TopologicalSpace Y]
+variable {Y : Type*} [TopologicalSpace Y]
 
 example {f : X → Y} : Continuous f ↔ ∀ s, IsOpen s → IsOpen (f ⁻¹' s) :=
   continuous_def
@@ -140,14 +140,14 @@ BOTH: -/
 #check TopologicalSpace.nhds_mkOfNhds
 
 -- QUOTE:
-example {α : Type _} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
+example {α : Type*} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
     ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {α : Type _} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
+example {α : Type*} (n : α → Filter α) (H₀ : ∀ a, pure a ≤ n a)
     (H : ∀ a : α, ∀ p : α → Prop, (∀ᶠ x in n a, p x) → ∀ᶠ y in n a, ∀ᶠ x in n y, p x) :
     ∀ a, ∀ s ∈ n a, ∃ t ∈ n a, t ⊆ s ∧ ∀ a' ∈ t, s ∈ n a' := by
   intro a s s_in
@@ -186,7 +186,7 @@ push or pull topologies from one side to the other. Those two operations form a 
 
 BOTH: -/
 -- QUOTE:
-variable {X Y : Type _}
+variable {X Y : Type*}
 
 example (f : X → Y) : TopologicalSpace X → TopologicalSpace Y :=
   TopologicalSpace.coinduced f
@@ -252,7 +252,7 @@ a function :math:`g : Y → Z` is continuous for the topology :math:`f_*T_X` if 
 
 BOTH: -/
 -- QUOTE:
-example {Z : Type _} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : TopologicalSpace Z)
+example {Z : Type*} (f : X → Y) (T_X : TopologicalSpace X) (T_Z : TopologicalSpace Z)
       (g : Y → Z) :
     @Continuous Y Z (TopologicalSpace.coinduced f T_X) T_Z g ↔
       @Continuous X Z T_X T_Z (g ∘ f) := by
@@ -278,7 +278,7 @@ Let us explore that constraint "on paper" using notation :math:`p_i` for the pro
 So we see that what is the topology we want on ``Π i, X i``:
 BOTH: -/
 -- QUOTE:
-example (ι : Type _) (X : ι → Type _) (T_X : ∀ i, TopologicalSpace (X i)) :
+example (ι : Type*) (X : ι → Type*) (T_X : ∀ i, TopologicalSpace (X i)) :
     (Pi.topologicalSpace : TopologicalSpace (∀ i, X i)) =
       ⨅ i, TopologicalSpace.induced (fun x ↦ x i) (T_X i) :=
   rfl
@@ -344,7 +344,7 @@ Let's prove first an auxiliary lemma, extracted to simplify the context
 
 BOTH: -/
 -- QUOTE:
-theorem aux {X Y A : Type _} [TopologicalSpace X] {c : A → X}
+theorem aux {X Y A : Type*} [TopologicalSpace X] {c : A → X}
       {f : A → Y} {x : X} {F : Filter Y}
       (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' :=
@@ -352,7 +352,7 @@ theorem aux {X Y A : Type _} [TopologicalSpace X] {c : A → X}
 -- QUOTE.
 
 -- SOLUTIONS:
-example {X Y A : Type _} [TopologicalSpace X] {c : A → X}
+example {X Y A : Type*} [TopologicalSpace X] {c : A → X}
       {f : A → Y} {x : X} {F : Filter Y}
       (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' := by
@@ -526,7 +526,7 @@ cover ``s`` has a finite covering sub-family.
 
 BOTH: -/
 -- QUOTE:
-example {ι : Type _} {s : Set X} (hs : IsCompact s) (U : ι → Set X) (hUo : ∀ i, IsOpen (U i))
+example {ι : Type*} {s : Set X} (hs : IsCompact s) (U : ι → Set X) (hUo : ∀ i, IsOpen (U i))
     (hsU : s ⊆ ⋃ i, U i) : ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i :=
   hs.elim_finite_subcover U hUo hsU
 -- QUOTE.

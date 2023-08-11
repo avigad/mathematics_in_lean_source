@@ -12,7 +12,7 @@ open Topology Filter ENNReal
 open MeasureTheory
 
 noncomputable section
-variable {α : Type _} [MeasurableSpace α]
+variable {α : Type*} [MeasurableSpace α]
 variable {μ : Measure α}
 
 /- TEXT:
@@ -32,7 +32,7 @@ Most lemmas having to do with integrals have integrability assumptions.
 EXAMPLES: -/
 -- QUOTE:
 section
-variable {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] {f : α → E}
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] {f : α → E}
 
 example {f g : α → E} (hf : Integrable f μ) (hg : Integrable g μ) :
     ∫ a, f a + g a ∂μ = ∫ a, f a ∂μ + ∫ a, g a ∂μ :=
@@ -72,7 +72,7 @@ example {F : ℕ → α → E} {f : α → E} (bound : α → ℝ) (hmeas : ∀ 
 Then we have Fubini's theorem for integrals on product type.
 EXAMPLES: -/
 -- QUOTE:
-example {α : Type _} [MeasurableSpace α] {μ : Measure α} [SigmaFinite μ] {β : Type _}
+example {α : Type*} [MeasurableSpace α] {μ : Measure α} [SigmaFinite μ] {β : Type*}
     [MeasurableSpace β] {ν : Measure β} [SigmaFinite ν] (f : α × β → E)
     (hf : Integrable f (μ.prod ν)) : ∫ z, f z ∂ μ.prod ν = ∫ x, ∫ y, f (x, y) ∂ν ∂μ :=
   integral_prod f hf
@@ -90,7 +90,7 @@ section
 open Convolution
 
 -- EXAMPLES:
-variable {𝕜 : Type _} {G : Type _} {E : Type _} {E' : Type _} {F : Type _} [NormedAddCommGroup E]
+variable {𝕜 : Type*} {G : Type*} {E : Type*} {E' : Type*} {F : Type*} [NormedAddCommGroup E]
   [NormedAddCommGroup E'] [NormedAddCommGroup F] [NontriviallyNormedField 𝕜] [NormedSpace 𝕜 E]
   [NormedSpace 𝕜 E'] [NormedSpace 𝕜 F] [MeasurableSpace G] [NormedSpace ℝ F] [CompleteSpace F]
   [Sub G]
@@ -110,8 +110,8 @@ and ``IsAddHaarMeasure μ`` means that the measure ``μ`` is left-invariant,
 gives finite mass to compact sets, and give positive mass to open sets.
 EXAMPLES: -/
 -- QUOTE:
-example {E : Type _} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-    [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure] {F : Type _}
+example {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure] {F : Type*}
     [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F] {s : Set E} {f : E → E}
     {f' : E → E →L[ℝ] E} (hs : MeasurableSet s)
     (hf : ∀ x : E, x ∈ s → HasFDerivWithinAt f (f' x) s x) (h_inj : InjOn f s) (g : E → F) :

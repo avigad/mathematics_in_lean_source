@@ -23,7 +23,7 @@ Lean knows about partial orders:
 TEXT. -/
 section
 -- QUOTE:
-variable {α : Type _} [PartialOrder α]
+variable {α : Type*} [PartialOrder α]
 variable (x y z : α)
 
 -- EXAMPLES:
@@ -81,7 +81,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [Lattice α]
+variable {α : Type*} [Lattice α]
 variable (x y z : α)
 
 -- EXAMPLES:
@@ -253,7 +253,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [DistribLattice α]
+variable {α : Type*} [DistribLattice α]
 variable (x y z : α)
 
 #check (inf_sup_left : x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z)
@@ -276,7 +276,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [Lattice α]
+variable {α : Type*} [Lattice α]
 variable (a b c : α)
 
 -- EXAMPLES:
@@ -309,7 +309,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {R : Type _} [StrictOrderedRing R]
+variable {R : Type*} [StrictOrderedRing R]
 variable (a b c : R)
 
 -- EXAMPLES:
@@ -375,7 +375,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {X : Type _} [MetricSpace X]
+variable {X : Type*} [MetricSpace X]
 variable (x y z : X)
 
 -- EXAMPLES:

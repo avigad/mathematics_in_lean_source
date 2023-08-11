@@ -47,7 +47,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _}
+variable {α : Type*}
 variable (s t u : Set α)
 open Set
 
@@ -540,7 +540,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α I : Type _}
+variable {α I : Type*}
 variable (A B : I → Set α)
 variable (s : Set α)
 
@@ -679,7 +679,7 @@ section
 open Set
 
 -- QUOTE:
-variable {α : Type _} (s : Set (Set α))
+variable {α : Type*} (s : Set (Set α))
 
 example : ⋃₀ s = ⋃ t ∈ s, t := by
   ext x

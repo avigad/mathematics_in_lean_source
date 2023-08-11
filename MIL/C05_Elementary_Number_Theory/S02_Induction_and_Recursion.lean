@@ -187,7 +187,7 @@ BOTH: -/
 section
 
 -- QUOTE:
-variable {α : Type _} (s : Finset ℕ) (f : ℕ → ℕ) (n : ℕ)
+variable {α : Type*} (s : Finset ℕ) (f : ℕ → ℕ) (n : ℕ)
 
 -- EXAMPLES:
 #check Finset.sum s f

@@ -393,7 +393,7 @@ everywhere by any linear order ``α``:
 TEXT. -/
 section
 -- QUOTE:
-variable {α : Type _} [LinearOrder α]
+variable {α : Type*} [LinearOrder α]
 
 def ConvergesTo' (s : α → ℝ) (a : ℝ) :=
   ∀ ε > 0, ∃ N, ∀ n ≥ N, |s n - a| < ε

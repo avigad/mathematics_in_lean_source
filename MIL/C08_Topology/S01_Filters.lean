@@ -58,7 +58,7 @@ This definition is already in mathlib and has a notation ``𝓟`` (localized in 
 For the purpose of demonstration, we ask you to take this opportunity to work out the definition here.
 EXAMPLES: -/
 -- QUOTE:
-def principal {α : Type _} (s : Set α) : Filter α
+def principal {α : Type*} (s : Set α) : Filter α
     where
   sets := { t | s ⊆ t }
   univ_sets := sorry
@@ -68,7 +68,7 @@ def principal {α : Type _} (s : Set α) : Filter α
 
 -- SOLUTIONS:
 -- In the next example we could use `tauto` in each proof instead of knowing the lemmas
-example {α : Type _} (s : Set α) : Filter α :=
+example {α : Type*} (s : Set α) : Filter α :=
   { sets := { t | s ⊆ t }
     univ_sets := subset_univ s
     sets_of_superset := fun hU hUV ↦ Subset.trans hU hUV
@@ -115,7 +115,7 @@ to converge to some ``G : Filter Y`` along some ``F : Filter X``,
 as follows:
 BOTH: -/
 -- QUOTE:
-def Tendsto₁ {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :=
+def Tendsto₁ {X Y : Type*} (f : X → Y) (F : Filter X) (G : Filter Y) :=
   ∀ V ∈ G, f ⁻¹' V ∈ F
 -- QUOTE.
 
@@ -140,10 +140,10 @@ the order relation on ``Filter Y``, which is reversed inclusion of the set of me
 In other words, given ``G H : Filter Y``, we have ``G ≤ H ↔ ∀ V : Set Y, V ∈ H → V ∈ G``.
 EXAMPLES: -/
 -- QUOTE:
-def Tendsto₂ {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :=
+def Tendsto₂ {X Y : Type*} (f : X → Y) (F : Filter X) (G : Filter Y) :=
   map f F ≤ G
 
-example {X Y : Type _} (f : X → Y) (F : Filter X) (G : Filter Y) :
+example {X Y : Type*} (f : X → Y) (F : Filter X) (G : Filter Y) :
     Tendsto₂ f F G ↔ Tendsto₁ f F G :=
   Iff.rfl
 -- QUOTE.
@@ -182,13 +182,13 @@ universal quantifier or the algebraic definition,
 together with the two lemmas above.
 EXAMPLES: -/
 -- QUOTE:
-example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
+example {X Y Z : Type*} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
     (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
+example {X Y Z : Type*} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
     (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H :=
   calc
     map (g ∘ f) F = map g (map f F) := by rw [map_map]
@@ -196,7 +196,7 @@ example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X →
     _ ≤ H := hg
 
 
-example {X Y Z : Type _} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
+example {X Y Z : Type*} {F : Filter X} {G : Filter Y} {H : Filter Z} {f : X → Y} {g : Y → Z}
     (hf : Tendsto₁ f F G) (hg : Tendsto₁ g G H) : Tendsto₁ (g ∘ f) F H := by
   intro V hV
   rw [preimage_comp]
@@ -237,7 +237,7 @@ which is to say, it reverses the order of the arguments.
 EXAMPLES: -/
 -- QUOTE:
 section
-variable {α β γ : Type _} (F : Filter α) {m : γ → β} {n : β → α}
+variable {α β γ : Type*} (F : Filter α) {m : γ → β} {n : β → α}
 
 #check (comap_comap : comap m (comap n F) = comap (n ∘ m) F)
 

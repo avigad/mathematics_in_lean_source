@@ -268,7 +268,7 @@ it will apply in all these instances.
 TEXT. -/
 section
 -- QUOTE:
-variable {α : Type _} {R : Type _} [OrderedCancelAddCommMonoid R]
+variable {α : Type*} {R : Type*} [OrderedCancelAddCommMonoid R]
 
 #check add_le_add
 
@@ -494,7 +494,7 @@ TEXT. -/
 section
 
 -- QUOTE:
-variable {α : Type _} (r s t : Set α)
+variable {α : Type*} (r s t : Set α)
 
 -- EXAMPLES:
 example : s ⊆ s := by
@@ -533,7 +533,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α : Type _} [PartialOrder α]
+variable {α : Type*} [PartialOrder α]
 variable (s : Set α) (a b : α)
 
 def SetUb (s : Set α) (a : α) :=
@@ -595,7 +595,7 @@ example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
 Finally, show that the composition of two injective functions is injective:
 BOTH: -/
 -- QUOTE:
-variable {α : Type _} {β : Type _} {γ : Type _}
+variable {α : Type*} {β : Type*} {γ : Type*}
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:

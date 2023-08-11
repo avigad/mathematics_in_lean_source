@@ -291,7 +291,7 @@ TEXT. -/
 section
 
 -- QUOTE:
-variable {α : Type _} [CommRing α]
+variable {α : Type*} [CommRing α]
 
 def SumOfSquares (x : α) :=
   ∃ a b, x = a ^ 2 + b ^ 2
@@ -474,7 +474,7 @@ TEXT. -/
 section
 open Function
 -- QUOTE:
-variable {α : Type _} {β : Type _} {γ : Type _}
+variable {α : Type*} {β : Type*} {γ : Type*}
 variable {g : β → γ} {f : α → β}
 
 -- EXAMPLES:

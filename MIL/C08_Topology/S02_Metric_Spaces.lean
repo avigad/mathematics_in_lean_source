@@ -20,7 +20,7 @@ the function ``fun x y ↦ |x - y|`` from the case where ``X = ℝ``.
 Introducing such a space is easy and we will check all properties required from the distance function.
 BOTH: -/
 -- QUOTE:
-variable {X : Type _} [MetricSpace X] (a b c : X)
+variable {X : Type*} [MetricSpace X] (a b c : X)
 
 #check (dist a b : ℝ)
 #check (dist_nonneg : 0 ≤ dist a b)
@@ -55,7 +55,7 @@ example {u : ℕ → X} {a : X} :
     Tendsto u atTop (𝓝 a) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, dist (u n) a < ε :=
   Metric.tendsto_atTop
 
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} :
     Continuous f ↔
       ∀ x : X, ∀ ε > 0, ∃ δ > 0, ∀ x', dist x' x < δ → dist (f x') (f x) < ε :=
   Metric.continuous_iff
@@ -73,7 +73,7 @@ In particular the (uncurried version of the) distance function is such a functio
 
 BOTH: -/
 -- QUOTE:
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X ↦ dist (f p.1) (f p.2) := by continuity
 -- QUOTE.
 
@@ -91,7 +91,7 @@ those two continuities using ``Continuous.prod_mk`` to get
 and compose once more to get our full proof.
 BOTH: -/
 -- QUOTE:
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X ↦ dist (f p.1) (f p.2) :=
   continuous_dist.comp ((hf.comp continuous_fst).prod_mk (hf.comp continuous_snd))
 -- QUOTE.
@@ -113,13 +113,13 @@ which is nicer to Lean's elaborator and also provides a shorter proof when direc
 proof term, as can be seen from the following two new proofs of the above statement:
 BOTH: -/
 -- QUOTE:
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X ↦ dist (f p.1) (f p.2) := by
   apply Continuous.dist
   exact hf.comp continuous_fst
   exact hf.comp continuous_snd
 
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X ↦ dist (f p.1) (f p.2) :=
   (hf.comp continuous_fst).dist (hf.comp continuous_snd)
 -- QUOTE.
@@ -136,7 +136,7 @@ and get our final proof, now bordering obfuscation.
 
 BOTH: -/
 -- QUOTE:
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
     Continuous fun p : X × X ↦ dist (f p.1) (f p.2) :=
   hf.fst'.dist hf.snd'
 -- QUOTE.
@@ -159,7 +159,7 @@ example {f : ℝ → X} (hf : Continuous f) : Continuous fun x : ℝ ↦ f (x ^ 
 So far we saw continuity as a global notion, but one can also define continuity at a point.
 BOTH: -/
 -- QUOTE:
-example {X Y : Type _} [MetricSpace X] [MetricSpace Y] (f : X → Y) (a : X) :
+example {X Y : Type*} [MetricSpace X] [MetricSpace Y] (f : X → Y) (a : X) :
     ContinuousAt f a ↔ ∀ ε > 0, ∃ δ > 0, ∀ {x}, dist x a < δ → dist (f x) (f a) < ε :=
   Metric.continuousAt_iff
 -- QUOTE.
@@ -302,7 +302,7 @@ We can also specify that a metric spaces is globally compact, using an extra ``P
 
 BOTH: -/
 -- QUOTE:
-example {X : Type _} [MetricSpace X] [CompactSpace X] : IsCompact (univ : Set X) :=
+example {X : Type*} [MetricSpace X] [CompactSpace X] : IsCompact (univ : Set X) :=
   isCompact_univ
 -- QUOTE.
 
@@ -323,7 +323,7 @@ We start with uniform continuity.
 
 BOTH: -/
 -- QUOTE:
-example {X : Type _} [MetricSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y} :
+example {X : Type*} [MetricSpace X] {Y : Type*} [MetricSpace Y] {f : X → Y} :
     UniformContinuous f ↔
       ∀ ε > 0, ∃ δ > 0, ∀ {a b : X}, dist a b < δ → dist (f a) (f b) < ε :=
   Metric.uniformContinuous_iff
@@ -349,14 +349,14 @@ of the distance function on ``K``. We can then set ``δ = dist x₀ x₁`` and c
 
 BOTH: -/
 -- QUOTE:
-example {X : Type _} [MetricSpace X] [CompactSpace X]
-      {Y : Type _} [MetricSpace Y] {f : X → Y}
+example {X : Type*} [MetricSpace X] [CompactSpace X]
+      {Y : Type*} [MetricSpace Y] {f : X → Y}
     (hf : Continuous f) : UniformContinuous f :=
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
-example {X : Type _} [MetricSpace X] [CompactSpace X] {Y : Type _} [MetricSpace Y] {f : X → Y}
+example {X : Type*} [MetricSpace X] [CompactSpace X] {Y : Type*} [MetricSpace Y] {f : X → Y}
     (hf : Continuous f) : UniformContinuous f := by
   rw [Metric.uniformContinuous_iff]
   intro ε ε_pos

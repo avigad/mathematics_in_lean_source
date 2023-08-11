@@ -25,7 +25,7 @@ The ring axioms are as follows:
 TEXT. -/
 section
 -- QUOTE:
-variable (R : Type _) [Ring R]
+variable (R : Type*) [Ring R]
 
 #check (add_assoc : ∀ a b c : R, a + b + c = a + (b + c))
 #check (add_comm : ∀ a b : R, a + b = b + a)
@@ -82,7 +82,7 @@ in the last section continue to hold when we replace
 TEXT. -/
 section
 -- QUOTE:
-variable (R : Type _) [CommRing R]
+variable (R : Type*) [CommRing R]
 variable (a b c d : R)
 
 example : c * b * a = b * (a * c) := by ring
@@ -133,7 +133,7 @@ as ring axioms, because they follow from the other axioms.
 TEXT. -/
 -- QUOTE:
 namespace MyRing
-variable {R : Type _} [Ring R]
+variable {R : Type*} [Ring R]
 
 theorem add_zero (a : R) : a + 0 = a := by rw [add_comm, zero_add]
 
@@ -153,8 +153,8 @@ In the exercises that follow, take care to use only the
 general facts about rings that we have proved earlier in this section.
 
 (If you are paying careful attention, you may have noticed that we
-changed the round brackets in ``(R : Type _)`` for
-curly brackets in ``{R : Type _}``.
+changed the round brackets in ``(R : Type*)`` for
+curly brackets in ``{R : Type*}``.
 This declares ``R`` to be an *implicit argument*.
 We will explain what this means in a moment,
 but don't worry about it in the meanwhile.)
@@ -163,7 +163,7 @@ Here is a useful theorem:
 TEXT. -/
 -- BOTH:
 namespace MyRing
-variable {R : Type _} [Ring R]
+variable {R : Type*} [Ring R]
 
 -- EXAMPLES:
 -- QUOTE:
@@ -337,7 +337,7 @@ addition of the additive inverse.
 TEXT. -/
 -- Examples.
 section
-variable {R : Type _} [Ring R]
+variable {R : Type*} [Ring R]
 
 -- QUOTE:
 example (a b : R) : a - b = a + -b :=
@@ -375,7 +375,7 @@ For example, you now have enough information to prove the theorem
 TEXT. -/
 -- BOTH:
 namespace MyRing
-variable {R : Type _} [Ring R]
+variable {R : Type*} [Ring R]
 
 -- EXAMPLES:
 -- QUOTE:
@@ -426,7 +426,7 @@ can be axiomatized as follows:
 TEXT. -/
 section
 -- QUOTE:
-variable (A : Type _) [AddGroup A]
+variable (A : Type*) [AddGroup A]
 
 #check (add_assoc : ∀ a b c : A, a + b + c = a + (b + c))
 #check (zero_add : ∀ a : A, 0 + a = a)
@@ -446,7 +446,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {G : Type _} [Group G]
+variable {G : Type*} [Group G]
 
 -- EXAMPLES:
 #check (mul_assoc : ∀ a b c : G, a * b * c = a * (b * c))

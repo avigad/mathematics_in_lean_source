@@ -111,7 +111,7 @@ BOTH: -/
 -- QUOTE:
 noncomputable section
 open Classical
-variable {α β : Type _} [Nonempty β]
+variable {α β : Type*} [Nonempty β]
 -- QUOTE.
 
 /- TEXT:

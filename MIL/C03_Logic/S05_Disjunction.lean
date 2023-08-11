@@ -345,7 +345,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {R : Type _} [CommRing R] [IsDomain R]
+variable {R : Type*} [CommRing R] [IsDomain R]
 variable (x y : R)
 
 -- EXAMPLES:

@@ -21,7 +21,7 @@ TEXT. -/
 section
 
 -- QUOTE:
-variable {α β : Type _}
+variable {α β : Type*}
 variable (f : α → β)
 variable (s t : Set α)
 variable (u v : Set β)
@@ -251,7 +251,7 @@ to unfold the meaning of an equation or inclusion between sets,
 and then calling ``simp`` to unpack the conditions for membership.
 BOTH: -/
 -- QUOTE:
-variable {I : Type _} (A : I → Set α) (B : I → Set β)
+variable {I : Type*} (A : I → Set α) (B : I → Set β)
 
 -- EXAMPLES:
 example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
@@ -535,7 +535,7 @@ TEXT. -/
 -- BOTH:
 section
 -- QUOTE:
-variable {α β : Type _} [Inhabited α]
+variable {α β : Type*} [Inhabited α]
 
 -- EXAMPLES:
 #check (default : α)
@@ -680,7 +680,7 @@ and then fill in the two lines that are missing.
 TEXT. -/
 -- BOTH:
 section
-variable {α : Type _}
+variable {α : Type*}
 open Function
 
 -- EXAMPLES:

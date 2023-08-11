@@ -137,7 +137,7 @@ Given a data type ``α``, we can define the group structure on ``α``
 as follows.
 EXAMPLES: -/
 -- QUOTE:
-structure Group₁ (α : Type _) where
+structure Group₁ (α : Type*) where
   mul : α → α → α
   one : α
   inv : α → α
@@ -180,7 +180,7 @@ the following:
 EXAMPLES: -/
 -- QUOTE:
 structure Group₁Cat where
-  α : Type _
+  α : Type*
   str : Group₁ α
 -- QUOTE.
 
@@ -210,7 +210,7 @@ to one another.
 EXAMPLES: -/
 section
 -- QUOTE:
-variable (α β γ : Type _)
+variable (α β γ : Type*)
 variable (f : α ≃ β) (g : β ≃ γ)
 
 #check Equiv α β
@@ -252,7 +252,7 @@ Mathlib also defines the type ``perm α`` of equivalences between
 ``α`` and itself.
 EXAMPLES: -/
 -- QUOTE:
-example (α : Type _) : Equiv.Perm α = (α ≃ α) :=
+example (α : Type*) : Equiv.Perm α = (α ≃ α) :=
   rfl
 -- QUOTE.
 
@@ -264,7 +264,7 @@ In other words, multiplication is what we ordinarily think of as
 composition of the bijections. Here we define this group:
 EXAMPLES: -/
 -- QUOTE:
-def permGroup {α : Type _} : Group₁ (Equiv.Perm α)
+def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
     where
   mul f g := Equiv.trans g f
   one := Equiv.refl α
@@ -311,7 +311,7 @@ Define negation and a zero on the ``Point`` data type,
 and define the ``AddGroup₁`` structure on ``Point``.
 BOTH: -/
 -- QUOTE:
-structure AddGroup₁ (α : Type _) where
+structure AddGroup₁ (α : Type*) where
 /- EXAMPLES:
   (add : α → α → α)
   -- fill in the rest
@@ -379,7 +379,7 @@ definitions, and theorems for ``Equiv.Perm α``.
 EXAMPLES: -/
 section
 -- QUOTE:
-variable {α : Type _} (f g : Equiv.Perm α) (n : ℕ)
+variable {α : Type*} (f g : Equiv.Perm α) (n : ℕ)
 
 #check f * g
 #check mul_assoc f g g⁻¹
@@ -392,7 +392,7 @@ example : f * g * g⁻¹ = f := by rw [mul_assoc, mul_right_inv, mul_one]
 example : f * g * g⁻¹ = f :=
   mul_inv_cancel_right f g
 
-example {α : Type _} (f g : Equiv.Perm α) : g.symm.trans (g.trans f) = f :=
+example {α : Type*} (f g : Equiv.Perm α) : g.symm.trans (g.trans f) = f :=
   mul_inv_cancel_right f g
 -- QUOTE.
 
@@ -467,7 +467,7 @@ since in general we intend Lean to find it and put it to use
 without troubling us with the details.
 EXAMPLES: -/
 -- QUOTE:
-class Group₂ (α : Type _) where
+class Group₂ (α : Type*) where
   mul : α → α → α
   one : α
   inv : α → α
@@ -476,7 +476,7 @@ class Group₂ (α : Type _) where
   one_mul : ∀ x : α, mul one x = x
   mul_left_inv : ∀ x : α, mul (inv x) x = one
 
-instance {α : Type _} : Group₂ (Equiv.Perm α) where
+instance {α : Type*} : Group₂ (Equiv.Perm α) where
   mul f g := Equiv.trans g f
   one := Equiv.refl α
   inv := Equiv.symm
@@ -492,13 +492,13 @@ EXAMPLES: -/
 -- QUOTE:
 #check Group₂.mul
 
-def mySquare {α : Type _} [Group₂ α] (x : α) :=
+def mySquare {α : Type*} [Group₂ α] (x : α) :=
   Group₂.mul x x
 
 #check mySquare
 
 section
-variable {β : Type _} (f g : Equiv.Perm β)
+variable {β : Type*} (f g : Equiv.Perm β)
 
 example : Group₂.mul f g = g.trans f :=
   rfl
@@ -586,17 +586,17 @@ because Lean knows that these are defined for every ring.
 We can use this method to specify notation for our ``Group₂`` class:
 EXAMPLES: -/
 -- QUOTE:
-instance hasMulGroup₂ {α : Type _} [Group₂ α] : Mul α :=
+instance hasMulGroup₂ {α : Type*} [Group₂ α] : Mul α :=
   ⟨Group₂.mul⟩
 
-instance hasOneGroup₂ {α : Type _} [Group₂ α] : One α :=
+instance hasOneGroup₂ {α : Type*} [Group₂ α] : One α :=
   ⟨Group₂.one⟩
 
-instance hasInvGroup₂ {α : Type _} [Group₂ α] : Inv α :=
+instance hasInvGroup₂ {α : Type*} [Group₂ α] : Inv α :=
   ⟨Group₂.inv⟩
 
 section
-variable {α : Type _} (f g : Equiv.Perm α)
+variable {α : Type*} (f g : Equiv.Perm α)
 
 #check f * 1 * g⁻¹
 
@@ -646,7 +646,7 @@ Try it out and make sure that the additive group notation works for
 elements of ``Point``.
 BOTH: -/
 -- QUOTE:
-class AddGroup₂ (α : Type _) where
+class AddGroup₂ (α : Type*) where
 /- EXAMPLES:
   add : α → α → α
   -- fill in the rest
@@ -660,13 +660,13 @@ SOLUTIONS: -/
   zero_add : ∀ x : α, add x zero = x
   add_left_neg : ∀ x : α, add (neg x) x = zero
 
-instance hasAddAddGroup₂ {α : Type _} [AddGroup₂ α] : Add α :=
+instance hasAddAddGroup₂ {α : Type*} [AddGroup₂ α] : Add α :=
   ⟨AddGroup₂.add⟩
 
-instance hasZeroAddGroup₂ {α : Type _} [AddGroup₂ α] : Zero α :=
+instance hasZeroAddGroup₂ {α : Type*} [AddGroup₂ α] : Zero α :=
   ⟨AddGroup₂.zero⟩
 
-instance hasNegAddGroup₂ {α : Type _} [AddGroup₂ α] : Neg α :=
+instance hasNegAddGroup₂ {α : Type*} [AddGroup₂ α] : Neg α :=
   ⟨AddGroup₂.neg⟩
 
 instance : AddGroup₂ Point where

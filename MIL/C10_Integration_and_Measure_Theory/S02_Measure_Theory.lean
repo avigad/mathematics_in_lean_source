@@ -35,7 +35,7 @@ As the examples below show, countability assumptions can be expressed using the
 ``Encodable`` type class.
 BOTH: -/
 -- QUOTE:
-variable {α : Type _} [MeasurableSpace α]
+variable {α : Type*} [MeasurableSpace α]
 
 -- EXAMPLES:
 example : MeasurableSet (∅ : Set α) :=
@@ -52,7 +52,7 @@ example : Encodable ℕ := by infer_instance
 example (n : ℕ) : Encodable (Fin n) := by infer_instance
 
 -- BOTH:
-variable {ι : Type _} [Encodable ι]
+variable {ι : Type*} [Encodable ι]
 
 -- EXAMPLES:
 example {f : ι → Set α} (h : ∀ b, MeasurableSet (f b)) : MeasurableSet (⋃ b, f b) :=
