@@ -183,7 +183,6 @@ example (h : Surjective f) : u ⊆ f '' (f ⁻¹' u) := by
 example (h : s ⊆ t) : f '' s ⊆ f '' t := by
   rintro y ⟨x, xs, fxeq⟩
   use x, h xs
-  exact fxeq
 
 example (h : u ⊆ v) : f ⁻¹' u ⊆ f ⁻¹' v := by
   intro x; apply h
@@ -260,7 +259,6 @@ example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
   constructor
   · rintro ⟨x, ⟨i, xAi⟩, fxeq⟩
     use i, x
-    exact ⟨xAi, fxeq⟩
   rintro ⟨i, x, xAi, fxeq⟩
   exact ⟨x, ⟨i, xAi⟩, fxeq⟩
 
@@ -298,7 +296,6 @@ example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
   constructor
   · rintro ⟨x, ⟨i, xAi⟩, fxeq⟩
     use i, x
-    exact ⟨xAi, fxeq⟩
   rintro ⟨i, x, xAi, fxeq⟩
   exact ⟨x, ⟨i, xAi⟩, fxeq⟩
 
