@@ -370,13 +370,12 @@ end
 /- TEXT:
 .. index:: simp, tactics ; simp
 
-Beyond logical operations, you should not need
-anything more than ``le_refl`` and ``le_antisymm``.
-Then show that even in the case where ``≤``
+Beyond logical operations, you do not need
+anything more than ``le_refl`` and ``le_trans``.
+Show that even in the case where ``≤``
 is only assumed to be a preorder,
 we can prove that the strict order is irreflexive
 and transitive.
-You do not need anything more than ``le_refl`` and ``le_trans``.
 In the second example,
 for convenience, we use the simplifier rather than ``rw``
 to express ``<`` in terms of ``≤`` and ``¬``.
