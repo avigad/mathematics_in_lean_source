@@ -27,9 +27,6 @@ RUN . ~/.profile && elan toolchain install $(curl https://raw.githubusercontent.
 
 ENV PATH="/home/gitpod/.local/bin:/home/gitpod/.elan/bin:${PATH}"
 
-# install scripts
-RUN pip3 install -r scripts/requirements.txt
-
 # fix the infoview when the container is used on gitpod:
 ENV VSCODE_API_VERSION="1.50.0"
 
