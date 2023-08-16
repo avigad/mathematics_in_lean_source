@@ -6,4 +6,5 @@ vscode:
     - leanprover.lean4
 
 tasks:
+  - init: pip3 install -r scripts/requirements.txt
   - init: lake exe cache get
