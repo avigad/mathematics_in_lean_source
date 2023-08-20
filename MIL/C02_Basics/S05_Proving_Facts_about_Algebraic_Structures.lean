@@ -334,10 +334,10 @@ using only properties of rings, partial orders, and the facts
 enumerated in the last two examples:
 TEXT. -/
 -- QUOTE:
-example : a ≤ b → 0 ≤ b - a := by
+example (h : a ≤ b) : 0 ≤ b - a := by
   sorry
 
-example : 0 ≤ b - a → a ≤ b := by
+example (h: 0 ≤ b - a) : a ≤ b := by
   sorry
 
 example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
@@ -345,13 +345,11 @@ example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem aux1 : a ≤ b → 0 ≤ b - a := by
-  intro h
+theorem aux1 (h : a ≤ b) : 0 ≤ b - a := by
   rw [← sub_self a, sub_eq_add_neg, sub_eq_add_neg, add_comm, add_comm b]
   apply add_le_add_left h
 
-theorem aux2 : 0 ≤ b - a → a ≤ b := by
-  intro h
+theorem aux2 (h : 0 ≤ b - a) : a ≤ b := by
   rw [← add_zero a, ← sub_add_cancel b a, add_comm (b - a)]
   apply add_le_add_left h
 
