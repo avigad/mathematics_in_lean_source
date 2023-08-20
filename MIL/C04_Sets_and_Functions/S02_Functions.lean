@@ -150,7 +150,7 @@ example : f ⁻¹' u \ f ⁻¹' v ⊆ f ⁻¹' (u \ v) := by
 example : f '' s ∩ v = f '' (s ∩ f ⁻¹' v) := by
   sorry
 
-example : f '' (s ∩ f ⁻¹' u) ⊆ f '' s ∪ u := by
+example : f '' (s ∩ f ⁻¹' u) ⊆ f '' s ∩ u := by
   sorry
 
 example : s ∩ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∩ u) := by
