@@ -2,7 +2,7 @@
 import Mathlib.Data.Set.Lattice
 import Mathlib.Data.Nat.Prime
 import Mathlib.Data.Nat.Parity
-import Mathlib.Tactic
+import MIL.Common
 
 /- TEXT:
 .. _sets:

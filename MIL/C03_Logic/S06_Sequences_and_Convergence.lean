@@ -1,5 +1,5 @@
 -- BOTH:
-import Mathlib.Tactic
+import MIL.Common
 import Mathlib.Data.Real.Basic
 
 namespace C03S06

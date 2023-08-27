@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import MIL.Common
 import Mathlib.Data.Real.Basic
 /- TEXT:
 Calculating
@@ -414,7 +414,7 @@ import ``Mathlib.Data.Real.Basic``,
 but we will see in the next section that it can be used
 for calculations on structures other than the real numbers.
 It can be imported explicitly with the command
-``import Mathlib.Tactic``.
+``import MIL.Tactic``.
 We will see there are similar tactics for other common kind of algebraic
 structures.
 

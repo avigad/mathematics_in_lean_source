@@ -1,6 +1,6 @@
 import Mathlib.Data.Nat.GCD.Basic
 import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Tactic
+import MIL.Common
 
 /- TEXT:
 .. _section_induction_and_recursion:

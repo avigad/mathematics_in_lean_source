@@ -1,5 +1,5 @@
 -- BOTH:
-import Mathlib.Tactic
+import MIL.Common
 import Mathlib.Topology.MetricSpace.Basic
 
 /- TEXT:
