@@ -22,6 +22,9 @@ jobs:
         run: |
           find MIL -name "*.lean" | LC_ALL=C sort | sed 's/\.lean//;s,/,.,g;s/^/import /' > Std.lean
 
+      - name: get cache
+        run: lake exe cache get
+
       - name: build MIL
         run: lake build
 
