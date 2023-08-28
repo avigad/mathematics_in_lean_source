@@ -264,6 +264,7 @@ def make_everything():
     shutil.copy2(repository_root/'lake-manifest.json', user_repo_dir)
     shutil.copy2(repository_root/'lakefile.lean', user_repo_dir)
     shutil.copy2(repository_root/'lean-toolchain', user_repo_dir)
+    shutil.copy2(repository_root/'MIL'/'Common.lean', user_repo_dir/'MIL')
 
     # make the main import file in the user repo
     make_lean_user_main_import_file()
