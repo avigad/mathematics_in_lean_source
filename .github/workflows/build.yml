@@ -1,0 +1,32 @@
+on:
+  push:
+  pull_request:
+
+name: ci
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: install elan
+        run: |
+          set -o pipefail
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v2.0.1/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - uses: actions/checkout@v3
+
+      - name: update MIL.lean
+        run: |
+          find MIL -name "*.lean" | LC_ALL=C sort | sed 's/\.lean//;s,/,.,g;s/^/import /' > Std.lean
+
+      - name: get cache
+        run: lake exe cache get
+
+      - name: build MIL
+        run: lake build
+
+      - name: check that all files are imported
+        run: git diff --exit-code
