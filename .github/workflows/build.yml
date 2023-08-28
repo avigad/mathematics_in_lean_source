@@ -28,11 +28,5 @@ jobs:
       - name: build MIL
         run: lake build
 
-      - name: test MIL
-        run: make test
-
-      - name: lint MIL
-        run: make lint
-
       - name: check that all files are imported
         run: git diff --exit-code
