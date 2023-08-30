@@ -2,6 +2,8 @@
 import MIL.Common
 import Mathlib.Data.Real.Basic
 
+set_option autoImplicit true
+
 namespace C03S02
 
 /- TEXT:

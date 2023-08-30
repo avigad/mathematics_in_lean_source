@@ -2,6 +2,8 @@ import MIL.Common
 import Mathlib.Algebra.BigOperators.Ring
 import Mathlib.Data.Real.Basic
 
+set_option autoImplicit true
+
 /- TEXT:
 .. _section_hierarchies_basics:
 
