@@ -159,11 +159,9 @@ in a manner similar to the way we defined recursive functions in
 The definitions ``addAlt`` and ``addAlt'`` below are essentially the
 same; the only difference is that we use anonymous constructor notation
 in the second.
-Although it is sometimes convenient to define functions this way,
-the definitional properties are not as convenient.
-For example, the expressions ``addAlt a b`` and ``addAlt' a b``
-cannot be simplified until we decompose ``a`` and ``b`` into
-components, which we can do with ``cases``, ``rcases``, etc.
+Although it is sometimes convenient to define functions this way, and structural eta-reduction makes
+this alternative definitionally equivalent, it can make things less convenient in later proofs.
+In particular, `rw [addAlt]` leaves us with a messier goal view containing a `match` statement.
 EXAMPLES: -/
 -- QUOTE:
 def addAlt : Point → Point → Point
@@ -173,29 +171,13 @@ def addAlt' : Point → Point → Point
   | ⟨x₁, y₁, z₁⟩, ⟨x₂, y₂, z₂⟩ => ⟨x₁ + x₂, y₁ + y₂, z₁ + z₂⟩
 
 theorem addAlt_x (a b : Point) : (a.addAlt b).x = a.x + b.x := by
-  cases a
-  cases b
   rfl
 
 theorem addAlt_comm (a b : Point) : addAlt a b = addAlt b a := by
-  rcases a with ⟨xa, ya, za⟩
-  rcases b with ⟨xb, yb, zb⟩
   rw [addAlt, addAlt]
+  -- the same proof still works, but the goal view here is harder to read
   ext <;> dsimp
-  apply add_comm
   repeat' apply add_comm
-
-example (a b : Point) : addAlt a b = addAlt b a := by
-  rcases a with ⟨xa, ya, za⟩
-  rcases b with ⟨xb, yb, zb⟩
-  simp [addAlt, add_comm]
-
-example : ∀ a b : Point, addAlt a b = addAlt b a := by
-  rintro ⟨xa, ya, za⟩ ⟨xb, yb, zb⟩
-  simp [addAlt, add_comm]
-
-example : ∀ a b : Point, add a b = add b a := fun ⟨xa, ya, za⟩ ⟨xb, yb, zb⟩ ↦ by
-  simp [add, add_comm]
 -- QUOTE.
 
 /- TEXT:
