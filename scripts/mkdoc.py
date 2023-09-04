@@ -52,6 +52,7 @@ def make_lean_main_import_file():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
+        import_file.write(f"import MIL.Common\n")
 
 def make_lean_user_main_import_file():
     """
@@ -68,6 +69,7 @@ def make_lean_user_main_import_file():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
+        import_file.write(f"import MIL.Common\n")
 
 index_file_start = """
 Mathematics in Lean
@@ -279,6 +281,9 @@ def make_everything():
     # generate the examples files, solutions files, and Sphinx files for each section
     process_sections()
 
+    # copy Common.lean
+    shutil.copy2(repository_root/'MIL'/'Common.lean', user_repo_dir/'MIL')
+
 def make_examples_test():
     """
     Assuming the `user_repo` has been built, this copies the examples files and solutions files into
@@ -300,6 +305,7 @@ def make_examples_test():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.Test.{chapter_dir.name}.{section_name}\n")
+        import_file.write(f"import MIL.Common\n")
 
 def make_solutions_test():
     """
@@ -322,6 +328,7 @@ def make_solutions_test():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.Test.{chapter_dir.name}.solutions.Solutions_{section_name}\n")
+        import_file.write(f"import MIL.Common\n")
 
 def clean_test():
     """
