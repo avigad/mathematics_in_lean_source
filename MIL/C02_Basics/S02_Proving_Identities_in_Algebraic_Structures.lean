@@ -379,7 +379,7 @@ variable {R : Type*} [Ring R]
 
 -- EXAMPLES:
 -- QUOTE:
-theorem self_sub (a : R) : a - a = 0 :=
+theorem self_sub (a : R) : a - a = 0 := by
   sorry
 -- QUOTE.
 
