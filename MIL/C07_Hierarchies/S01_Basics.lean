@@ -386,7 +386,7 @@ class Group₃ (G : Type) extends Monoid₃ G, Inv G where
 -- QUOTE.
 
 /- TEXT:
-We should remember to tagged lemmas with ``simp`` when appropriate.
+We should remember to tag lemmas with ``simp`` when appropriate.
 BOTH: -/
 
 -- QUOTE:
