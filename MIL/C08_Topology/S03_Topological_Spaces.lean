@@ -295,10 +295,10 @@ Separation and countability
 We saw that the category of topological spaces have very nice properties. The price to pay for
 this is existence of rather pathological topological spaces.
 There are a number of assumptions you can make on a topological space to ensure its behavior
-is closer to what metric spaces do. The most important is ``t2_space``, also called "Hausdorff",
+is closer to what metric spaces do. The most important is ``T2Space``, also called "Hausdorff",
 that will ensure that limits are unique.
-A stronger separation property is regularity that ensure that each point has a basis of closed
-neighborhood.
+A stronger separation property is ``T3Space`` that ensures in addition the `RegularSpace` property:
+each point has a basis of closed neighborhoods.
 
 BOTH: -/
 -- QUOTE:
@@ -326,8 +326,8 @@ Our main goal is now to prove the basic theorem which allows extension by contin
 From Bourbaki's general topology book, I.8.5, Theorem 1 (taking only the non-trivial implication):
 
 Let :math:`X` be a topological space, :math:`A` a dense subset of :math:`X`, :math:`f : A → Y`
-a continuous mapping of :math:`A` into a regular space :math:`Y`. If, for each :math:`x` in :math:`X`,
-:math:`f(y)` tends to a limit in :math:`Y` when :math:`y` tends to :math:`x`
+a continuous mapping of :math:`A` into a :math:`T_3` space :math:`Y`. If, for each :math:`x` in
+:math:`X`, :math:`f(y)` tends to a limit in :math:`Y` when :math:`y` tends to :math:`x`
 while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to
 :math:`X`.
 
@@ -347,16 +347,13 @@ BOTH: -/
 theorem aux {X Y A : Type*} [TopologicalSpace X] {c : A → X}
       {f : A → Y} {x : X} {F : Filter Y}
       (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
-    ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' :=
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {X Y A : Type*} [TopologicalSpace X] {c : A → X}
-      {f : A → Y} {x : X} {F : Filter Y}
-      (h : Tendsto f (comap c (𝓝 x)) F) {V' : Set Y} (V'_in : V' ∈ F) :
     ∃ V ∈ 𝓝 x, IsOpen V ∧ c ⁻¹' V ⊆ f ⁻¹' V' := by
+/- EXAMPLES:
+  sorry
+
+SOLUTIONS: -/
   simpa [and_assoc] using ((nhds_basis_opens' x).comap c).tendsto_left_iff.mp h V' V'_in
+-- QUOTE.
 
 /- TEXT:
 Let's now turn to the main proof of the extension by continuity theorem.
@@ -389,21 +386,16 @@ It remains to prove that ``φ`` extends ``f``. This is were continuity of ``f`` 
 together with the fact that ``Y`` is Hausdorff.
 BOTH: -/
 -- QUOTE:
-example [TopologicalSpace X] [TopologicalSpace Y] [RegularSpace Y] {A : Set X}
+example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X}
     (hA : ∀ x, x ∈ closure A) {f : A → Y} (f_cont : Continuous f)
     (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) (𝓝 x)) (𝓝 c)) :
-    ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a :=
+    ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a := by
+/- EXAMPLES:
   sorry
 
 #check HasBasis.tendsto_right_iff
--- QUOTE.
 
--- OMIT: TODO: Fix this.
--- SOLUTIONS:
-example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : ∀ x, x ∈ closure A)
-    {f : A → Y} (f_cont : Continuous f)
-    (hf : ∀ x : X, ∃ c : Y, Tendsto f (comap (↑) (𝓝 x)) (𝓝 c)) :
-    ∃ φ : X → Y, Continuous φ ∧ ∀ a : A, φ a = f a := by
+SOLUTIONS: -/
   choose φ hφ using hf
   use φ
   constructor
@@ -423,6 +415,7 @@ example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X} (hA : 
   · intro a
     have lim : Tendsto f (𝓝 a) (𝓝 (φ a)) := by simpa [nhds_induced] using hφ a
     exact tendsto_nhds_unique lim f_cont.continuousAt
+-- QUOTE.
 
 /- TEXT:
 In addition to separation property, the main kind of assumption you can make on a topological
@@ -496,6 +489,7 @@ compact. In addition to what we saw already, you should use ``Filter.push_pull``
 ``NeBot.of_map``.
 BOTH: -/
 -- QUOTE:
+-- EXAMPLES:
 example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
     IsCompact (f '' s) := by
   intro F F_ne F_le
