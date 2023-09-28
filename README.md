@@ -1,286 +1,121 @@
+# Mathematics in Leanの日本語訳
+* [原文](https://leanprover-community.github.io/mathematics_in_lean/index.html)
+  * [原文の学習用リポジトリ](https://github.com/leanprover-community/mathematics_in_lean)
+* [原文のソースコード](https://github.com/avigad/mathematics_in_lean_source)
+* [対訳表]()
 
-Mathematics in Lean Source
-==========================
+## 翻訳する際のルール
 
-This repository is used to generate the textbook and user repository for
-[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/).
+* 文体は常に敬体（です・ます調）とする.
+* 英文をコメントアウトして，その直下に和訳を書く．
+  * 英文は`OMIT`でくくること．（README.origin.md参照）
+* 和訳文を改行すると，その位置に空白が入ってしまうので段落内で改行しない.
+* 句読点には `,` `.` を用いる.
+* 3音以上のカタカナ語の末尾の長音記号「ー」は省く．
+* カタカナ語のままで違和感のない用語はカタカナ語のまま使う．
 
-Our build process applies rudimentary scripts to marked up Lean files to generate
-- source files for the textbook,
-- Lean exercise files, and
-- Lean solution files,
+## 輪読方針
 
-and put them all in the right places.
+* masterブランチで和訳したい章に対応する下記の表に自分の名前を入れてpush．
+* 対象の章名でブランチを切り翻訳を行う．
+* 翻訳が終わったらブランチをpushしてプルリクエストを出す．
+* 輪読に参加しているメンバーでレビューを行い、全て解決したらマージする．
 
-We use [Sphinx](https://www.sphinx-doc.org/en/master/)
- and the [Read the Docs theme](https://sphinx-rtd-theme.readthedocs.io/en/stable/) to generate
- the HTML and PDF versions of the textbook.
+### 参加者
 
-Finally, we use another script to deploy the contents to the
-[user repository](https://github.com/leanprover-community/mathematics_in_lean).
+* [s-taiga](https://github.com/s-taiga)
 
+### 翻訳担当
 
-Setup
------
+* C01_Introduction
 
-To edit the Lean files, you need to have Lean, github, and friends installed.
-See the instructions on the [Lean community web pages](https://leanprover-community.github.io/) .
-In particular, don't forget to use
-```
-lake exe cache get
-```
-after fetching this repository to get the compiled version of Mathlib.
+| 章名 | 担当 |
+| --- | --- |
+| C01_Introduction.rst | |
+| S01_Getting_Started.lean | |
+| S02_Overview.lean | |
 
-To build the textbook, you need to have
-[Sphinx and ReadTheDocs](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/install.html)
-installed, as well as the Python `regex` package.
-Ideally, `pip install -r scripts/requirements.txt` should suffice.
+* C02_Basics
 
+| 章名 | 担当 |
+| --- | --- |
+| C02_Basics.rst | |
+| S01_Calculating.lean | |
+| S02_Proving_Identities_in_Algebraic_Structures.lean | |
+| S03_Using_Theorems_and_Lemmas.lean | |
+| S04_More_on_Order_and_Divisibility.lean | |
+| S05_Proving_Facts_about_Algebraic_Structures.lean | |
 
-Overview
---------
+* C03_Logic
 
-The Lean source files are in the `MIL` directory. There is a folder for each chapter, the
-name of which begins with the letter `C` and the chapter number.
-The scripts sort the chapters and ignore folders that do not begin with `C`.
+| 章名 | 担当 |
+| --- | --- |
+| C03_Logic.rst ||
+| S01_Implication_and_the_Universal_Quantifier.lean ||
+| S02_The_Existential_Quantifier.lean ||
+| S03_Negation.lean ||
+| S04_Conjunction_and_Iff.lean ||
+| S05_Disjunction.lean ||
+| S06_Sequences_and_Convergence.lean ||
 
-Each folder should contain an `.rst` file with the same name, which has the chapter header
-for Sphinx. Each folder also has a Lean source file for each section,
-the name of which begins with `S` and the section number.
-The scripts ignore Lean files that do not begin with `S`.
-The markup that is used to generate the content is described below.
+* C04_Sets_and_Functions
 
-The folder `sphinx_source` contains files that are automatically added to a generated folder
-called `source`, which is used by Sphinx.
-It includes, in particular, a folder for any figures you want to use in the textbook.
+| 章名 | 担当 |
+| --- | --- |
+| C04_Sets_and_Functions.rst ||
+| S01_Sets.lean ||
+| S02_Functions.lean ||
+| S03_The_Schroeder_Bernstein_Theorem.lean ||
 
-The folder `user_repo_source` contains files that are automatically added to a generated
-folder called `user_repo`, which is used to build the user repository.
-It includes, in particular, the `README` file for that repository.
+* C05_Elementary_Number_Theory
 
+| 章名 | 担当 |
+| --- | --- |
+| C05_Elementary_Number_Theory.rst ||
+| S01_Irrational_Roots.lean ||
+| S02_Induction_and_Recursion.lean ||
+| S03_Infinitely_Many_Primes.lean ||
 
-Build
------
+* C06_Structures
 
-Running `scripts/mkall.py` does the following:
-- It creates and initializes a `source` directory, for use by Sphinx.
-- It creates and initializes a `user_repo` directory with files that will be
-  deployed to the user repository.
-- It updates the file `MIL.lean` to match the contents of the `MIL` folder.
+| 章名 | 担当 |
+| --- | --- |
+| C06_Structures.rst ||
+| S01_Structures.lean ||
+| S02_Algebraic_Structures.lean ||
+| S03_Building_the_Gaussian_Integers.lean ||
 
-With the `source` directory in place, you can use `make html` and `make latexpdf` to
-call Sphinx to build the HTML and PDF versions of the book, respectively.
-Sphinx puts these in a generated `build` directory.
+* C07_Hierarchies
 
-Running `scripts/deploy.sh leanprover-community mathematics_in_lean` calls all three of the
-previous scripts, copies the HTML and PDF versions of the book to `user_repo`,
-and deploys the user repository to the github repository `leanprover-community/mathematics_in_lean`.
-You can deploy to another destination for testing.
+| 章名 | 担当 |
+| --- | --- |
+| C07_Hierarchies.rst ||
+| S01_Basics.lean ||
+| S02_Morphisms.lean ||
+| S03_Subobjects.lean ||
 
-Running `scripts/clean.py` deletes the `source`, `user_repo`, and `build` directories.
+* C08_Topology
 
+| 章名 | 担当 |
+| --- | --- |
+| C08_Topology.rst ||
+| S01_Filters.lean ||
+| S02_Metric_Spaces.lean ||
+| S03_Topological_Spaces.lean ||
 
-Markup
-------
+* C09_Differential_Calculus
 
-The Lean files in the `MIL` folder generate three types of files:
-- Source files for the Sphinx textbook.
-- Files with examples (and exercises) for the user repository.
-- Files with solutions for the user repository.
-A line of text from the Lean file may go to any combination of these destinations simultaneously,
-or nowhere at all, as determined by simple markup directives in the file.
+| 章名 | 担当 |
+| --- | --- |
+| C09_Differential_Calculus.rst ||
+| S01_Elementary_Differential_Calculus.lean ||
+| S02_Differential_Calculus_in_Normed_Spaces.lean ||
 
-When `scripts/mkall.py` starts processing a file,
-it sends output to both the associated examples file and the associated solutions file by default.
-This makes sense, for example, for the import lines.
+* C10_Integration_and_Measure_Theory
 
-The following markup specifies material for the textbook:
-```
-/- TEXT:
-Stuff for the textbook goes here.
-TEXT. -/
-```
-The lines between the comments are sent only to the associated Sphinx source file.
-
-After the line `TEXT. -/`, by default, lines of text are sent only to the
-examples file.
-You can replace the last line with `EXAMPLES: -/`, which has the same effect,
-`SOLUTIONS: -/` to send the lines to the solutions file,
-`BOTH: -/` to send the lines to the both files,
-or `OMIT: -/` to send the lines to neither.
-
-You can subsequently modify the behavior with the additional comment lines
-`-- EXAMPLES:`, `-- SOLUTIONS:`, `-- BOTH:`, and `-- OMIT:`.
-The behavior stays in effect until another directive changes it.
-
-While the script is processing lines of Lean code, you can specify that a sequence of lines
-should be added to the textbook as a block quote by enclosing it as follows:
-```
--- QUOTE:
-example : 1 + 1 = 2 := by rfl
--- QUOTE.
-```
-Note the use of the period to mark the end of the quote.
-
-In such a quote block, any lines that are designated to go only to the solutions file are not
-included in the quote. Thus you can only quote lines that are sent to the examples file,
-sent to both the examples and solutions files, or omitted from both.
-The behavior of the `QUOTE` directives is otherwise independent of the behavior of the
-`EXAMPLES`, `SOLUTIONS`, `BOTH`, and `OMIT` directives.
-For example, you can switch output from the examples file to both the examples and solutions
-file in the middle of a quote.
-It doesn't make a difference whether one of the latter directives occurs just before or
-just after a `QUOTE` directive.
-
-You can also use `/- EXAMPLES:`, `/- SOLUTIONS:`, `/- BOTH:`, and `/- OMIT:` to put text
-in a block comment that is sent to one of the files accordingly.
-This provides a handy way to specify a `sorry` in an examples file
-that is replaced by a solution in the solution file.
-Here's an example of how these are used:
-```
-/- TEXT:
-Here is an example of the way that ``rintro`` is used:
-TEXT. -/
--- QUOTE:
-example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
-  rintro x ⟨xs, xt | xu⟩
-  · left; exact ⟨xs, xt⟩
-  . right; exact ⟨xs, xu⟩
--- QUOTE.
-
-/- TEXT:
-As an exercise, try proving the other inclusion:
-BOTH: -/
--- QUOTE:
-theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
-/- EXAMPLES:
-  sorry
-SOLUTIONS: -/
-  rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
-  · use xs; left; exact xt
-  . use xs; right; exact xu
--- QUOTE.
-
-```
-The second text block represents a common idiom for presenting exercises:
-after the textbook prose, a `theorem` or `example` line is sent to both the examples
-and the solutions file.
-The examples file contains only a `sorry`, whereas the solutions file contains the full solution.
-The solution is checked by Lean in the source file, but it is not included in the quote.
-
-Note also the useful convention that if a blank line is needed in the examples or
-solutions file, it is specified *after* the relevant segment, so that the next
-time output is enabled no blank line is needed.
-So, in the example above, there is no blank line before or after `-- QUOTE:`
-because we assume that prior input has already inserted a blank line,
-but there is a blank line after `--QUOTE.`
-
-It is common to use sections to declare and scope variables in the examples and solutions
-files, but to omit the section commands from quote.
-Thus you might use the following pattern:
-```
-/- TEXT:
-Here is an example of the way that ``rintro`` is used:
-BOTH: -/
-section
-variable (s t u : Set α)
-
--- EXAMPLES:
--- QUOTE:
-example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
-  rintro x ⟨xs, xt | xu⟩
-  · left; exact ⟨xs, xt⟩
-  . right; exact ⟨xs, xu⟩
--- QUOTE.
-
-```
-Just make sure that, later in the file, the matching `end` and a blank line after are sent to
-both outputs.
-
-The weird pair of characters `αα` in a Lean input file is simply deleted from any
-output produced by the script.
-This is a little hack that allows you to produce the same identifier in the examples
-and solutions files. For example, the exercise above could have been written
-as follows:
-```
-/- TEXT:
-As an exercise, try proving the other inclusion:
-EXAMPLES: -/
--- QUOTE:
-theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-theorem fooαα : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
-  rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
-  · use xs; left; exact xt
-  . use xs; right; exact xu
-
-```
-The theorem is named `foo` in both the examples and the solutions, but Lean doesn't
-complain about a duplicate identifier in the source file.
-
-Finally, there is a mechanism that allows you to quote any part of the file
-in the textbook, before or after it appears in the Lean source file.
-This can be used, for example, to present a long proof and then refer back to parts of it.
-Encode the lines you want to quote with a pair of tags:
-```
-theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
--- TAG: my_tag
-  rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
-  · use xs; left; exact xt
-  . use xs; right; exact xu
--- TAG: end
-```
-The first tag can have any label you want in place of `my_tag`, whereas the second should
-be exactly as shown. Adding the line
-```
--- LITERALINCLUDE: my_tag
-```
-in the middle of a text block anywhere in the file will insert the tagged text as a
-block quote in the textbook,
-using a Sphinx directive that is designed for exactly that purpose.
-
-
-Testing
--------
-
-After running `scripts/mkall.py`, you can use `lake build` to compile all the lean source files.
-This will print all the output generated by `#check`, `#eval`, and other commands found in the
-source files, as well as a warning for each `sorry`, and so on. Scanning the output provides
-a way to detect whether all the definitions, theorems, and proofs are well formed.
-This does not, however, confirm that the examples files and solutions files that are generated
-from the lean source files are well formed.
-
-To test the examples, use `scripts/examples_test.py`.
-This compiles all the lean source files as with `scripts/mkall.py`,
-but then it copies the Lean files from `user_repo` into a folder `MIL/Test` and
-constructs `MIL.lean` to import each of those.
-Use `lake build` to compile them.
-
-Similarly, use `scripts/solutions_test.py` followed by `lake build` to test all the solutions files.
-
-Use `scripts/clean_test.py` to remove the directory `MIL/Test` and restore `MIL.lean` to import the
-Lean source files.
-
-
-Processing one section
-----------------------
-
-Instead of building everything, you can test build a single section with `scripts/mksection.py`.
-For example,
-```
-  scripts/mksection.py C03_Logic S02_The_Existential_Quantifier
-```
-creates the examples file, the solutions file, and the Sphinx restructured text file
-for the section indicated.
-
-
-How to contribute
------------------
-
-The textbook is still a work in progress, but feedback and corrections are welcome.
-You can open a pull request,
-find us on the [Lean Zulip channel](https://leanprover.zulipchat.com/),
-or contact us by email.
+| 章名 | 担当 |
+| --- | --- |
+| C10_Integration_and_Measure_Theory.rst ||
+| S01_Elementary_Integration.lean ||
+| S02_Measure_Theory.lean ||
+| S03_Integration.lean ||
