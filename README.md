@@ -32,7 +32,7 @@
 | 章名 | 担当 |
 | --- | --- |
 | C01_Introduction.rst | |
-| S01_Getting_Started.lean | |
+| S01_Getting_Started.lean | [s-taiga](https://github.com/s-taiga) |
 | S02_Overview.lean | |
 
 * C02_Basics
