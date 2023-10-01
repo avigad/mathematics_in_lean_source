@@ -33,7 +33,7 @@
 | --- | --- |
 | C01_Introduction.rst | |
 | S01_Getting_Started.lean | [s-taiga](https://github.com/s-taiga) |
-| S02_Overview.lean | |
+| S02_Overview.lean | [s-taiga](https://github.com/s-taiga) |
 
 * C02_Basics
 
