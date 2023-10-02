@@ -10,5 +10,13 @@
   "search.usePCRE2": true,
   "editor.quickSuggestions": {
     "comments": "on"
-  }
+  },
+  "cSpell.language": "en,en-US",
+  "cSpell.enableFiletypes": [
+    "lean4"
+  ],
+  "cSpell.words": [
+    "monoids",
+    "numref"
+  ]
 }
