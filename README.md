@@ -173,7 +173,7 @@ solutions file, it is specified *after* the relevant segment, so that the next
 time output is enabled no blank line is needed.
 So, in the example above, there is no blank line before or after `-- QUOTE:`
 because we assume that prior input has already inserted a blank line,
-but there is a blank line after `--QUOTE.`
+but there is a blank line after `-- QUOTE.`
 
 It is common to use sections to declare and scope variables in the examples and solutions
 files, but to omit the section commands from quote.
