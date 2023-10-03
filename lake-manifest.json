@@ -1,26 +1,10 @@
-{"version": 5,
+{"version": 6,
  "packagesDir": "lake-packages",
  "packages":
  [{"git":
-   {"url": "https://github.com/EdAyers/ProofWidgets4",
-    "subDir?": null,
-    "rev": "9f68f14df384f43b74aeb2908b97ae54a0ad9d95",
-    "opts": {},
-    "name": "proofwidgets",
-    "inputRev?": "v0.0.17",
-    "inherited": true}},
-  {"git":
-   {"url": "https://github.com/mhuisi/lean4-cli.git",
-    "subDir?": null,
-    "rev": "39229f3630d734af7d9cfb5937ddc6b41d3aa6aa",
-    "opts": {},
-    "name": "Cli",
-    "inputRev?": "nightly",
-    "inherited": true}},
-  {"git":
    {"url": "https://github.com/leanprover-community/mathlib4",
     "subDir?": null,
-    "rev": "71a0cb812bdefdf75535d8cc894026f1eaca4ba1",
+    "rev": "df7b04231c9920b36d13328cb3f0f402d88e7da5",
     "opts": {},
     "name": "mathlib",
     "inputRev?": "master",
@@ -36,10 +20,18 @@
   {"git":
    {"url": "https://github.com/JLimperg/aesop",
     "subDir?": null,
-    "rev": "70026c244bc61d55d695d8beb5dd4626ecb5a70e",
+    "rev": "4f8b397237411249930791f1cba0a9d2880a02dd",
     "opts": {},
     "name": "aesop",
     "inputRev?": "master",
+    "inherited": true}},
+  {"git":
+   {"url": "https://github.com/mhuisi/lean4-cli.git",
+    "subDir?": null,
+    "rev": "39229f3630d734af7d9cfb5937ddc6b41d3aa6aa",
+    "opts": {},
+    "name": "Cli",
+    "inputRev?": "nightly",
     "inherited": true}},
   {"git":
    {"url": "https://github.com/leanprover/std4",
@@ -48,4 +40,13 @@
     "opts": {},
     "name": "std",
     "inputRev?": "main",
-    "inherited": true}}]}
+    "inherited": true}},
+  {"git":
+   {"url": "https://github.com/EdAyers/ProofWidgets4",
+    "subDir?": null,
+    "rev": "9f68f14df384f43b74aeb2908b97ae54a0ad9d95",
+    "opts": {},
+    "name": "proofwidgets",
+    "inputRev?": "v0.0.17",
+    "inherited": true}}],
+ "name": "mil"}
