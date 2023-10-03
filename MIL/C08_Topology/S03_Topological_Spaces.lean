@@ -65,12 +65,12 @@ However as soon as we move on to continuity at a point we see the limitations of
 on open sets. In Mathlib we frequently think of topological spaces as types equipped
 with a neighborhood filter ``𝓝 x`` attached to each point ``x`` (the corresponding function
 ``X → Filter X`` satisfies certain conditions explained further down). Remember from the filters section that
-these gadget play two related roles. First ``𝓝 x`` is seen as the generalized set of points of ``X``
+these gadgets play two related roles. First ``𝓝 x`` is seen as the generalized set of points of ``X``
 that are close to ``x``. And then it is seen as giving a way to say, for any predicate ``P : X → Prop``,
-that this predicates holds for points that are close enough to ``x``. Let us state
+that this predicate holds for points that are close enough to ``x``. Let us state
 that ``f : X → Y`` is continuous at ``x``. The purely filtery way is to say that the direct image under
 ``f`` of the generalized set of points that are close to ``x`` is contained in the generalized set of
-points that are close to ``f x``. Recall this spelled either ``map f (𝓝 x) ≤ 𝓝 (f x)``
+points that are close to ``f x``. Recall this is spelled either ``map f (𝓝 x) ≤ 𝓝 (f x)``
 or ``Tendsto f (𝓝 x) (𝓝 (f x))``.
 
 BOTH: -/
