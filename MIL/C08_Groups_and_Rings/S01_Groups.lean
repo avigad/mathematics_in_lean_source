@@ -372,26 +372,20 @@ open S
 
 def myElement : FreeGroup S := (.of a) * (.of b)⁻¹
 
--- FIXME: fix this in mathlib
-set_option linter.unreachableTactic false in
-notation3 (prettyPrint := false) "C["(l", "* => foldr (h t => List.cons h t) List.nil)"]" =>
-  Cycle.formPerm (Cycle.ofList l) (Iff.mpr Cycle.nodup_coe_iff (by decide))
-
-
 -- QUOTE.
 /- TEXT:
 Note that we gave the expected type of the definition so Lean knows ``.of`` means ``FreeGroup.of``.
 
 The universal property of free groups is embodied as the equivalence ``FreeGroup.lift``.
 For instance let us define the group morphism from ``FreeGroup S`` to ``Perm (Fin 5)`` which
-sends ``a`` to ``C[1, 2, 3]``, ``b`` to ``C[2, 3, 1]``, and ``c`` to ``C[2, 3]``,
+sends ``a`` to ``c[1, 2, 3]``, ``b`` to ``c[2, 3, 1]``, and ``c`` to ``c[2, 3]``,
 EXAMPLES: -/
 -- QUOTE:
 
 def myMorphism : FreeGroup S →* Perm (Fin 5) :=
-  FreeGroup.lift fun | .a => C[1, 2, 3]
-                     | .b => C[2, 3, 1]
-                     | .c => C[2, 3]
+  FreeGroup.lift fun | .a => c[1, 2, 3]
+                     | .b => c[2, 3, 1]
+                     | .c => c[2, 3]
 
 -- QUOTE.
 /- TEXT:
@@ -420,7 +414,7 @@ EXAMPLES: -/
 -- QUOTE:
 
 def myMap : Unit → Perm (Fin 5)
-| () => C[1, 2, 3]
+| () => c[1, 2, 3]
 
 lemma compat_myMap : ∀ r ∈ ({.of () ^ 3} : Set (FreeGroup Unit)), FreeGroup.lift myMap r = 1 := by
   rintro _ rfl
