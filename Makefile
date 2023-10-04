@@ -15,4 +15,5 @@ help:
 .PHONY: help Makefile
 
 %: Makefile
+	scripts/mkall.py
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

@@ -47,7 +47,8 @@ example {M : Type*} [Monoid M] (x : M) : x*1 = x := mul_one x
 example {M : Type*} [AddCommMonoid M] (x y : M) : x + y = y + x := add_comm x y
 
 -- QUOTE.
-/- TEXT: Note in particular that ``AddMonoid`` exists, although it would be very confusing to use
+/- TEXT:
+Note in particular that ``AddMonoid`` exists, although it would be very confusing to use
 additive notation in a non-commutative case on paper.
 
 The type of morphisms between monoids ``M`` and ``N`` is called ``MonoidHom M N`` and denoted by
@@ -65,8 +66,8 @@ f.map_zero
 
 -- QUOTE.
 /- TEXT:
-Those morphisms are bundled maps, ie package together a map and some properties of this map.
-Section :numref:`section_hierarchies_morphisms` contain a lot more explanations about that.
+Those morphisms are bundled maps, ie they package together a map and some properties of this map.
+:numref:`section_hierarchies_morphisms` contain a lot more explanations about that.
 Here we simply note the slightly unfortunate consequence that we cannot use ordinary function
 composition. We need to use ``MonoidHom.comp`` and ``AddMonoidHom.comp``.
 
@@ -89,9 +90,14 @@ EXAMPLES: -/
 example {G : Type*} [Group G] (x : G) : x * x⁻¹ = 1 := mul_inv_self x
 
 -- QUOTE.
-/- TEXT: Similar to the `ring` tactic that we saw earlier, there is a ``group`` tactic that proves
+/- TEXT:
+
+.. index:: group (tactic), tactics ; group
+
+Similar to the `ring` tactic that we saw earlier, there is a ``group`` tactic that proves
 every identity which follows from the group axioms with any extra assumption
 (hence one can see it as a tactic proving identities that hold in free groups).
+
 EXAMPLES: -/
 -- QUOTE:
 
@@ -99,7 +105,12 @@ example {G : Type*} [Group G] (x y z : G) : x * (y * z) * (x*z)⁻¹ * (x * y * 
   group
 
 -- QUOTE.
-/- TEXT: And there is similar a tactic for identities in commutative additive groups called ``abel``.
+/- TEXT:
+
+.. index:: abel, tactics ; abel
+
+And there is similar a tactic for identities in commutative additive groups called ``abel``.
+
 EXAMPLES: -/
 -- QUOTE:
 
@@ -107,7 +118,8 @@ example {G : Type*} [AddCommGroup G] (x y z : G) : z + x + (y - z - x) = y := by
   abel
 
 -- QUOTE.
-/- TEXT: We can now move to group morphism. Actually moving isn't the right word since a group
+/- TEXT:
+We can now move to group morphism. Actually, "moving" isn't the right word since a group
 morphism is nothing but a monoid morphism between groups. So we can copy-paste one of our
 earlier examples, replacing ``Monoid`` with ``Group``.
 EXAMPLES: -/
@@ -117,7 +129,8 @@ example {G H : Type*} [Group G] [Group H] (x y : G) (f : G →* H) : f (x * y) =
 f.map_mul x y
 
 -- QUOTE.
-/- TEXT: Of course we do get some new properties, such as
+/- TEXT:
+Of course we do get some new properties, such as
 EXAMPLES: -/
 -- QUOTE:
 
@@ -125,15 +138,17 @@ example {G H : Type*} [Group G] [Group H] (x : G) (f : G →* H) : f (x⁻¹) = 
 f.map_inv x
 
 -- QUOTE.
-/- TEXT: You may be worried that constructing group morphisms will involve unneeded work since
+/- TEXT:
+You may be worried that constructing group morphisms will involve unneeded work since
 the definition of monoid morphism enforces that neutral elements are sent to neutral element
 while this is automatic in the case of group morphisms. In practice the extra work is always
-trivial but, just in case, there are functions building a group morphism from a function
+trivial but, just in case, there is a function building a group morphism from a function
 between groups that is compatible with the composition laws.
 EXAMPLES: -/
 -- QUOTE:
 
-example {G H : Type*} [Group G] [Group H] (f : G → H) (h : ∀ x y, f (x * y) = f x * f y) : G →* H :=
+example {G H : Type*} [Group G] [Group H] (f : G → H) (h : ∀ x y, f (x * y) = f x * f y) :
+  G →* H :=
 MonoidHom.mk' f h
 
 -- QUOTE.
@@ -142,10 +157,11 @@ There is also a type ``MulEquiv`` of group (or monoid) isomorphisms denoted by `
 ``AddEquiv`` denoted by ``≃+`` in additive notation).
 The inverse of ``f : G ≃* H`` is ``f.symm : H ≃* G``, composition is ``MulEquiv.trans`` and
 the identity isomorphism of ``G`` is ``M̀ulEquiv.refl G``.
-This type is automativally coerced to morphisms and functions.
+This type is automatically coerced to morphisms and functions.
 EXAMPLES: -/
 -- QUOTE:
-example {G H : Type*} [Group G] [Group H] (f : G ≃* H) : f.trans f.symm = MulEquiv.refl G :=
+example {G H : Type*} [Group G] [Group H] (f : G ≃* H) :
+  f.trans f.symm = MulEquiv.refl G :=
 f.self_trans_symm
 
 -- QUOTE.
@@ -167,8 +183,9 @@ H.inv_mem hx
 -- QUOTE.
 /- TEXT:
 In the above example, it is important to understand that ``Subgroup G`` is the type of subgroups
-of ``G``. It is endowed with a coercion to ``Set G`` and a membership predicate on ``G``.
-See Section :numref:`section_hierarchies_subobjects` for explanations about why and how things are
+of ``G``. It is not a predicate on ``Set G``.
+But it is endowed with a coercion to ``Set G`` and a membership predicate on ``G``.
+See :numref:`section_hierarchies_subobjects` for explanations about why and how things are
 set up like this.
 
 If you want how to state and prove something like ``ℤ`` is an additive subgroup of ``ℚ`` then
@@ -233,11 +250,30 @@ an accident which does not carry over to the supremum operation since a union of
 is not a subgroup. Instead one needs to use the subgroup generated by the union, which is done
 using ``Subgroup.closure``.
 EXAMPLES: -/
+
 -- QUOTE:
 
 example {G : Type*} [Group G] (H H' : Subgroup G) :
     ((H ⊔ H' : Subgroup G) : Set G) = Subgroup.closure ((H : Set G) ∪ (H' : Set G)) := by
   simp [Subgroup.closure_union, Subgroup.closure_eq]
+
+-- QUOTE.
+/- TEXT:
+Another subtlety is ``G`` itself does not have type ``Subgroup G``, so we need a way to talk
+about ``G`` seen as a subgroup of ``G``. This is also provided by the lattice structure.
+We are talking about the top element of this lattice.
+EXAMPLES: -/
+-- QUOTE:
+
+example {G : Type*} [Group G] (x : G) : x ∈ (⊤ : Subgroup G) := trivial
+-- QUOTE.
+/- TEXT:
+Similarly the bottom element of this lattice is the subgroup whose only element is the
+neutral element.
+EXAMPLES: -/
+-- QUOTE:
+
+example {G : Type*} [Group G] (x : G) : x ∈ (⊥ : Subgroup G) ↔ x = 1 := Subgroup.mem_bot
 
 -- QUOTE.
 /- TEXT:
@@ -252,10 +288,28 @@ Subgroup.map f G'
 
 example {G H : Type*} [Group G] [Group H] (H' : Subgroup H) (f : G →* H) : Subgroup G :=
 Subgroup.comap f H'
+-- QUOTE.
+
+/- TEXT:
+In particular the preimage of the bottom subgroup under a morphism ``f`` a subgroup called
+the kernel of ``f`` and its range is also a subgroup.
+EXAMPLES: -/
+-- QUOTE:
+
+example {G H : Type*} [Group G] [Group H] (f : G →* H) (g : G) :
+    g ∈ MonoidHom.ker f ↔ f g = 1 :=
+  f.mem_ker
+
+example {G H : Type*} [Group G] [Group H] (f : G →* H) (h : H) :
+    h ∈ MonoidHom.range f ↔ ∃ g : G, f g = h :=
+  f.mem_range
 
 -- QUOTE.
-/- TEXT: Lagrange theorem states the cardinal of a subgroup of a finite group divides the cardinal of the
-group. Sylow's first theorem if a very famous partial converse to Lagrange's theorem.
+
+/- TEXT:
+Let us finish this introduction to subgroups in Mathlib with two very useful results.
+Lagrange theorem states the cardinal of a subgroup of a finite group divides the cardinal of the
+group. Sylow's first theorem is a very famous partial converse to Lagrange's theorem.
 EXAMPLES: -/
 -- QUOTE:
 
@@ -288,12 +342,12 @@ EXAMPLES: -/
 
 open Equiv
 
-example {X : Type*} [Finite X] : Subgroup.closure {σ : Perm X | Equiv.Perm.IsCycle σ} = ⊤ :=
+example {X : Type*} [Finite X] : Subgroup.closure {σ : Perm X | Perm.IsCycle σ} = ⊤ :=
 Perm.closure_isCycle
 
 -- QUOTE.
 /- TEXT:
-One can fully concrete and compute actual products of cycles. Below we use the ``#simp`` command
+One can be fully concrete and compute actual products of cycles. Below we use the ``#simp`` command
 which calls the ``simp`` tactic on a given expression. The ``c[]`` notation is used to define a
 cyclic premutation. In the example the result is a permutation of ``ℕ``. One could a type ascription
 such as ``(1 : Fin 5)`` on the first number appearing to make it a computation in ``Perm (Fin 5)``.
@@ -318,7 +372,7 @@ open S
 
 def myElement : FreeGroup S := (.of a) * (.of b)⁻¹
 
-
+-- FIXME: fix this in mathlib
 set_option linter.unreachableTactic false in
 notation3 (prettyPrint := false) "C["(l", "* => foldr (h t => List.cons h t) List.nil)"]" =>
   Cycle.formPerm (Cycle.ofList l) (Iff.mpr Cycle.nodup_coe_iff (by decide))
@@ -345,7 +399,7 @@ As a last concrete example, let us see how to define a group generated by a sing
 cube is one (so that group will be isomorphic to :math:`\mathbb{Z}/3`) and build a morphism
 from that group to ``Perm (Fin 5)``.
 
-As a type with exactly one element we will use ``Unit`` whose
+As a type with exactly one element, we will use ``Unit`` whose
 only element is denoted by ``()``. The function ``PresentedGroup`` takes a set of relations,
 ie. a set of elements of some free group and returns a group which is this free group quotiented
 by the normal subgroups generated by relations (we will see how to handle more general quotients
@@ -359,7 +413,7 @@ def myGroup := PresentedGroup {.of () ^ 3} deriving Group
 -- QUOTE.
 /- TEXT:
 The universal property of presented groups ensures that morphisms out of this group can be built
-from function that send the relation to the neutral element of the target group.
+from functions that send the relations to the neutral element of the target group.
 So we need such a function and a proof that the condition holds. Then we can feed this proof
 to ``PresentedGroup.toGroup`` to get the desired group morphism.
 EXAMPLES: -/
@@ -386,14 +440,18 @@ An action of a group ``G`` on some type ``X`` is nothing but a morphism from ``G
 ``Equiv.Perm X``. So in a sense they are already covered by the previous discussion.
 But we don't want to carry around this morphism everywhere, we want it to be automatically inferred
 by Lean as much as possible. So we have a type class for this, which is ``MulAction G X``.
-In particular it allows to use ``g • x`` to denote the action of a group element ``g`` on a point
-``x``.
+The downside of this setup is that having multiple actions of the same group on the same type
+requires some contorsions, such as defining type synonyms carrying different instances.
+
+This setup allows in particular to use ``g • x`` to denote the action of a group element ``g`` on
+a point ``x``.
 
 EXAMPLES: -/
 -- QUOTE:
 noncomputable section GroupActions
 
-example {G X : Type*} [Group G] [MulAction G X] (g g': G) (x : X) : g • (g' • x) = (g * g') • x :=
+example {G X : Type*} [Group G] [MulAction G X] (g g': G) (x : X) :
+  g • (g' • x) = (g * g') • x :=
 (mul_smul g g' x).symm
 
 -- QUOTE.
@@ -402,16 +460,13 @@ There is also a version for additive group called ``AddAction``, where the actio
 ``+ᵥ``. This is used for instance in the definition of affine spaces.
 EXAMPLES: -/
 -- QUOTE:
-example {G X : Type*} [AddGroup G] [AddAction G X] (g : G) (x : X) : X := g +ᵥ x
+example {G X : Type*} [AddGroup G] [AddAction G X] (g g' : G) (x : X) :
+  g +ᵥ (g' +ᵥ x) = (g + g') +ᵥ x :=
+(add_vadd g g' x).symm
+
 -- QUOTE.
 /- TEXT:
-Also none that nothing so far requires having a group rather than a monoid (or any type endowed
-with a multiplication operation really).
-The group condition will really enter the picture when we will want to partition ``X`` into orbits.
 
-
-The downside is that having multiple actions of the same group on the same type requires some
-contorsions,such as defining type synonyms carrying different instances.
 The underlying group morphism is called ``MulAction.toPermHom``.
 EXAMPLES: -/
 -- QUOTE:
@@ -433,8 +488,13 @@ Equiv.Perm.subgroupOfMulAction G G
 
 -- QUOTE.
 /- TEXT:
-Note also that the corresponding equivalence relation on ``X`` is not declared as a global instance.
-It is called ``MulAction.orbitRel``.
+Note that nothing before the above definition required having a group rather than a monoid (or any
+type endowed with a multiplication operation really).
+
+The group condition really enters the picture when we will want to partition ``X`` into orbits.
+The corresponding equivalence relation on ``X`` is called ``MulAction.orbitRel``.
+It is not declared as a global instance.
+
 EXAMPLES: -/
 -- QUOTE:
 
@@ -446,7 +506,7 @@ example {G X : Type*} [Group G] [MulAction G X] : Setoid X := orbitRel G X
 Using this we can state that ``X`` is partitioned into orbits under the action of ``G``.
 More precisely, we get a bijection between ``X`` and the dependent product
 ``(ω : orbitRel.Quotient G X) × (orbit G (Quotient.out' ω))``
-where ``Quotient.out'`` simply choose and element projecting to ``ω``.
+where ``Quotient.out' ω`` simply choose and element projecting to ``ω``.
 Recall that elements of this dependent product are pairs ``⟨ω, x⟩`` where the type
 ``orbit G (Quotient.out' ω)`` of ``x`` depends on ``ω``.
 EXAMPLES: -/
@@ -458,13 +518,13 @@ example {G X : Type*} [Group G] [MulAction G X] :
 
 -- QUOTE.
 /- TEXT:
-In praticular, when X is finite, this can be combined with ``Fintype.card_congr`` and
+In particular, when X is finite, this can be combined with ``Fintype.card_congr`` and
 ``Fintype.card_sigma`` to deduce that the cardinal of ``X`` is the sum of the cardinals
 of orbits.
 Furthermore, orbits are in bijection with the quotient of ``G`` under the action of the
 stabilizers by left translation.
-This action of a subgroup by left-translation to define quotients of a group by a subgroup
-with notation `/` so we can the following concise statement.
+This action of a subgroup by left-translation is used to define quotients of a group by a
+subgroup with notation `/` so we can use the following concise statement.
 EXAMPLES: -/
 -- QUOTE:
 
