@@ -24,6 +24,7 @@
 ### 参加者
 
 * [s-taiga](https://github.com/s-taiga)
+* [Taka](https://github.com/Taka0007)
 
 ### 翻訳担当
 
@@ -40,7 +41,7 @@
 | 章名 | 担当 |
 | --- | --- |
 | C02_Basics.rst | |
-| S01_Calculating.lean | |
+| S01_Calculating.lean | [Taka](https://github.com/Taka0007) |
 | S02_Proving_Identities_in_Algebraic_Structures.lean | |
 | S03_Using_Theorems_and_Lemmas.lean | |
 | S04_More_on_Order_and_Divisibility.lean | |
