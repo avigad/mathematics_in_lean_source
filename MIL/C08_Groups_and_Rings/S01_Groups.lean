@@ -614,10 +614,10 @@ One subtle point to understand is that the type ``G ⧸ N`` really depends on ``
 (up to definitional equality), so having a proof that two normal subgroups ``N`` and ``M`` are equal
 is not enough to make the corresponding quotients equal. However the universal properties does give
 an isomorphism in this case.
-
-**FIXME**: This isn't yet in mathlib in a convenient way.
 -/
 
+example {G : Type*} [Group G] {M N : Subgroup G} [M.Normal]
+  [N.Normal] (h : M = N) : G ⧸ M ≃* G ⧸ N := QuotientGroup.quotientMulEquivOfEq  h
 
 
 end QuotientGroup
