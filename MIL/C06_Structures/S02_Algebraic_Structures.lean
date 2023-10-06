@@ -626,7 +626,7 @@ Also, there is another way to tell Lean that one structure is an
 instance of another, using the ``extends`` keyword.
 This is how Mathlib specifies that, for example,
 every commutative ring is a ring.
-You can find more information in a
+You can find more information in :numref:`hierarchies` and in a
 `section on class inference <https://leanprover.github.io/theorem_proving_in_lean4/type_classes.html#managing-type-class-inference>`_ in *Theorem Proving in Lean*.
 
 In general, it is a bad idea to specify a value of
