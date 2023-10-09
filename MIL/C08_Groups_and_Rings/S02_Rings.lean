@@ -2,6 +2,8 @@
 
 import Mathlib.RingTheory.Ideal.QuotientOperations
 import Mathlib.RingTheory.Localization.Basic
+import Mathlib.RingTheory.DedekindDomain.Ideal
+import Mathlib.Analysis.Complex.Polynomial
 import MIL.Common
 
 noncomputable section
@@ -143,6 +145,19 @@ The Chinese remainder theorem
 example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] (f : ι → Ideal R)
     (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* ∀ i, R ⧸ f i :=
 Ideal.quotientInfRingEquivPiQuotient f hf
+
+open BigOperators
+
+example {ι : Type*} [Fintype ι] (P : ι → ℤ) (e : ι → ℕ) (prime : ∀ i, Prime (P i))
+  (coprime : ∀ i j, i ≠ j → P i ≠ P j) :
+    ℤ ⧸ ∏ i, (Ideal.span ({P i} : Set ℤ)) ^ e i ≃+* ∀ i, ℤ ⧸ (Ideal.span {P i}) ^ e i := by
+  apply IsDedekindDomain.quotientEquivPiOfProdEq
+  all_goals { sorry }
+
+example {ι : Type*} [Fintype ι] (a : ι → ℕ) (e : ι → ℕ)
+  (coprime : ∀ i j, i ≠ j → IsCoprime (a i) (a j)) : ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) := by
+  sorry
+
 
 /-
 Localization
@@ -317,9 +332,44 @@ example {R : Type*} [CommRing R] [IsDomain R] (r : R) : (X - C r).roots = {r} :=
 example {R : Type*} [CommRing R] [IsDomain R] (r : R) (n : ℕ): ((X - C r)^n).roots = n • {r} :=
   by simp
 
-#check eval₂
-#check aeval
-#check rootSet
+/-
+Both `Polynomial.eval` and `Polynomial.roots` consider only the coefficients ring. They do not
+allow to say that ``X^2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X^2 + 1 : ℝ[X]`` has a root in
+``ℂ``. For this we need ``Polynomial.aeval`` which will evaluate ``P : R[X]`` in any ``R``-algebra.
+More precisely, given a smiring ``A`` and a ``Algebra R A`` instance, ``Polynomial.aeval`` sends
+every element of ``a`` on the ``R``-algebra morphism of evaluation at ``a``. Since ``AlgHom``
+has a coercion to functions, one can apply it to a polynomial.
+But ``aeval`` does not have a polynomial as an argument, so one cannot use dot notation like in
+``P.eval`` above.
+-/
+
+example : aeval Complex.I (X^2 + 1 : ℝ[X]) = 0 := by simp
+
+/-
+The function corresponding to ``roots`` in this context is ``aroots`` which takes a polynomial
+and then an algebra and outputs a multiset (with the same caveat about the zero polynomial as
+for ``roots``).
+-/
+
+example : aroots (X^2 + 1 : ℝ[X]) ℂ = {Complex.I, -Complex.I} := by
+  ext x
+  have F : Complex.I ≠ -Complex.I := sorry
+  simp [F]
+  sorry
+
+-- Mathlib knows about D'Alembert-Gauss theorem: ``ℂ`` is algebraically closed.
+example : IsAlgClosed ℂ := inferInstance
+
+/-
+More generally, given an ring morphism ``f : R →+* S`` one can evaluate ``P : R[X]`` at a point
+in ``S`` using ``Polynomial.eval₂``. This one produces an actual function from ``R[X]`` to ``S``
+since it does not assume the existence of a ``Algebra R S`` instance, so dot notation works as
+you would expect.
+-/
+
+#check (Complex.ofReal : ℝ →+* ℂ)
+
+example : (X^2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
 
 end Polynomials
 
