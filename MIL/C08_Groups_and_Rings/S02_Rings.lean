@@ -140,40 +140,35 @@ example {R : Type*} [CommRing R] {I J : Ideal R} (h : I = J) : R ⧸ I ≃+* R �
   Ideal.quotEquivOfEq h
 
 /-
-The Chinese remainder theorem
+For instance we can now quote the Chinese remainder isomorphism.
 -/
 example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] (f : ι → Ideal R)
-    (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* ∀ i, R ⧸ f i :=
+    (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* Π i, R ⧸ f i :=
 Ideal.quotientInfRingEquivPiQuotient f hf
 
-open BigOperators
+open BigOperators Ideal
 
-example {ι : Type*} [Fintype ι] (P : ι → ℤ) (e : ι → ℕ) (prime : ∀ i, Prime (P i))
-  (coprime : ∀ i j, i ≠ j → P i ≠ P j) :
-    ℤ ⧸ ∏ i, (Ideal.span ({P i} : Set ℤ)) ^ e i ≃+* ∀ i, ℤ ⧸ (Ideal.span {P i}) ^ e i := by
-  apply IsDedekindDomain.quotientEquivPiOfProdEq
-  all_goals { sorry }
+lemma IsCoprime.natCast {R : Type*} [CommSemiring R] {a b : ℕ} (h : IsCoprime a b) :
+    IsCoprime (a : R) (b : R) := by
+  rcases h with ⟨u, v, H⟩
+  use u, v
+  rw_mod_cast [H]
+  exact Nat.cast_one
 
-example {ι : Type*} [Fintype ι] (a : ι → ℕ) (e : ι → ℕ)
-  (coprime : ∀ i j, i ≠ j → IsCoprime (a i) (a j)) : ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) := by
-  sorry
+theorem Ideal.iInf_span_singleton_natCast {R : Type*} [CommSemiring R] {ι : Type*} [Fintype ι]
+    {I : ι → ℕ} (hI : ∀ (i j : ι), i ≠ j → IsCoprime (I i) (I j)) :
+    ⨅ (i : ι), Ideal.span {(I i : R)} = Ideal.span {((∏ i : ι, I i : ℕ) : R)} := by
+  rw [Ideal.iInf_span_singleton, Nat.cast_prod]
+  exact fun i j h ↦ (hI i j h).natCast
 
-
-/-
-Localization
-^^^^^^^^^^^^
-
-Localization creates inverses for certain elements in a ring. For instance localizing ``ℤ``
-at every non-zero element gives the field ``ℚ``. Actually the core construction takes place for
-monoids.
--/
-
-#check Localization
-
-/-
-
--/
-#check IsLocalization.lift
+example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j → IsCoprime (a i) (a j)) :
+    ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) :=
+  have : ∀ (i j : ι), i ≠ j → IsCoprime (span {(a i : ℤ)}) (span {(a j : ℤ)}) :=
+    fun i j h ↦ (isCoprime_span_singleton_iff _ _).mpr ((coprime i j h).natCast (R := ℤ))
+  Int.quotientSpanNatEquivZMod _ |>.symm.trans <|
+  quotEquivOfEq (iInf_span_singleton_natCast (R := ℤ) coprime) |>.symm.trans <|
+  quotientInfRingEquivPiQuotient _ this |>.trans <|
+  RingEquiv.piCongrRight fun i ↦ Int.quotientSpanNatEquivZMod (a i)
 
 /-
 Algebras and polynomials
@@ -188,10 +183,6 @@ multiplication of ``a`` by ``r`` and denoted by ``r • a``.
 
 Note that this notion of algebra is sometimes called an associate unital algebra to emphasis the
 existence of more general notions of algebra whose definition is less concise.
-
-Very important examples of non-commutative algebras include endomorphisms algebra (or square
-matrices algebras), and those will be covered in the linear algebra chapter. In this chapter we
-will only discuss the most important commutative algebras: polynomials.
 
 The fact that ``algebraMap R A`` is ring morphism packages a lot of properties of scalar
 multiplication, such as the following ones.
@@ -212,13 +203,15 @@ with type ``AlgHom R A B`` which is denoted by ``A →ₐ[R] B``.
 -/
 
 /-
+Very important examples of non-commutative algebras include endomorphisms algebra (or square
+matrices algebras), and those will be covered in the linear algebra chapter. In this chapter we
+will only discuss the most important commutative algebras: polynomials.
 
 
-We start with univariate polynomials. The algebra of univariate polynomials with coefficients
-in ``R`` is ``Polynomial R`` which is denoted by ``R[X]`` as soon as one opens the ``Polynomial``
-namespace. The algebra structure map from ``R`` to ``R[X]`` is denoted by ``C``, which stands for
-"constant" since the corresponding polynomial functions are always constant. The indeterminate
-is denoted by ``X``.
+The algebra of univariate polynomials with coefficients in ``R`` is ``Polynomial R`` which is
+denoted by ``R[X]`` as soon as one opens the ``Polynomial`` namespace. The algebra structure map
+from ``R`` to ``R[X]`` is denoted by ``C``, which stands for "constant" since the corresponding
+polynomial functions are always constant. The indeterminate is denoted by ``X``.
 -/
 section Polynomials
 
@@ -245,23 +238,23 @@ example {R : Type*} [CommRing R] (r : R) : (X + C r) * (X - C r) = X^2 - C (r ^ 
 You can access coefficients using ``Polynomial.coeff``
 -/
 example {R : Type*} [CommRing R](r:R) : (C r).coeff 0 = r := by exact coeff_C_zero
-#check instOfNat
+
+section
+variable {R : Type*} [Semiring R]
+@[simp]
+theorem coeff_ofNat_zero (a : ℕ) [a.AtLeastTwo] : coeff (no_index (OfNat.ofNat a : R[X])) 0 = (OfNat.ofNat a : R) :=
+  coeff_monomial
 
 @[simp]
-lemma Polynomial.coeff_OfNat_zero {R : Type*} [CommRing R] (n : ℕ) [Nat.AtLeastTwo n] :
-    (@OfNat.ofNat R[X] n inferInstance).coeff 0 = n :=
-  sorry
-
-@[simp]
-lemma Polynomial.coeff_OfNat_succ {R : Type*} [CommRing R] (n m : ℕ) [Nat.AtLeastTwo n] :
-    (@OfNat.ofNat R[X] n instOfNat).coeff (m.succ) = 0:=
-  sorry
+theorem coeff_ofNat_succ (a n : ℕ) [h : a.AtLeastTwo] :
+    coeff (no_index (OfNat.ofNat a : R[X])) (n + 1) = 0 := by
+  rw [← Nat.cast_eq_ofNat]
+  simp
 
 example {R : Type*} [CommRing R] : (X^2 + 2*X + C 3 : R[X]).coeff 1 = 2 := by
-  --simp
-  norm_num
+  simp
 
-  rw [Polynomial.coeff_OfNat_succ]
+end
 
 /-
 Defining the degree of a polynomial is always tricky because of the special case of the zero
@@ -350,12 +343,20 @@ The function corresponding to ``roots`` in this context is ``aroots`` which take
 and then an algebra and outputs a multiset (with the same caveat about the zero polynomial as
 for ``roots``).
 -/
+open Complex Polynomial
 
-example : aroots (X^2 + 1 : ℝ[X]) ℂ = {Complex.I, -Complex.I} := by
-  ext x
-  have F : Complex.I ≠ -Complex.I := sorry
-  simp [F]
-  sorry
+example : aroots (X^2 + 1 : ℝ[X]) ℂ = {I, -I} := by
+  suffices roots (X ^ 2 + 1 : ℂ[X]) = {I, -I} by simpa [aroots_def]
+  have factored : (X ^ 2 + 1 : ℂ[X]) = (X - C I) * (X - C (-I)) := by
+    rw [C_neg]
+    linear_combination show (C I * C I : ℂ[X]) = -1 by simp [← C_mul]
+  have p_ne_zero : (X - C I) * (X - C (-I)) ≠ 0 := by
+    intro H
+    apply_fun eval 0 at H
+    simp [eval] at H
+  simp only [factored, roots_mul p_ne_zero, roots_X_sub_C]
+  rfl
+
 
 -- Mathlib knows about D'Alembert-Gauss theorem: ``ℂ`` is algebraically closed.
 example : IsAlgClosed ℂ := inferInstance
@@ -372,5 +373,3 @@ you would expect.
 example : (X^2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
 
 end Polynomials
-
-#check MvPolynomial
