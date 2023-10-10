@@ -1,10 +1,9 @@
 -- BOTH:
-import Mathlib.Algebra.Ring.Defs
-import Mathlib.Data.Real.Basic
 import Mathlib.GroupTheory.Sylow
 import Mathlib.GroupTheory.Perm.Cycle.Concrete
 import Mathlib.GroupTheory.Perm.Subgroup
 import Mathlib.GroupTheory.PresentedGroup
+
 import MIL.Common
 
 /- TEXT:
@@ -66,7 +65,7 @@ f.map_zero
 
 -- QUOTE.
 /- TEXT:
-Those morphisms are bundled maps, ie they package together a map and some properties of this map.
+Those morphisms are bundled maps, ie. they package together a map and some properties of this map.
 :numref:`section_hierarchies_morphisms` contain a lot more explanations about that.
 Here we simply note the slightly unfortunate consequence that we cannot use ordinary function
 composition. We need to use ``MonoidHom.comp`` and ``AddMonoidHom.comp``.
@@ -166,6 +165,17 @@ f.self_trans_symm
 
 -- QUOTE.
 /- TEXT:
+One can use ``MulEquiv.ofBijective`` to build an isomorphism from a bijective morphism.
+Of course this results in non computable inverse functions.
+EXAMPLES: -/
+-- QUOTE:
+
+noncomputable example {G H : Type*} [Group G] [Group H] (f : G →* H) (h : Function.Bijective f) :
+    G ≃* H :=
+  MulEquiv.ofBijective f h
+
+-- QUOTE.
+/- TEXT:
 Subgroups
 ^^^^^^^^^
 
@@ -187,6 +197,9 @@ of ``G``. It is not a predicate on ``Set G``.
 But it is endowed with a coercion to ``Set G`` and a membership predicate on ``G``.
 See :numref:`section_hierarchies_subobjects` for explanations about why and how things are
 set up like this.
+
+Of course two subgroups are the same if and only if they have the same elements, and this fact
+is registered for use with the ``ext`` tactic, just like for bare sets.
 
 If you want how to state and prove something like ``ℤ`` is an additive subgroup of ``ℚ`` then
 the answer to constructor a term with type ``AddSubgroup ℚ`` whose projection to ``Set ℚ``
@@ -255,7 +268,7 @@ EXAMPLES: -/
 
 example {G : Type*} [Group G] (H H' : Subgroup G) :
     ((H ⊔ H' : Subgroup G) : Set G) = Subgroup.closure ((H : Set G) ∪ (H' : Set G)) := by
-  simp [Subgroup.closure_union, Subgroup.closure_eq]
+  rw [Subgroup.sup_eq_closure]
 
 -- QUOTE.
 /- TEXT:
@@ -277,6 +290,47 @@ example {G : Type*} [Group G] (x : G) : x ∈ (⊥ : Subgroup G) ↔ x = 1 := Su
 
 -- QUOTE.
 /- TEXT:
+As an exercise in manipulating groups and subgroups, you can define the conjuguate of a subgroup
+by an element of the ambiant group.
+EXAMPLES: -/
+-- QUOTE:
+
+def conjugate {G : Type*} [Group G] (x : G) (H : Subgroup G) : Subgroup G where
+  carrier := {a : G | ∃ h, h ∈ H ∧ a = x * h * x⁻¹}
+  one_mem' := by
+/- EXAMPLES:
+    dsimp
+    sorry
+SOLUTIONS: -/
+    dsimp
+    use 1
+    constructor
+    exact H.one_mem
+    group
+-- BOTH:
+  inv_mem' := by
+/- EXAMPLES:
+    dsimp
+    sorry
+SOLUTIONS: -/
+    dsimp
+    rintro - ⟨h, h_in, rfl⟩
+    use h⁻¹, H.inv_mem h_in
+    group
+-- BOTH:
+  mul_mem' := by
+/- EXAMPLES:
+    dsimp
+    sorry
+SOLUTIONS: -/
+    dsimp
+    rintro - - ⟨h, h_in, rfl⟩ ⟨k, k_in, rfl⟩
+    use h*k, H.mul_mem h_in k_in
+    group
+-- BOTH:
+
+-- QUOTE.
+/- TEXT:
 Tying the previous two topics together, one can push forward and pull back subgroups using
 group morphisms. The naming convention in Mathlib is to call those operations ``map``
 and ``comap``. Those names are slightly strange but much shorter that push-forward or direct-image.
@@ -288,6 +342,9 @@ Subgroup.map f G'
 
 example {G H : Type*} [Group G] [Group H] (H' : Subgroup H) (f : G →* H) : Subgroup G :=
 Subgroup.comap f H'
+
+#check Subgroup.mem_map
+#check Subgroup.mem_comap
 -- QUOTE.
 
 /- TEXT:
@@ -307,9 +364,78 @@ example {G H : Type*} [Group G] [Group H] (f : G →* H) (h : H) :
 -- QUOTE.
 
 /- TEXT:
-Let us finish this introduction to subgroups in Mathlib with two very useful results.
+As exercises in manipulating group morphisms and subgroups, let us prove some elementary properties.
+Of course they are already in Mathlib so do not use ``exact?`` too early if you want to benefit
+from those exercises.
+EXAMPLES: -/
+-- QUOTE:
+section exercises
+variable {G H : Type*} [Group G] [Group H]
+
+open Subgroup
+
+example (φ : G →* H) (S T : Subgroup H) (hST : S ≤ T) : comap φ S ≤ comap φ T :=by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  intro x hx
+  rw [mem_comap] at * -- Lean does not need this line
+  exact hST hx
+
+-- BOTH:
+
+example (φ : G →* H) (S T : Subgroup G) (hST : S ≤ T) : map φ S ≤ map φ T :=by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  intro x hx
+  rw [mem_map] at * -- Lean does not need this line
+  rcases hx with ⟨y, hy, rfl⟩
+  use y, hST hy
+-- BOTH:
+
+variable {K : Type*} [Group K]
+
+-- Remember you can use the `ext` tactic to prove an equality of subgroups.
+example (φ : G →* H) (ψ : H →* K) (U : Subgroup K) :
+  comap (ψ.comp φ) U = comap φ (comap ψ U) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  -- The whole proof could be ``rfl``, but let's decompose it a bit.
+  ext x
+  simp only [mem_comap]
+  rfl
+-- BOTH:
+
+-- Pushing a Subgroup along one homomorphism and then another is equal to
+--  pushing it forward along the composite of the homomorphisms.
+example (φ : G →* H) (ψ : H →* K) (S : Subgroup G) :
+  map (ψ.comp φ) S = map ψ (S.map φ) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  ext x
+  simp only [mem_map]
+  constructor
+  · rintro ⟨y, y_in, hy⟩
+    exact ⟨φ y, ⟨y, y_in, rfl⟩, hy⟩
+  · rintro ⟨y, ⟨z, z_in, hz⟩, hy⟩
+    use z, z_in
+    calc ψ.comp φ z = ψ (φ z) := rfl
+    _               = ψ y := by congr
+    _               = x := hy
+-- BOTH:
+end exercises
+-- QUOTE.
+
+/- TEXT:
+Let us finish this introduction to subgroups in Mathlib with two very classical results.
 Lagrange theorem states the cardinal of a subgroup of a finite group divides the cardinal of the
 group. Sylow's first theorem is a very famous partial converse to Lagrange's theorem.
+
+Since this corner of Mathlib is partly setup to allow actual computations, we need to tell
+Lean to use non-constructive logic using the following ``attribute`` command.
 EXAMPLES: -/
 -- QUOTE:
 
@@ -325,6 +451,40 @@ open Subgroup
 example {G : Type*} [Group G] [Fintype G] (p : ℕ) {n : ℕ} [Fact p.Prime]
     (hdvd : p ^ n ∣ card G) : ∃ K : Subgroup G, card K = p ^ n :=
   Sylow.exists_subgroup_card_pow_prime p hdvd
+
+-- QUOTE.
+
+/- TEXT:
+The next two exercises derive a corollary of Lagrange's lemma (which is already in Mathlib,
+so do not use `exact?` too early).
+EXAMPLES: -/
+-- QUOTE:
+
+
+lemma eq_bot_iff_card {G : Type*} [Group G] {H : Subgroup G} [Fintype H] : H = ⊥ ↔ card H = 1 := by
+  suffices (∀ x ∈ H, x = 1) ↔ ∃ x ∈ H, ∀ a ∈ H, a = x by
+    simpa [eq_bot_iff_forall, card_eq_one_iff]
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  constructor
+  · intro h
+    use 1, H.one_mem
+  · rintro ⟨y, -, hy'⟩ x hx
+    calc x = y := hy' x hx
+    _      = 1 := (hy' 1 H.one_mem).symm
+
+-- BOTH:
+#check card_dvd_of_le
+
+lemma inf_bot_of_coprime {G : Type*} [Group G] (H K : Subgroup G) [Fintype H] [Fintype K]
+    (h : (card H).Coprime (card K))  : H ⊓ K = ⊥ := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+  have D₁ : card (H ⊓ K : Subgroup G) ∣ card H := card_dvd_of_le inf_le_left
+  have D₂ : card (H ⊓ K : Subgroup G) ∣ card K := card_dvd_of_le inf_le_right
+  exact eq_bot_iff_card.2 (Nat.eq_one_of_dvd_coprimes h D₁ D₂)
 
 -- QUOTE.
 /- TEXT:
@@ -435,7 +595,7 @@ An action of a group ``G`` on some type ``X`` is nothing but a morphism from ``G
 But we don't want to carry around this morphism everywhere, we want it to be automatically inferred
 by Lean as much as possible. So we have a type class for this, which is ``MulAction G X``.
 The downside of this setup is that having multiple actions of the same group on the same type
-requires some contorsions, such as defining type synonyms carrying different instances.
+requires some contortions, such as defining type synonyms carrying different instances.
 
 This setup allows in particular to use ``g • x`` to denote the action of a group element ``g`` on
 a point ``x``.
@@ -540,8 +700,46 @@ example {G : Type*} [Group G] (H : Subgroup G) : G ≃ (G ⧸ H) × H :=
 /- TEXT:
 which is the conceptual version of Lagrange theorem that we saw above.
 Note this version makes no finiteness assumption.
+
+As an exercise for this section, let us build the action of a group on its subgroup by
+conjugation, using our definition ``conjugate`` from a previous exercise.
 EXAMPLES: -/
 -- QUOTE:
+variable {G : Type*} [Group G]
+
+lemma conjugate_one (H : Subgroup G) : conjugate 1 H = H := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+  ext x
+  simp [conjugate]
+-- BOTH:
+
+instance : MulAction G (Subgroup G) where
+  smul := conjugate
+  one_smul := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+    exact conjugate_one
+-- BOTH:
+  mul_smul := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+    intro x y H
+    ext z
+    constructor
+    · rintro ⟨h, h_in, rfl⟩
+      use y*h*y⁻¹
+      constructor
+      · use h
+      · group
+    · rintro ⟨-, ⟨h, h_in, rfl⟩, rfl⟩
+      use h, h_in
+      group
+-- BOTH:
+
 end GroupActions
 
 
@@ -608,18 +806,134 @@ example {G G': Type*} [Group G] [Group G']
     {N : Subgroup G} [N.Normal] {N' : Subgroup G'} [N'.Normal]
     {φ : G →* G'} (h : N ≤ Subgroup.comap φ N') : G ⧸ N →* G'⧸ N':=
   QuotientGroup.map N N' φ h
+-- QUOTE.
 
-/-
+/- TEXT:
 One subtle point to understand is that the type ``G ⧸ N`` really depends on ``N``
 (up to definitional equality), so having a proof that two normal subgroups ``N`` and ``M`` are equal
 is not enough to make the corresponding quotients equal. However the universal properties does give
 an isomorphism in this case.
--/
+EXAMPLES: -/
+-- QUOTE:
 
 example {G : Type*} [Group G] {M N : Subgroup G} [M.Normal]
   [N.Normal] (h : M = N) : G ⧸ M ≃* G ⧸ N := QuotientGroup.quotientMulEquivOfEq  h
+-- QUOTE.
+
+/- TEXT:
+
+As a final series of exercises for this section, we will prove that if ``H`` and ``K`` are disjoint
+normal subgroups of a finite group ``G`` whose cardinals have product the cardinal of ``G``
+then ``G`` is isomorphic to ``H × K``. Recall that disjoint in this context means ``H ⊓ K = ⊥``.
+
+We start with playing a bit with Lagrange's lemma, without  assuming the subgroups are normal
+or disjoint.
+EXAMPLES: -/
+-- QUOTE:
+
+section
+variable  {G : Type*} [Group G] {H K : Subgroup G}
+
+open MonoidHom
+
+#check card_pos -- The nonempty argument will be automatically inferred for subgroups
+#check Subgroup.index_eq_card
+#check Subgroup.index_mul_card
+#check Nat.eq_of_mul_eq_mul_right
+
+lemma aux_card_eq [Fintype G] (h' : card G = card H * card K) : card (G⧸H) = card K := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  have := calc
+    card (G ⧸ H) * card H = card G := by rw [← H.index_eq_card, H.index_mul_card]
+    _                     = card K * card H := by rw [h', mul_comm]
+
+  exact Nat.eq_of_mul_eq_mul_right card_pos this
+-- QUOTE.
+
+/- TEXT:
+From now on, we assume our subgroup are normal and disjoint, and the cardinality condition.
+
+We construct the first building block of the desired isomorphism.
+
+EXAMPLES: -/
+-- QUOTE:
+
+variable [H.Normal] [K.Normal] [Fintype G] (h : Disjoint H K) (h' : card G = card H * card K)
 
 
+#check bijective_iff_injective_and_card
+#check ker_eq_bot_iff
+#check restrict
+#check ker_restrict
+
+
+def iso₁ [Fintype G] (h : Disjoint H K) (h' : card G = card H * card K) : K ≃* G⧸H := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  apply MulEquiv.ofBijective ((QuotientGroup.mk' H).restrict K)
+  rw [bijective_iff_injective_and_card]
+  constructor
+  · rw [← ker_eq_bot_iff, (QuotientGroup.mk' H).ker_restrict K]
+    simp [h]
+  · symm
+    exact aux_card_eq h'
+
+-- QUOTE.
+
+/- TEXT:
+
+Next we will need ``MonoidHom.prod`` which builds a morphism from ``G₀`` to ``G₁ × G₂`` out of
+morphisms from ``G₀`` to ``G₁`` and ``G₂``.
+
+The following lemma is currently missing from Mathlib.
+EXAMPLES: -/
+-- QUOTE:
+
+#check MulHom.prod
+
+theorem MonoidHom.ker_prod {M N P : Type*} [Group M] [MulOneClass N] [MulOneClass P]
+    (f : M →* N) (g : M →* P) : ker (f.prod g) = ker f ⊓ ker g := by
+  ext x
+  simp [MonoidHom.mem_ker]
+
+-- QUOTE.
+
+/- TEXT:
+
+Now we can define our second building block.
+
+EXAMPLES: -/
+-- QUOTE:
+
+def iso₂ : G ≃* (G⧸K) × (G⧸H) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  apply MulEquiv.ofBijective  <| (QuotientGroup.mk' K).prod (QuotientGroup.mk' H)
+  rw [bijective_iff_injective_and_card]
+  constructor
+  · rw [← ker_eq_bot_iff, ker_prod]
+    simp [h.symm.eq_bot]
+  · rw [card_prod, aux_card_eq h', aux_card_eq (mul_comm (card H) _▸ h'), h']
+-- QUOTE.
+
+/- TEXT:
+We are ready to put all pieces together.
+EXAMPLES: -/
+-- QUOTE:
+
+#check MulEquiv.prodCongr
+
+def finalIso : G ≃* H × K :=
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  (iso₂ h h').trans ((iso₁ h.symm (mul_comm (card H) _ ▸ h')).prodCongr (iso₁ h h')).symm
+
+end
 end QuotientGroup
 
 -- QUOTE.

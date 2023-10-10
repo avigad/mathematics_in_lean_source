@@ -18,5 +18,22 @@
   "cSpell.words": [
     "monoids",
     "numref"
-  ]
+  ],
+  "spellright.language": [
+    "en_US"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "lean4"
+  ],
+  "spellright.parserByClass": {
+    "lean4": {
+      "parser": "code",
+      "comment_start": "/-",
+      "comment_end": "-/",
+      "comment_line": "--"
+    }
+  }
 }
