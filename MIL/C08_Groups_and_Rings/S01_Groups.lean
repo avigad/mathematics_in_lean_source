@@ -291,7 +291,7 @@ example {G : Type*} [Group G] (x : G) : x ∈ (⊥ : Subgroup G) ↔ x = 1 := Su
 -- QUOTE.
 /- TEXT:
 As an exercise in manipulating groups and subgroups, you can define the conjuguate of a subgroup
-by an element of the ambiant group.
+by an element of the ambient group.
 EXAMPLES: -/
 -- QUOTE:
 
@@ -509,7 +509,7 @@ Perm.closure_isCycle
 /- TEXT:
 One can be fully concrete and compute actual products of cycles. Below we use the ``#simp`` command
 which calls the ``simp`` tactic on a given expression. The ``c[]`` notation is used to define a
-cyclic premutation. In the example the result is a permutation of ``ℕ``. One could a type ascription
+cyclic permutation. In the example the result is a permutation of ``ℕ``. One could a type ascription
 such as ``(1 : Fin 5)`` on the first number appearing to make it a computation in ``Perm (Fin 5)``.
 EXAMPLES: -/
 -- QUOTE:
