@@ -45,7 +45,7 @@ example (x y : ℕ) : (x + y)^2 = x^2 + y^2 + 2*x*y := by ring
 There also versions that do not assume existence of a multiplicative unit or associativity of
 multiplication but we will not discuss those.
 
-It is important to realize that several concepts that are traditionaly taught in an introduction
+It is important to realize that several concepts that are traditionally taught in an introduction
 to ring theory are actually about the underlying multiplicative monoid.
 From a practical point of view, you can almost ignore this when using Mathlib. But you need
 to know they exist when looking for a lemma by browsing Mathlib files. Indeed you may be looking
@@ -335,7 +335,7 @@ example {R : Type*} [CommRing R] (P : R[X]) (r : R) : IsRoot P r ↔ P.eval r = 
 We would like to say that, assuming ``R`` has no zero divisor, a polynomial has at most as many
 roots, counted with multiplicities, as its degree. But again the case of the zero polynomial is
 painful. So Mathlib defines ``Polynomial.roots`` as sending a polynomial ``P`` to a multiset,
-ie a finite set with multiplicites defined to be empty if ``P`` is zero and its roots
+ie a finite set with multiplicities defined to be empty if ``P`` is zero and its roots
 with multiplicities otherwise. This is defined only when the underlying ring is a domain
 since otherwise it has no good property.
 EXAMPLES: -/
@@ -352,7 +352,7 @@ example {R : Type*} [CommRing R] [IsDomain R] (r : R) (n : ℕ): ((X - C r)^n).r
 Both `Polynomial.eval` and `Polynomial.roots` consider only the coefficients ring. They do not
 allow to say that ``X^2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X^2 + 1 : ℝ[X]`` has a root in
 ``ℂ``. For this we need ``Polynomial.aeval`` which will evaluate ``P : R[X]`` in any ``R``-algebra.
-More precisely, given a smiring ``A`` and a ``Algebra R A`` instance, ``Polynomial.aeval`` sends
+More precisely, given a semiring ``A`` and a ``Algebra R A`` instance, ``Polynomial.aeval`` sends
 every element of ``a`` on the ``R``-algebra morphism of evaluation at ``a``. Since ``AlgHom``
 has a coercion to functions, one can apply it to a polynomial.
 But ``aeval`` does not have a polynomial as an argument, so one cannot use dot notation like in
@@ -404,10 +404,10 @@ example : (X^2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
 Let us end by briefly mentioning multi-variate polynomials. Given a commutative semiring ``R``,
 the ``R``-algebra of polynomial with coefficients in ``R`` and indeterminates indexed by
 a type ``σ`` is ``MVPolynomial σ R``. Given ``i : σ``, the corresponding polynomial is
-``MvPolynomial.X i`` (of course one can open the ``MVPolynomial`` namespace to shortent this
+``MvPolynomial.X i`` (of course one can open the ``MVPolynomial`` namespace to shorten this
 to ``X i``).
 For instance, if we want two indeterminates we can use
-``Fin 2`` as ``σ`` and write the polynomial defining the unit cicle in :math:`\mathbb{R}^2`` as:
+``Fin 2`` as ``σ`` and write the polynomial defining the unit circle in :math:`\mathbb{R}^2`` as:
 EXAMPLES: -/
 -- QUOTE:
 
