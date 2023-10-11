@@ -77,8 +77,8 @@ def iSup_delab : Delab := whenPPOption Lean.getPPNotation do
     | _ => pure stx
   return stx
 
-@[delab app.infᵢ]
-def infᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
+@[delab app.iInf]
+def iInf_delab : Delab := whenPPOption Lean.getPPNotation do
   let #[_, _, ι, f] := (← SubExpr.getExpr).getAppArgs | failure
   unless f.isLambda do failure
   let prop ← Meta.isProp ι
@@ -148,8 +148,8 @@ def exists_delab : Delab := whenPPOption Lean.getPPNotation do
   | _ => pure stx
 
 -- the above delaborators are still needed:
--- #check ⨆ (i : Nat) (_ : i ∈ Set.univ), (i = i)
--- #check ∃ (i : Nat), i ≥ 3 ∧ i = i
+#check ⨆ (i : Nat) (_ : i ∈ Set.univ), (i = i)
+#check ∃ (i : Nat), i ≥ 3 ∧ i = i
 
 end SupInfNotation
 
@@ -162,8 +162,8 @@ Improvements to the unexpanders in `Mathlib.Data.Set.Lattice`.
 These are implemented as delaborators directly.
 -/
 
-@[delab app.Set.unionᵢ]
-def unionᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
+@[delab app.Set.iUnion]
+def iUnion_delab : Delab := whenPPOption Lean.getPPNotation do
   let #[_, ι, f] := (← SubExpr.getExpr).getAppArgs | failure
   unless f.isLambda do failure
   let prop ← Meta.isProp ι
@@ -189,8 +189,8 @@ def unionᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
     | _ => pure stx
   return stx
 
-@[delab app.Set.interᵢ]
-def interᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
+@[delab app.Set.iInter]
+def sInter_delab : Delab := whenPPOption Lean.getPPNotation do
   let #[_, ι, f] := (← SubExpr.getExpr).getAppArgs | failure
   unless f.isLambda do failure
   let prop ← Meta.isProp ι
@@ -216,8 +216,6 @@ def interᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
     | _ => pure stx
   return stx
 
--- the above delaborators might not work correctly
--- #check ⋃ (s : Set ℕ) (_ : s ∈ Set.univ), s
 
 end UnionInterNotation
 
