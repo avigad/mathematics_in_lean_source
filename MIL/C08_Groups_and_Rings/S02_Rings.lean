@@ -4,6 +4,7 @@ import Mathlib.RingTheory.Ideal.QuotientOperations
 import Mathlib.RingTheory.Localization.Basic
 import Mathlib.RingTheory.DedekindDomain.Ideal
 import Mathlib.Analysis.Complex.Polynomial
+import Mathlib.Data.ZMod.Quotient
 import MIL.Common
 
 noncomputable section
@@ -165,30 +166,17 @@ EXAMPLES: -/
 example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] (f : ι → Ideal R)
     (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* Π i, R ⧸ f i :=
 Ideal.quotientInfRingEquivPiQuotient f hf
+-- QUOTE.
+/- TEXT:
+The elementary version about ``Zmod`` can be easily deduced from it:
+EXAMPLES: -/
+-- QUOTE:
 
-open BigOperators Ideal
+open BigOperators
 
-lemma IsCoprime.natCast {R : Type*} [CommSemiring R] {a b : ℕ} (h : IsCoprime a b) :
-    IsCoprime (a : R) (b : R) := by
-  rcases h with ⟨u, v, H⟩
-  use u, v
-  rw_mod_cast [H]
-  exact Nat.cast_one
-
-theorem Ideal.iInf_span_singleton_natCast {R : Type*} [CommSemiring R] {ι : Type*} [Fintype ι]
-    {I : ι → ℕ} (hI : ∀ (i j : ι), i ≠ j → IsCoprime (I i) (I j)) :
-    ⨅ (i : ι), Ideal.span {(I i : R)} = Ideal.span {((∏ i : ι, I i : ℕ) : R)} := by
-  rw [Ideal.iInf_span_singleton, Nat.cast_prod]
-  exact fun i j h ↦ (hI i j h).natCast
-
-example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j → IsCoprime (a i) (a j)) :
+example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j → (a i).Coprime (a j)) :
     ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) :=
-  have : ∀ (i j : ι), i ≠ j → IsCoprime (span {(a i : ℤ)}) (span {(a j : ℤ)}) :=
-    fun i j h ↦ (isCoprime_span_singleton_iff _ _).mpr ((coprime i j h).natCast (R := ℤ))
-  Int.quotientSpanNatEquivZMod _ |>.symm.trans <|
-  quotEquivOfEq (iInf_span_singleton_natCast (R := ℤ) coprime) |>.symm.trans <|
-  quotientInfRingEquivPiQuotient _ this |>.trans <|
-  RingEquiv.piCongrRight fun i ↦ Int.quotientSpanNatEquivZMod (a i)
+  ZMod.prodEquivPi a coprime
 
 -- QUOTE.
 /- TEXT:
@@ -275,7 +263,7 @@ polynomial. Mathlib has two variants: ``Polynomial.natDegree : R[X] → ℕ`` wh
 ``0`` to the zero polynomial, and ``Polynomial.degree : R[X] → WithBot ℕ`` where ``WithBot ℕ``
 can be seen as ``ℕ ∪ {-∞}``, except ``-∞`` is denoted ``⊥`` (the same symbol as the bottom element
 is a complete lattice for instance). This special value is used as the degree of the zero
-polynomial, and it is absorbant for addition (and almost for multiplication, except that
+polynomial, and it is absorbent for addition (and almost for multiplication, except that
 ``⊥ * 0 = 0``).
 
 The ``degree`` version is morally the correct one. For instance it allows to state the expected
@@ -335,7 +323,7 @@ example {R : Type*} [CommRing R] (P : R[X]) (r : R) : IsRoot P r ↔ P.eval r = 
 We would like to say that, assuming ``R`` has no zero divisor, a polynomial has at most as many
 roots, counted with multiplicities, as its degree. But again the case of the zero polynomial is
 painful. So Mathlib defines ``Polynomial.roots`` as sending a polynomial ``P`` to a multiset,
-ie a finite set with multiplicities defined to be empty if ``P`` is zero and its roots
+ie. a finite set with multiplicities defined to be empty if ``P`` is zero and its roots
 with multiplicities otherwise. This is defined only when the underlying ring is a domain
 since otherwise it has no good property.
 EXAMPLES: -/
