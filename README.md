@@ -43,7 +43,7 @@
 | C02_Basics.rst | |
 | S01_Calculating.lean | [Taka](https://github.com/Taka0007) |
 | S02_Proving_Identities_in_Algebraic_Structures.lean | [s-taiga](https://github.com/s-taiga) |
-| S03_Using_Theorems_and_Lemmas.lean | |
+| S03_Using_Theorems_and_Lemmas.lean | [s-taiga](https://github.com/s-taiga) |
 | S04_More_on_Order_and_Divisibility.lean | |
 | S05_Proving_Facts_about_Algebraic_Structures.lean | |
 
