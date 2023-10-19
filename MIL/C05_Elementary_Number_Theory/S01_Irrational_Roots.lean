@@ -27,27 +27,27 @@ reduced to lowest terms.
 Saying that :math:`a / b` is a fraction in lowest terms means
 that :math:`a` and :math:`b` do not have any factors in common,
 which is to say, they are *coprime*.
-Mathlib defines the predicate ``Nat.coprime m n`` to be ``Nat.gcd m n = 1``.
+Mathlib defines the predicate ``Nat.Coprime m n`` to be ``Nat.gcd m n = 1``.
 Using Lean's anonymous projection notation, if ``s`` and ``t`` are
-expressions of type ``Nat``, we can write ``s.coprime t`` instead of
-``Nat.coprime s t``, and similarly for ``Nat.gcd``.
-As usual, Lean will often unfold the definition of ``Nat.coprime`` automatically
+expressions of type ``Nat``, we can write ``s.Coprime t`` instead of
+``Nat.Coprime s t``, and similarly for ``Nat.gcd``.
+As usual, Lean will often unfold the definition of ``Nat.Coprime`` automatically
 when necessary,
 but we can also do it manually by rewriting or simplifying with
-the identifier ``Nat.coprime``.
+the identifier ``Nat.Coprime``.
 The ``norm_num`` tactic is smart enough to compute concrete values.
 EXAMPLES: -/
 -- QUOTE:
-#print Nat.coprime
+#print Nat.Coprime
 
-example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 :=
+example (m n : Nat) (h : m.Coprime n) : m.gcd n = 1 :=
   h
 
-example (m n : Nat) (h : m.coprime n) : m.gcd n = 1 := by
-  rw [Nat.coprime] at h
+example (m n : Nat) (h : m.Coprime n) : m.gcd n = 1 := by
+  rw [Nat.Coprime] at h
   exact h
 
-example : Nat.coprime 12 7 := by norm_num
+example : Nat.Coprime 12 7 := by norm_num
 
 example : Nat.gcd 12 8 = 4 := by norm_num
 -- QUOTE.
@@ -153,7 +153,7 @@ See if you can fill out the proof sketch, using
 ``even_of_even_sqr`` and the theorem ``Nat.dvd_gcd``.
 BOTH: -/
 -- QUOTE:
-example {m n : ℕ} (coprime_mn : m.coprime n) : m ^ 2 ≠ 2 * n ^ 2 := by
+example {m n : ℕ} (coprime_mn : m.Coprime n) : m ^ 2 ≠ 2 * n ^ 2 := by
   intro sqr_eq
   have : 2 ∣ m := by
 /- EXAMPLES:
@@ -209,7 +209,7 @@ any prime number is greater than or equal to two,
 and ``Nat.le_of_dvd``.
 BOTH: -/
 -- QUOTE:
-example {m n p : ℕ} (coprime_mn : m.coprime n) (prime_p : p.Prime) : m ^ 2 ≠ p * n ^ 2 := by
+example {m n p : ℕ} (coprime_mn : m.Coprime n) (prime_p : p.Prime) : m ^ 2 ≠ p * n ^ 2 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
