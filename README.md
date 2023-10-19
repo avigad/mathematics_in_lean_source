@@ -45,7 +45,7 @@
 | S02_Proving_Identities_in_Algebraic_Structures.lean | [s-taiga](https://github.com/s-taiga) |
 | S03_Using_Theorems_and_Lemmas.lean | [s-taiga](https://github.com/s-taiga) |
 | S04_More_on_Order_and_Divisibility.lean | [s-taiga](https://github.com/s-taiga) |
-| S05_Proving_Facts_about_Algebraic_Structures.lean | |
+| S05_Proving_Facts_about_Algebraic_Structures.lean | [s-taiga](https://github.com/s-taiga) |
 
 * C03_Logic
 
