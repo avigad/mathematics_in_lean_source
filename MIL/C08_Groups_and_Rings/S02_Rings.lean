@@ -118,6 +118,10 @@ EXAMPLES: -/
 example {R : Type*} [CommRing R] (I : Ideal R) : R →+* R⧸I :=
   Ideal.Quotient.mk I
 
+example {R : Type*} [CommRing R] {a : R} {I : Ideal R} :
+    Ideal.Quotient.mk I a = 0 ↔ a ∈ I :=
+  Ideal.Quotient.eq_zero_iff_mem
+
 -- QUOTE.
 /- TEXT:
 The universal property of quotient rings is ``Ideal.Quotient.lift``
@@ -138,49 +142,23 @@ RingHom.quotientKerEquivRange f
 -- QUOTE.
 /- TEXT:
 Ideals have a complete lattice structure (for the inclusion relation), and a semi-ring structure.
+Those two structures interact nicely.
 
 EXAMPLES: -/
 -- QUOTE:
+section
+variable {R : Type*} [CommRing R] {I J : Ideal R}
 
-example {R : Type*} [CommRing R] {I J : Ideal R} {x : R} :
-    x ∈ I + J ↔ ∃ a ∈ I, ∃ b ∈ J, a + b = x := by
+example : I + J = I ⊔ J := rfl
+
+example {x : R} : x ∈ I + J ↔ ∃ a ∈ I, ∃ b ∈ J, a + b = x := by
   simp [Submodule.mem_sup]
 
-open BigOperators
+example : I * J ≤ J := Ideal.mul_le_left
 
+example : I * J ≤ I := Ideal.mul_le_right
 
-
-example {R : Type*} [CommRing R] {I J : Ideal R} {x : R} :
-    x ∈ I * J ↔ ∃ (n : ℕ) (a : Fin n → R) (b : Fin n → R), (∀ i, a i ∈ I ∧ b i ∈ J) ∧ ∑ i, a i * b i = x := by
-  constructor
-  · intro hx
-    let P : R → Prop := fun x ↦  ∃ n, ∃ a b : Fin n → R, (∀ (i : Fin n), a i ∈ I ∧ b i ∈ J) ∧ ∑ i : Fin n, a i * b i = x
-    apply Submodule.smul_induction_on (p := P) hx
-    intro a ha b hb
-    existsi 1
-    use (fun _ ↦ a), fun _ ↦ b
-    constructor
-    tauto
-    simp
-    rintro x y ⟨n, a, b, hab, rfl⟩ ⟨m, c, d, hcd, rfl⟩
-    existsi n + m
-    use Fin.addCases a c
-    use Fin.addCases b d
-    constructor
-    · intros i
-      constructor
-      · induction i using Fin.addCases
-        next i =>  simpa using (hab i).1
-        next i =>  simpa using (hcd i).1
-      · induction i using Fin.addCases
-        next i =>  simpa using (hab i).2
-        next i =>  simpa using (hcd i).2
-    · simp [Fin.sum_univ_add]
-  · rintro ⟨n, a, b, h, rfl⟩
-    apply Ideal.sum_mem
-    intro i _
-    apply Submodule.mul_mem_mul  (h i).1 (h i).2
-
+example : I * J ≤ I ⊓ J := Ideal.mul_le_inf
 
 -- QUOTE.
 /- TEXT:
@@ -238,7 +216,7 @@ universal property of quotient rings.
 EXAMPLES: -/
 
 -- QUOTE:
-namespace MIL
+
 variable {ι R : Type*} [CommRing R]
 open Ideal Quotient Function
 
@@ -275,6 +253,9 @@ lemma chineseMap_mk' (I : ι → Ideal R) (x : R) (i : ι) :
   sorry
 SOLUTIONS: -/
   rfl
+
+-- QUOTE.
+
 /- TEXT:
 The next lemma prove the easy half of the Chinese remainder theorem, without any assumption on
 the family of ideals. The proof is less than one line long.
@@ -289,10 +270,12 @@ lemma chineseMap_inj (I : ι → Ideal R) : Injective (chineseMap I) := by
   sorry
 SOLUTIONS: -/
   rw [chineseMap, injective_lift_iff, ker_Pi_Quotient_mk]
+
+-- QUOTE.
 /- TEXT:
 We are now ready for the heart of the theorem, which will give surjectivity
 of ou ``chineseMap``. First we need to know the different ways one can express the coprimality
-(also called co-maximality assumption). Only the first ``iff`` below will be needed.
+(also called co-maximality assumption). Only the first two will be needed below.
 
 EXAMPLES: -/
 
@@ -302,8 +285,17 @@ EXAMPLES: -/
 #check isCoprime_iff_exists
 #check isCoprime_iff_sup_eq
 #check isCoprime_iff_codisjoint
+-- QUOTE.
+/- TEXT:
+We take the opportunity to use induction on ``Finset``. Relevant lemmas on ``Finset`` given below.
+Remember that the ``ring`` tactic work for semirings, and ideals form a semiring.
+EXAMPLES: -/
 
-theorem isCoprime_biInf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
+-- QUOTE:
+#check Finset.mem_insert_of_mem
+#check Finset.mem_insert_self
+
+theorem isCoprime_Inf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
     (hf : ∀ j ∈ s, IsCoprime I (J j)) : IsCoprime I (⨅ j ∈ s, J j) := by
   classical
   simp_rw [isCoprime_iff_add] at *
@@ -314,11 +306,23 @@ theorem isCoprime_biInf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
       rw [Finset.iInf_insert, inf_comm, one_eq_top, eq_top_iff, ← one_eq_top]
       set K := ⨅ j ∈ s, J j
       calc
+/- EXAMPLES:
+        1 = I + K            := sorry
+        _ = I + K*(I + J i)  := sorry
+        _ = (1+K)*I + K*J i  := sorry
+        _ ≤ I + K ⊓ J i      := sorry
+SOLUTIONS: -/
         1 = I + K            := (hs fun j hj ↦ hf j (Finset.mem_insert_of_mem hj)).symm
         _ = I + K*(I + J i)  := by rw [hf i (Finset.mem_insert_self i s), mul_one]
         _ = (1+K)*I + K*J i  := by ring
         _ ≤ I + K ⊓ J i      := by gcongr ; apply mul_le_left ; apply mul_le_inf
 
+-- QUOTE.
+/- TEXT:
+We can now prove surjectivity of the map appearing in the Chinese remainder theorem.
+EXAMPLES: -/
+
+-- QUOTE:
 
 lemma chineseMap_surj [Fintype ι] {I : ι → Ideal R}
     (hI : ∀ i j, i ≠ j → IsCoprime (I i) (I j)) : Surjective (chineseMap I) := by
@@ -328,28 +332,42 @@ lemma chineseMap_surj [Fintype ι] {I : ι → Ideal R}
   have key : ∀ i, ∃ e : R, mk (I i) e = 1 ∧ ∀ j, j ≠ i → mk (I j) e = 0 := by
     intro i
     have hI' : ∀ j ∈ ({i} : Finset ι)ᶜ, IsCoprime (I i) (I j) := by
+/- EXAMPLES:
+      sorry
+SOLUTIONS: -/
       intros j hj
       exact hI _ _ (by simpa [ne_comm, isCoprime_iff_add] using hj)
-    rcases isCoprime_iff_exists.mp (isCoprime_biInf hI') with ⟨u, hu, e, he, hue⟩
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+    rcases isCoprime_iff_exists.mp (isCoprime_Inf hI') with ⟨u, hu, e, he, hue⟩
     replace he : ∀ j, j ≠ i → e ∈ I j := by simpa using he
     refine ⟨e, ?_, ?_⟩
     · simp [eq_sub_of_add_eq' hue, map_sub, eq_zero_iff_mem.mpr hu]
       rfl
     · exact fun j hj ↦ eq_zero_iff_mem.mpr (he j hj)
+-- BOTH:
   choose e he using key
   use mk _ (∑ i, f i*e i)
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   ext i
   rw [chineseMap_mk', map_sum, Fintype.sum_eq_single i]
   · simp [(he i).1, hf]
   · intros j hj
     simp [(he j).2 i hj.symm]
 
+-- QUOTE.
+/- TEXT:
+
+And then every pieces fit together in:
+TEXT. -/
+-- QUOTE:
 noncomputable def chineseIso [Fintype ι] (f : ι → Ideal R)
     (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* ∀ i, R ⧸ f i :=
   { Equiv.ofBijective _ ⟨chineseMap_inj f, chineseMap_surj hf⟩,
     chineseMap f with }
-
-end MIL
 
 -- QUOTE.
 /- TEXT:
