@@ -52,7 +52,7 @@
 | 章名 | 担当 |
 | --- | --- |
 | C03_Logic.rst ||
-| S01_Implication_and_the_Universal_Quantifier.lean ||
+| S01_Implication_and_the_Universal_Quantifier.lean | [s-taiga](https://github.com/s-taiga) |
 | S02_The_Existential_Quantifier.lean ||
 | S03_Negation.lean ||
 | S04_Conjunction_and_Iff.lean ||
