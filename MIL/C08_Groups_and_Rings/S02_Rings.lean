@@ -67,7 +67,7 @@ EXAMPLES: -/
 
 example (x : ℤˣ) : x = 1 ∨ x = -1 := Int.units_eq_one_or x
 
-example {M : Type*} [Monoid M] {x : Mˣ} : (x : M)*x⁻¹ = 1 := Units.mul_inv x
+example {M : Type*} [Monoid M] (x : Mˣ) : (x : M)*x⁻¹ = 1 := Units.mul_inv x
 
 example {M : Type*} [Monoid M] : Group Mˣ := inferInstance
 
@@ -87,6 +87,8 @@ example {R S : Type*} [Ring R] [Ring S] (f : R →+* S) : Rˣ →* Sˣ :=
 
 -- QUOTE.
 /- TEXT:
+The isormophism variant is ``RingEquiv``, with notation ``≃+*``.
+
 As with submonoids and subgroups, there is a ``Subring R`` type for subrings of a ring ``R``,
 but is a lot less useful than subgroups since those are not the right object to quotient by.
 EXAMPLES: -/
@@ -106,8 +108,8 @@ For historical reasons, Mathlib only has a theory of ideals for commutative ring
 algebraic geometry). So in this section we work with commutative (semi)rings.
 Ideals of ``R`` are defined as submodules of ``R`` seen as an ``R``-module. This notion will
 be covered only in the linear algebra chapter, but this implementation detail can mostly be
-safely ignored since most relevant lemmas are restated in the special context of ideals.
-However dot notation won't always work as expected. For instance one cannot replace
+safely ignored since most (but not all) relevant lemmas are restated in the special context of
+ideals. However dot notation won't always work as expected. For instance one cannot replace
 ``Ideal.Quotient.mk I`` by ``I.Quotient.mk`` in the snippet below because the parser
 immediately replaces the ``Ideal R`` with ``Submodule R R``.
 EXAMPLES: -/
@@ -132,6 +134,53 @@ EXAMPLES: -/
 -- QUOTE:
 example {R S : Type*} [CommRing R] [CommRing S](f : R →+* S) : R ⧸ RingHom.ker f ≃+* f.range :=
 RingHom.quotientKerEquivRange f
+
+-- QUOTE.
+/- TEXT:
+Ideals have a complete lattice structure (for the inclusion relation), and a semi-ring structure.
+
+EXAMPLES: -/
+-- QUOTE:
+
+example {R : Type*} [CommRing R] {I J : Ideal R} {x : R} :
+    x ∈ I + J ↔ ∃ a ∈ I, ∃ b ∈ J, a + b = x := by
+  simp [Submodule.mem_sup]
+
+open BigOperators
+
+
+
+example {R : Type*} [CommRing R] {I J : Ideal R} {x : R} :
+    x ∈ I * J ↔ ∃ (n : ℕ) (a : Fin n → R) (b : Fin n → R), (∀ i, a i ∈ I ∧ b i ∈ J) ∧ ∑ i, a i * b i = x := by
+  constructor
+  · intro hx
+    let P : R → Prop := fun x ↦  ∃ n, ∃ a b : Fin n → R, (∀ (i : Fin n), a i ∈ I ∧ b i ∈ J) ∧ ∑ i : Fin n, a i * b i = x
+    apply Submodule.smul_induction_on (p := P) hx
+    intro a ha b hb
+    existsi 1
+    use (fun _ ↦ a), fun _ ↦ b
+    constructor
+    tauto
+    simp
+    rintro x y ⟨n, a, b, hab, rfl⟩ ⟨m, c, d, hcd, rfl⟩
+    existsi n + m
+    use Fin.addCases a c
+    use Fin.addCases b d
+    constructor
+    · intros i
+      constructor
+      · induction i using Fin.addCases
+        next i =>  simpa using (hab i).1
+        next i =>  simpa using (hcd i).1
+      · induction i using Fin.addCases
+        next i =>  simpa using (hab i).2
+        next i =>  simpa using (hcd i).2
+    · simp [Fin.sum_univ_add]
+  · rintro ⟨n, a, b, h, rfl⟩
+    apply Ideal.sum_mem
+    intro i _
+    apply Submodule.mul_mem_mul  (h i).1 (h i).2
+
 
 -- QUOTE.
 /- TEXT:
@@ -160,7 +209,9 @@ example {R : Type*} [CommRing R] {I J : Ideal R} (h : I = J) : R ⧸ I ≃+* R �
 
 -- QUOTE.
 /- TEXT:
-For instance we can now quote the Chinese remainder isomorphism.
+For instance we can now quote the Chinese remainder isomorphism. Pay attention to the difference
+between the indexed infimum symbol ``⨅`` and the big product of types symbol ``Π``. Depending on
+your font, those could be pretty hard to distinguish.
 EXAMPLES: -/
 -- QUOTE:
 example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] (f : ι → Ideal R)
@@ -172,7 +223,7 @@ The elementary version about ``Zmod`` can be easily deduced from it:
 EXAMPLES: -/
 -- QUOTE:
 
-open BigOperators
+open BigOperators PiNotation
 
 example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j → (a i).Coprime (a j)) :
     ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) :=
@@ -182,12 +233,75 @@ example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j �
 /- TEXT:
 As a series of exercises, we will reprove the Chinese remainder theorem (in the general case).
 
+We first need to define the map appearing in the theorem, as a ring morphism, using the
+universal property of quotient rings.
 EXAMPLES: -/
 
 -- QUOTE:
 namespace MIL
 variable {ι R : Type*} [CommRing R]
 open Ideal Quotient Function
+
+#check Pi.ringHom
+#check ker_Pi_Quotient_mk
+
+/-- The homomorphism from ``R ⧸ ⨅ i, I i`` to ``Π i, R ⧸ I i`` featured in the Chinese
+  Remainder Theorem. -/
+def chineseMap (I : ι → Ideal R) : (R ⧸ ⨅ i, I i) →+* Π i, R ⧸ I i :=
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  Ideal.Quotient.lift (⨅ i, I i) (Pi.ringHom fun i : ι ↦ Ideal.Quotient.mk (I i))
+    (by simp [← RingHom.mem_ker, ker_Pi_Quotient_mk])
+-- QUOTE.
+/- TEXT:
+Make sure the following next two lemmas can be proven by ``rfl``.
+
+EXAMPLES: -/
+
+-- QUOTE:
+
+lemma chineseMap_mk (I : ι → Ideal R) (x : R) :
+    chineseMap I (Quotient.mk _ x) = fun i : ι ↦ Ideal.Quotient.mk (I i) x :=
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  rfl
+-- BOTH:
+
+lemma chineseMap_mk' (I : ι → Ideal R) (x : R) (i : ι) :
+    chineseMap I (mk _ x) i = mk (I i) x :=
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  rfl
+/- TEXT:
+The next lemma prove the easy half of the Chinese remainder theorem, without any assumption on
+the family of ideals. The proof is less than one line long.
+
+EXAMPLES: -/
+
+-- QUOTE:
+#check injective_lift_iff
+
+lemma chineseMap_inj (I : ι → Ideal R) : Injective (chineseMap I) := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  rw [chineseMap, injective_lift_iff, ker_Pi_Quotient_mk]
+/- TEXT:
+We are now ready for the heart of the theorem, which will give surjectivity
+of ou ``chineseMap``. First we need to know the different ways one can express the coprimality
+(also called co-maximality assumption). Only the first ``iff`` below will be needed.
+
+EXAMPLES: -/
+
+-- QUOTE:
+#check IsCoprime
+#check isCoprime_iff_add
+#check isCoprime_iff_exists
+#check isCoprime_iff_sup_eq
+#check isCoprime_iff_codisjoint
 
 theorem isCoprime_biInf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
     (hf : ∀ j ∈ s, IsCoprime I (J j)) : IsCoprime I (⨅ j ∈ s, J j) := by
@@ -205,22 +319,6 @@ theorem isCoprime_biInf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
         _ = (1+K)*I + K*J i  := by ring
         _ ≤ I + K ⊓ J i      := by gcongr ; apply mul_le_left ; apply mul_le_inf
 
-/-- The homomorphism from `R/(⋂ i, f i)` to `∏ i, (R / f i)` featured in the Chinese
-  Remainder Theorem. It is bijective if the ideals `f i` are coprime. -/
-def chineseMap (I : ι → Ideal R) : (R ⧸ ⨅ i, I i) →+* ∀ i, R ⧸ I i :=
-  Ideal.Quotient.lift (⨅ i, I i) (Pi.ringHom fun i : ι ↦ Ideal.Quotient.mk (I i))
-    (by simp [← RingHom.mem_ker, ker_Pi_Quotient_mk])
-
-lemma chineseMap_mk (I : ι → Ideal R) (x : R) :
-    chineseMap I (Quotient.mk _ x) = fun i : ι ↦ Ideal.Quotient.mk (I i) x :=
-rfl
-
-lemma chineseMap_mk' (I : ι → Ideal R) (x : R) (i : ι) :
-    chineseMap I (mk _ x) i = mk (I i) x :=
-rfl
-
-lemma chineseMap_inj (I : ι → Ideal R) : Injective (chineseMap I) := by
-  rw [chineseMap, injective_lift_iff, ker_Pi_Quotient_mk]
 
 lemma chineseMap_surj [Fintype ι] {I : ι → Ideal R}
     (hI : ∀ i j, i ≠ j → IsCoprime (I i) (I j)) : Surjective (chineseMap I) := by
