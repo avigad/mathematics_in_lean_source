@@ -10,7 +10,7 @@ such as the ring structure on the Gaussian integers. :numref:`Chapter %s <hierar
 hierarchies of abstract structures are handled in Mathlib.
 
 In this chapter we work with groups and rings in more detail. We won't be able to
-cover every aspect of the treatement of these topics in Mathlib, especially since Mathlib is constantly growing.
+cover every aspect of the treatment of these topics in Mathlib, especially since Mathlib is constantly growing.
 But we will provide entry points to the library and show how the essential concepts are used.
 There is some overlap with the discussion of
 :numref:`Chapter %s <hierarchies>`, but here we will focus on how to use Mathlib instead of the design
