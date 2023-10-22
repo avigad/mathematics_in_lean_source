@@ -53,7 +53,7 @@ example (h : y < -1) : y > 0 ∨ y < -1 :=
 /- TEXT:
 It may seem strange to prove a disjunction by proving one side
 or the other.
-In practice, which case holds usually depends a case distinction
+In practice, which case holds usually depends on a case distinction
 that is implicit or explicit in the assumptions and the data.
 The ``rcases`` tactic allows us to make use of a hypothesis
 of the form ``A ∨ B``.
