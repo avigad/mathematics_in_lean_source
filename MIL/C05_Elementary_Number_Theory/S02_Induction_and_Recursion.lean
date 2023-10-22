@@ -79,7 +79,7 @@ example : fac 0 = 1 := by
   rw [fac]
 
 example : fac 0 = 1 := by
-  simp [fac]
+  simp? [fac]
 
 example (n : ℕ) : fac (n + 1) = (n + 1) * fac n :=
   rfl
