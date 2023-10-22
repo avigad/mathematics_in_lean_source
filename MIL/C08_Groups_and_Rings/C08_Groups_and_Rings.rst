@@ -1,6 +1,6 @@
 .. _groups_and_ring:
 
-Groups and rings
+Groups and Rings
 ================
 
 We saw in :numref:`proving_identities_in_algebraic_structures` how to reason about
