@@ -323,7 +323,7 @@ with an attribute ``to_additive`` linking them. In case of multiple inheritance 
 semi-groups, the auto-generated "symmetry-restoring" instances need also to be marked.
 This is a bit technical you don't need to understand details. The important point is that
 lemmas are then only stated in multiplicative notation and marked with the attribute ``to_additive``
-to generate the additive version as ``left_inv_eq_right_inv'`` with it's auto-generated additive
+to generate the additive version as ``left_inv_eq_right_inv'`` with its auto-generated additive
 version ``left_neg_eq_right_neg'``. In order to check the name of this additive version we
 used the ``whatsnew in`` command on top of ``left_inv_eq_right_inv'``.
 BOTH: -/
