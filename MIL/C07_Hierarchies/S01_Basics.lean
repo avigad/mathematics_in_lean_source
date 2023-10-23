@@ -410,7 +410,7 @@ SOLUTIONS: -/
 -- QUOTE.
 
 /- TEXT:
-Note that ``to_additive`` can be ask to tag a lemma with ``simp`` and propagate that attribute
+Note that ``to_additive`` can be asked to tag a lemma with ``simp`` and propagate that attribute
 to the additive version as follows.
 BOTH: -/
 
