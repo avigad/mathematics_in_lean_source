@@ -450,7 +450,7 @@ class CommGroup₃ (G : Type) extends Group₃ G, CommMonoid₃ G
 We are now ready for rings. For demonstration purposes we won't assume that addition is
 commutative, and then immediately provide an instance of ``AddCommGroup₃``. Mathlib does not
 play this game, first because in practice this does not make any ring instance easier and
-also because Mathlib's algebraic hierarchy goes through semi-rings which are like rings but without
+also because Mathlib's algebraic hierarchy goes through semirings which are like rings but without
 opposites so that the proof below does not work for them. What we gain here, besides a nice exercise
 if you have never seen it, is an example of building an instance using the syntax that allows
 to provide a parent structure and some extra fields.
