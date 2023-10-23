@@ -12,7 +12,7 @@ BOTH: -/
 Irrational Roots
 ----------------
 
-Let's start with a fact known to the ancient greeks, namely,
+Let's start with a fact known to the ancient Greeks, namely,
 that the square root of 2 is irrational.
 If we suppose otherwise,
 we can write :math:`\sqrt{2} = a / b` as a fraction
