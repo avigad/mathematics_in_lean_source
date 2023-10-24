@@ -26,7 +26,7 @@ The most common fix, when doing mathematics with pen and paper,
 is to leave those proofs as exercises. A less efficient but safer and
 more formalization-friendly way of proceeding is to use monoids. A *monoid* structure on a type `M`
 is an internal composition law that is associative and has a neutral element.
-Monoids are used primarily to accommodate both groups and the multiplicative structure
+Monoids are used primarily to accommodate both groups and the multiplicative structure on
 rings. But there are also a number of natural examples; for instance, the set of natural numbers
 equipped with addition forms a monoid.
 
@@ -326,7 +326,7 @@ Tying the previous two topics together, one can push forward and pull back subgr
 group morphisms. The naming convention in Mathlib is to call those operations ``map``
 and ``comap``.
 These are not the common mathematical terms, but they have the advantage of being
-shorter than "pushforward" and  "direct image.""
+shorter than "pushforward" and  "direct image."
 EXAMPLES: -/
 -- QUOTE:
 example {G H : Type*} [Group G] [Group H] (G' : Subgroup G) (f : G →* H) : Subgroup H :=
@@ -364,7 +364,7 @@ variable {G H : Type*} [Group G] [Group H]
 
 open Subgroup
 
-example (φ : G →* H) (S T : Subgroup H) (hST : S ≤ T) : comap φ S ≤ comap φ T :=by
+example (φ : G →* H) (S T : Subgroup H) (hST : S ≤ T) : comap φ S ≤ comap φ T := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -373,7 +373,7 @@ SOLUTIONS: -/
   exact hST hx
 -- BOTH:
 
-example (φ : G →* H) (S T : Subgroup G) (hST : S ≤ T) : map φ S ≤ map φ T :=by
+example (φ : G →* H) (S T : Subgroup G) (hST : S ≤ T) : map φ S ≤ map φ T := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
