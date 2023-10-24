@@ -424,11 +424,11 @@ Let us finish this introduction to subgroups in Mathlib with two very classical 
 Lagrange theorem states the cardinality of a subgroup of a finite group divides the cardinality of
 the group. Sylow's first theorem is a famous partial converse to Lagrange's theorem.
 
-Since this corner of Mathlib is partly set up to allow computation, we need to tell
-Lean to use nonconstructive logic, using the following ``attribute`` command.
+While this corner of Mathlib is partly set up to allow computation, we can tell
+Lean to use nonconstructive logic anyway using the following ``open scoped`` command.
 BOTH: -/
 -- QUOTE:
-attribute [local instance 10] setFintype Classical.propDecidable
+open scoped Classical
 
 open Fintype
 -- EXAMPLES:
