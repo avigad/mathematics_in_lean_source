@@ -101,8 +101,9 @@ Ideals of ``R`` are defined as submodules of ``R`` seen as ``R``-modules. Module
 be covered later in a chapter on linear algebra, but this implementation detail can mostly be
 safely ignored since most (but not all) relevant lemmas are restated in the special context of
 ideals. But anonymous projection notation won't always work as expected. For instance,
-one cannot replace ``Ideal.Quotient.mk I`` by ``I.Quotient.mk`` in the snippet below because
-the parser immediately replaces ``Ideal R`` with ``Submodule R R``.
+one cannot replace ``Ideal.Quotient.mk I`` by ``I.Quotient.mk`` in the snippet below because there
+are two ``.``s and so it will parse as ``(Ideal.Quotient I).mk``; but ``Ideal.Quotient`` by itself
+doesn't exist.
 EXAMPLES: -/
 -- QUOTE:
 example {R : Type*} [CommRing R] (I : Ideal R) : R →+* R⧸I :=
