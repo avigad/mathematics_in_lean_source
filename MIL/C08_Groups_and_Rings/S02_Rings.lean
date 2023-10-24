@@ -24,7 +24,7 @@ assumed to be commutative is ``CommRing R``. We have already seen that the ``rin
 prove any equality that follows from the axioms of a commutative ring.
 EXAMPLES: -/
 -- QUOTE:
-example {R : Type*} [CommRing R] (x y : R) : (x + y)^2 = x^2 + y^2 + 2*x*y := by ring
+example {R : Type*} [CommRing R] (x y : R) : (x + y) ^ 2 = x ^ 2 + y ^ 2 + 2 * x * y := by ring
 -- QUOTE.
 
 /- TEXT:
@@ -37,7 +37,7 @@ The name of the ``ring`` tactic is doubly misleading, since it assumes commutati
 in semirings as well. In other words, it applies to any ``CommSemiring``.
 EXAMPLES: -/
 -- QUOTE:
-example (x y : ℕ) : (x + y)^2 = x^2 + y^2 + 2*x*y := by ring
+example (x y : ℕ) : (x + y) ^ 2 = x ^ 2 + y ^ 2 + 2 * x * y := by ring
 -- QUOTE.
 
 /- TEXT:
@@ -60,7 +60,7 @@ EXAMPLES: -/
 -- QUOTE:
 example (x : ℤˣ) : x = 1 ∨ x = -1 := Int.units_eq_one_or x
 
-example {M : Type*} [Monoid M] (x : Mˣ) : (x : M)*x⁻¹ = 1 := Units.mul_inv x
+example {M : Type*} [Monoid M] (x : Mˣ) : (x : M) * x⁻¹ = 1 := Units.mul_inv x
 
 example {M : Type*} [Monoid M] : Group Mˣ := inferInstance
 -- QUOTE.
@@ -78,7 +78,7 @@ example {R S : Type*} [Ring R] [Ring S] (f : R →+* S) : Rˣ →* Sˣ :=
 -- QUOTE.
 
 /- TEXT:
-The isormophism variant is ``RingEquiv``, with notation ``≃+*``.
+The isomorphism variant is ``RingEquiv``, with notation ``≃+*``.
 
 As with submonoids and subgroups, there is a ``Subring R`` type for subrings of a ring ``R``,
 but this type is a lot less useful than the type of subgroups since one cannot quotient a ring by
@@ -105,7 +105,7 @@ one cannot replace ``Ideal.Quotient.mk I`` by ``I.Quotient.mk`` in the snippet b
 the parser immediately replaces ``Ideal R`` with ``Submodule R R``.
 EXAMPLES: -/
 -- QUOTE:
-example {R : Type*} [CommRing R] (I : Ideal R) : R →+* R⧸I :=
+example {R : Type*} [CommRing R] (I : Ideal R) : R →+* R ⧸ I :=
   Ideal.Quotient.mk I
 
 example {R : Type*} [CommRing R] {a : R} {I : Ideal R} :
@@ -280,7 +280,7 @@ EXAMPLES: -/
 /- TEXT:
 We take the opportunity to use induction on ``Finset``. Relevant lemmas on ``Finset`` are given
 below.
-Remember that the ``ring`` tactic work for semirings and that the ideals of a ring form a semiring.
+Remember that the ``ring`` tactic works for semirings and that the ideals of a ring form a semiring.
 EXAMPLES: -/
 -- QUOTE:
 #check Finset.mem_insert_of_mem
@@ -299,15 +299,15 @@ theorem isCoprime_Inf {I : Ideal R} {J : ι → Ideal R} {s : Finset ι}
       set K := ⨅ j ∈ s, J j
       calc
 /- EXAMPLES:
-        1 = I + K            := sorry
-        _ = I + K*(I + J i)  := sorry
-        _ = (1+K)*I + K*J i  := sorry
-        _ ≤ I + K ⊓ J i      := sorry
+        1 = I + K                  := sorry
+        _ = I + K * (I + J i)      := sorry
+        _ = (1 + K) * I + K * J i  := sorry
+        _ ≤ I + K ⊓ J i            := sorry
 SOLUTIONS: -/
-        1 = I + K            := (hs fun j hj ↦ hf j (Finset.mem_insert_of_mem hj)).symm
-        _ = I + K*(I + J i)  := by rw [hf i (Finset.mem_insert_self i s), mul_one]
-        _ = (1+K)*I + K*J i  := by ring
-        _ ≤ I + K ⊓ J i      := by gcongr ; apply mul_le_left ; apply mul_le_inf
+        1 = I + K                  := (hs fun j hj ↦ hf j (Finset.mem_insert_of_mem hj)).symm
+        _ = I + K * (I + J i)      := by rw [hf i (Finset.mem_insert_self i s), mul_one]
+        _ = (1 + K) * I + K * J i  := by ring
+        _ ≤ I + K ⊓ J i            := by gcongr ; apply mul_le_left ; apply mul_le_inf
 
 -- QUOTE.
 
@@ -339,7 +339,7 @@ SOLUTIONS: -/
     · exact fun j hj ↦ eq_zero_iff_mem.mpr (he j hj)
 -- BOTH:
   choose e he using key
-  use mk _ (∑ i, f i*e i)
+  use mk _ (∑ i, f i * e i)
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -356,7 +356,7 @@ Now all the pieces come together in the following:
 BOTH: -/
 -- QUOTE:
 noncomputable def chineseIso [Fintype ι] (f : ι → Ideal R)
-    (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* ∀ i, R ⧸ f i :=
+    (hf : ∀ i j, i ≠ j → IsCoprime (f i) (f j)) : (R ⧸ ⨅ i, f i) ≃+* Π i, R ⧸ f i :=
   { Equiv.ofBijective _ ⟨chineseMap_inj f, chineseMap_surj hf⟩,
     chineseMap f with }
 -- QUOTE.
@@ -367,7 +367,7 @@ end
 Algebras and polynomials
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Given a commutative (semi)ring ``R``, an *algebra over ``R``* is a semiring ``A`` equipped
+Given a commutative (semi)ring ``R``, an *algebra over* ``R`` is a semiring ``A`` equipped
 with a ring morphism whose image commutes with every element of ``A``. This is encoded as
 a type class ``Algebra R A``.
 The morphism from ``R`` to ``A`` is called the structure map and is denoted
@@ -425,7 +425,7 @@ such as ``map_zero``, ``map_one``, ``map_mul``, and ``map_pow`` before computing
 ``R[X]``. For example:
 EXAMPLES: -/
 -- QUOTE:
-example {R : Type*} [CommRing R] (r : R) : (X + C r) * (X - C r) = X^2 - C (r ^ 2) := by
+example {R : Type*} [CommRing R] (r : R) : (X + C r) * (X - C r) = X ^ 2 - C (r ^ 2) := by
   rw [C.map_pow]
   ring
 -- QUOTE.
@@ -434,9 +434,9 @@ example {R : Type*} [CommRing R] (r : R) : (X + C r) * (X - C r) = X^2 - C (r ^ 
 You can access coefficients using ``Polynomial.coeff``
 EXAMPLES: -/
 -- QUOTE:
-example {R : Type*} [CommRing R](r:R) : (C r).coeff 0 = r := by simp
+example {R : Type*} [CommRing R] (r:R) : (C r).coeff 0 = r := by simp
 
-example {R : Type*} [CommRing R] : (X^2 + 2*X + C 3 : R[X]).coeff 1 = 2 := by simp
+example {R : Type*} [CommRing R] : (X ^ 2 + 2 * X + C 3 : R[X]).coeff 1 = 2 := by simp
 -- QUOTE.
 
 /- TEXT:
@@ -510,13 +510,13 @@ example {R : Type*} [CommRing R] [IsDomain R] (r : R) : (X - C r).roots = {r} :=
   roots_X_sub_C r
 
 example {R : Type*} [CommRing R] [IsDomain R] (r : R) (n : ℕ):
-    ((X - C r)^n).roots = n • {r} :=
+    ((X - C r) ^ n).roots = n • {r} :=
   by simp
 -- QUOTE.
 
 /- TEXT:
 Both `Polynomial.eval` and `Polynomial.roots` consider only the coefficients ring. They do not
-allow us to say that ``X^2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X^2 + 1 : ℝ[X]`` has a root in
+allow us to say that ``X ^ 2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X ^ 2 + 1 : ℝ[X]`` has a root in
 ``ℂ``. For this, we need ``Polynomial.aeval``, which will evaluate ``P : R[X]`` in any ``R``-algebra.
 More precisely, given a semiring ``A`` and an instance of ``Algebra R A``, ``Polynomial.aeval`` sends
 every element of ``a`` along the ``R``-algebra morphism of evaluation at ``a``. Since ``AlgHom``
@@ -525,7 +525,7 @@ But ``aeval`` does not have a polynomial as an argument, so one cannot use dot n
 ``P.eval`` above.
 EXAMPLES: -/
 -- QUOTE:
-example : aeval Complex.I (X^2 + 1 : ℝ[X]) = 0 := by simp
+example : aeval Complex.I (X ^ 2 + 1 : ℝ[X]) = 0 := by simp
 
 -- QUOTE.
 /- TEXT:
@@ -536,7 +536,7 @@ EXAMPLES: -/
 -- QUOTE:
 open Complex Polynomial
 
-example : aroots (X^2 + 1 : ℝ[X]) ℂ = {Complex.I, -I} := by
+example : aroots (X ^ 2 + 1 : ℝ[X]) ℂ = {Complex.I, -I} := by
   suffices roots (X ^ 2 + 1 : ℂ[X]) = {I, -I} by simpa [aroots_def]
   have factored : (X ^ 2 + 1 : ℂ[X]) = (X - C I) * (X - C (-I)) := by
     rw [C_neg]
@@ -561,7 +561,7 @@ EXAMPLES: -/
 -- QUOTE:
 #check (Complex.ofReal : ℝ →+* ℂ)
 
-example : (X^2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
+example : (X ^ 2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
 -- QUOTE.
 
 /- TEXT:
