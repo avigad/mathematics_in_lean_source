@@ -270,7 +270,7 @@ def swapXy (a : StandardTwoSimplex) : StandardTwoSimplex
   sum_eq := by rw [add_comm a.y a.x, a.sum_eq]
 -- QUOTE.
 
--- OMIT: (TODO) add a link when we have a good explanation of noncomputable theory.
+-- OMIT: (TODO) add a link when we have a good explanation of noncomputable section.
 /- TEXT:
 More interestingly, we can compute the midpoint of two points on
 the simplex. We have added the phrase ``noncomputable section``
