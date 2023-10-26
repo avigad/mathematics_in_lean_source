@@ -253,7 +253,6 @@ BOTH: -/
 -- QUOTE:
 variable {I : Type*} (A : I → Set α) (B : I → Set β)
 
--- EXAMPLES:
 example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
   ext y; simp
   constructor
