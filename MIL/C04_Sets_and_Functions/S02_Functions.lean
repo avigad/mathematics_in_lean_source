@@ -253,22 +253,32 @@ BOTH: -/
 -- QUOTE:
 variable {I : Type*} (A : I → Set α) (B : I → Set β)
 
--- EXAMPLES:
 example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   ext y; simp
   constructor
   · rintro ⟨x, ⟨i, xAi⟩, fxeq⟩
     use i, x
   rintro ⟨i, x, xAi, fxeq⟩
   exact ⟨x, ⟨i, xAi⟩, fxeq⟩
+-- BOTH:
 
 example : (f '' ⋂ i, A i) ⊆ ⋂ i, f '' A i := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   intro y; simp
   intro x h fxeq i
   use x
   exact ⟨h i, fxeq⟩
+-- BOTH:
 
 example (i : I) (injf : Injective f) : (⋂ i, f '' A i) ⊆ f '' ⋂ i, A i := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   intro y; simp
   intro h
   rcases h i with ⟨x, xAi, fxeq⟩
@@ -280,51 +290,23 @@ example (i : I) (injf : Injective f) : (⋂ i, f '' A i) ⊆ f '' ⋂ i, A i := 
     rw [this]
     exact x'Ai
   exact fxeq
+-- BOTH:
 
 example : (f ⁻¹' ⋃ i, B i) = ⋃ i, f ⁻¹' B i := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   ext x
   simp
+-- BOTH:
 
 example : (f ⁻¹' ⋂ i, B i) = ⋂ i, f ⁻¹' B i := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   ext x
   simp
 -- QUOTE.
-
--- SOLUTIONS:
-example : (f '' ⋃ i, A i) = ⋃ i, f '' A i := by
-  ext y; simp
-  constructor
-  · rintro ⟨x, ⟨i, xAi⟩, fxeq⟩
-    use i, x
-  rintro ⟨i, x, xAi, fxeq⟩
-  exact ⟨x, ⟨i, xAi⟩, fxeq⟩
-
-example : (f '' ⋂ i, A i) ⊆ ⋂ i, f '' A i := by
-  intro y; simp
-  intro x h fxeq i
-  use x
-  exact ⟨h i, fxeq⟩
-
-example (i : I) (injf : Injective f) : (⋂ i, f '' A i) ⊆ f '' ⋂ i, A i := by
-  intro y; simp
-  intro h
-  rcases h i with ⟨x, xAi, fxeq⟩
-  use x; constructor
-  · intro i'
-    rcases h i' with ⟨x', x'Ai, fx'eq⟩
-    have : f x = f x' := by rw [fxeq, fx'eq]
-    have : x = x' := injf this
-    rw [this]
-    exact x'Ai
-  exact fxeq
-
-example : (f ⁻¹' ⋃ i, B i) = ⋃ i, f ⁻¹' B i := by
-  ext x
-  simp
-
-example : (f ⁻¹' ⋂ i, B i) = ⋂ i, f ⁻¹' B i := by
-  ext x
-  simp
 
 -- OMIT:
 /-
@@ -405,6 +387,7 @@ The library defines a predicate ``InjOn f s`` to say that
 It is defined as follows:
 TEXT. -/
 -- QUOTE:
+
 example : InjOn f s ↔ ∀ x₁ ∈ s, ∀ x₂ ∈ s, f x₁ = f x₂ → x₁ = x₂ :=
   Iff.refl _
 -- QUOTE.
