@@ -190,7 +190,7 @@ example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] (f : ι → Ideal R)
 -- QUOTE.
 
 /- TEXT:
-The elementary version of the Chinese remainder theorem, a statement about ``Zmod``, can be easily
+The elementary version of the Chinese remainder theorem, a statement about ``ZMod``, can be easily
 deduced from the previous one:
 BOTH: -/
 -- QUOTE:
@@ -489,7 +489,7 @@ example {R : Type*} [CommRing R] (r : R) : (X - C r).eval r = 0 := by simp
 -- QUOTE.
 
 /- TEXT:
-In particular, there is a predicate, ``IsRoot``, that hold of elements ``r`` in ``R`` where a
+In particular, there is a predicate, ``IsRoot``, that holds for elements ``r`` in ``R`` where a
 polynomial vanishes.
 EXAMPLES: -/
 -- QUOTE:
@@ -515,7 +515,7 @@ example {R : Type*} [CommRing R] [IsDomain R] (r : R) (n : ℕ):
 -- QUOTE.
 
 /- TEXT:
-Both `Polynomial.eval` and `Polynomial.roots` consider only the coefficients ring. They do not
+Both ``Polynomial.eval`` and ``Polynomial.roots`` consider only the coefficients ring. They do not
 allow us to say that ``X ^ 2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X ^ 2 + 1 : ℝ[X]`` has a root in
 ``ℂ``. For this, we need ``Polynomial.aeval``, which will evaluate ``P : R[X]`` in any ``R``-algebra.
 More precisely, given a semiring ``A`` and an instance of ``Algebra R A``, ``Polynomial.aeval`` sends
