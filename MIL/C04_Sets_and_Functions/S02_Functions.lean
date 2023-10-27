@@ -571,7 +571,7 @@ theorem inverse_spec {f : α → β} (y : β) (h : ∃ x, f x = y) : f (inverse 
 -- QUOTE.
 
 /- TEXT:
-The lines ``noncomputable theory`` and ``open Classical``
+The lines ``noncomputable section`` and ``open Classical``
 are needed because we are using classical logic in an essential way.
 On input ``y``, the function ``inverse f``
 returns some value of ``x`` satisfying ``f x = y`` if there is one,
