@@ -56,7 +56,7 @@
 | S02_The_Existential_Quantifier.lean | [s-taiga](https://github.com/s-taiga) |
 | S03_Negation.lean | [s-taiga](https://github.com/s-taiga) |
 | S04_Conjunction_and_Iff.lean | [s-taiga](https://github.com/s-taiga) |
-| S05_Disjunction.lean ||
+| S05_Disjunction.lean | [s-taiga](https://github.com/s-taiga) |
 | S06_Sequences_and_Convergence.lean ||
 
 * C04_Sets_and_Functions
