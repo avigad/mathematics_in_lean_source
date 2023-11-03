@@ -55,7 +55,7 @@
 | S01_Implication_and_the_Universal_Quantifier.lean | [s-taiga](https://github.com/s-taiga) |
 | S02_The_Existential_Quantifier.lean | [s-taiga](https://github.com/s-taiga) |
 | S03_Negation.lean | [s-taiga](https://github.com/s-taiga) |
-| S04_Conjunction_and_Iff.lean ||
+| S04_Conjunction_and_Iff.lean | [s-taiga](https://github.com/s-taiga) |
 | S05_Disjunction.lean ||
 | S06_Sequences_and_Convergence.lean ||
 
