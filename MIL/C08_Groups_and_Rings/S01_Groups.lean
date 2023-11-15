@@ -73,7 +73,7 @@ composition to compose maps. Instead, we need to use ``MonoidHom.comp`` and ``Ad
 EXAMPLES: -/
 -- QUOTE:
 example {M N P : Type*} [AddMonoid M] [AddMonoid N] [AddMonoid P]
-  (f : M →+ N) (g : N →+ P) : M →+ P := g.comp f
+    (f : M →+ N) (g : N →+ P) : M →+ P := g.comp f
 -- QUOTE.
 
 /- TEXT:
@@ -326,7 +326,7 @@ Tying the previous two topics together, one can push forward and pull back subgr
 group morphisms. The naming convention in Mathlib is to call those operations ``map``
 and ``comap``.
 These are not the common mathematical terms, but they have the advantage of being
-shorter than "pushforward" and  "direct image."
+shorter than "pushforward" and "direct image."
 EXAMPLES: -/
 -- QUOTE:
 example {G H : Type*} [Group G] [Group H] (G' : Subgroup G) (f : G →* H) : Subgroup H :=
@@ -398,7 +398,7 @@ SOLUTIONS: -/
 -- BOTH:
 
 -- Pushing a subgroup along one homomorphism and then another is equal to
---  pushing it forward along the composite of the homomorphisms.
+-- pushing it forward along the composite of the homomorphisms.
 example (φ : G →* H) (ψ : H →* K) (S : Subgroup G) :
     map (ψ.comp φ) S = map ψ (S.map φ) := by
 /- EXAMPLES:
@@ -802,7 +802,7 @@ an isomorphism in this case.
 EXAMPLES: -/
 -- QUOTE:
 example {G : Type*} [Group G] {M N : Subgroup G} [M.Normal]
-    [N.Normal] (h : M = N) : G ⧸ M ≃* G ⧸ N := QuotientGroup.quotientMulEquivOfEq  h
+    [N.Normal] (h : M = N) : G ⧸ M ≃* G ⧸ N := QuotientGroup.quotientMulEquivOfEq h
 -- QUOTE.
 
 /- TEXT:
@@ -816,7 +816,7 @@ or disjoint.
 BOTH: -/
 -- QUOTE:
 section
-variable  {G : Type*} [Group G] {H K : Subgroup G}
+variable {G : Type*} [Group G] {H K : Subgroup G}
 
 open MonoidHom
 
@@ -871,7 +871,7 @@ def iso₂ : G ≃* (G ⧸ K) × (G ⧸ H) := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  apply MulEquiv.ofBijective  <| (QuotientGroup.mk' K).prod (QuotientGroup.mk' H)
+  apply MulEquiv.ofBijective <| (QuotientGroup.mk' K).prod (QuotientGroup.mk' H)
   rw [bijective_iff_injective_and_card]
   constructor
   · rw [← ker_eq_bot_iff, ker_prod]
