@@ -28,7 +28,7 @@ example {R : Type*} [CommRing R] (x y : R) : (x + y) ^ 2 = x ^ 2 + y ^ 2 + 2 * x
 -- QUOTE.
 
 /- TEXT:
-More exotic variants do not require that the addition on ``R``  forms a group but only an additive
+More exotic variants do not require that the addition on ``R`` forms a group but only an additive
 monoid. The corresponding type classes are ``Semiring R`` and ``CommSemiring R``.
 The type of natural numbers is an important instance of ``CommSemiring R``, as is any type
 of functions taking values in the natural numbers.
@@ -45,7 +45,7 @@ There are also versions of the ring and semiring classes that do not assume the 
 multiplicative unit or
 the associativity of multiplication. We will not discuss those here.
 
-Some concepts that are traditionally taught in an introduction to  ring theory are actually about
+Some concepts that are traditionally taught in an introduction to ring theory are actually about
 the underlying multiplicative monoid.
 A prominent example is the definition of the units of a ring. Every (multiplicative) monoid ``M``
 has a predicate ``IsUnit : M → Prop`` asserting existence of a two-sided inverse, a
@@ -371,7 +371,7 @@ Given a commutative (semi)ring ``R``, an *algebra over* ``R`` is a semiring ``A`
 with a ring morphism whose image commutes with every element of ``A``. This is encoded as
 a type class ``Algebra R A``.
 The morphism from ``R`` to ``A`` is called the structure map and is denoted
-``algebraMap R A : R →*+ A`` in Lean.
+``algebraMap R A : R →+* A`` in Lean.
 Multiplication of ``a : A`` by ``algebraMap R A r`` for some ``r : R`` is called the scalar
 multiplication of ``a`` by ``r`` and denoted by ``r • a``.
 Note that this notion of algebra is sometimes called an *associative unital algebra* to emphasize the
