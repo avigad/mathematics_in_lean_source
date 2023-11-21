@@ -175,12 +175,12 @@ contained in :math:`g(\beta)`.
 As a result, for every :math:`x` in the complement of :math:`A`,
 there is a :math:`y` such that :math:`g(y) = x`.
 (By the injectivity of :math:`g`, this :math:`y` is unique,
-but next theorem says only that ``inv_fun g x`` returns some ``y``
+but next theorem says only that ``invFun g x`` returns some ``y``
 such that ``g y = x``.)
 
 Step through the proof below, make sure you understand what is going on,
 and fill in the remaining parts.
-You will need to use ``inv_fun_eq`` at the end.
+You will need to use ``invFun_eq`` at the end.
 Notice that rewriting with ``sb_aux`` here replaces ``sb_aux f g 0``
 with the right-hand side of the corresponding defining equation.
 BOTH: -/
