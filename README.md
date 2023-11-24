@@ -25,6 +25,7 @@
 
 * [s-taiga](https://github.com/s-taiga)
 * [Taka](https://github.com/Taka0007)
+* [Seasawher](https://github.com/Seasawher)
 
 ### 翻訳担当
 
@@ -65,8 +66,8 @@
 | --- | --- |
 | C04_Sets_and_Functions.rst ||
 | S01_Sets.lean | [s-taiga](https://github.com/s-taiga) |
-| S02_Functions.lean ||
-| S03_The_Schroeder_Bernstein_Theorem.lean ||
+| S02_Functions.lean | [Seasawher](https://github.com/Seasawher) |
+| S03_The_Schroeder_Bernstein_Theorem.lean | [Seasawher](https://github.com/Seasawher) |
 
 * C05_Elementary_Number_Theory
 
