@@ -74,7 +74,7 @@
 | 章名 | 担当 |
 | --- | --- |
 | C05_Elementary_Number_Theory.rst ||
-| S01_Irrational_Roots.lean ||
+| S01_Irrational_Roots.lean | [s-taiga](https://github.com/s-taiga) |
 | S02_Induction_and_Recursion.lean ||
 | S03_Infinitely_Many_Primes.lean ||
 
