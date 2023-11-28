@@ -76,8 +76,7 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → ¬y ≤ x :=
 -- QUOTE.
 
 /- TEXT:
-In analogy to the ``obtain`` tactic, which we used with the existential
-quantifier, there is also a pattern-matching ``have``:
+In analogy to the ``obtain`` tactic, there is also a pattern-matching ``have``:
 TEXT. -/
 -- QUOTE:
 example {x y : ℝ} (h : x ≤ y ∧ x ≠ y) : ¬y ≤ x := by
