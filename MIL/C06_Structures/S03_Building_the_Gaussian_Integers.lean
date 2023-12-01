@@ -41,7 +41,7 @@ be a square root of :math:`-1`. Thus we want
    (a + bi) (c + di) & = ac + bci + adi + bd i^2 \\
      & = (ac - bd) + (bc + ad)i.
 
-This explains the definition of ``hasMul`` below.
+This explains the definition of ``Mul`` below.
 BOTH: -/
 namespace gaussInt
 
