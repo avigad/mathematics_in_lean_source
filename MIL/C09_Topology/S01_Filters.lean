@@ -364,7 +364,7 @@ example (x₀ : ℝ) : HasBasis (𝓝 x₀) (fun ε : ℝ ↦ 0 < ε) fun ε ↦
 
 /- TEXT:
 There is also a nice basis for the filter ``atTop``. The lemma
-``Filter.has_basis.tendsto_iff`` allows
+``Filter.HasBasis.tendsto_iff`` allows
 us to reformulate a statement of the form ``Tendsto f F G``
 given bases for ``F`` and ``G``.
 Putting these pieces together gives us essentially the notion of convergence
