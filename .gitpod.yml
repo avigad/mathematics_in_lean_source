@@ -6,15 +6,12 @@ vscode:
     - leanprover.lean4
 
 tasks:
-  - name: Python setup
-    init: |
-      pip3 install -r scripts/requirements.txt
-
-  - name: Mathlib setup
-    init: lake exe cache get
-
-  - name: build HTML and open preview
+  - name: Python setup, build HTML and open preview
+    init: pip3 install -r scripts/requirements.txt
     command: |
       python3 scripts/mkall.py
       make html
       python3 -m http.server 8000 --directory build/html
+
+  - name: Mathlib setup
+    init: lake exe cache get
