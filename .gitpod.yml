@@ -6,5 +6,11 @@ vscode:
     - leanprover.lean4
 
 tasks:
+  # 依存関係のインストール
   - init: pip3 install -r scripts/requirements.txt
   - init: lake exe cache get
+
+  # プレビュー
+  - init: python3 scripts/mkall.py
+  - init: make html
+  - init: python3 -m http.server 8000 --directory build/html
