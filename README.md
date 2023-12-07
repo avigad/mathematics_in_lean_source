@@ -82,7 +82,7 @@
 
 | 章名 | 担当 |
 | --- | --- |
-| C06_Structures.rst ||
+| C06_Structures.rst |[Taka](https://github.com/Taka0007)|
 | S01_Structures.lean ||
 | S02_Algebraic_Structures.lean ||
 | S03_Building_the_Gaussian_Integers.lean ||
