@@ -76,7 +76,7 @@
 | C05_Elementary_Number_Theory.rst ||
 | S01_Irrational_Roots.lean | [s-taiga](https://github.com/s-taiga) |
 | S02_Induction_and_Recursion.lean | [s-taiga](https://github.com/s-taiga) |
-| S03_Infinitely_Many_Primes.lean || [s-taiga](https://github.com/s-taiga) 
+| S03_Infinitely_Many_Primes.lean | [s-taiga](https://github.com/s-taiga)  |
 
 * C06_Structures
 
