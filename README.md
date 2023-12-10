@@ -84,7 +84,7 @@
 | --- | --- |
 | C06_Structures.rst ||
 | S01_Structures.lean |[Taka](https://github.com/Taka0007)|
-| S02_Algebraic_Structures.lean ||
+| S02_Algebraic_Structures.lean || [s-taiga](https://github.com/s-taiga) 
 | S03_Building_the_Gaussian_Integers.lean ||
 
 * C07_Hierarchies
