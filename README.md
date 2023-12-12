@@ -20,6 +20,7 @@
 * 対象の章名でブランチを切り翻訳を行う．
 * 翻訳が終わったらブランチをpushしてプルリクエストを出す．
 * 輪読に参加しているメンバーでレビューを行い、全て解決したらマージする．
+* 読み合わせを行った際のコミットは[参加したメンバーのco-authorコミットにする](https://docs.github.com/ja/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors)．
 
 ### 参加者
 
