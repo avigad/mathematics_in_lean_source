@@ -57,7 +57,7 @@ but also for proving things about abstract structures,
 characterized axiomatically, like rings.
 Moreover, Lean supports *generic reasoning* about
 both abstract and concrete structures,
-and can be trained to recognized appropriate instances.
+and can be trained to recognize appropriate instances.
 So any theorem about rings can be applied to concrete rings
 like the integers, ``ℤ``, the rational numbers,  ``ℚ``,
 and the complex numbers ``ℂ``.
