@@ -11,7 +11,7 @@ Sub-objects
 
 After defining some algebraic structure and its morphisms, the next step is to consider sets
 that inherit this algebraic structure, for instance subgroups or subrings.
-This largely overlaps our previous topic. Indeed a set in ``X`` is implemented as a function from
+This largely overlaps with our previous topic. Indeed a set in ``X`` is implemented as a function from
 ``X`` to ``Prop`` so sub-objects are function satisfying a certain predicate.
 Hence we can reuse of lot of the ideas that led to the ``FunLike`` class and its descendants.
 We won't reuse ``FunLike`` itself because this would break the abstraction barrier from ``Set X``
