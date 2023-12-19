@@ -145,7 +145,7 @@ def badInst [Monoid M] [Monoid N] [MonoidHomClass₁ F M N] : CoeFun F (fun _ �
 -- QUOTE.
 
 /- TEXT:
-Making the an instance would be bad. When faced with something like ``f x`` where the type of ``f``
+Making this an instance would be bad. When faced with something like ``f x`` where the type of ``f``
 is not a function type, Lean will try to find a ``CoeFun`` instance to coerce ``f`` into a function.
 The above function has type:
 ``{M N F : Type} → [Monoid M] → [Monoid N] → [MonoidHomClass₁ F M N] → CoeFun F (fun x ↦ M → N)``
