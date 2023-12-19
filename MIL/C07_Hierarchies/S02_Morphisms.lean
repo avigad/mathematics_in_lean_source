@@ -219,7 +219,7 @@ procedure won't be looking for functions, it will be looking for either
 
 One remaining issue with our approach is the presence of repetitive code around the ``toFun``
 field and the corresponding ``CoeFun`` instance and ``coe`` attribute. It would also be better
-to record that this pattern is used only for function with extra properties, meaning that the
+to record that this pattern is used only for functions with extra properties, meaning that the
 coercion to functions should be injective. So Mathlib adds one more layer of abstraction with
 the base class ``FunLike``. Let us redefine our ``MonoidHomClass`` on top of this base layer.
 
