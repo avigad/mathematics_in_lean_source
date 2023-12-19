@@ -55,7 +55,7 @@ example (α : Type) [One₁ α] : α := One₁.one
 /- TEXT:
 Remark: in the above example, the argument ``One₁ α`` is marked as instance-implicit,
 which is a bit silly since this affects only *uses* of the declaration and declaration created by
-the ``example`` command cannot be used. However it allows to avoid giving a name to that
+the ``example`` command cannot be used. However it allows us to avoid giving a name to that
 argument and, more importantly, it starts installing the good habit of marking ``One₁ α``
 arguments as instance-implicit.
 
