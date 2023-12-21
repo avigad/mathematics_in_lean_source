@@ -19,6 +19,68 @@ to ``X → Prop``. Instead there is a ``SetLike`` class. Instead of wrapping an 
 function type, that class wraps an injection into a ``Set`` type and defines the corresponding
 coercion and ``Membership`` instance.
 
+In most of modern abstract algebra, objects are interpreted as set-like things with extra structure.
+So, subobjects of algebraic objects are interpreted as subsets.
+Sets are interpreted as predicate functions.
+We can implement subobjects by first coercing down to predicate, then manipulate the predicates.
+but instead we implement it as subsets, to not break the abstraction.
+
+If ``M`` is a type that has an implementation of the Monoid class
+then ``Submonoid₁ M`` is the type of submonoids of ``M``.
+
+WARNING. There is a strong asymmetry between ``M`` and ``Submonoid₁ M``.
+``M`` is a type that represents a monoid.
+``Submonoid₁ M`` is a type whose *instances* represent submonoids of the monoid.
+
+If you have studied abstract algebra from the category theoretic point of view
+you would find this obvious, as monoids (the intuitive sense)
+are *points* in the category Monoid,
+but submonoids (the intuitive sense) are not points in the category Submonoid.
+In fact, there is no such category. Submonoids (the intuitive sense) are
+*monomorphic arrows* in the category Monoid.
+
+If you have studied abstract algebra in the typical way, you would be surprised,
+because typically subobjects are represented by subsets of the underlying set, and
+in set theory, everything is a set, even subsets of a set! There is no sense in which
+the subsets of a set depend on that set. Suppose A is a subset of B. Now you have forgotten B.
+How can you recover B from A? You can't.
+But in category theory, suppose f is a subobject of B -- that is, f is a monomorphic arrow
+pointing at B. Now you have forgotten B. How can you recover B from the subobject?
+Easy, B is the target of f.
+
+Now, Lean is based on a type theory that is much closer to category theory than set theory,
+so we have to implement set theory on top of a type-theoretic foundation, in a style that is
+very close to category-theoretic set theory (ECTS). This is what we are doing here.
+
+There is no ``Set``, but only ``Set α`` for each ``α : Type u``.
+There is no instance of ``Set``, but only instances of ``Set α`` for each ``α : Type u``.
+An instance of ``Set α`` is by definition a function of type ``α → Prop``.
+There are no subset-objects. Instead, being a subset is a property you can prove for two objects.
+
+To be more precise, we could have implemented subsets like this:
+
+BOTH: -/
+
+-- QUOTE:
+class Set ...
+structure Subset (S : Type) [Set S] ...
+-- QUOTE.
+
+/- TEXT:
+But we don't do that, because we want to emulate naive set theory as closely as possible. So
+
+BOTH: -/
+
+-- QUOTE:
+def Set (α : Type u) := α → Prop
+def subset (S T : Type) [Set S] [Set T] := ∀ x : α, S x → T x
+-- QUOTE.
+
+/- TEXT:
+Something else that can be confusing is that ``Set α`` should actually be pictured as
+the type of *subsets* of ``α``, not the type of *elements* of ``α``. Here, ``α`` plays the role of
+a set-theoretic *universe*, which is not the type-theoretic sense of "universe".
+
 BOTH: -/
 
 -- QUOTE:
