@@ -131,7 +131,6 @@ whether or not you use these tricks,
 we encourage you to prove the following:
 TEXT. -/
 -- QUOTE:
--- BOTH:
 example : max a b = max b a := by
 /- EXAMPLES:
   sorry
@@ -141,8 +140,13 @@ SOLUTIONS: -/
     apply max_le
     apply le_max_right
     apply le_max_left
+-- QUOTE.
 
--- BOTH:
+/- TEXT:
+There is no obvious way to shorten the proof of the following theorem with the mentioned tricks.
+At the very least, try using dots or the ``show`` tactic to structure the proof you found:
+TEXT. -/
+-- QUOTE:
 example : min (min a b) c = min a (min b c) := by
 /- EXAMPLES:
   sorry
