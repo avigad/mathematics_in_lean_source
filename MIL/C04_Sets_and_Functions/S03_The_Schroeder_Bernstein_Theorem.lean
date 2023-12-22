@@ -147,7 +147,7 @@ def sbSet :=
 -- QUOTE.
 
 /- TEXT:
-The definition ``sb_aux`` is an example of a *recursive definition*,
+The definition ``sbAux`` is an example of a *recursive definition*,
 which we will explain in the next chapter.
 It defines a sequence of sets
 
@@ -156,7 +156,7 @@ It defines a sequence of sets
   S_0 &= \alpha ∖ g(\beta) \\
   S_{n+1} &= g(f(S_n)).
 
-The definition ``sb_set`` corresponds to the set
+The definition ``sbSet`` corresponds to the set
 :math:`A = \bigcup_{n \in \mathbb{N}} S_n` in our proof sketch.
 The function :math:`h` described above is now defined as follows:
 BOTH: -/
@@ -181,7 +181,7 @@ such that ``g y = x``.)
 Step through the proof below, make sure you understand what is going on,
 and fill in the remaining parts.
 You will need to use ``invFun_eq`` at the end.
-Notice that rewriting with ``sb_aux`` here replaces ``sb_aux f g 0``
+Notice that rewriting with ``sbAux`` here replaces ``sbAux f g 0``
 with the right-hand side of the corresponding defining equation.
 BOTH: -/
 -- QUOTE:
@@ -233,7 +233,7 @@ to see how the argument plays out in Lean.
 See if you can finish off the proof using ``sb_right_inv``.
 BOTH: -/
 -- QUOTE:
-theorem sb_injective (hf : Injective f) (hg : Injective g) : Injective (sbFun f g) := by
+theorem sb_injective (hf : Injective f) : Injective (sbFun f g) := by
   set A := sbSet f g with A_def
   set h := sbFun f g with h_def
   intro x₁ x₂
@@ -278,7 +278,7 @@ SOLUTIONS: -/
 /- TEXT:
 The proof introduces some new tactics.
 To start with, notice the ``set`` tactic, which introduces abbreviations
-``A`` and ``h`` for ``sb_set f g`` and ``sb_fun f g`` respectively.
+``A`` and ``h`` for ``sbSet f g`` and ``sb_fun f g`` respectively.
 We name the corresponding defining equations ``A_def`` and ``h_def``.
 The abbreviations are definitional, which is to say, Lean will sometimes
 unfold them automatically when needed.
@@ -306,10 +306,10 @@ we immediately have :math:`h(g(y))= y`, and we are done.
 
 Once again, we encourage you to step through the proof and fill in
 the missing parts.
-The tactic ``cases n with n`` splits on the cases ``g y ∈ sb_aux f g 0``
-and ``g y ∈ sb_aux f g n.succ``.
-In both cases, calling the simplifier with ``simp [sb_aux]``
-applies the corresponding defining equation of ``sb_aux``.
+The tactic ``cases n with n`` splits on the cases ``g y ∈ sbAux f g 0``
+and ``g y ∈ sbAux f g n.succ``.
+In both cases, calling the simplifier with ``simp [sbAux]``
+applies the corresponding defining equation of ``sbAux``.
 BOTH: -/
 -- QUOTE:
 theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun f g) := by
@@ -348,14 +348,14 @@ EXAMPLES: -/
 -- QUOTE:
 theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Injective f) (hg : Injective g) :
     ∃ h : α → β, Bijective h :=
-  ⟨sbFun f g, sb_injective f g hf hg, sb_surjective f g hf hg⟩
+  ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hf hg⟩
 -- QUOTE.
 
 -- Auxiliary information
 section
 variable (g : β → α) (x : α)
 
--- TAG: inv_fun g
+-- TAG: invFun g
 #check (invFun g : α → β)
 #check (leftInverse_invFun : Injective g → LeftInverse (invFun g) g)
 #check (leftInverse_invFun : Injective g → ∀ y, invFun g (g y) = y)
