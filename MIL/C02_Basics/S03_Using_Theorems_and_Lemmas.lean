@@ -171,7 +171,7 @@ TEXT. -/
 -- QUOTE:
 #check (exp_le_exp : exp a ≤ exp b ↔ a ≤ b)
 #check (exp_lt_exp : exp a < exp b ↔ a < b)
-#check (log_le_log : 0 < a → 0 < b → (log a ≤ log b ↔ a ≤ b))
+#check (log_le_log : 0 < a → a ≤ b → log a ≤ log b)
 #check (log_lt_log : 0 < a → a < b → log a < log b)
 #check (add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d)
 #check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
@@ -188,7 +188,7 @@ TEXT. -/
 -- QUOTE.
 
 /- TEXT:
-Some of the theorems, ``exp_le_exp``, ``exp_lt_exp``, and ``log_le_log``
+Some of the theorems, ``exp_le_exp``, ``exp_lt_exp``
 use a *bi-implication*, which represents the
 phrase "if and only if."
 (You can type it in VS Code with ``\lr`` of ``\iff``).
@@ -240,8 +240,7 @@ example : (0 : ℝ) < 1 := by norm_num
 
 example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   have h₀ : 0 < 1 + exp a := by sorry
-  have h₁ : 0 < 1 + exp b := by sorry
-  apply (log_le_log h₀ h₁).mpr
+  apply log_le_log h₀
   sorry
 -- QUOTE.
 
@@ -260,8 +259,7 @@ example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
 
 example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   have h₀ : 0 < 1 + exp a := by linarith [exp_pos a]
-  have h₁ : 0 < 1 + exp b := by linarith [exp_pos b]
-  apply (log_le_log h₀ h₁).mpr
+  apply log_le_log h₀
   apply add_le_add_left (exp_le_exp.mpr h)
 
 -- SOLUTION.
