@@ -129,7 +129,7 @@ and returns an arbitrary element of ``β`` otherwise.
 The function ``invFun g`` is always a left inverse if ``g`` is injective
 and a right inverse if ``g`` is surjective.
 
--- LITERALINCLUDE: inv_fun g
+-- LITERALINCLUDE: invFun g
 
 We define the set corresponding to the union of the shaded regions as follows.
 
