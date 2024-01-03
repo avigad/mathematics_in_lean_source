@@ -93,7 +93,7 @@
 | 章名 | 担当 |
 | --- | --- |
 | C07_Hierarchies.rst ||
-| S01_Basics.lean ||
+| S01_Basics.lean | [s-taiga](https://github.com/s-taiga)  |
 | S02_Morphisms.lean ||
 | S03_Subobjects.lean ||
 
