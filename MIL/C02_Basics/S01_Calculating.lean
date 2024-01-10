@@ -61,7 +61,7 @@ you can change the leading character by changing the
 
 When a cursor is in the middle of a tactic proof,
 Lean reports on the current *proof state* in the
-*Lean infoview* window.
+*Lean Infoview* window.
 As you move your cursor past each step of the proof,
 you can see the state change.
 A typical proof state in Lean might look as follows:
