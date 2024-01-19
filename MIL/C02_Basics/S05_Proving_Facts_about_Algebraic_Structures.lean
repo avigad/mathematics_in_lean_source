@@ -17,7 +17,7 @@ such as commutative rings.
 We can use any axioms we want to describe an algebraic structure,
 not just equations.
 For example, a *partial order* consists of a set with a
-binary relation that is reflexive and transitive,
+binary relation that is reflexive, transitive, and antisymmetric.
 like ``≤`` on the real numbers.
 Lean knows about partial orders:
 TEXT. -/
@@ -30,6 +30,8 @@ variable (x y z : α)
 #check x ≤ y
 #check (le_refl x : x ≤ x)
 #check (le_trans : x ≤ y → y ≤ z → x ≤ z)
+#check (le_antisymm : x ≤ y → y ≤ x → x = y)
+
 -- QUOTE.
 
 /- TEXT:
