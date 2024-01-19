@@ -81,24 +81,14 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 What is going on here is known as *definitional reduction*:
 to make sense of the ``intro`` command and the anonymous constructors
 Lean is forced to expand the definitions.
-The following examples also illustrate the phenomenon:
+The following example also illustrate the phenomenon:
 TEXT. -/
 -- QUOTE:
-theorem foo (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
-
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
   fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
-Due to a quirk of how Lean processes its input,
-the first example fails if we replace ``theorem foo`` with ``example``.
-This illustrates the pitfalls of relying on definitional reduction
-too heavily.
-It is often convenient,
-but sometimes we have to fall back on unfolding definitions manually.
-
 To deal with unions, we can use ``Set.union_def`` and ``Set.mem_union``.
 Since ``x ∈ s ∪ t`` unfolds to ``x ∈ s ∨ x ∈ t``,
 we can also use the ``cases`` tactic to force a definitional reduction.
