@@ -293,14 +293,14 @@ example : x ∣ y * x * z := by
   apply dvd_mul_left
 
 example : x ∣ x ^ 2 := by
-   apply dvd_mul_left
+  apply dvd_mul_left
 -- QUOTE.
 
 /- TEXT:
 In the last example, the exponent is a natural
 number, and applying ``dvd_mul_left``
 forces Lean to expand the definition of ``x^2`` to
-``x * x^1``.
+``x^1 * x``.
 See if you can guess the names of the theorems
 you need to prove the following:
 TEXT. -/
