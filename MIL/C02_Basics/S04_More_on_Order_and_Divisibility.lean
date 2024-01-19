@@ -126,9 +126,8 @@ example : min a b = min b a := by
 -- QUOTE.
 
 /- TEXT:
-In any case,
-whether or not you use these tricks,
-we encourage you to prove the following:
+We encourage you to prove the following as exercises.
+You can use either of the tricks just described to shorten the first.
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -137,7 +136,7 @@ example : max a b = max b a := by
   sorry
 SOLUTIONS: -/
   apply le_antisymm
-  repeat'
+  repeat
     apply max_le
     apply le_max_right
     apply le_max_left
