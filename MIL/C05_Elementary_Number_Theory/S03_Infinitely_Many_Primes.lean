@@ -91,7 +91,7 @@ that every natural number :math:`n` has a property :math:`P`
 by showing that for every number :math:`n`, if :math:`P` holds
 of all values less than :math:`n`, it holds at :math:`n` as well.
 In Lean, this principle is called ``Nat.strong_induction_on``,
-and we can use the ``with`` keyword to tell the induction tactic
+and we can use the ``using`` keyword to tell the induction tactic
 to use it.
 Notice that when we do that, there is no base case; it is subsumed
 by the general induction step.
