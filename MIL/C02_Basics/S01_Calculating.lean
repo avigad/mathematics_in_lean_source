@@ -163,7 +163,7 @@ example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
   rw [mul_assoc]
 
 /- TEXT:
-You an also use ``rw`` with facts from the local context.
+You can also use ``rw`` with facts from the local context.
 TEXT. -/
 -- Using facts from the local context.
 -- QUOTE:
