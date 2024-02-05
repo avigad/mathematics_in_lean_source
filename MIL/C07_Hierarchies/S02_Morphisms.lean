@@ -221,13 +221,14 @@ One remaining issue with our approach is the presence of repetitive code around 
 field and the corresponding ``CoeFun`` instance and ``coe`` attribute. It would also be better
 to record that this pattern is used only for functions with extra properties, meaning that the
 coercion to functions should be injective. So Mathlib adds one more layer of abstraction with
-the base class ``FunLike``. Let us redefine our ``MonoidHomClass`` on top of this base layer.
+the base class ``DFunLike`` (where “DFun” stands for dependent function).
+Let us redefine our ``MonoidHomClass`` on top of this base layer.
 
 BOTH: -/
 
 -- QUOTE:
 class MonoidHomClass₃ (F : Type) (M N : outParam Type) [Monoid M] [Monoid N] extends
-    FunLike F M (fun _ ↦ N) where
+    DFunLike F M (fun _ ↦ N) where
   map_one : ∀ f : F, f 1 = 1
   map_mul : ∀ (f : F) g g', f (g * g') = f g * f g'
 
@@ -264,7 +265,7 @@ MonoidHom₁ M N, OrderPresHom M N
 
 class OrderPresHomClass (F : Type) (α β : outParam Type) [LE α] [LE β]
 -- SOLUTIONS:
-extends FunLike F α (fun _ ↦ β) where
+extends DFunLike F α (fun _ ↦ β) where
   le_of_le : ∀ (f : F) a a', a ≤ a' → f a ≤ f a'
 -- BOTH:
 

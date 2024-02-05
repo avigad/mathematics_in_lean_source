@@ -13,8 +13,8 @@ After defining some algebraic structure and its morphisms, the next step is to c
 that inherit this algebraic structure, for instance subgroups or subrings.
 This largely overlaps with our previous topic. Indeed a set in ``X`` is implemented as a function from
 ``X`` to ``Prop`` so sub-objects are function satisfying a certain predicate.
-Hence we can reuse of lot of the ideas that led to the ``FunLike`` class and its descendants.
-We won't reuse ``FunLike`` itself because this would break the abstraction barrier from ``Set X``
+Hence we can reuse of lot of the ideas that led to the ``DFunLike`` class and its descendants.
+We won't reuse ``DFunLike`` itself because this would break the abstraction barrier from ``Set X``
 to ``X → Prop``. Instead there is a ``SetLike`` class. Instead of wrapping an injection into a
 function type, that class wraps an injection into a ``Set`` type and defines the corresponding
 coercion and ``Membership`` instance.
