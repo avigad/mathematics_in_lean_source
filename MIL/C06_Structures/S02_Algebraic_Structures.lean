@@ -14,7 +14,7 @@ it will help to consider some examples.
 
 #. A *partially ordered set* consists of a set :math:`P` and
    a binary relation :math:`\le` on :math:`P` that is transitive
-   and antireflexive.
+   and reflexive.
 
 #. A *group* consists of a set :math:`G` with an associative
    binary operation, an identity element
