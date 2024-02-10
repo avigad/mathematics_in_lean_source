@@ -302,7 +302,7 @@ numbers, carry out the division
 
 The real and imaginary parts might not be integers, but we can round
 them to the nearest integers :math:`u` and :math:`v`. We can then express the
-right-hand size as :math:`(u + vi) + (u' + v'i)`, where
+right-hand side as :math:`(u + vi) + (u' + v'i)`, where
 :math:`u' + v'i` is the part left over. Note that we have
 :math:`|u'| \le 1/2` and :math:`|v'| \le 1/2`, and hence
 
@@ -538,7 +538,7 @@ We just defined the real and imaginary parts of ``x / y`` to be
 respectively.
 Calculating, we have
 
-  ``(x % y) * conj y = (x - x / y * y) * conj y = x * conj y - x * (y * conj j)``
+  ``(x % y) * conj y = (x - x / y * y) * conj y = x * conj y - x / y * (y * conj y)``
 
 The real and imaginary parts of the right-hand side are exactly ``mod' (x * conj y).re (norm y)`` and ``mod' (x * conj y).im (norm y)``.
 By the properties of ``div'`` and ``mod'``,
