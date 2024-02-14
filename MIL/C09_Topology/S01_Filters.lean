@@ -17,7 +17,7 @@ supports two related ideas:
 
 * *limits*, including all the kinds of limits discussed above: finite and infinite limits of sequences, finite and infinite limits of functions at a point or at infinity, and so on.
 
-* *things happening eventually*, including things happening for large enough ``n : ℕ``, or sufficiently near a point ``x``, or for sufficiently close pairs of points, or almost everywhere in the sense of measure theory. Dually, filters can also express the idea of *things happening often*: for arbitrarily large ``n``, at a point in any neighborhood of given a point, etc.
+* *things happening eventually*, including things happening for large enough ``n : ℕ``, or sufficiently near a point ``x``, or for sufficiently close pairs of points, or almost everywhere in the sense of measure theory. Dually, filters can also express the idea of *things happening often*: for arbitrarily large ``n``, at a point in any neighborhood of a given point, etc.
 
 The filters that correspond to these descriptions will be defined later in this section, but we can already name them:
 
