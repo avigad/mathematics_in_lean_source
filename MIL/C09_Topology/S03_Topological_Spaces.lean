@@ -179,7 +179,7 @@ products of metric spaces. Consider for instance the type ``ℝ → ℝ``, seen 
 a product of copies of ``ℝ`` indexed by ``ℝ``. We would like to say that pointwise convergence of
 sequences of functions is a respectable notion of convergence. But there is no distance on
 ``ℝ → ℝ`` that gives this notion of convergence. Relatedly, there is no distance ensuring that
-a map ``f : X → (ℝ → ℝ)`` is continuous if and only ``fun x ↦ f x t`` is continuous for every ``t : ℝ``.
+a map ``f : X → (ℝ → ℝ)`` is continuous if and only if ``fun x ↦ f x t`` is continuous for every ``t : ℝ``.
 
 We now review the data used to solve all those issues. First we can use any map ``f : X → Y`` to
 push or pull topologies from one side to the other. Those two operations form a Galois connection.
