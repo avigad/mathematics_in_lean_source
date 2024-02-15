@@ -212,7 +212,7 @@ BOTH: -/
 /- TEXT:
 
 Then the next big piece is a complete lattice structure on ``TopologicalSpace X``
-for any given structure. If you think of topologies are being primarily the data of open sets then you expect
+for any given structure. If you think of topologies as being primarily the data of open sets then you expect
 the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, ie you expect ``t ≤ t'``
 if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that Mathlib focuses
 on neighborhoods more than open sets so, for any ``x : X`` we want the map from topological spaces to neighborhoods
@@ -339,7 +339,7 @@ insert that funny up arrow when needed. And the (inclusion) coercion map is ``(�
 The assumption "tends to :math:`x` while remaining in :math:`A`" corresponds to the pull-back filter
 ``comap (↑) (𝓝 x)``.
 
-Let's prove first an auxiliary lemma, extracted to simplify the context
+Let's first prove an auxiliary lemma, extracted to simplify the context
 (in particular we don't need Y to be a topological space here).
 
 BOTH: -/
@@ -420,7 +420,7 @@ SOLUTIONS: -/
 /- TEXT:
 In addition to separation property, the main kind of assumption you can make on a topological
 space to bring it closer to metric spaces is countability assumption. The main one is first countability
-asking that every point has a countable neighborhood basic. In particular this ensures that closure
+asking that every point has a countable neighborhood basis. In particular this ensures that closure
 of sets can be understood using sequences.
 
 BOTH: -/

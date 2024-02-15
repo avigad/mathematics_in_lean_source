@@ -195,7 +195,7 @@ example (hr : 0 ≤ r) : a ∈ Metric.closedBall a r :=
 
 /- TEXT:
 Once we have balls, we can define open sets. They are actually defined in a more general setting covered in the next section,
-but we have lemmas recasting the definition is terms of balls.
+but we have lemmas recasting the definition in terms of balls.
 
 BOTH: -/
 -- QUOTE:
