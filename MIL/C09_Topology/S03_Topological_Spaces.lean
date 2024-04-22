@@ -382,8 +382,8 @@ In addition ``comap (↑) (𝓝 y) ≠ ⊥`` because ``A`` is dense.
 Because we know ``Tendsto f (comap (↑) (𝓝 y)) (𝓝 (φ y))`` this implies
 ``φ y ∈ closure V'`` and, since ``V'`` is closed, we have proved ``φ y ∈ V'``.
 
-It remains to prove that ``φ`` extends ``f``. This is were continuity of ``f`` enters the discussion,
-together with the fact that ``Y`` is Hausdorff.
+It remains to prove that ``φ`` extends ``f``. This is where the continuity of ``f`` enters the
+discussion, together with the fact that ``Y`` is Hausdorff.
 BOTH: -/
 -- QUOTE:
 example [TopologicalSpace X] [TopologicalSpace Y] [T3Space Y] {A : Set X}
