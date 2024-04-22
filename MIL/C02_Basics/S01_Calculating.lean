@@ -418,9 +418,9 @@ It can be imported explicitly with the command
 We will see there are similar tactics for other common kind of algebraic
 structures.
 
-There is a variation of ``rw`` called ``nth_rewrite`` that allows you to replace only particular instances of an expression in the goal.
+There is a variation of ``rw`` called ``nth_rw`` that allows you to replace only particular instances of an expression in the goal.
 Possible matches are enumerated starting with 1,
-so in the following example, ``nth_rewrite 2 h`` replaces the second
+so in the following example, ``nth_rw 2 [h]`` replaces the second
 occurrence of ``a + b`` with ``c``.
 EXAMPLES: -/
 -- QUOTE:
