@@ -48,7 +48,7 @@ Convergence and continuity
 
 Using distance functions, we can already define convergent sequences and continuous functions between metric spaces.
 They are actually defined in a more general setting covered in the next section,
-but we have lemmas recasting the definition is terms of distances.
+but we have lemmas recasting the definition in terms of distances.
 BOTH: -/
 -- QUOTE:
 example {u : ℕ → X} {a : X} :
