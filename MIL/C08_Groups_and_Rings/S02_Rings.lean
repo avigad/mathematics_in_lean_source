@@ -199,7 +199,7 @@ open BigOperators PiNotation
 
 -- EXAMPLES:
 example {ι : Type*} [Fintype ι] (a : ι → ℕ) (coprime : ∀ i j, i ≠ j → (a i).Coprime (a j)) :
-    ZMod (∏ i, a i) ≃+* ∀ i, ZMod (a i) :=
+    ZMod (∏ i, a i) ≃+* Π i, ZMod (a i) :=
   ZMod.prodEquivPi a coprime
 -- QUOTE.
 
