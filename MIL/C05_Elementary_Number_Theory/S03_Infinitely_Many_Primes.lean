@@ -130,7 +130,7 @@ theorem exists_prime_factor {n : Nat} (h : 2 ≤ n) : ∃ p : Nat, p.Prime ∧ p
 We can now prove the following formulation of our theorem.
 See if you can fill out the sketch.
 You can use ``Nat.factorial_pos``, ``Nat.dvd_factorial``,
-and ``Nat.dvd_sub``.
+and ``Nat.dvd_sub'``.
 BOTH: -/
 -- QUOTE:
 theorem primes_infinite : ∀ n, ∃ p > n, Nat.Prime p := by
