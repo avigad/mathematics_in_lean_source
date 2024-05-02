@@ -237,7 +237,7 @@ TEXT. -/
 -- QUOTE.
 
 /- TEXT:
-Use it to prove the following variant:
+Use it to prove the following variant, using also ``add_sub_cancel_right``:
 TEXT. -/
 -- QUOTE:
 -- BOTH:
@@ -250,7 +250,7 @@ SOLUTIONS: -/
     _ ≤ |a - b| + |b| - |b| := by
       apply sub_le_sub_right
       apply abs_add
-    _ ≤ |a - b| := by rw [add_sub_cancel]
+    _ ≤ |a - b| := by rw [add_sub_cancel_right]
 
 
 -- alternatively

@@ -826,6 +826,9 @@ open MonoidHom
 #check Subgroup.index_mul_card
 #check Nat.eq_of_mul_eq_mul_right
 
+-- The following line is working around a Lean bug that will be fixed very soon.
+attribute [-instance] Subtype.instInhabited
+
 lemma aux_card_eq [Fintype G] (h' : card G = card H * card K) : card (G ⧸ H) = card K := by
 /- EXAMPLES:
   sorry

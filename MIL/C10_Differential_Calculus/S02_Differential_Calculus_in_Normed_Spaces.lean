@@ -2,7 +2,7 @@ import MIL.Common
 import Mathlib.Analysis.NormedSpace.BanachSteinhaus
 import Mathlib.Analysis.NormedSpace.FiniteDimension
 import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
-import Mathlib.Analysis.Calculus.ContDiff.IsROrC
+import Mathlib.Analysis.Calculus.ContDiff.RCLike
 import Mathlib.Analysis.Calculus.FDeriv.Prod
 
 
@@ -169,7 +169,7 @@ into a normed space is pointwise
 bounded, then the norms of these linear maps are uniformly bounded.
 The main ingredient is Baire's theorem
 ``nonempty_interior_of_iUnion_of_closed``. (You proved a version of this in the topology chapter.)
-Minor ingredients include ``continuous_linear_map.op_norm_le_of_shell``,
+Minor ingredients include ``continuous_linear_map.opNorm_le_of_shell``,
 ``interior_subset`` and ``interior_iInter_subset`` and ``is_closed_le``.
 BOTH: -/
 section
@@ -200,7 +200,7 @@ example {ι : Type*} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, �
   have real_norm_le : ∀ z ∈ ball x ε, ∀ (i : ι), ‖g i z‖ ≤ m
   sorry
   have εk_pos : 0 < ε / ‖k‖ := sorry
-  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i ↦ ContinuousLinearMap.op_norm_le_of_shell ε_pos _ hk _⟩
+  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i ↦ ContinuousLinearMap.opNorm_le_of_shell ε_pos _ hk _⟩
   sorry
   sorry
 -- QUOTE.
@@ -230,11 +230,11 @@ example {ι : Type*} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, �
     replace hz := mem_iInter.mp (interior_iInter_subset _ (hε hz)) i
     apply interior_subset hz
   have εk_pos : 0 < ε / ‖k‖ := div_pos ε_pos (zero_lt_one.trans hk)
-  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i ↦ ContinuousLinearMap.op_norm_le_of_shell ε_pos _ hk _⟩
+  refine' ⟨(m + m : ℕ) / (ε / ‖k‖), fun i ↦ ContinuousLinearMap.opNorm_le_of_shell ε_pos _ hk _⟩
   · exact div_nonneg (Nat.cast_nonneg _) εk_pos.le
   intro y le_y y_lt
   calc
-    ‖g i y‖ = ‖g i (y + x) - g i x‖ := by rw [(g i).map_add, add_sub_cancel]
+    ‖g i y‖ = ‖g i (y + x) - g i x‖ := by rw [(g i).map_add, add_sub_cancel_right]
     _ ≤ ‖g i (y + x)‖ + ‖g i x‖ := (norm_sub_le _ _)
     _ ≤ m + m :=
       (add_le_add (real_norm_le (y + x) (by rwa [add_comm, add_mem_ball_iff_norm]) i)
@@ -335,7 +335,7 @@ Over ``ℝ`` or ``ℂ``, continuously differentiable
 functions are strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
-example {𝕂 : Type*} [IsROrC 𝕂] {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕂 E] {F : Type*}
+example {𝕂 : Type*} [RCLike 𝕂] {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕂 E] {F : Type*}
     [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ}
     (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFDerivAt f (fderiv 𝕂 f x) x :=
   hf.hasStrictFDerivAt hn

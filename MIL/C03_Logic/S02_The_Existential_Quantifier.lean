@@ -420,7 +420,7 @@ example {c : ℝ} : Surjective fun x ↦ x + c := by
 -- QUOTE.
 
 /- TEXT:
-Try this example yourself using the theorem ``mul_div_cancel'``.:
+Try this example yourself using the theorem ``mul_div_cancel₀``.:
 TEXT. -/
 -- QUOTE:
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
@@ -431,12 +431,12 @@ example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
-  dsimp; rw [mul_div_cancel' _ h]
+  dsimp; rw [mul_div_cancel₀ _ h]
 
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
-  field_simp [h] ; ring
+  field_simp
 
 /- TEXT:
 .. index:: field_simp, tactic ; field_simp
