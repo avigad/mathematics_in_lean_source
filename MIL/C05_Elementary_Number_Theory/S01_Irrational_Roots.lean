@@ -452,8 +452,6 @@ variable (r : ℚ)
 #check r.pos
 #check r.reduced
 
-#check Rat.num_den'
-
 end
 
 -- example (r : ℚ) : r ^ 2 ≠ 2 := by

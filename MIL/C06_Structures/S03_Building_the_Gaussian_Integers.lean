@@ -1,4 +1,3 @@
-import Mathlib.Data.Int.Basic
 import Mathlib.Algebra.EuclideanDomain.Basic
 import Mathlib.RingTheory.PrincipalIdealDomain
 import MIL.Common
@@ -152,11 +151,15 @@ that appears in VS Code, and then ask Lean to fill in a skeleton for the
 structure definition, you will see a scary number of entries.
 Jumping to the definition of the structure, however, shows that many of the
 fields have default definitions that Lean will fill in for you automatically.
-The essential ones appear in the definition below. In each case, the relevant
+The essential ones appear in the definition below.
+A special case are ``nsmul`` and ``zsmul`` which should be ignored for now
+and will be explained in the next chapter.
+In each case, the relevant
 identity is proved by unfolding definitions, using the ``ext`` tactic
 to reduce the identities to their real and imaginary components,
 simplifying, and, if necessary, carrying out the relevant ring calculation in
-the integers.
+the integers. Note that we could easily avoid repeating all this code, but
+this is not the topic of the current discussion.
 BOTH: -/
 -- QUOTE:
 instance instCommRing : CommRing gaussInt where
@@ -165,6 +168,8 @@ instance instCommRing : CommRing gaussInt where
   add := (· + ·)
   neg x := -x
   mul := (· * ·)
+  nsmul := nsmulRec
+  zsmul := zsmulRec
   add_assoc := by
     intros
     ext <;> simp <;> ring
@@ -198,8 +203,12 @@ instance instCommRing : CommRing gaussInt where
   mul_comm := by
     intros
     ext <;> simp <;> ring
-  zero_mul := sorry
-  mul_zero := sorry
+  zero_mul := by
+    intros
+    ext <;> simp
+  mul_zero := by
+    intros
+    ext <;> simp
 -- QUOTE.
 
 @[simp]
@@ -631,7 +640,7 @@ instance : EuclideanDomain gaussInt :=
     quotient := (· / ·)
     remainder := (· % ·)
     quotient_mul_add_remainder_eq :=
-      fun x y ↦ by simp only; rw [mod_def, add_comm, sub_add_cancel]
+      fun x y ↦ by simp only; rw [mod_def, add_comm] ; ring
     quotient_zero := fun x ↦ by
       simp [div_def, norm, Int.div']
       rfl

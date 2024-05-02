@@ -50,7 +50,7 @@ So in all cases we have the following lemma.
 EXAMPLES: -/
 -- QUOTE:
 example {s : Set α} (c : E) : ∫ x in s, c ∂μ = (μ s).toReal • c :=
-  set_integral_const c
+  setIntegral_const c
 -- QUOTE.
 
 /- TEXT:

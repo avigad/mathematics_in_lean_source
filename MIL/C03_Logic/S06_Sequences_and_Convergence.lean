@@ -227,7 +227,7 @@ theorem convergesTo_mul_constαα {s : ℕ → ℝ} {a : ℝ} (c : ℝ) (cs : Co
   calc
     |c * s n - c * a| = |c| * |s n - a| := by rw [← abs_mul, mul_sub]
     _ < |c| * (ε / |c|) := (mul_lt_mul_of_pos_left (hs n ngt) acpos)
-    _ = ε := mul_div_cancel' _ (ne_of_lt acpos).symm
+    _ = ε := mul_div_cancel₀ _ (ne_of_lt acpos).symm
 
 /- TEXT:
 The next theorem is also independently interesting:
@@ -299,7 +299,7 @@ theorem auxαα {s t : ℕ → ℝ} {a : ℝ} (cs : ConvergesTo s a) (ct : Conve
   calc
     |s n * t n - 0| = |s n| * |t n - 0| := by rw [sub_zero, abs_mul, sub_zero]
     _ < B * (ε / B) := (mul_lt_mul'' (h₀ n ngeN₀) (h₁ n ngeN₁) (abs_nonneg _) (abs_nonneg _))
-    _ = ε := mul_div_cancel' _ (ne_of_lt Bpos).symm
+    _ = ε := mul_div_cancel₀ _ (ne_of_lt Bpos).symm
 
 /- TEXT:
 If you have made it this far, congratulations!
@@ -379,7 +379,7 @@ theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ}
     _ ≤ |(-(s N - a))| + |s N - b| := (abs_add _ _)
     _ = |s N - a| + |s N - b| := by rw [abs_neg]
     _ < ε + ε := (add_lt_add absa absb)
-    _ = |a - b| := by norm_num
+    _ = |a - b| := by norm_num [ε]
 
   exact lt_irrefl _ this
 
