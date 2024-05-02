@@ -298,7 +298,7 @@ The Gaussian integer :math:`a - bi` is called the *conjugate* of :math:`a + bi`.
 It is not hard to check that for any complex numbers :math:`x` and :math:`y`,
 we have :math:`N(xy) = N(x)N(y)`.
 
-To see that this definition of the norm makes the complex numbers a Euclidean
+To see that this definition of the norm makes the Gaussian integers a Euclidean
 domain, only the first property is challenging. Suppose
 we want to write :math:`a + bi = (c + di) q + r` for suitable :math:`q`
 and :math:`r`. Treating :math:`a + bi` and :math:`c + di` are complex
