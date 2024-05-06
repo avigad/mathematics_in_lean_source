@@ -40,7 +40,7 @@ letters like ``α``, ``β``, and ``γ``
 (entered as ``\a``, ``\b``, and ``\g``)
 for arbitrary types.
 The library often uses letters like ``R`` and ``G``
-for the carries of algebraic structures like rings and groups,
+for the carriers of algebraic structures like rings and groups,
 respectively,
 but in general Greek letters are used for types,
 especially when there is little or no structure
