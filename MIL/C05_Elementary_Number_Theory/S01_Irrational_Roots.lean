@@ -105,7 +105,7 @@ giving rise to the theorem ``Nat.Prime.dvd_mul``.
 We can use this fact to establish a key property in the argument
 above:
 if the square of a number is even, then that number is even as well.
-Mathlib defines the predicate ``Even`` in ``Data.Nat.Parity``,
+Mathlib defines the predicate ``Even`` in ``Algebra.Group.Even``,
 but for reasons that will become clear below,
 we will simply use ``2 ∣ m`` to express that ``m`` is even.
 EXAMPLES: -/
