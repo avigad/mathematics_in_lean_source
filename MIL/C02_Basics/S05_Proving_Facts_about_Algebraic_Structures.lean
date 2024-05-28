@@ -157,7 +157,7 @@ example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
 -- SOLUTIONS:
 example : x ⊓ y = y ⊓ x := by
   apply le_antisymm
-  repeat'
+  repeat
     apply le_inf
     · apply inf_le_right
     apply inf_le_left
@@ -185,7 +185,7 @@ example : x ⊓ y ⊓ z = x ⊓ (y ⊓ z) := by
 
 example : x ⊔ y = y ⊔ x := by
   apply le_antisymm
-  repeat'
+  repeat
     apply sup_le
     · apply le_sup_right
     apply le_sup_left
