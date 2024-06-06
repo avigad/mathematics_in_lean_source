@@ -190,7 +190,7 @@ You have already seen that you can write ``h.mp`` and ``h.mpr``
 or ``h.1`` and ``h.2`` for the two directions of ``h : A ↔ B``.
 You can also use ``cases`` and friends.
 To prove an if-and-only-if statement,
-you can uses ``constructor`` or angle brackets,
+you can use ``constructor`` or angle brackets,
 just as you would if you were proving a conjunction.
 TEXT. -/
 -- QUOTE:
