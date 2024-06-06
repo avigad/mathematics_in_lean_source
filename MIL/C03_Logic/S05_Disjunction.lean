@@ -114,7 +114,7 @@ example : x < |y| → x < y ∨ x < -y := by
 
 /- TEXT:
 The names ``inl`` and ``inr`` are short for "intro left" and "intro right,"
-respectively. Using ``case`` has the advantage is that you can prove the
+respectively. Using ``case`` has the advantage that you can prove the
 cases in either order; Lean uses the tag to find the relevant goal.
 If you don't care about that, you can use ``next``, or ``match``,
 or even a pattern-matching ``have``.
@@ -129,7 +129,6 @@ example : x < |y| → x < y ∨ x < -y := by
     rw [abs_of_neg h]
     intro h; right; exact h
 
-
 example : x < |y| → x < y ∨ x < -y := by
   match le_or_gt 0 y with
     | Or.inl h =>
@@ -141,12 +140,12 @@ example : x < |y| → x < y ∨ x < -y := by
 -- QUOTE.
 
 /- TEXT:
-In the case of the ``match``, we need to use the full names
+In the case of ``match``, we need to use the full names
 ``Or.inl`` and ``Or.inr`` of the canonical ways to prove a disjunction.
 In this textbook, we will generally use ``rcases`` to split on the
 cases of a disjunction.
 
-Try proving the triangle inequality using the two
+Try proving the triangle inequality using the
 first two theorems in the next snippet.
 They are given the same names they have in Mathlib.
 TEXT. -/

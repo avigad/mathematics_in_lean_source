@@ -91,7 +91,7 @@ example (h : ∀ a, ∃ x, f x > a) : ¬FnHasUb f := by
 /- TEXT:
 Remember that it is often convenient to use ``linarith``
 when a goal follows from linear equations and
-inequalities that in the context.
+inequalities that are in the context.
 
 See if you can prove these in a similar way:
 TEXT. -/
