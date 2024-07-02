@@ -272,7 +272,7 @@ Notice that the third proof begins by ``by``, after which the tactic version
 of ``match`` expects a tactic proof on the right side of the arrow.
 The last example is a proof term: there are no tactics in sight.
 
-For the rest of this book, we will stick to ``rcases``, ``rintros``, and ``obtain``,
+For the rest of this book, we will stick to ``rcases``, ``rintro``, and ``obtain``,
 as the preferred ways of using an existential quantifier.
 But it can't hurt to see the alternative syntax, especially if there is
 a chance you will find yourself in the company of computer scientists.
