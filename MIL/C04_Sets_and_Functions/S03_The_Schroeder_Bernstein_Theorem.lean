@@ -312,7 +312,7 @@ In both cases, calling the simplifier with ``simp [sbAux]``
 applies the corresponding defining equation of ``sbAux``.
 BOTH: -/
 -- QUOTE:
-theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun f g) := by
+theorem sb_surjective (hg : Injective g) : Surjective (sbFun f g) := by
   set A := sbSet f g with A_def
   set h := sbFun f g with h_def
   intro y
@@ -348,7 +348,7 @@ EXAMPLES: -/
 -- QUOTE:
 theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Injective f) (hg : Injective g) :
     ∃ h : α → β, Bijective h :=
-  ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hf hg⟩
+  ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hg⟩
 -- QUOTE.
 
 -- Auxiliary information
