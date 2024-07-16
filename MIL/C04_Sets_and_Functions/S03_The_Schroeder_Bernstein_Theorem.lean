@@ -306,8 +306,8 @@ we immediately have :math:`h(g(y))= y`, and we are done.
 
 Once again, we encourage you to step through the proof and fill in
 the missing parts.
-The tactic ``cases n with n`` splits on the cases ``g y ∈ sbAux f g 0``
-and ``g y ∈ sbAux f g n.succ``.
+The tactic ``rcases n with _ | n`` splits on the cases ``g y ∈ sbAux f g 0``
+and ``g y ∈ sbAux f g (n + 1)``.
 In both cases, calling the simplifier with ``simp [sbAux]``
 applies the corresponding defining equation of ``sbAux``.
 BOTH: -/
