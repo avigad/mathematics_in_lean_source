@@ -174,7 +174,7 @@ It is an interesting fact that ``min`` distributes over ``max``
 the way that multiplication distributes over addition,
 and vice-versa.
 In other words, on the real numbers, we have the identity
-``min a (max b c) ≤ max (min a b) (min a c)``
+``min a (max b c) = max (min a b) (min a c)``
 as well as the corresponding version with ``max`` and ``min``
 switched.
 But in the next section we will see that this does *not* follow
