@@ -100,6 +100,6 @@ but Mathlib introduces special notation for saying that a property holds
 almost everywhere.
 EXAMPLES: -/
 -- QUOTE:
-example {P : α → Prop} : (∀ᵐ x ∂μ, P x) ↔ ∀ᶠ x in μ.ae, P x :=
+example {P : α → Prop} : (∀ᵐ x ∂μ, P x) ↔ ∀ᶠ x in ae μ, P x :=
   Iff.rfl
 -- QUOTE.

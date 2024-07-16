@@ -433,7 +433,7 @@ open scoped Classical
 open Fintype
 -- EXAMPLES:
 
-example {G : Type*} [Group G] [Fintype G] (G' : Subgroup G) : card G' ∣ card G :=
+example {G : Type*} [Group G] (G' : Subgroup G) : Nat.card G' ∣ Nat.card G :=
   ⟨G'.index, mul_comm G'.index _ ▸ G'.index_mul_card.symm⟩
 
 -- BOTH:
@@ -451,7 +451,7 @@ so do not use ``exact?`` too quickly.)
 BOTH: -/
 -- QUOTE:
 lemma eq_bot_iff_card {G : Type*} [Group G] {H : Subgroup G} [Fintype H] :
-    H = ⊥ ↔ card H = 1 := by
+    H = ⊥ ↔ Nat.card H = 1 := by
   suffices (∀ x ∈ H, x = 1) ↔ ∃ x ∈ H, ∀ a ∈ H, a = x by
     simpa [eq_bot_iff_forall, card_eq_one_iff]
 /- EXAMPLES:
@@ -469,12 +469,12 @@ SOLUTIONS: -/
 -- BOTH:
 
 lemma inf_bot_of_coprime {G : Type*} [Group G] (H K : Subgroup G) [Fintype H] [Fintype K]
-    (h : (card H).Coprime (card K)) : H ⊓ K = ⊥ := by
+    (h : (Nat.card H).Coprime (Nat.card K)) : H ⊓ K = ⊥ := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  have D₁ : card (H ⊓ K : Subgroup G) ∣ card H := card_dvd_of_le inf_le_left
-  have D₂ : card (H ⊓ K : Subgroup G) ∣ card K := card_dvd_of_le inf_le_right
+  have D₁ : Nat.card (H ⊓ K : Subgroup G) ∣ Nat.card H := card_dvd_of_le inf_le_left
+  have D₂ : Nat.card (H ⊓ K : Subgroup G) ∣ Nat.card K := card_dvd_of_le inf_le_right
   exact eq_bot_iff_card.2 (Nat.eq_one_of_dvd_coprimes h D₁ D₂)
 -- QUOTE.
 
@@ -826,18 +826,16 @@ open MonoidHom
 #check Subgroup.index_mul_card
 #check Nat.eq_of_mul_eq_mul_right
 
--- The following line is working around a Lean bug that will be fixed very soon.
-attribute [-instance] Subtype.instInhabited
-
-lemma aux_card_eq [Fintype G] (h' : card G = card H * card K) : card (G ⧸ H) = card K := by
+lemma aux_card_eq [Fintype G] (h' : Nat.card G = Nat.card H * Nat.card K) :
+    Nat.card (G ⧸ H) = Nat.card K := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
   have := calc
-    card (G ⧸ H) * card H = card G := by rw [← H.index_eq_card, H.index_mul_card]
-    _                     = card K * card H := by rw [h', mul_comm]
+    Nat.card (G ⧸ H) * Nat.card H = Nat.card G := by rw [← H.index_eq_card, H.index_mul_card]
+    _                             = Nat.card K * Nat.card H := by rw [h', mul_comm]
 
-  exact Nat.eq_of_mul_eq_mul_right card_pos this
+  exact Nat.eq_of_mul_eq_mul_right Nat.card_pos this
 -- QUOTE.
 
 /- TEXT:
@@ -845,14 +843,15 @@ From now on, we assume that our subgroups are normal and disjoint, and we assume
 condition. Now we construct the first building block of the desired isomorphism.
 BOTH: -/
 -- QUOTE:
-variable [H.Normal] [K.Normal] [Fintype G] (h : Disjoint H K) (h' : card G = card H * card K)
+variable [H.Normal] [K.Normal] [Fintype G] (h : Disjoint H K)
+  (h' : Nat.card G = Nat.card H * Nat.card K)
 
 #check bijective_iff_injective_and_card
 #check ker_eq_bot_iff
 #check restrict
 #check ker_restrict
 
-def iso₁ [Fintype G] (h : Disjoint H K) (h' : card G = card H * card K) : K ≃* G ⧸ H := by
+def iso₁ [Fintype G] (h : Disjoint H K) (h' : Nat.card G = Nat.card H * Nat.card K) : K ≃* G ⧸ H := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -862,6 +861,7 @@ SOLUTIONS: -/
   · rw [← ker_eq_bot_iff, (QuotientGroup.mk' H).ker_restrict K]
     simp [h]
   · symm
+    simp only [card_eq_nat_card]
     exact aux_card_eq h'
 -- QUOTE.
 
@@ -880,7 +880,9 @@ SOLUTIONS: -/
   constructor
   · rw [← ker_eq_bot_iff, ker_prod]
     simp [h.symm.eq_bot]
-  · rw [card_prod, aux_card_eq h', aux_card_eq (mul_comm (card H) _▸ h'), h']
+  · rw [card_prod]
+    simp only [card_eq_nat_card]
+    rw [aux_card_eq h', aux_card_eq (mul_comm (Nat.card H) _▸ h'), h']
 -- QUOTE.
 
 /- TEXT:
@@ -894,7 +896,7 @@ def finalIso : G ≃* H × K :=
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  (iso₂ h h').trans ((iso₁ h.symm (mul_comm (card H) _ ▸ h')).prodCongr (iso₁ h h')).symm
+  (iso₂ h h').trans ((iso₁ h.symm (mul_comm (Nat.card H) _ ▸ h')).prodCongr (iso₁ h h')).symm
 
 end
 end QuotientGroup

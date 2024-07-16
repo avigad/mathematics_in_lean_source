@@ -1,6 +1,6 @@
 import MIL.Common
 import Mathlib.Data.Nat.Factorization.Basic
-import Mathlib.Data.Nat.Prime
+import Mathlib.Data.Nat.Prime.Basic
 /- OMIT:
 -- fix this.
 -- import Mathlib.Data.Real.Irrational
