@@ -430,7 +430,6 @@ BOTH: -/
 -- QUOTE:
 open scoped Classical
 
-open Fintype
 -- EXAMPLES:
 
 example {G : Type*} [Group G] (G' : Subgroup G) : Nat.card G' ∣ Nat.card G :=
@@ -441,7 +440,7 @@ open Subgroup
 
 -- EXAMPLES:
 example {G : Type*} [Group G] [Fintype G] (p : ℕ) {n : ℕ} [Fact p.Prime]
-    (hdvd : p ^ n ∣ card G) : ∃ K : Subgroup G, card K = p ^ n :=
+    (hdvd : p ^ n ∣ Nat.card G) : ∃ K : Subgroup G, Nat.card K = p ^ n :=
   Sylow.exists_subgroup_card_pow_prime p hdvd
 -- QUOTE.
 
@@ -453,7 +452,7 @@ BOTH: -/
 lemma eq_bot_iff_card {G : Type*} [Group G] {H : Subgroup G} [Fintype H] :
     H = ⊥ ↔ Nat.card H = 1 := by
   suffices (∀ x ∈ H, x = 1) ↔ ∃ x ∈ H, ∀ a ∈ H, a = x by
-    simpa [eq_bot_iff_forall, card_eq_one_iff]
+    simpa [eq_bot_iff_forall, Nat.card_eq_one_iff_exists, -Nat.card_eq_fintype_card]
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -821,7 +820,7 @@ variable {G : Type*} [Group G] {H K : Subgroup G}
 
 open MonoidHom
 
-#check card_pos -- The nonempty argument will be automatically inferred for subgroups
+#check Nat.card_pos -- The nonempty argument will be automatically inferred for subgroups
 #check Subgroup.index_eq_card
 #check Subgroup.index_mul_card
 #check Nat.eq_of_mul_eq_mul_right
@@ -846,7 +845,7 @@ BOTH: -/
 variable [H.Normal] [K.Normal] [Fintype G] (h : Disjoint H K)
   (h' : Nat.card G = Nat.card H * Nat.card K)
 
-#check bijective_iff_injective_and_card
+#check Nat.bijective_iff_injective_and_card
 #check ker_eq_bot_iff
 #check restrict
 #check ker_restrict
@@ -856,12 +855,11 @@ def iso₁ [Fintype G] (h : Disjoint H K) (h' : Nat.card G = Nat.card H * Nat.ca
   sorry
 SOLUTIONS: -/
   apply MulEquiv.ofBijective ((QuotientGroup.mk' H).restrict K)
-  rw [bijective_iff_injective_and_card]
+  rw [Nat.bijective_iff_injective_and_card]
   constructor
   · rw [← ker_eq_bot_iff, (QuotientGroup.mk' H).ker_restrict K]
     simp [h]
   · symm
-    simp only [card_eq_nat_card]
     exact aux_card_eq h'
 -- QUOTE.
 
@@ -876,12 +874,11 @@ def iso₂ : G ≃* (G ⧸ K) × (G ⧸ H) := by
   sorry
 SOLUTIONS: -/
   apply MulEquiv.ofBijective <| (QuotientGroup.mk' K).prod (QuotientGroup.mk' H)
-  rw [bijective_iff_injective_and_card]
+  rw [Nat.bijective_iff_injective_and_card]
   constructor
   · rw [← ker_eq_bot_iff, ker_prod]
     simp [h.symm.eq_bot]
-  · rw [card_prod]
-    simp only [card_eq_nat_card]
+  · rw [Nat.card_prod]
     rw [aux_card_eq h', aux_card_eq (mul_comm (Nat.card H) _▸ h'), h']
 -- QUOTE.
 
