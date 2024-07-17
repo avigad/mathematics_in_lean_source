@@ -439,7 +439,7 @@ example {G : Type*} [Group G] (G' : Subgroup G) : Nat.card G' ∣ Nat.card G :=
 open Subgroup
 
 -- EXAMPLES:
-example {G : Type*} [Group G] [Fintype G] (p : ℕ) {n : ℕ} [Fact p.Prime]
+example {G : Type*} [Group G] [Finite G] (p : ℕ) {n : ℕ} [Fact p.Prime]
     (hdvd : p ^ n ∣ Nat.card G) : ∃ K : Subgroup G, Nat.card K = p ^ n :=
   Sylow.exists_subgroup_card_pow_prime p hdvd
 -- QUOTE.
@@ -449,10 +449,10 @@ The next two exercises derive a corollary of Lagrange's lemma. (This is also alr
 so do not use ``exact?`` too quickly.)
 BOTH: -/
 -- QUOTE:
-lemma eq_bot_iff_card {G : Type*} [Group G] {H : Subgroup G} [Fintype H] :
+lemma eq_bot_iff_card {G : Type*} [Group G] {H : Subgroup G} :
     H = ⊥ ↔ Nat.card H = 1 := by
   suffices (∀ x ∈ H, x = 1) ↔ ∃ x ∈ H, ∀ a ∈ H, a = x by
-    simpa [eq_bot_iff_forall, Nat.card_eq_one_iff_exists, -Nat.card_eq_fintype_card]
+    simpa [eq_bot_iff_forall, Nat.card_eq_one_iff_exists]
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -467,7 +467,7 @@ SOLUTIONS: -/
 #check card_dvd_of_le
 -- BOTH:
 
-lemma inf_bot_of_coprime {G : Type*} [Group G] (H K : Subgroup G) [Fintype H] [Fintype K]
+lemma inf_bot_of_coprime {G : Type*} [Group G] (H K : Subgroup G)
     (h : (Nat.card H).Coprime (Nat.card K)) : H ⊓ K = ⊥ := by
 /- EXAMPLES:
   sorry
@@ -825,7 +825,7 @@ open MonoidHom
 #check Subgroup.index_mul_card
 #check Nat.eq_of_mul_eq_mul_right
 
-lemma aux_card_eq [Fintype G] (h' : Nat.card G = Nat.card H * Nat.card K) :
+lemma aux_card_eq [Finite G] (h' : Nat.card G = Nat.card H * Nat.card K) :
     Nat.card (G ⧸ H) = Nat.card K := by
 /- EXAMPLES:
   sorry
