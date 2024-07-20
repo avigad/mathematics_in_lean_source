@@ -25,7 +25,7 @@ Normed spaces
 
 Differentiation can be generalized beyond ``ℝ`` using the notion of a
 *normed vector space*, which encapsulates both direction and distance.
-We start with the notion of a *normed group*, which as an additive commutative
+We start with the notion of a *normed group*, which is an additive commutative
 group equipped with a real-valued norm function
 satisfying the following conditions.
 EXAMPLES: -/
