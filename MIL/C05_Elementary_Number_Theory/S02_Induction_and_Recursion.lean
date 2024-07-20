@@ -239,8 +239,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (n : ℕ) : fac n = ∏ i in range n, (i + 1) := by
   induction' n with n ih
-  · rw [fac, prod_range_zero]
-  rw [fac, ih, prod_range_succ, mul_comm]
+  · simp [fac, prod_range_zero]
+  simp [fac, ih, prod_range_succ, mul_comm]
 -- QUOTE.
 
 /- TEXT:
