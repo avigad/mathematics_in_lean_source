@@ -169,7 +169,7 @@ SOLUTIONS: -/
 Induction is often used to prove identities involving finite sums and
 products.
 Mathlib defines the expressions ``Finset.sum s f`` where
-``s : Finset α`` if a finite set of elements of the type ``α`` and
+``s : Finset α`` is a finite set of elements of the type ``α`` and
 ``f`` is a function defined on ``α``.
 The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
