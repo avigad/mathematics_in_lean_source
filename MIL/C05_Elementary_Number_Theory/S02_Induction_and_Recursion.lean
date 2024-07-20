@@ -213,7 +213,7 @@ example : (range n).prod f = ∏ x in range n, f x :=
 
 /- TEXT:
 The facts ``Finset.sum_range_zero`` and ``Finset.sum_range_succ``
-provide a recursive description summation up to :math:`n`,
+provide a recursive description of summation up to :math:`n`,
 and similarly for products.
 EXAMPLES: -/
 -- QUOTE:
