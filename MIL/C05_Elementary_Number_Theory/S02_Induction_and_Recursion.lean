@@ -18,7 +18,7 @@ OMIT: -/
 namespace hidden
 
 -- QUOTE:
-inductive Nat
+inductive Nat where
   | zero : Nat
   | succ (n : Nat) : Nat
 -- QUOTE.
@@ -346,7 +346,7 @@ that subtracts one from any nonzero number and fixes zero.
 The function ``pred`` can be defined by a simple instance of recursion.
 BOTH: -/
 -- QUOTE:
-inductive MyNat
+inductive MyNat where
   | zero : MyNat
   | succ : MyNat → MyNat
 
