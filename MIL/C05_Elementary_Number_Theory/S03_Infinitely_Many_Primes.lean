@@ -101,9 +101,6 @@ then by one of the characterizations of what it means to be a prime number,
 it has a nontrivial factor, :math:`m`,
 and we can apply the inductive hypothesis to that.
 Step through the next proof to see how that plays out.
-The line ``dsimp at ih`` simplifies the expression of the
-inductive hypothesis to make it more readable.
-The proof still works if you delete that line.
 BOTH: -/
 -- QUOTE:
 theorem exists_prime_factor {n : Nat} (h : 2 ≤ n) : ∃ p : Nat, p.Prime ∧ p ∣ n := by
