@@ -194,7 +194,7 @@ most equivalences involving finsets do not hold definitionally,
 so they need to be expanded manually using equivalences like
 ``Finset.subset_iff``, ``Finset.mem_union``, ``Finset.mem_inter``,
 and ``Finset.mem_sdiff``. The ``ext`` tactic can still be used
-to reduce show that two finite sets are equal by showing
+to show that two finite sets are equal by showing
 that every element of one is an element of the other.
 BOTH: -/
 -- QUOTE:
