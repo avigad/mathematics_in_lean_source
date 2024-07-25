@@ -61,7 +61,7 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
 
 Recall that the semicolon after ``interval_cases m`` means
 that the next tactic is applied to each of the cases that it generates.
-Yet another option is to use the tactic, ``decide``, which tries
+Yet another option is to use the tactic ``decide``, which tries
 to find a decision procedure to solve the problem.
 Lean knows that you can decide the truth value of a statement that
 begins with a bounded quantifier ``∀ x, x < n → ...`` or ``∃ x, x < n ∧ ...``
