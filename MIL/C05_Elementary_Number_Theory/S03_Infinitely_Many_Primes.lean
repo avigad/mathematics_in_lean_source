@@ -38,7 +38,7 @@ theorem two_le {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   cases m; contradiction
   case succ m =>
     cases m; contradiction
-    repeat' apply Nat.succ_le_succ
+    repeat apply Nat.succ_le_succ
     apply zero_le
 -- QUOTE.
 
