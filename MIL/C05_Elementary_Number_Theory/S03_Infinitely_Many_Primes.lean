@@ -443,7 +443,7 @@ A small variation on our second proof that there are infinitely many primes
 shows that there are infinitely many primes congruent to 3 modulo 4.
 The argument goes as follows.
 First, notice that if the product of two numbers :math:`m` and :math:`n`
-is equal to 3 modulo 4, then one of the two numbers is congruent to three modulo 4.
+is equal to 3 modulo 4, then one of the two numbers is congruent to 3 modulo 4.
 After all, both have to be odd, and if they are both congruent to 1 modulo 4,
 so is their product.
 We can use this observation to show that if some number
