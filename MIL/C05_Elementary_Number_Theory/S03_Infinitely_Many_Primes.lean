@@ -366,7 +366,7 @@ BOTH: -/
 theorem primes_infinite' : ∀ s : Finset Nat, ∃ p, Nat.Prime p ∧ p ∉ s := by
   intro s
   by_contra h
-  push_neg  at h
+  push_neg at h
   set s' := s.filter Nat.Prime with s'_def
   have mem_s' : ∀ {n : ℕ}, n ∈ s' ↔ n.Prime := by
     intro n
