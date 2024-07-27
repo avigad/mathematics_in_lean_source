@@ -300,7 +300,7 @@ SOLUTIONS: -/
 
 /- TEXT:
 We can use this lemma to show that if a prime ``p`` divides a product of a finite
-set of primes, then it divides one of them.
+set of primes, then it is equal to one of them.
 Mathlib provides a useful principle of induction on finite sets:
 to show that a property holds of an arbitrary finite set ``s``,
 show that it holds of the empty set, and show that it is preserved
