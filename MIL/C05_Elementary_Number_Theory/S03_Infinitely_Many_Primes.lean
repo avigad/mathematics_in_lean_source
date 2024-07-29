@@ -586,7 +586,7 @@ BOTH: -/
 -- QUOTE:
 theorem primes_mod_4_eq_3_infinite : ∀ n, ∃ p > n, Nat.Prime p ∧ p % 4 = 3 := by
   by_contra h
-  push_neg  at h
+  push_neg at h
   rcases h with ⟨n, hn⟩
   have : ∃ s : Finset Nat, ∀ p : ℕ, p.Prime ∧ p % 4 = 3 ↔ p ∈ s := by
     apply ex_finset_of_bounded
