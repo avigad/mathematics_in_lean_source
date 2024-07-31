@@ -145,7 +145,7 @@ together with ``le_refl`` and ``le_trans``.
 Using ``apply le_trans`` when seeing a goal ``x ≤ z`` is not a great idea.
 Indeed Lean has no way to guess which intermediate element ``y`` we
 want to use.
-So ``apply le_trans`` produces three goals that look like``x ≤ ?a``, ``?a ≤ z``
+So ``apply le_trans`` produces three goals that look like ``x ≤ ?a``, ``?a ≤ z``
 and ``α`` where ``?a`` (probably with a more complicated auto-generated name) stands
 for the mysterious ``y``.
 The last goal, with type ``α``, is to provide the value of ``y``.
