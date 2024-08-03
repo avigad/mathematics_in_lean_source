@@ -255,19 +255,19 @@ The formalization below confirms that this assumption is sufficient.
 The unique factorization theorem says that any natural number other
 than zero can be written as the product of primes in a unique way.
 Mathlib contains a formal version of this, expressed in terms of a function
-``Nat.factors``, which returns the list of
+``Nat.primeFactorsList``, which returns the list of
 prime factors of a number in nondecreasing order.
-The library proves that all the elements of ``Nat.factors n``
+The library proves that all the elements of ``Nat.primeFactorsList n``
 are prime, that any ``n`` greater than zero is equal to the
 product of its factors,
 and that if ``n`` is equal to the product of another list of prime numbers,
-then that list is a permutation of ``Nat.factors n``.
+then that list is a permutation of ``Nat.primeFactorsList n``.
 EXAMPLES: -/
 -- QUOTE:
-#check Nat.factors
-#check Nat.prime_of_mem_factors
-#check Nat.prod_factors
-#check Nat.factors_unique
+#check Nat.primeFactorsList
+#check Nat.prime_of_mem_primeFactorsList
+#check Nat.prod_primeFactorsList
+#check Nat.primeFactorsList_unique
 -- QUOTE.
 
 /- TEXT:
