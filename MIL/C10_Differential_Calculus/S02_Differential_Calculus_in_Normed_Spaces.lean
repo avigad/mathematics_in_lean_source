@@ -170,7 +170,7 @@ bounded, then the norms of these linear maps are uniformly bounded.
 The main ingredient is Baire's theorem
 ``nonempty_interior_of_iUnion_of_closed``. (You proved a version of this in the topology chapter.)
 Minor ingredients include ``continuous_linear_map.opNorm_le_of_shell``,
-``interior_subset`` and ``interior_iInter_subset`` and ``is_closed_le``.
+``interior_subset`` and ``interior_iInter_subset`` and ``isClosed_le``.
 BOTH: -/
 section
 
