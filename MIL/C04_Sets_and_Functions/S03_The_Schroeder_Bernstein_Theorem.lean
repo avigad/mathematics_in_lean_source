@@ -245,7 +245,7 @@ theorem sb_injective (hf : Injective f) : Injective (sbFun f g) := by
     · symm
       apply this hxeq.symm xA.symm (xA.resolve_left x₁A)
     have x₂A : x₂ ∈ A := by
-      apply not_imp_self.mp
+      apply _root_.not_imp_self.mp
       intro (x₂nA : x₂ ∉ A)
       rw [if_pos x₁A, if_neg x₂nA] at hxeq
       rw [A_def, sbSet, mem_iUnion] at x₁A
@@ -306,13 +306,13 @@ we immediately have :math:`h(g(y))= y`, and we are done.
 
 Once again, we encourage you to step through the proof and fill in
 the missing parts.
-The tactic ``cases n with n`` splits on the cases ``g y ∈ sbAux f g 0``
-and ``g y ∈ sbAux f g n.succ``.
+The tactic ``rcases n with _ | n`` splits on the cases ``g y ∈ sbAux f g 0``
+and ``g y ∈ sbAux f g (n + 1)``.
 In both cases, calling the simplifier with ``simp [sbAux]``
 applies the corresponding defining equation of ``sbAux``.
 BOTH: -/
 -- QUOTE:
-theorem sb_surjective (hf : Injective f) (hg : Injective g) : Surjective (sbFun f g) := by
+theorem sb_surjective (hg : Injective g) : Surjective (sbFun f g) := by
   set A := sbSet f g with A_def
   set h := sbFun f g with h_def
   intro y
@@ -348,7 +348,7 @@ EXAMPLES: -/
 -- QUOTE:
 theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Injective f) (hg : Injective g) :
     ∃ h : α → β, Bijective h :=
-  ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hf hg⟩
+  ⟨sbFun f g, sb_injective f g hf, sb_surjective f g hg⟩
 -- QUOTE.
 
 -- Auxiliary information

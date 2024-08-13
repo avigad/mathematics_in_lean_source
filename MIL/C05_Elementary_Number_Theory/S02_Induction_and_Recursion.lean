@@ -1,5 +1,4 @@
 import Mathlib.Data.Nat.GCD.Basic
-import Mathlib.Algebra.BigOperators.Basic
 import MIL.Common
 
 /- TEXT:
@@ -146,7 +145,8 @@ function.
 It turns out to be easier to start with a proof by cases,
 so that the remainder of the proof starts with the case
 :math:`n = 1`.
-See if you can complete the argument with a proof by induction.
+See if you can complete the argument with a proof by induction using ``pow_succ``
+or ``pow_succ'``.
 BOTH: -/
 -- QUOTE:
 theorem pow_two_le_fac (n : ℕ) : 2 ^ (n - 1) ≤ fac n := by
@@ -158,7 +158,7 @@ SOLUTIONS: -/
   induction' n with n ih
   · simp [fac]
   simp at *
-  rw [pow_succ, fac]
+  rw [pow_succ', fac]
   apply Nat.mul_le_mul _ ih
   repeat' apply Nat.succ_le_succ
   apply zero_le
@@ -268,7 +268,7 @@ both follow the same canonical order. Simplifying with these
 rules, and the corresponding rules for addition, is a handy trick.
 
 Returning to summation identities, we suggest stepping through the following proof
-that the sum of the natural numbers up to an including :math:`n` is
+that the sum of the natural numbers up to and including :math:`n` is
 :math:`n (n + 1) / 2`.
 The first step of the proof clears the denominator.
 This is generally useful when formalizing identities,
@@ -280,7 +280,7 @@ theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 := by
   symm; apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 2)
   induction' n with n ih
   · simp
-  rw [Finset.sum_range_succ, mul_add 2, ← ih, Nat.succ_eq_add_one]
+  rw [Finset.sum_range_succ, mul_add 2, ← ih]
   ring
 -- QUOTE.
 
@@ -297,7 +297,7 @@ SOLUTIONS: -/
   apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 6)
   induction' n with n ih
   · simp
-  rw [Finset.sum_range_succ, mul_add 6, ← ih, Nat.succ_eq_add_one]
+  rw [Finset.sum_range_succ, mul_add 6, ← ih]
   ring
 -- QUOTE.
 

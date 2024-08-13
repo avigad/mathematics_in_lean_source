@@ -1,5 +1,3 @@
-import Mathlib.Data.Nat.Basic
-import Mathlib.Data.Nat.Parity
 import MIL.Common
 
 open Nat
@@ -148,7 +146,7 @@ tactic proofs are often easier and quicker to write than
 proof terms.
 There isn't a sharp distinction between the two:
 tactic proofs can be inserted in proof terms,
-as we did with the phrase ``by rw [hk, mul_left_comm]`` in the example above.
+as we did with the phrase ``by rw [hk, mul_add]`` in the example above.
 We will also see that, conversely,
 it is often useful to insert a short proof term in the middle of a tactic proof.
 That said, in this book, our emphasis will be on the use of tactics.

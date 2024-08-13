@@ -40,7 +40,7 @@ letters like ``α``, ``β``, and ``γ``
 (entered as ``\a``, ``\b``, and ``\g``)
 for arbitrary types.
 The library often uses letters like ``R`` and ``G``
-for the carries of algebraic structures like rings and groups,
+for the carriers of algebraic structures like rings and groups,
 respectively,
 but in general Greek letters are used for types,
 especially when there is little or no structure
@@ -55,7 +55,7 @@ and not equal to ``y``.
 TEXT. -/
 -- QUOTE:
 #check x < y
-#check (lt_irrefl x : ¬x < x)
+#check (lt_irrefl x : ¬ (x < x))
 #check (lt_trans : x < y → y < z → x < z)
 #check (lt_of_le_of_lt : x ≤ y → y < z → x < z)
 #check (lt_of_lt_of_le : x < y → y ≤ z → x < z)
@@ -139,6 +139,26 @@ You can check that, as with ``min`` / ``max`` and ``gcd`` / ``lcm``,
 you can prove the commutativity and associativity of the infimum and supremum
 using only their characterizing axioms,
 together with ``le_refl`` and ``le_trans``.
+
+.. index:: trans, tactics ; trans
+
+Using ``apply le_trans`` when seeing a goal ``x ≤ z`` is not a great idea.
+Indeed Lean has no way to guess which intermediate element ``y`` we
+want to use.
+So ``apply le_trans`` produces three goals that look like``x ≤ ?a``, ``?a ≤ z``
+and ``α`` where ``?a`` (probably with a more complicated auto-generated name) stands
+for the mysterious ``y``.
+The last goal, with type ``α``, is to provide the value of ``y``.
+It comes lasts because Lean hopes to automatically infer it from the proof of
+the first goal ``x ≤ ?a``.
+In order to avoid this unappealing situation, you can use the ``calc`` tactic
+to explicitly provide ``y``.
+Alternatively, you can use the ``trans`` tactic
+which takes ``y`` as an argument and produces the expected goals ``x ≤ y`` and
+``y ≤ z``.
+Of course you can also avoid this issue by providing directly a full proof such as
+``exact le_trans inf_le_left inf_le_right``, but this requires a lot more
+planning.
 TEXT. -/
 -- QUOTE:
 example : x ⊓ y = y ⊓ x := by
@@ -157,7 +177,7 @@ example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
 -- SOLUTIONS:
 example : x ⊓ y = y ⊓ x := by
   apply le_antisymm
-  repeat'
+  repeat
     apply le_inf
     · apply inf_le_right
     apply inf_le_left
@@ -165,27 +185,27 @@ example : x ⊓ y = y ⊓ x := by
 example : x ⊓ y ⊓ z = x ⊓ (y ⊓ z) := by
   apply le_antisymm
   · apply le_inf
-    · apply le_trans
+    · trans x ⊓ y
       apply inf_le_left
       apply inf_le_left
     apply le_inf
-    · apply le_trans
+    · trans x ⊓ y
       apply inf_le_left
       apply inf_le_right
     apply inf_le_right
   apply le_inf
   · apply le_inf
     · apply inf_le_left
-    apply le_trans
+    trans y ⊓ z
     apply inf_le_right
     apply inf_le_left
-  apply le_trans
+  trans y ⊓ z
   apply inf_le_right
   apply inf_le_right
 
 example : x ⊔ y = y ⊔ x := by
   apply le_antisymm
-  repeat'
+  repeat
     apply sup_le
     · apply le_sup_right
     apply le_sup_left
@@ -195,19 +215,19 @@ example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := by
   · apply sup_le
     · apply sup_le
       apply le_sup_left
-      · apply le_trans
-        apply @le_sup_left _ _ y z
+      · trans y ⊔ z
+        apply le_sup_left
         apply le_sup_right
-    apply le_trans
-    apply @le_sup_right _ _ y z
+    trans y ⊔ z
+    apply le_sup_right
     apply le_sup_right
   apply sup_le
-  · apply le_trans
-    apply @le_sup_left _ _ x y
+  · trans x ⊔ y
+    apply le_sup_left
     apply le_sup_left
   apply sup_le
-  · apply le_trans
-    apply @le_sup_right _ _ x y
+  · trans x ⊔ y
+    apply le_sup_right
     apply le_sup_left
   apply le_sup_right
 
@@ -258,10 +278,10 @@ section
 variable {α : Type*} [DistribLattice α]
 variable (x y z : α)
 
-#check (inf_sup_left : x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z)
-#check (inf_sup_right : (x ⊔ y) ⊓ z = x ⊓ z ⊔ y ⊓ z)
-#check (sup_inf_left : x ⊔ y ⊓ z = (x ⊔ y) ⊓ (x ⊔ z))
-#check (sup_inf_right : x ⊓ y ⊔ z = (x ⊔ z) ⊓ (y ⊔ z))
+#check (inf_sup_left x y z : x ⊓ (y ⊔ z) = x ⊓ y ⊔ x ⊓ z)
+#check (inf_sup_right x y z : (x ⊔ y) ⊓ z = x ⊓ z ⊔ y ⊓ z)
+#check (sup_inf_left x y z : x ⊔ y ⊓ z = (x ⊔ y) ⊓ (x ⊔ z))
+#check (sup_inf_right x y z : x ⊓ y ⊔ z = (x ⊔ z) ⊓ (y ⊔ z))
 -- QUOTE.
 end
 

@@ -1,4 +1,3 @@
-import Mathlib.Data.Int.Basic
 import Mathlib.Algebra.EuclideanDomain.Basic
 import Mathlib.RingTheory.PrincipalIdealDomain
 import MIL.Common
@@ -24,7 +23,7 @@ representing a Gaussian integer as a pair of integers, which we think of as the
 BOTH: -/
 -- QUOTE:
 @[ext]
-structure gaussInt where
+structure GaussInt where
   re : ℤ
   im : ℤ
 -- QUOTE.
@@ -43,22 +42,22 @@ be a square root of :math:`-1`. Thus we want
 
 This explains the definition of ``Mul`` below.
 BOTH: -/
-namespace gaussInt
+namespace GaussInt
 
 -- QUOTE:
-instance : Zero gaussInt :=
+instance : Zero GaussInt :=
   ⟨⟨0, 0⟩⟩
 
-instance : One gaussInt :=
+instance : One GaussInt :=
   ⟨⟨1, 0⟩⟩
 
-instance : Add gaussInt :=
+instance : Add GaussInt :=
   ⟨fun x y ↦ ⟨x.re + y.re, x.im + y.im⟩⟩
 
-instance : Neg gaussInt :=
+instance : Neg GaussInt :=
   ⟨fun x ↦ ⟨-x.re, -x.im⟩⟩
 
-instance : Mul gaussInt :=
+instance : Mul GaussInt :=
   ⟨fun x y ↦ ⟨x.re * y.re - x.im * y.im, x.re * y.im + x.im * y.re⟩⟩
 -- QUOTE.
 
@@ -75,19 +74,19 @@ It is often useful to have an explicit name for the definitions, for example,
 to use with ``simp`` and ``rewrite``.
 BOTH: -/
 -- QUOTE:
-theorem zero_def : (0 : gaussInt) = ⟨0, 0⟩ :=
+theorem zero_def : (0 : GaussInt) = ⟨0, 0⟩ :=
   rfl
 
-theorem one_def : (1 : gaussInt) = ⟨1, 0⟩ :=
+theorem one_def : (1 : GaussInt) = ⟨1, 0⟩ :=
   rfl
 
-theorem add_def (x y : gaussInt) : x + y = ⟨x.re + y.re, x.im + y.im⟩ :=
+theorem add_def (x y : GaussInt) : x + y = ⟨x.re + y.re, x.im + y.im⟩ :=
   rfl
 
-theorem neg_def (x : gaussInt) : -x = ⟨-x.re, -x.im⟩ :=
+theorem neg_def (x : GaussInt) : -x = ⟨-x.re, -x.im⟩ :=
   rfl
 
-theorem mul_def (x y : gaussInt) :
+theorem mul_def (x y : GaussInt) :
     x * y = ⟨x.re * y.re - x.im * y.im, x.re * y.im + x.im * y.re⟩ :=
   rfl
 -- QUOTE.
@@ -98,73 +97,79 @@ parts, and to declare them to the simplifier.
 BOTH: -/
 -- QUOTE:
 @[simp]
-theorem zero_re : (0 : gaussInt).re = 0 :=
+theorem zero_re : (0 : GaussInt).re = 0 :=
   rfl
 
 @[simp]
-theorem zero_im : (0 : gaussInt).im = 0 :=
+theorem zero_im : (0 : GaussInt).im = 0 :=
   rfl
 
 @[simp]
-theorem one_re : (1 : gaussInt).re = 1 :=
+theorem one_re : (1 : GaussInt).re = 1 :=
   rfl
 
 @[simp]
-theorem one_im : (1 : gaussInt).im = 0 :=
+theorem one_im : (1 : GaussInt).im = 0 :=
   rfl
 
 @[simp]
-theorem add_re (x y : gaussInt) : (x + y).re = x.re + y.re :=
+theorem add_re (x y : GaussInt) : (x + y).re = x.re + y.re :=
   rfl
 
 @[simp]
-theorem add_im (x y : gaussInt) : (x + y).im = x.im + y.im :=
+theorem add_im (x y : GaussInt) : (x + y).im = x.im + y.im :=
   rfl
 
 @[simp]
-theorem neg_re (x : gaussInt) : (-x).re = -x.re :=
+theorem neg_re (x : GaussInt) : (-x).re = -x.re :=
   rfl
 
 @[simp]
-theorem neg_im (x : gaussInt) : (-x).im = -x.im :=
+theorem neg_im (x : GaussInt) : (-x).im = -x.im :=
   rfl
 
 @[simp]
-theorem mul_re (x y : gaussInt) : (x * y).re = x.re * y.re - x.im * y.im :=
+theorem mul_re (x y : GaussInt) : (x * y).re = x.re * y.re - x.im * y.im :=
   rfl
 
 @[simp]
-theorem mul_im (x y : gaussInt) : (x * y).im = x.re * y.im + x.im * y.re :=
+theorem mul_im (x y : GaussInt) : (x * y).im = x.re * y.im + x.im * y.re :=
   rfl
 -- QUOTE.
 
 /- TEXT:
 It is now surprisingly easy to show that the Gaussian integers are an instance
 of a commutative ring. We are putting the structure concept to good use.
-Each particular Gaussian integer is an instance of the ``gaussInt`` structure,
-whereas the type ``gaussInt`` itself, together with the relevant operations, is an
+Each particular Gaussian integer is an instance of the ``GaussInt`` structure,
+whereas the type ``GaussInt`` itself, together with the relevant operations, is an
 instance of the ``CommRing`` structure. The ``CommRing`` structure, in turn,
 extends the notational structures ``Zero``, ``One``, ``Add``,
 ``Neg``, and ``Mul``.
 
-If you type ``instance : CommRing gaussInt := _``, click on the light bulb
+If you type ``instance : CommRing GaussInt := _``, click on the light bulb
 that appears in VS Code, and then ask Lean to fill in a skeleton for the
 structure definition, you will see a scary number of entries.
 Jumping to the definition of the structure, however, shows that many of the
 fields have default definitions that Lean will fill in for you automatically.
-The essential ones appear in the definition below. In each case, the relevant
+The essential ones appear in the definition below.
+A special case are ``nsmul`` and ``zsmul`` which should be ignored for now
+and will be explained in the next chapter.
+In each case, the relevant
 identity is proved by unfolding definitions, using the ``ext`` tactic
 to reduce the identities to their real and imaginary components,
 simplifying, and, if necessary, carrying out the relevant ring calculation in
-the integers.
+the integers. Note that we could easily avoid repeating all this code, but
+this is not the topic of the current discussion.
 BOTH: -/
 -- QUOTE:
-instance instCommRing : CommRing gaussInt where
+instance instCommRing : CommRing GaussInt where
   zero := 0
   one := 1
   add := (· + ·)
   neg x := -x
   mul := (· * ·)
+  nsmul := nsmulRec
+  zsmul := zsmulRec
   add_assoc := by
     intros
     ext <;> simp <;> ring
@@ -198,16 +203,20 @@ instance instCommRing : CommRing gaussInt where
   mul_comm := by
     intros
     ext <;> simp <;> ring
-  zero_mul := sorry
-  mul_zero := sorry
+  zero_mul := by
+    intros
+    ext <;> simp
+  mul_zero := by
+    intros
+    ext <;> simp
 -- QUOTE.
 
 @[simp]
-theorem sub_re (x y : gaussInt) : (x - y).re = x.re - y.re :=
+theorem sub_re (x y : GaussInt) : (x - y).re = x.re - y.re :=
   rfl
 
 @[simp]
-theorem sub_im (x y : gaussInt) : (x - y).im = x.im - y.im :=
+theorem sub_im (x y : GaussInt) : (x - y).im = x.im - y.im :=
   rfl
 
 /- TEXT:
@@ -217,13 +226,13 @@ to saying that the zero is not equal to the one. Since some common theorems
 depend on that fact, we may as well establish it now.
 BOTH: -/
 -- QUOTE:
-instance : Nontrivial gaussInt := by
+instance : Nontrivial GaussInt := by
   use 0, 1
-  rw [Ne, gaussInt.ext_iff]
+  rw [Ne, GaussInt.ext_iff]
   simp
 -- QUOTE.
 
-end gaussInt
+end GaussInt
 
 /- TEXT:
 We will now show that the Gaussian integers have an important additional
@@ -289,7 +298,7 @@ The Gaussian integer :math:`a - bi` is called the *conjugate* of :math:`a + bi`.
 It is not hard to check that for any complex numbers :math:`x` and :math:`y`,
 we have :math:`N(xy) = N(x)N(y)`.
 
-To see that this definition of the norm makes the complex numbers a Euclidean
+To see that this definition of the norm makes the Gaussian integers a Euclidean
 domain, only the first property is challenging. Suppose
 we want to write :math:`a + bi = (c + di) q + r` for suitable :math:`q`
 and :math:`r`. Treating :math:`a + bi` and :math:`c + di` are complex
@@ -427,19 +436,19 @@ SOLUTIONS: -/
 -- BOTH:
 /- TEXT:
 We will put all the remaining definitions and theorems in this section
-in the ``gaussInt`` namespace.
+in the ``GaussInt`` namespace.
 First, we define the ``norm`` function and ask you to establish
 some of its properties.
 The proofs are all short.
 BOTH: -/
-namespace gaussInt
+namespace GaussInt
 
 -- QUOTE:
-def norm (x : gaussInt) :=
+def norm (x : GaussInt) :=
   x.re ^ 2 + x.im ^ 2
 
 @[simp]
-theorem norm_nonneg (x : gaussInt) : 0 ≤ norm x := by
+theorem norm_nonneg (x : GaussInt) : 0 ≤ norm x := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -447,15 +456,15 @@ SOLUTIONS: -/
   apply sq_nonneg
 
 -- BOTH:
-theorem norm_eq_zero (x : gaussInt) : norm x = 0 ↔ x = 0 := by
+theorem norm_eq_zero (x : GaussInt) : norm x = 0 ↔ x = 0 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  rw [norm, sq_add_sq_eq_zero, gaussInt.ext_iff]
+  rw [norm, sq_add_sq_eq_zero, GaussInt.ext_iff]
   rfl
 
 -- BOTH:
-theorem norm_pos (x : gaussInt) : 0 < norm x ↔ x ≠ 0 := by
+theorem norm_pos (x : GaussInt) : 0 < norm x ↔ x ≠ 0 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -463,7 +472,7 @@ SOLUTIONS: -/
   simp [norm_nonneg]
 
 -- BOTH:
-theorem norm_mul (x y : gaussInt) : norm (x * y) = norm x * norm y := by
+theorem norm_mul (x y : GaussInt) : norm (x * y) = norm x * norm y := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -476,18 +485,18 @@ SOLUTIONS: -/
 Next we define the conjugate function:
 BOTH: -/
 -- QUOTE:
-def conj (x : gaussInt) : gaussInt :=
+def conj (x : GaussInt) : GaussInt :=
   ⟨x.re, -x.im⟩
 
 @[simp]
-theorem conj_re (x : gaussInt) : (conj x).re = x.re :=
+theorem conj_re (x : GaussInt) : (conj x).re = x.re :=
   rfl
 
 @[simp]
-theorem conj_im (x : gaussInt) : (conj x).im = -x.im :=
+theorem conj_im (x : GaussInt) : (conj x).im = -x.im :=
   rfl
 
-theorem norm_conj (x : gaussInt) : norm (conj x) = norm x := by simp [norm]
+theorem norm_conj (x : GaussInt) : norm (conj x) = norm x := by simp [norm]
 -- QUOTE.
 
 /- TEXT:
@@ -506,7 +515,7 @@ respectively. Here the numerators are the real and imaginary parts of
 of :math:`c + di`.
 BOTH: -/
 -- QUOTE:
-instance : Div gaussInt :=
+instance : Div GaussInt :=
   ⟨fun x y ↦ ⟨Int.div' (x * conj y).re (norm y), Int.div' (x * conj y).im (norm y)⟩⟩
 -- QUOTE.
 
@@ -517,14 +526,14 @@ theorems ``div_def`` and
 ``mod_def`` so that we can use them with ``simp`` and ``rewrite``.
 BOTH: -/
 -- QUOTE:
-instance : Mod gaussInt :=
+instance : Mod GaussInt :=
   ⟨fun x y ↦ x - y * (x / y)⟩
 
-theorem div_def (x y : gaussInt) :
+theorem div_def (x y : GaussInt) :
     x / y = ⟨Int.div' (x * conj y).re (norm y), Int.div' (x * conj y).im (norm y)⟩ :=
   rfl
 
-theorem mod_def (x y : gaussInt) : x % y = x - y * (x / y) :=
+theorem mod_def (x y : GaussInt) : x % y = x - y * (x / y) :=
   rfl
 -- QUOTE.
 
@@ -558,7 +567,7 @@ This messy calculation is carried out in the next proof. We encourage you
 to step through the details and see if you can find a nicer argument.
 BOTH: -/
 -- QUOTE:
-theorem norm_mod_lt (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) :
+theorem norm_mod_lt (x : GaussInt) {y : GaussInt} (hy : y ≠ 0) :
     (x % y).norm < y.norm := by
   have norm_y_pos : 0 < norm y := by rwa [norm_pos]
   have H1 : x % y * conj y = ⟨Int.mod' (x * conj y).re (norm y), Int.mod' (x * conj y).im (norm y)⟩
@@ -588,10 +597,10 @@ natural numbers and back to the integers does not change the value.
 The second one re-expresses the fact that the norm is decreasing.
 BOTH: -/
 -- QUOTE:
-theorem coe_natAbs_norm (x : gaussInt) : (x.norm.natAbs : ℤ) = x.norm :=
+theorem coe_natAbs_norm (x : GaussInt) : (x.norm.natAbs : ℤ) = x.norm :=
   Int.natAbs_of_nonneg (norm_nonneg _)
 
-theorem natAbs_norm_mod_lt (x y : gaussInt) (hy : y ≠ 0) :
+theorem natAbs_norm_mod_lt (x y : GaussInt) (hy : y ≠ 0) :
     (x % y).norm.natAbs < y.norm.natAbs := by
   apply Int.ofNat_lt.1
   simp only [Int.coe_natAbs, abs_of_nonneg, norm_nonneg]
@@ -603,7 +612,7 @@ We also need to establish the second key property of the norm function
 on a Euclidean domain.
 BOTH: -/
 -- QUOTE:
-theorem not_norm_mul_left_lt_norm (x : gaussInt) {y : gaussInt} (hy : y ≠ 0) :
+theorem not_norm_mul_left_lt_norm (x : GaussInt) {y : GaussInt} (hy : y ≠ 0) :
     ¬(norm (x * y)).natAbs < (norm x).natAbs := by
   apply not_lt_of_ge
   rw [norm_mul, Int.natAbs_mul]
@@ -626,12 +635,12 @@ and in that case, the required properties are the theorems
 ``natAbs_norm_mod_lt`` and ``not_norm_mul_left_lt_norm``.
 BOTH: -/
 -- QUOTE:
-instance : EuclideanDomain gaussInt :=
-  { gaussInt.instCommRing with
+instance : EuclideanDomain GaussInt :=
+  { GaussInt.instCommRing with
     quotient := (· / ·)
     remainder := (· % ·)
     quotient_mul_add_remainder_eq :=
-      fun x y ↦ by simp only; rw [mod_def, add_comm, sub_add_cancel]
+      fun x y ↦ by simp only; rw [mod_def, add_comm] ; ring
     quotient_zero := fun x ↦ by
       simp [div_def, norm, Int.div']
       rfl
@@ -646,8 +655,8 @@ An immediate payoff is that we now know that, in the Gaussian integers,
 the notions of being prime and being irreducible coincide.
 BOTH: -/
 -- QUOTE:
-example (x : gaussInt) : Irreducible x ↔ Prime x :=
+example (x : GaussInt) : Irreducible x ↔ Prime x :=
   PrincipalIdealRing.irreducible_iff_prime
 -- QUOTE.
 
-end gaussInt
+end GaussInt

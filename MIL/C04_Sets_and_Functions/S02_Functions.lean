@@ -565,6 +565,8 @@ since in the positive case, the value returned,
 The identity ``dif_pos h`` rewrites ``if h : e then a else b``
 to ``a`` given ``h : e``,
 and, similarly, ``dif_neg h`` rewrites it to ``b`` given ``h : ¬ e``.
+There are also versions ``if_pos`` and ``if_neg`` that works for non-dependent
+if constructions and will be used in the next section.
 The theorem ``inverse_spec`` says that ``inverse f``
 meets the first part of this specification.
 

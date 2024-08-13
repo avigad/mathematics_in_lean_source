@@ -272,7 +272,7 @@ Notice that the third proof begins by ``by``, after which the tactic version
 of ``match`` expects a tactic proof on the right side of the arrow.
 The last example is a proof term: there are no tactics in sight.
 
-For the rest of this book, we will stick to ``rcases``, ``rintros``, and ``obtain``,
+For the rest of this book, we will stick to ``rcases``, ``rintro``, and ``obtain``,
 as the preferred ways of using an existential quantifier.
 But it can't hurt to see the alternative syntax, especially if there is
 a chance you will find yourself in the company of computer scientists.
@@ -420,7 +420,7 @@ example {c : ℝ} : Surjective fun x ↦ x + c := by
 -- QUOTE.
 
 /- TEXT:
-Try this example yourself using the theorem ``mul_div_cancel'``.:
+Try this example yourself using the theorem ``mul_div_cancel₀``.:
 TEXT. -/
 -- QUOTE:
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
@@ -431,15 +431,15 @@ example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
-  dsimp; rw [mul_div_cancel' _ h]
+  dsimp; rw [mul_div_cancel₀ _ h]
 
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
   intro x
   use x / c
-  field_simp [h] ; ring
+  field_simp
 
 /- TEXT:
-.. index:: field_simp, tactic ; field_simp
+.. index:: field_simp, tactics ; field_simp
 
 At this point, it is worth mentioning that there is a tactic, ``field_simp``,
 that will often clear denominators in a useful way.
