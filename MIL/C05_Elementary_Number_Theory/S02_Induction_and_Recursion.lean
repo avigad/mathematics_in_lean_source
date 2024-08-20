@@ -18,7 +18,7 @@ OMIT: -/
 namespace hidden
 
 -- QUOTE:
-inductive Nat
+inductive Nat where
   | zero : Nat
   | succ (n : Nat) : Nat
 -- QUOTE.
@@ -169,7 +169,7 @@ SOLUTIONS: -/
 Induction is often used to prove identities involving finite sums and
 products.
 Mathlib defines the expressions ``Finset.sum s f`` where
-``s : Finset α`` if a finite set of elements of the type ``α`` and
+``s : Finset α`` is a finite set of elements of the type ``α`` and
 ``f`` is a function defined on ``α``.
 The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
@@ -213,7 +213,7 @@ example : (range n).prod f = ∏ x in range n, f x :=
 
 /- TEXT:
 The facts ``Finset.sum_range_zero`` and ``Finset.sum_range_succ``
-provide a recursive description summation up to :math:`n`,
+provide a recursive description of summation up to :math:`n`,
 and similarly for products.
 EXAMPLES: -/
 -- QUOTE:
@@ -239,8 +239,8 @@ EXAMPLES: -/
 -- QUOTE:
 example (n : ℕ) : fac n = ∏ i in range n, (i + 1) := by
   induction' n with n ih
-  · rw [fac, prod_range_zero]
-  rw [fac, ih, prod_range_succ, mul_comm]
+  · simp [fac, prod_range_zero]
+  simp [fac, ih, prod_range_succ, mul_comm]
 -- QUOTE.
 
 /- TEXT:
@@ -346,7 +346,7 @@ that subtracts one from any nonzero number and fixes zero.
 The function ``pred`` can be defined by a simple instance of recursion.
 BOTH: -/
 -- QUOTE:
-inductive MyNat
+inductive MyNat where
   | zero : MyNat
   | succ : MyNat → MyNat
 

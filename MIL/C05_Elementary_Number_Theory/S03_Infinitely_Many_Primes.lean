@@ -38,7 +38,7 @@ theorem two_le {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   cases m; contradiction
   case succ m =>
     cases m; contradiction
-    repeat' apply Nat.succ_le_succ
+    repeat apply Nat.succ_le_succ
     apply zero_le
 -- QUOTE.
 
@@ -61,7 +61,7 @@ example {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
 
 Recall that the semicolon after ``interval_cases m`` means
 that the next tactic is applied to each of the cases that it generates.
-Yet another option is to use the tactic, ``decide``, which tries
+Yet another option is to use the tactic ``decide``, which tries
 to find a decision procedure to solve the problem.
 Lean knows that you can decide the truth value of a statement that
 begins with a bounded quantifier ``∀ x, x < n → ...`` or ``∃ x, x < n ∧ ...``
@@ -101,9 +101,6 @@ then by one of the characterizations of what it means to be a prime number,
 it has a nontrivial factor, :math:`m`,
 and we can apply the inductive hypothesis to that.
 Step through the next proof to see how that plays out.
-The line ``dsimp at ih`` simplifies the expression of the
-inductive hypothesis to make it more readable.
-The proof still works if you delete that line.
 BOTH: -/
 -- QUOTE:
 theorem exists_prime_factor {n : Nat} (h : 2 ≤ n) : ∃ p : Nat, p.Prime ∧ p ∣ n := by
@@ -197,7 +194,7 @@ most equivalences involving finsets do not hold definitionally,
 so they need to be expanded manually using equivalences like
 ``Finset.subset_iff``, ``Finset.mem_union``, ``Finset.mem_inter``,
 and ``Finset.mem_sdiff``. The ``ext`` tactic can still be used
-to reduce show that two finite sets are equal by showing
+to show that two finite sets are equal by showing
 that every element of one is an element of the other.
 BOTH: -/
 -- QUOTE:
@@ -303,7 +300,7 @@ SOLUTIONS: -/
 
 /- TEXT:
 We can use this lemma to show that if a prime ``p`` divides a product of a finite
-set of primes, then it divides one of them.
+set of primes, then it is equal to one of them.
 Mathlib provides a useful principle of induction on finite sets:
 to show that a property holds of an arbitrary finite set ``s``,
 show that it holds of the empty set, and show that it is preserved
@@ -369,7 +366,7 @@ BOTH: -/
 theorem primes_infinite' : ∀ s : Finset Nat, ∃ p, Nat.Prime p ∧ p ∉ s := by
   intro s
   by_contra h
-  push_neg  at h
+  push_neg at h
   set s' := s.filter Nat.Prime with s'_def
   have mem_s' : ∀ {n : ℕ}, n ∈ s' ↔ n.Prime := by
     intro n
@@ -446,7 +443,7 @@ A small variation on our second proof that there are infinitely many primes
 shows that there are infinitely many primes congruent to 3 modulo 4.
 The argument goes as follows.
 First, notice that if the product of two numbers :math:`m` and :math:`n`
-is equal to 3 modulo 4, then one of the two numbers is congruent to three modulo 4.
+is equal to 3 modulo 4, then one of the two numbers is congruent to 3 modulo 4.
 After all, both have to be odd, and if they are both congruent to 1 modulo 4,
 so is their product.
 We can use this observation to show that if some number
@@ -535,7 +532,7 @@ theorem exists_prime_factor_mod_4_eq_3 {n : Nat} (h : n % 4 = 3) :
   · use n
   induction' n using Nat.strong_induction_on with n ih
   rw [Nat.prime_def_lt] at np
-  push_neg  at np
+  push_neg at np
   rcases np (two_le_of_mod_4_eq_3 h) with ⟨m, mltn, mdvdn, mne1⟩
   have mge2 : 2 ≤ m := by
     apply two_le _ mne1
@@ -589,7 +586,7 @@ BOTH: -/
 -- QUOTE:
 theorem primes_mod_4_eq_3_infinite : ∀ n, ∃ p > n, Nat.Prime p ∧ p % 4 = 3 := by
   by_contra h
-  push_neg  at h
+  push_neg at h
   rcases h with ⟨n, hn⟩
   have : ∃ s : Finset Nat, ∀ p : ℕ, p.Prime ∧ p % 4 = 3 ↔ p ∈ s := by
     apply ex_finset_of_bounded

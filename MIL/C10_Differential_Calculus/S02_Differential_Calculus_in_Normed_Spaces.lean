@@ -1,6 +1,6 @@
 import MIL.Common
-import Mathlib.Analysis.NormedSpace.BanachSteinhaus
-import Mathlib.Analysis.NormedSpace.FiniteDimension
+import Mathlib.Analysis.Normed.Operator.BanachSteinhaus
+import Mathlib.Analysis.Normed.Module.FiniteDimension
 import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
 import Mathlib.Analysis.Calculus.ContDiff.RCLike
 import Mathlib.Analysis.Calculus.FDeriv.Prod
@@ -25,7 +25,7 @@ Normed spaces
 
 Differentiation can be generalized beyond ``ℝ`` using the notion of a
 *normed vector space*, which encapsulates both direction and distance.
-We start with the notion of a *normed group*, which as an additive commutative
+We start with the notion of a *normed group*, which is an additive commutative
 group equipped with a real-valued norm function
 satisfying the following conditions.
 EXAMPLES: -/
@@ -170,7 +170,7 @@ bounded, then the norms of these linear maps are uniformly bounded.
 The main ingredient is Baire's theorem
 ``nonempty_interior_of_iUnion_of_closed``. (You proved a version of this in the topology chapter.)
 Minor ingredients include ``continuous_linear_map.opNorm_le_of_shell``,
-``interior_subset`` and ``interior_iInter_subset`` and ``is_closed_le``.
+``interior_subset`` and ``interior_iInter_subset`` and ``isClosed_le``.
 BOTH: -/
 section
 
