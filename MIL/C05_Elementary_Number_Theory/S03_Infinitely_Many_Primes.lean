@@ -139,7 +139,7 @@ SOLUTIONS: -/
     exact Nat.succ_le_of_lt (Nat.factorial_pos _)
 -- BOTH:
   rcases exists_prime_factor this with ⟨p, pp, pdvd⟩
-  refine' ⟨p, _, pp⟩
+  refine ⟨p, ?_, pp⟩
   show p > n
   by_contra ple
   push_neg  at ple
