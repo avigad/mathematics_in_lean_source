@@ -145,7 +145,7 @@ TEXT. -/
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
   · left; exact ⟨xs, xt⟩
-  . right; exact ⟨xs, xu⟩
+  · right; exact ⟨xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -158,7 +158,7 @@ theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
 SOLUTIONS: -/
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
   · use xs; left; exact xt
-  . use xs; right; exact xu
+  · use xs; right; exact xu
 -- QUOTE.
 
 ```
@@ -190,7 +190,7 @@ variable (s t u : Set α)
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
   · left; exact ⟨xs, xt⟩
-  . right; exact ⟨xs, xu⟩
+  · right; exact ⟨xs, xu⟩
 -- QUOTE.
 
 ```
@@ -215,7 +215,7 @@ theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
 theorem fooαα : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
   · use xs; left; exact xt
-  . use xs; right; exact xu
+  · use xs; right; exact xu
 
 ```
 The theorem is named `foo` in both the examples and the solutions, but Lean doesn't
@@ -230,7 +230,7 @@ theorem foo : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
 -- TAG: my_tag
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
   · use xs; left; exact xt
-  . use xs; right; exact xu
+  · use xs; right; exact xu
 -- TAG: end
 ```
 The first tag can have any label you want in place of `my_tag`, whereas the second should
