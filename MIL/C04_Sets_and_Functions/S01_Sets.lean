@@ -101,7 +101,7 @@ example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   · left
     show x ∈ s ∩ t
     exact ⟨xs, xt⟩
-  . right
+  · right
     show x ∈ s ∩ u
     exact ⟨xs, xu⟩
 -- QUOTE.
@@ -116,7 +116,7 @@ TEXT. -/
 example : s ∩ (t ∪ u) ⊆ s ∩ t ∪ s ∩ u := by
   rintro x ⟨xs, xt | xu⟩
   · left; exact ⟨xs, xt⟩
-  . right; exact ⟨xs, xu⟩
+  · right; exact ⟨xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -129,7 +129,7 @@ example : s ∩ t ∪ s ∩ u ⊆ s ∩ (t ∪ u) := by
 SOLUTIONS: -/
   rintro x (⟨xs, xt⟩ | ⟨xs, xu⟩)
   · use xs; left; exact xt
-  . use xs; right; exact xu
+  · use xs; right; exact xu
 -- QUOTE.
 
 -- BOTH:
@@ -160,7 +160,7 @@ example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
   -- x ∈ t ∨ x ∈ u
   rcases xtu with xt | xu
   · show False; exact xnt xt
-  . show False; exact xnu xu
+  · show False; exact xnu xu
 
 example : (s \ t) \ u ⊆ s \ (t ∪ u) := by
   rintro x ⟨⟨xs, xnt⟩, xnu⟩
@@ -200,7 +200,7 @@ example : s ∩ t = t ∩ s := by
   simp only [mem_inter_iff]
   constructor
   · rintro ⟨xs, xt⟩; exact ⟨xt, xs⟩
-  . rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
+  · rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
 -- QUOTE.
 
 /- TEXT:
@@ -232,7 +232,7 @@ TEXT. -/
 example : s ∩ t = t ∩ s := by
   apply Subset.antisymm
   · rintro x ⟨xs, xt⟩; exact ⟨xt, xs⟩
-  . rintro x ⟨xt, xs⟩; exact ⟨xs, xt⟩
+  · rintro x ⟨xt, xs⟩; exact ⟨xs, xt⟩
 -- QUOTE.
 
 /- TEXT:
@@ -274,20 +274,20 @@ example : s ∩ (s ∪ t) = s := by
   ext x; constructor
   · rintro ⟨xs, _⟩
     exact xs
-  . intro xs
+  · intro xs
     use xs; left; exact xs
 
 example : s ∪ s ∩ t = s := by
   ext x; constructor
   · rintro (xs | ⟨xs, xt⟩) <;> exact xs
-  . intro xs; left; exact xs
+  · intro xs; left; exact xs
 
 example : s \ t ∪ t = s ∪ t := by
   ext x; constructor
   · rintro (⟨xs, nxt⟩ | xt)
     · left
       exact xs
-    . right
+    · right
       exact xt
   by_cases h : x ∈ t
   · intro
@@ -306,7 +306,7 @@ example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
       exact xs
       rintro ⟨_, xt⟩
       contradiction
-    . constructor
+    · constructor
       right
       exact xt
       rintro ⟨xs, _⟩
@@ -317,7 +317,7 @@ example : s \ t ∪ t \ s = (s ∪ t) \ (s ∩ t) := by
     intro xt
     apply nxst
     constructor <;> assumption
-  . right; use xt; intro xs
+  · right; use xt; intro xs
     apply nxst
     constructor <;> assumption
 
