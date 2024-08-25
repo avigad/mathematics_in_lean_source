@@ -123,7 +123,7 @@ theorem fac_pos (n : ℕ) : 0 < fac n := by
 -- QUOTE.
 
 /- TEXT:
-The ``induction`` tactic is smart enough to include hypotheses
+The ``induction'`` tactic is smart enough to include hypotheses
 that depend on the induction variable as part of the
 induction hypothesis.
 Step through the next example to see what is going on.
@@ -173,7 +173,7 @@ Mathlib defines the expressions ``Finset.sum s f`` where
 ``f`` is a function defined on ``α``.
 The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
-If you import ``Algebra.BigOperators.Basic`` and issue the command
+If you import ``Algebra.BigOperators.Ring`` and issue the command
 ``open BigOperators``, you can use the more suggestive notation
 ``∑ x ∈ s, f x``. Of course, there is an analogous operation and
 notation for finite products.
