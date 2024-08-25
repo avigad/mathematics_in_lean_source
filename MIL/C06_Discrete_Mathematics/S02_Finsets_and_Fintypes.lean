@@ -74,7 +74,7 @@ If you step through the last example below, you will see applying ``ext``
 followed by ``simp`` reduces the identity to a problem
 in propositional logic.
 As an exercise, you can try proving some of set identities from
-:numref:`Chapter %s <set_and_functions>`, transported to finsets.
+:numref:`Chapter %s <sets_and_functions>`, transported to finsets.
 
 You have already seen the notation ``Finset.range n`` for the
 finite set of natural numbers :math:`\{ 0, 1, \ldots, n-1 \}`.
@@ -136,7 +136,7 @@ set_option pp.notation false in
 Unfortunately, we cannot use set-builder notation with finsets: we can't write
 an expression like ``{ x : ℕ | Even x ∧ x < 5 }`` because Lean can't straightforwardly infer that such a set is finite.
 However, you can start with a finset and separate the elements you want using ``Finset.filter``.
-TEXT.-/
+EXAMPLES: -/
 -- QUOTE:
 #check (range n).filter Even
 #check (range n).filter (fun x ↦ Even x ∧ x ≠ 3)
@@ -204,7 +204,7 @@ has a property, show that the empty set has the property and that the property i
 preserved when we add one new element to a finset. (The ``@`` in ``@insert`` is need
 in the induction step to give names to the parameters ``a`` and ``s`` because they
 have been marked implicit. )
-EXAMPLE: -/
+EXAMPLES: -/
 -- QUOTE:
 #check Finset.induction
 
@@ -309,7 +309,7 @@ end
 We have already seen a prototypical example of a fintype, namely, the types ``Fin n`` for
 each ``n``.
 But Lean also recognizes that the fintypes are closed under operations like the product operation.
--/
+EXAMPLES: -/
 -- QUOTE:
 example : Fintype.card (Fin 5) = 5 := by simp
 example : Fintype.card ((Fin 5) × (Fin 3)) = 15 := by simp

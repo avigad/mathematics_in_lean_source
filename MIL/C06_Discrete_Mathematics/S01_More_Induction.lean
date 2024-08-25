@@ -11,7 +11,7 @@ namespace more_induction
 More Induction
 --------------
 
-In :numref:`induction_and_recursion` we saw how to define the factorial function by recursion on
+In :numref:`section_induction_and_recursion` we saw how to define the factorial function by recursion on
 the natural numbers.
 EXAMPLES: -/
 -- QUOTE:
@@ -94,7 +94,7 @@ EXAMPLES: -/
 The ``@[simp]`` annotation means that the simplifier will use the defining equations.
 You can also apply them by writing ``rw [fib]``.
 Below it will be helpful to give a name to the ``n+2`` case.
-EXAMPLES:-/
+EXAMPLES: -/
 -- QUOTE:
 theorem fib_add_two (n : ℕ) : fib (n+2) = fib n + fib (n+1) := rfl
 
@@ -105,7 +105,7 @@ example (n : ℕ) : fib (n+2) = fib n + fib (n+1) := by rw [fib]
 Using Lean's notation for recursive functions, you can carry out proofs by induction on the
 natural numbers that mirror the recursive definition of ``fib``.
 The following example provides an explicit formula for the nth Fibonacci number in terms of
-the golden mean, ``φ``, and its conjugate, ``φ '``.
+the golden mean, ``φ``, and its conjugate, ``φ'``.
 We have to tell Lean that we don't expect our definitions to generate code because the
 arithmetic operations on the real numbers are not computable.
 EXAMPLES: -/
@@ -229,6 +229,7 @@ example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) :=
   sorry
 EXAMPLES: -/
   by rw [two_mul, fib_add, pow_two, pow_two]
+-- QUOTE.
 -- BOTH:
 
 /- TEXT:

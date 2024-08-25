@@ -97,6 +97,7 @@ theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
         -- congr; ext b; apply h_right
         apply Finset.sum_congr rfl h_right
     _ ≤ t.card := by simp
+-- QUOTE.
 
 /- TEXT:
 An exercise from Bhavik. Also: replace = by ≤ in the previous theorem.
