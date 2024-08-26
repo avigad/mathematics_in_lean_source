@@ -347,13 +347,16 @@ def odds : Set ℕ :=
 example : evens ∪ odds = univ := by
   rw [evens, odds]
   ext n
-  simp
+  simp [-Nat.not_even_iff_odd]
   apply Classical.em
 -- QUOTE.
 
 /- TEXT:
 You should step through this proof and make sure
 you understand what is going on.
+Note we tell the simplifier to *not* use the lemma
+``Nat.not_even_iff`` because we want to keep
+``¬ Even n`` in our goal.
 Try deleting the line ``rw [evens, odds]``
 and confirm that the proof still works.
 
@@ -385,7 +388,7 @@ Use ``intro n`` to unfold the definition of subset,
 and use the simplifier to reduce the
 set-theoretic constructions to logic.
 We also recommend using the theorems
-``Nat.Prime.eq_two_or_odd`` and ``Nat.even_iff``.
+``Nat.Prime.eq_two_or_odd`` and ``Nat.odd_iff``.
 TEXT. -/
 -- QUOTE:
 example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
@@ -396,13 +399,11 @@ example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
 example : { n | Nat.Prime n } ∩ { n | n > 2 } ⊆ { n | ¬Even n } := by
   intro n
   simp
-  intro nprime
+  intro nprime n_gt
   rcases Nat.Prime.eq_two_or_odd nprime with h | h
   · rw [h]
-    intro
     linarith
-  rw [Nat.even_iff, h]
-  norm_num
+  · rw [Nat.odd_iff, h]
 
 /- TEXT:
 Be careful: it is somewhat confusing that the library has multiple versions

@@ -179,7 +179,7 @@ instance instCommRing : CommRing GaussInt where
   add_zero := by
     intro
     ext <;> simp
-  add_left_neg := by
+  neg_add_cancel := by
     intro
     ext <;> simp
   add_comm := by
