@@ -783,7 +783,7 @@ Applying the universal property to a composition of a morphism ``φ : G →* G'`
 with a quotient group projection ``Quotient.mk' N'``,
 we can also aim for a morphism from ``G ⧸ N`` to ``G' ⧸ N'``.
 The condition required on ``φ`` is usually formulated by saying "``φ`` should send ``N`` inside
-``N'``." But this is equivalent to asking that ``φ`` should pull ``N'`` back inside
+``N'``." But this is equivalent to asking that ``φ`` should pull ``N'`` back over
 ``N``, and the latter condition is nicer to work with since the definition of pullback does not
 involve an existential quantifier.
 EXAMPLES: -/
