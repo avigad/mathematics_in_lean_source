@@ -781,46 +781,42 @@ example [Fintype ι] : ∑ i : ι, B.repr v i • (B i) = v :=
 When ``ι`` is not finite, the above statement makes no sense a priori: we cannot take a sum over ``ι``.
 However the support of the function being summed is finite (it is the support of ``B.repr v``).
 But we need to apply a construction that takes this into account.
-Here Mathlib uses a special purpose function that requires some time to get used to.
+Here Mathlib uses a special purpose function that requires some time to get used to:
+``Finsupp.total`` (which is built on top of the more general ``Finsupp.sum``).
+Given a finetely supported function ``c`` from a type ``ι`` to the base field ``K`` and any
+function ``f`` from ``ι`` to ``V``, ``Finsupp.total ι V K f c`` is the sum over the support of ``c``
+of the scalar multiplication ``c • f``. In particular, we can replace it by a sum over any finite
+set containing the support of ``c``.
 
 EXAMPLES: -/
 -- QUOTE:
 
-#check Submodule.span
+noncomputable example (c : ι →₀ K) (f : ι → V) : V := Finsupp.total ι V K f c
 
-lemma Basis.induction {p : V → Prop} (mem : ∀ i, p (B i)) (zero : p 0)
-    (add : ∀ x y, p x → p y → p (x + y)) (smul : ∀ (a : K) x, p x → p (a • x)) (v : V) : p v :=
-  Submodule.span_induction (p := p) (B.mem_span v) (by simp [mem]) zero add smul
+example (c : ι →₀ K) (f : ι → V) (s : Finset ι) (h : c.support ⊆ s) :
+    Finsupp.total ι V K f c = ∑ i ∈ s, c i • f i :=
+  Finsupp.total_apply_of_mem_supported K h
+-- QUOTE.
+/- TEXT:
+One could also assume that ``f`` is finitely supported and still get a well defined sum.
+But the choice made by ``Finsupp.total`` is the one relevant to our basis discussion since it allows
+to state the generalization of ``Basis.sum_repr``.
+EXAMPLES: -/
+-- QUOTE:
 
-
-example : ∑ᶠ i : ι, B.repr v i • (B i) = v := by
-
-  apply B.induction _ _ _ _ v
-  · intro i
-    simp [Finsupp.single_apply]
-    rw [finsum_eq_single, if_pos]
-    rfl
-    aesop
-  · simp
-  · intro v w hv hw
-    simp [add_smul]
-    rw [finsum_add]
-    sorry
-  · intro a v h
-    simp [mul_smul, ← smul_finsum, h]
-  -- rw [finsum_eq_sum]
-  -- swap
-  -- apply (B.repr v).finite_support.subset
-  -- apply support_smul_subset_left
-  -- conv_rhs => rw [← B.total_repr v]
-  -- rw [@Finsupp.total_apply_of_mem_supported ]
-  -- refine (Finsupp.mem_supported K (B.repr v)).mpr ?_
-  -- simp
-  -- intro i hi
-  -- simp at hi ⊢
-  -- constructor
-  -- exact hi
-  -- exact Basis.ne_zero B i
+example : Finsupp.total ι V K B (B.repr v) = v :=
+  B.total_repr v
+-- QUOTE.
+/- TEXT:
+However, this representation of vectors in a basis is less useful in formalized
+mathematics than you may think.
+Indeed it is very often more efficient to directly use more abstract properties of bases.
+In particular the universal property of bases connecting them to other free objects in algebra
+allows to construct linear maps by specifying the images of basis vectors.
+This is ``Basis.constr``
+EXAMPLES: -/
+-- QUOTE:
+#check Basis.constr
 -- QUOTE.
 /-
 
