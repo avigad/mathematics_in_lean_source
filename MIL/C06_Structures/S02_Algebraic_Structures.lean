@@ -144,7 +144,7 @@ structure Group₁ (α : Type*) where
   mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z)
   mul_one : ∀ x : α, mul x one = x
   one_mul : ∀ x : α, mul one x = x
-  mul_left_inv : ∀ x : α, mul (inv x) x = one
+  inv_mul_cancel : ∀ x : α, mul (inv x) x = one
 -- QUOTE.
 
 -- OMIT: TODO: explain the extends command later, and also redundant inheritance
@@ -153,7 +153,7 @@ Notice that the type ``α`` is a *parameter* in the definition of ``group₁``.
 So you should think of an object ``struc : Group₁ α`` as being
 a group structure on ``α``.
 We saw in :numref:`proving_identities_in_algebraic_structures`
-that the counterpart ``mul_right_inv`` to ``mul_left_inv``
+that the counterpart ``mul_inv_cancel`` to ``inv_mul_cancel``
 follows from the other group axioms, so there is no need
 to add it to the definition.
 
@@ -272,7 +272,7 @@ def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
   mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
-  mul_left_inv := Equiv.self_trans_symm
+  inv_mul_cancel := Equiv.self_trans_symm
 -- QUOTE.
 
 /- TEXT:
@@ -322,7 +322,7 @@ SOLUTIONS: -/
   add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z)
   add_zero : ∀ x : α, add x zero = x
   zero_add : ∀ x : α, add x zero = x
-  add_left_neg : ∀ x : α, add (neg x) x = zero
+  neg_add_cancel : ∀ x : α, add (neg x) x = zero
 
 -- BOTH:
 @[ext]
@@ -357,7 +357,7 @@ def addGroupPoint : AddGroup₁ Point where
   add_assoc := by simp [Point.add, add_assoc]
   add_zero := by simp [Point.add, Point.zero]
   zero_add := by simp [Point.add, Point.zero]
-  add_left_neg := by simp [Point.add, Point.neg, Point.zero]
+  neg_add_cancel := by simp [Point.add, Point.neg, Point.zero]
 
 -- BOTH:
 end Point
@@ -387,7 +387,7 @@ variable {α : Type*} (f g : Equiv.Perm α) (n : ℕ)
 -- group power, defined for any group
 #check g ^ n
 
-example : f * g * g⁻¹ = f := by rw [mul_assoc, mul_right_inv, mul_one]
+example : f * g * g⁻¹ = f := by rw [mul_assoc, mul_inv_cancel, mul_one]
 
 example : f * g * g⁻¹ = f :=
   mul_inv_cancel_right f g
@@ -474,7 +474,7 @@ class Group₂ (α : Type*) where
   mul_assoc : ∀ x y z : α, mul (mul x y) z = mul x (mul y z)
   mul_one : ∀ x : α, mul x one = x
   one_mul : ∀ x : α, mul one x = x
-  mul_left_inv : ∀ x : α, mul (inv x) x = one
+  inv_mul_cancel : ∀ x : α, mul (inv x) x = one
 
 instance {α : Type*} : Group₂ (Equiv.Perm α) where
   mul f g := Equiv.trans g f
@@ -483,7 +483,7 @@ instance {α : Type*} : Group₂ (Equiv.Perm α) where
   mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
-  mul_left_inv := Equiv.self_trans_symm
+  inv_mul_cancel := Equiv.self_trans_symm
 -- QUOTE.
 
 /- TEXT:
@@ -658,7 +658,7 @@ SOLUTIONS: -/
   add_assoc : ∀ x y z : α, add (add x y) z = add x (add y z)
   add_zero : ∀ x : α, add x zero = x
   zero_add : ∀ x : α, add x zero = x
-  add_left_neg : ∀ x : α, add (neg x) x = zero
+  neg_add_cancel : ∀ x : α, add (neg x) x = zero
 
 instance hasAddAddGroup₂ {α : Type*} [AddGroup₂ α] : Add α :=
   ⟨AddGroup₂.add⟩
@@ -676,7 +676,7 @@ instance : AddGroup₂ Point where
   add_assoc := by simp [Point.add, add_assoc]
   add_zero := by simp [Point.add, Point.zero]
   zero_add := by simp [Point.add, Point.zero]
-  add_left_neg := by simp [Point.add, Point.neg, Point.zero]
+  neg_add_cancel := by simp [Point.add, Point.neg, Point.zero]
 
 section
 variable (x y : Point)
