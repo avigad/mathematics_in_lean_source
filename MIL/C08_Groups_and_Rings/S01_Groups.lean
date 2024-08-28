@@ -84,7 +84,7 @@ We will have much more to say about groups, which are monoids with the extra
 property that every element has an inverse.
 EXAMPLES: -/
 -- QUOTE:
-example {G : Type*} [Group G] (x : G) : x * x⁻¹ = 1 := mul_inv_self x
+example {G : Type*} [Group G] (x : G) : x * x⁻¹ = 1 := mul_inv_cancel x
 -- QUOTE.
 
 /- TEXT:
