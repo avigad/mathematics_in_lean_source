@@ -556,6 +556,7 @@ EXAMPLES: -/
 -- QUOTE:
 example (x : V) : x ∈ (⊥ : Submodule K V) ↔ x = 0 := Submodule.mem_bot K
 -- QUOTE.
+
 /- TEXT:
 In particular we can discuss the case of submodules that are in (internal) direct sum.
 
@@ -578,6 +579,10 @@ example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.
 example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.IsInternal U)
     {i j : ι} (hij : i ≠ j) : U i ⊓ U j = ⊥ :=
   h.submodule_independent.pairwiseDisjoint hij |>.eq_bot
+
+open DirectSum in
+noncomputable example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.IsInternal U)
+   : (⨁ i, U i) →ₗ[K] V := LinearEquiv.ofBijective (coeLinearMap U) h
 
 -- QUOTE.
 /- TEXT:
@@ -645,8 +650,17 @@ SOLUTIONS: -/
     exact h ⟨x, hx, rfl⟩
   · rintro h - ⟨x, hx, rfl⟩
     exact h hx
+-- QUOTE.
+
+/- TEXT:
+
+TODO: discuss ``Submodule.span`` and ``Submodule.span_induction``
+
+EXAMPLES: -/
+-- QUOTE:
 
 -- QUOTE.
+
 /- TEXT:
 Quotient vector spaces use the general quotient notation (typed with ``\quot``, not the ordinary
 ``/``).
@@ -733,20 +747,80 @@ example : Finsupp.basisSingleOne.repr = LinearEquiv.refl K (ι →₀ K) :=
 
 #check Finsupp.basisSingleOne
 
-#check Pi.basisFun
-
 example (i : ι) : Finsupp.basisSingleOne i = Finsupp.single i 1 :=
   rfl
--- QUOTE.
 
+-- QUOTE.
 /- TEXT:
-One slightly confusing terminology is that we also have ``LinearMap.stdBasis``
+The story of finitely supported functions is uneeded when the indexing type is finite.
+In this case we can use the simpler ``Pi.basisFun`` which gives a basis of the whole
+``ι → K``.
 EXAMPLES: -/
 -- QUOTE:
 
-open PiNotation
-#check LinearMap.stdBasis K (fun _ : ι ↦ K)
+#check Pi.basisFun
 
+example [Finite ι] (x : ι → K) (i : ι) : (Pi.basisFun K ι).repr x i = x i := by
+  simp
+
+-- QUOTE.
+/- TEXT:
+Going back to the general case of bases of abstract vector space, we can express
+any vector as a linear combination of basis vectors.
+Let us first see the easy case of finite bases.
+EXAMPLES: -/
+-- QUOTE:
+
+example [Fintype ι] : ∑ i : ι, B.repr v i • (B i) = v :=
+  B.sum_repr v
+
+
+-- QUOTE.
+
+/- TEXT:
+When ``ι`` is not finite, the above statement makes no sense a priori: we cannot take a sum over ``ι``.
+However the support of the function being summed is finite (it is the support of ``B.repr v``).
+But we need to apply a construction that takes this into account.
+Here Mathlib uses a special purpose function that requires some time to get used to.
+
+EXAMPLES: -/
+-- QUOTE:
+
+#check Submodule.span
+
+lemma Basis.induction {p : V → Prop} (mem : ∀ i, p (B i)) (zero : p 0)
+    (add : ∀ x y, p x → p y → p (x + y)) (smul : ∀ (a : K) x, p x → p (a • x)) (v : V) : p v :=
+  Submodule.span_induction (p := p) (B.mem_span v) (by simp [mem]) zero add smul
+
+
+example : ∑ᶠ i : ι, B.repr v i • (B i) = v := by
+
+  apply B.induction _ _ _ _ v
+  · intro i
+    simp [Finsupp.single_apply]
+    rw [finsum_eq_single, if_pos]
+    rfl
+    aesop
+  · simp
+  · intro v w hv hw
+    simp [add_smul]
+    rw [finsum_add]
+    sorry
+  · intro a v h
+    simp [mul_smul, ← smul_finsum, h]
+  -- rw [finsum_eq_sum]
+  -- swap
+  -- apply (B.repr v).finite_support.subset
+  -- apply support_smul_subset_left
+  -- conv_rhs => rw [← B.total_repr v]
+  -- rw [@Finsupp.total_apply_of_mem_supported ]
+  -- refine (Finsupp.mem_supported K (B.repr v)).mpr ?_
+  -- simp
+  -- intro i hi
+  -- simp at hi ⊢
+  -- constructor
+  -- exact hi
+  -- exact Basis.ne_zero B i
 -- QUOTE.
 /-
 
