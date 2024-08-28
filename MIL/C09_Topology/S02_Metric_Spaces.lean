@@ -285,12 +285,12 @@ example {s : Set X} (hs : IsCompact s) {u : ℕ → X} (hu : ∀ n, u n ∈ s) :
 example {s : Set X} (hs : IsCompact s) (hs' : s.Nonempty) {f : X → ℝ}
       (hfs : ContinuousOn f s) :
     ∃ x ∈ s, ∀ y ∈ s, f x ≤ f y :=
-  hs.exists_forall_le hs' hfs
+  hs.exists_isMinOn hs' hfs
 
 example {s : Set X} (hs : IsCompact s) (hs' : s.Nonempty) {f : X → ℝ}
       (hfs : ContinuousOn f s) :
     ∃ x ∈ s, ∀ y ∈ s, f y ≤ f x :=
-  hs.exists_forall_ge hs' hfs
+  hs.exists_isMaxOn hs' hfs
 
 example {s : Set X} (hs : IsCompact s) : IsClosed s :=
   hs.isClosed
@@ -370,7 +370,7 @@ example {X : Type*} [MetricSpace X] [CompactSpace X] {Y : Type*} [MetricSpace Y]
     intro x y _
     have : (x, y) ∉ K := by simp [hK]
     simpa [K] using this
-  · rcases K_cpct.exists_forall_le hK continuous_dist.continuousOn with ⟨⟨x₀, x₁⟩, xx_in, H⟩
+  · rcases K_cpct.exists_isMinOn hK continuous_dist.continuousOn with ⟨⟨x₀, x₁⟩, xx_in, H⟩
     use dist x₀ x₁
     constructor
     · change _ < _
@@ -380,8 +380,8 @@ example {X : Type*} [MetricSpace X] [CompactSpace X] {Y : Type*} [MetricSpace Y]
       linarith
     · intro x x'
       contrapose!
-      intro hxx'
-      exact H (x, x') hxx'
+      intro (hxx' : (x, x') ∈ K)
+      exact H hxx'
 
 /- TEXT:
 Completeness
@@ -413,7 +413,7 @@ example [CompleteSpace X] (u : ℕ → X) (hu : CauchySeq u) :
 We'll practice using this definition by proving a convenient criterion which is a special case of a
 criterion appearing in Mathlib. This is also a good opportunity to practice using big sums in
 a geometric context. In addition to the explanations from the filters section, you will probably need
-``tendsto_pow_atTop_nhds_0_of_lt_1``, ``Tendsto.mul`` and ``dist_le_range_sum_dist``.
+``tendsto_pow_atTop_nhds_zero_of_lt_one``, ``Tendsto.mul`` and ``dist_le_range_sum_dist``.
 BOTH: -/
 open BigOperators
 
@@ -447,7 +447,7 @@ example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ 
       rw [← zero_mul (2 : ℝ)]
       apply Tendsto.mul
       simp_rw [← one_div_pow (2 : ℝ)]
-      apply tendsto_pow_atTop_nhds_0_of_lt_1 <;> linarith
+      apply tendsto_pow_atTop_nhds_zero_of_lt_one <;> linarith
       exact tendsto_const_nhds
     rcases(atTop_basis.tendsto_iff (nhds_basis_Ioo_pos (0 : ℝ))).mp this ε ε_pos with ⟨N, _, hN⟩
     exact ⟨N, by simpa using (hN N left_mem_Ici).2⟩
