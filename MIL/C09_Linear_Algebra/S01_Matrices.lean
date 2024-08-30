@@ -707,7 +707,7 @@ Evaluating such a function coming from a basis ``B`` at a vector ``v`` and
 ``i : ι`` returns the component (or coordinate) of ``v`` on the ``i``-th basis vector.
 
 The type of bases indexed by a type ``ι`` of ``V`` as a ``K`` vector space is ``Basis ι K V``.
-The isomorphism
+The isomorphism is called ``Basis.repr``.
 EXAMPLES: -/
 -- QUOTE:
 variable {ι : Type*} (B : Basis ι K V) (v : V) (i : ι)
@@ -725,7 +725,28 @@ variable {ι : Type*} (B : Basis ι K V) (v : V) (i : ι)
 #check B.repr v i -- K
 
 -- QUOTE.
+/- TEXT:
+Instead of starting with such an isomorphism, one can start with a family ``b`` of vectors that is
+linearly independent and spanning, this is ``Basis.mk``.
 
+The assumption that the family is spanning is spelled out as ``⊤ ≤ Submodule.span K (Set.range b)``.
+Where ``⊤`` is the top submodule of ``V``, ie ``V`` seen as submodule of itself.
+This spelling looks a bit tortuous, but we will see below that it is almost equivalent by definition
+to the more readable ``∀ v, v ∈ Submodule.span K (Set.range b)`` (this underscore below refers to
+the useless information ``v ∈ ⊤``).
+EXAMPLES: -/
+-- QUOTE:
+noncomputable example (b : ι → V) (b_indep : LinearIndependent K b)
+    (b_spans : ∀ v, v ∈ Submodule.span K (Set.range b)) : Basis ι K V :=
+  Basis.mk b_indep (fun v _ ↦ b_spans v)
+
+-- The family of vectors underlying the above basis is indeed ``b``.
+example (b : ι → V) (b_indep : LinearIndependent K b)
+    (b_spans : ∀ v, v ∈ Submodule.span K (Set.range b)) (i : ι) :
+    Basis.mk b_indep (fun v _ ↦ b_spans v) i = b i :=
+  Basis.mk_apply b_indep (fun v _ ↦ b_spans v) i
+
+-- QUOTE.
 /- TEXT:
 In particular the model vector space ``ι →₀ K`` has a so-called canonical basis whose ``repr``
 function evaluated on any vector is the identity isomorphism. It is called
@@ -782,7 +803,7 @@ When ``ι`` is not finite, the above statement makes no sense a priori: we canno
 However the support of the function being summed is finite (it is the support of ``B.repr v``).
 But we need to apply a construction that takes this into account.
 Here Mathlib uses a special purpose function that requires some time to get used to:
-``Finsupp.total`` (which is built on top of the more general ``Finsupp.sum``).
+``Finsupp.linearCombination`` (which is built on top of the more general ``Finsupp.sum``).
 Given a finetely supported function ``c`` from a type ``ι`` to the base field ``K`` and any
 function ``f`` from ``ι`` to ``V``, ``Finsupp.total ι V K f c`` is the sum over the support of ``c``
 of the scalar multiplication ``c • f``. In particular, we can replace it by a sum over any finite
@@ -791,50 +812,120 @@ set containing the support of ``c``.
 EXAMPLES: -/
 -- QUOTE:
 
-noncomputable example (c : ι →₀ K) (f : ι → V) : V := Finsupp.total ι V K f c
-
 example (c : ι →₀ K) (f : ι → V) (s : Finset ι) (h : c.support ⊆ s) :
-    Finsupp.total ι V K f c = ∑ i ∈ s, c i • f i :=
-  Finsupp.total_apply_of_mem_supported K h
+    Finsupp.linearCombination K f c = ∑ i ∈ s, c i • f i :=
+  Finsupp.linearCombination_apply_of_mem_supported K h
 -- QUOTE.
 /- TEXT:
 One could also assume that ``f`` is finitely supported and still get a well defined sum.
-But the choice made by ``Finsupp.total`` is the one relevant to our basis discussion since it allows
+But the choice made by ``Finsupp.linearCombination`` is the one relevant to our basis discussion since it allows
 to state the generalization of ``Basis.sum_repr``.
 EXAMPLES: -/
 -- QUOTE:
 
-example : Finsupp.total ι V K B (B.repr v) = v :=
-  B.total_repr v
+example : Finsupp.linearCombination K B (B.repr v) = v :=
+  B.linearCombination_repr v
 -- QUOTE.
 /- TEXT:
-However, this representation of vectors in a basis is less useful in formalized
+One could wonder why ``K`` is an explicit argument here, whereas it can be inferred from
+the type of ``c``. The point is that the partially applied ``Finsupp.linearCombination K f``
+is interesting in itself, it is not a bare function from ``ι →₀ K`` to ``V`` but a
+``K``-linear map.
+EXAMPLES: -/
+-- QUOTE:
+variable (f : ι → V) in
+#check (Finsupp.linearCombination K f : (ι →₀ K) →ₗ[K] V)
+-- QUOTE.
+/- TEXT:
+The above subltety also explain why dot notation cannot be used to write
+``c.linearCombination K f`` instead of ``Finsupp.linearCombination K f c``.
+Indeed ``Finsupp.linearCombination`` does not take ``c`` as an argument,
+``Finsupp.linearCombination K f`` is coerced to a function type and then this function
+takes ``c`` as an argument.
+
+Returning to the mathematical discussion, it is important to understand that the
+representation of vectors in a basis is less useful in formalized
 mathematics than you may think.
 Indeed it is very often more efficient to directly use more abstract properties of bases.
 In particular the universal property of bases connecting them to other free objects in algebra
 allows to construct linear maps by specifying the images of basis vectors.
-This is ``Basis.constr``
+This is ``Basis.constr``. For any ``K``-vector space ``W``, our basis ``B``
+gives a linear isomorphism ``Basis.constr B K`` from ``ι → W`` to ``V →ₗ[K] W``.
+This isomorphism is characterized by the fact that it sends any function ``u : ι → W``
+to a linear map sending the basis vector ``B i`` to ``u i``, for every ``i : ι``.
 EXAMPLES: -/
 -- QUOTE:
-#check Basis.constr
+section
+
+#check (B.constr K : (ι → W) ≃ₗ[K] (V →ₗ[K] W))
+
+variable (u : ι → W)
+
+#check (B.constr K u : V →ₗ[K] W)
+
+example (i : ι) : B.constr K u (B i) = u i := B.constr_basis K u i
+end
+-- QUOTE.
+/- TEXT:
+This property is indeed characteristic because linear maps are determined by their values
+on bases:
+EXAMPLES: -/
+-- QUOTE:
+example (φ ψ : V →ₗ[K] W) (h : ∀ i, φ (B i) = ψ (B i)) : φ = ψ :=
+  B.ext h
+
+-- QUOTE.
+/- TEXT:
+If we also have a basis ``B'`` on the target space then we can identify linear maps
+with matrices. This identification is a ``K``-linear isomorphism.
+EXAMPLES: -/
+-- QUOTE:
+noncomputable section
+variable {ι' : Type*} (B' : Basis ι' K W) [Fintype ι] [DecidableEq ι] [Fintype ι'] [DecidableEq ι']
+
+#check (toMatrix B B' : (V →ₗ[K] W) ≃ₗ[K] Matrix ι' ι K)
+
+open Matrix -- get access to the ``*ᵥ`` notation for multiplication between matrices and vectors.
+
+example (φ : V →ₗ[K] W) (v : V) : (toMatrix B B' φ) *ᵥ (B.repr v) = B'.repr (φ v) :=
+  toMatrix_mulVec_repr B B' φ v
+end
+-- QUOTE.
+/- TEXT:
+Returning to the case of a single vector space, bases are also useful to define the concept of
+dimension.
+Here again, there is the elementary case of finite-dimensional vector spaces.
+For such spaces we expect a dimension which is a natural number.
+This is ``FiniteDimensional.finrank``. It takes the base field as an explicit argument
+since a given abelian group can be a vector space over different fields.
+
+EXAMPLES: -/
+-- QUOTE:
+section
+
+--  ``Fin n → K`` is the archetypical space with dimension ``n`` over ``K``.
+example (n : ℕ) : FiniteDimensional.finrank K (Fin n → K) = n :=
+  FiniteDimensional.finrank_fin_fun K
+
+-- seen as a vector space over itself, ``ℂ`` has dimension one.
+example : FiniteDimensional.finrank ℂ ℂ = 1 :=
+  FiniteDimensional.finrank_self ℂ
+
+-- but as a real vector space it has dimension two.
+example : FiniteDimensional.finrank ℝ ℂ = 2 :=
+  Complex.finrank_real_complex
+
+
+-- variable [Fintype ι] [FiniteDimensional K V]
+
+#check FiniteDimensional.finrank K V
+end
 -- QUOTE.
 /-
-
-* `Basis.constr b R f` constructs a linear map `M₁ →ₗ[R] M₂` given the values `f : ι → M₂` at the
-  basis elements `⇑b : ι → M₁`.
-* `Basis.reindex` uses an equiv to map a basis to a different indexing set.
-* `Basis.map` uses a linear equiv to map a basis to a different module.
-
-## Main statements
-
-* `Basis.mk`: a linear independent set of vectors spanning the whole module determines a basis
-
-* `Basis.ext` states that two linear maps are equal if they coincide on a basis.
-  Similar results are available for linear equivs (if they coincide on the basis vectors),
-  elements (if their coordinates coincide) and the functions `b.repr` and `⇑b`.
-
-
-Bases, representing vectors and linear maps in a basis
+`Submodule.finrank_sup_add_finrank_inf_eq` says
+    `finrank k ↥(A ⊔ B) + finrank k ↥(A ⊓ B) = finrank k ↥A + finrank k ↥B`
+`Submodule.finrank_le A : finrank k ↥A ≤ finrank k V`
+`finrank_bot k V : finrank k ↥⊥ = 0`
 
 Dimension
 
