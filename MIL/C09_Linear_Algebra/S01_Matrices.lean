@@ -902,6 +902,7 @@ since a given abelian group can be a vector space over different fields.
 EXAMPLES: -/
 -- QUOTE:
 section
+#check FiniteDimensional.finrank K V
 
 --  ``Fin n → K`` is the archetypical space with dimension ``n`` over ``K``.
 example (n : ℕ) : FiniteDimensional.finrank K (Fin n → K) = n :=
@@ -915,19 +916,56 @@ example : FiniteDimensional.finrank ℂ ℂ = 1 :=
 example : FiniteDimensional.finrank ℝ ℂ = 2 :=
   Complex.finrank_real_complex
 
+-- QUOTE.
+/- TEXT:
+Note that ``FiniteDimensional.finrank`` is defined for any vector space. It returns
+zero for infinite dimensional vector spaces, just as division by zero returns zero.
+TODO: say more
 
--- variable [Fintype ι] [FiniteDimensional K V]
+Of course many lemmas require a finite dimensional assumption. This is the role of
+the ``FiniteDimension`` typeclass. For instance think of how the next example fails without this
+assumption.
+EXAMPLES: -/
+-- QUOTE:
 
-#check FiniteDimensional.finrank K V
+example [FiniteDimensional K V] : 0 < FiniteDimensional.finrank K V ↔ Nontrivial V  :=
+  FiniteDimensional.finrank_pos_iff
+
+-- QUOTE.
+/- TEXT:
+Of course ``FiniteDimensional K V`` can be read from any basis. Recall we have
+a basis ``B`` of ``V`` indexed by a type ``ι``.
+EXAMPLES: -/
+-- QUOTE:
+example [Finite ι] : FiniteDimensional K V := FiniteDimensional.of_fintype_basis B
+
+example [FiniteDimensional K V] : Finite ι :=
+  (FiniteDimensional.fintypeBasisIndex B).finite
 end
 -- QUOTE.
-/-
-`Submodule.finrank_sup_add_finrank_inf_eq` says
-    `finrank k ↥(A ⊔ B) + finrank k ↥(A ⊓ B) = finrank k ↥A + finrank k ↥B`
+/- TEXT:
+Using that the subtype corresponding to a linear subspace has a vector space structure,
+we can talk about the dimension of a subspace.
+EXAMPLES: -/
+-- QUOTE:
+
+variable (E F : Submodule K V) [FiniteDimensional K V] in
+#check Submodule.finrank_sup_add_finrank_inf_eq E F
+
+-- QUOTE.
+/- TEXT:
+TODO: Exercise montrant que deux sous-espaces dont la somme des dimension dépasse la
+dimension ambiante s’intersectent. Donner
 `Submodule.finrank_le A : finrank k ↥A ≤ finrank k V`
 `finrank_bot k V : finrank k ↥⊥ = 0`
 
-Dimension
+TODO: Discuter le cas de la dimension infinie.
+EXAMPLES: -/
+-- QUOTE:
+
+-- QUOTE.
+/-
+
 
 Endomorphisms (polynomial evaluation, minimal polynomial, Caley-Hamilton,
 eigenvalues, eigenvectors)
