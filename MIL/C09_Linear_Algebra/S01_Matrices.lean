@@ -933,7 +933,26 @@ example [FiniteDimensional K V] : 0 < FiniteDimensional.finrank K V ↔ Nontrivi
 
 -- QUOTE.
 /- TEXT:
-Of course ``FiniteDimensional K V`` can be read from any basis. Recall we have
+In the above statement, ``Nontrivial V`` means ``V`` has at least two different elements.
+Note that ``FiniteDimensional.finrank_pos_iff`` has no explicit argument.
+This is fine when using it from left to right, but not when using it from right to left
+because Lean has no way to guess ``K`` from the statement ``Nontrivial V``.
+In that case it is useful to use the name argument syntax, after checking that the lemma
+is stated over a ring named ``R``. So we can write:
+EXAMPLES: -/
+-- QUOTE:
+
+example [FiniteDimensional K V] (h : 0 < FiniteDimensional.finrank K V) : Nontrivial V := by
+  apply (FiniteDimensional.finrank_pos_iff (R := K)).1
+  exact h
+
+-- QUOTE.
+/- TEXT:
+The above spelling is strange because we already have ``h`` as an assumption, so we could
+just as well give the full proof ``FiniteDimensional.finrank_pos_iff.1 h`` but it
+is good to know for more complicated cases.
+
+By definition, ``FiniteDimensional K V`` can be read from any basis. Recall we have
 a basis ``B`` of ``V`` indexed by a type ``ι``.
 EXAMPLES: -/
 -- QUOTE:
@@ -949,20 +968,108 @@ we can talk about the dimension of a subspace.
 EXAMPLES: -/
 -- QUOTE:
 
-variable (E F : Submodule K V) [FiniteDimensional K V] in
-#check Submodule.finrank_sup_add_finrank_inf_eq E F
+section
+variable (E F : Submodule K V) [FiniteDimensional K V]
+
+open FiniteDimensional
+
+example : finrank K (E ⊔ F : Submodule K V) + finrank K (E ⊓ F : Submodule K V) =
+    finrank K E + finrank K F :=
+  Submodule.finrank_sup_add_finrank_inf_eq E F
+
+example : finrank K E ≤ finrank K V := Submodule.finrank_le E
+-- QUOTE.
+/- TEXT:
+We are now ready for an exercise about ``finrank`` and subspaces.
+EXAMPLES: -/
+-- QUOTE:
+example (h : finrank K V < finrank K E + finrank K F) : Nontrivial (E ⊓ F : Submodule K V) := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+  rw [← finrank_pos_iff (R := K)]
+  have := Submodule.finrank_sup_add_finrank_inf_eq E F
+  have := Submodule.finrank_le E
+  have := Submodule.finrank_le F
+  have := Submodule.finrank_le (E ⊔ F)
+  linarith
+-- BOTH:
+end
+-- QUOTE.
+
+/- TEXT:
+Let us now move to the general case of dimension theory. In this case
+``finrank`` is useless, but still have that, for any two bases of the same
+vector space, there is a bijection between the type indexing those bases. So we
+can still hope to define rank as a cardinal, ie an element of the “quotient of
+the collection of types under the existence of a bijection equivalence
+relation”.
+
+When discussing cardinal, it gets harder to ignore foundational issues around Russel’s paradox
+like we do everywhere else in this book.
+There is no type of all types because it would lead to logical inconsistencies.
+This issue is solved by the hierarchy of universes that
+we usually try to ignore.
+
+Each type has a universe level, and those levels behave similarly to natural
+numbers. In particular there is zeroth level, and the corresponding universe
+``Type 0`` is simply denoted by ``Type``. This universe is enough to hold
+almost all of classical mathematics. For instance ``ℕ`` and ``ℝ`` have type ``Type``.
+Each level ``u`` has a successor denoted
+by ``u + 1``, and ``Type u`` has type ``Type (u+1)``.
+
+But universe levels are not natural numbers, they have a really different nature and don’t
+have a type. In particular you cannot state in Lean something like ``u ≠ u + 1``.
+There is simply no type where this would take place. Even stating
+``Type u ≠ Type (u+1)`` does not make any sense since ``Type u`` and ``Type
+(u+1)`` have different types.
+
+Whenever we write ``Type*``, Lean inserts a universe level variable named ``u_n`` where ``n`` is a
+number. This allows definitions and statements to live in all universes.
+
+Given a universe level ``u``, we can define an equivalence relation on ``Type u`` saying
+two types ``α`` and ``β`` are equivalent if there is a bijection between them.
+The quotient type ``Cardinal.{u}`` lives in ``Type (u+1)``. The curly braces
+denote a universe variable. The image of ``α : Type u`` in this quotient is
+``Cardinal.mk α : Cardinal.{u}``.
+
+But we cannot directly compare cardinals in different universes. So technically we
+cannot define the rank of a vector space ``V`` as the cardinal of all types indexing
+a basis of ``V``.
+So instead it is defined as the supremum ``Module.rank K V `` of cardinals of
+all linearly independent sets in ``V``. If ``V`` has universe level ``u`` then
+its rank has type ``Cardinal.{u}``.
+
+
+EXAMPLES: -/
+-- QUOTE:
+#check V -- Type u_2
+#check Module.rank K V -- Cardinal.{u_2}
 
 -- QUOTE.
 /- TEXT:
-TODO: Exercise montrant que deux sous-espaces dont la somme des dimension dépasse la
-dimension ambiante s’intersectent. Donner
-`Submodule.finrank_le A : finrank k ↥A ≤ finrank k V`
-`finrank_bot k V : finrank k ↥⊥ = 0`
-
-TODO: Discuter le cas de la dimension infinie.
+One can still relate this definition to bases. Indeed there is also a commutative ``max``
+operation on universe levels, and given two universe levels ``u`` and ``v``
+there is an operation ``Cardinal.lift.{u, v} : Cardinal.{v} → Cardinal.{max v u}``
+that allows to put cardinals in a common universe and state the dimension theorem.
 EXAMPLES: -/
 -- QUOTE:
 
+universe u v in
+variable {ι : Type u} (B : Basis ι K V)
+         {ι' : Type v} (B' : Basis ι' K V) in
+example : Cardinal.lift.{v, u} (.mk ι) = Cardinal.lift.{u, v} (.mk ι') :=
+  mk_eq_mk_of_basis B B'
+-- QUOTE.
+/- TEXT:
+We can relate the finite dimensional case to this discussion using the coercion
+from natural numbers to finite cardinals (or more precisly the finite cardinals which live in ``Cardinal.{v}`` where ``v`` is the universe level of ``V``).
+EXAMPLES: -/
+-- QUOTE:
+
+example [FiniteDimensional K V] :
+    (FiniteDimensional.finrank K V : Cardinal) = Module.rank K V :=
+  finrank_eq_rank K V
 -- QUOTE.
 /-
 
