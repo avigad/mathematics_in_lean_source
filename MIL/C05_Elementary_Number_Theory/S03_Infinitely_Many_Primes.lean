@@ -17,7 +17,7 @@ One way to formulate this is as the statement that
 for every natural number
 :math:`n`, there is a prime number greater than :math:`n`.
 To prove this, let :math:`p` be any prime factor of :math:`n! + 1`.
-If :math:`p` is less than :math:`n`, it divides :math:`n!`.
+If :math:`p` is less than or equal to :math:`n`, it divides :math:`n!`.
 Since it also divides :math:`n! + 1`, it divides 1, a contradiction.
 Hence :math:`p` is greater than :math:`n`.
 

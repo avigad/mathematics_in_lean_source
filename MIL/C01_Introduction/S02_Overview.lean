@@ -206,18 +206,30 @@ Your life may never be the same.
 
 *Acknowledgments.* We are grateful to Gabriel Ebner for setting up the
 infrastructure for running this tutorial in VS Code,
-and to Scott Morrison and Mario Carneiro for help porting it from Lean 4.
+and to Kim Morrison and Mario Carneiro for help porting it from Lean 4.
 We are also grateful for help and corrections from
-Takeshi Abe, Julian Berman, Alex Best, Thomas Browning,
-Bulwi Cha, Hanson Char, Bryan Gin-ge Chen, Steven Clontz, Mauricio Collaris, Johan Commelin, Mark Czubin,
-Alexandru Duca, Pierpaolo Frasa, Denis Gorbachev, Winston de Greef, Marc Huisinga,
-Mathieu Guay-Paquet, Julian Külshammer, Victor Liu, Jimmy Lu,
-Martin C. Martin,
-Giovanni Mascellani, John McDowell, Isaiah Mindich, Hunter Monroe, Pietro Monticone,
-Oliver Nash, Emanuelle Natale, Pim Otte,
-Bartosz Piotrowski, Nicolas Rolland, Keith Rush, Yannick Seurin, Guilherme Silva,
-Pedro Sánchez Terraf, Matthew Toohey,
-Floris van Doorn, Eric Wieser, and others.
+Takeshi Abe,
+Julian Berman, Alex Best, Thomas Browning,
+Bulwi Cha, Hanson Char, Bryan Gin-ge Chen, Steven Clontz, Mauricio Collaris, Johan Commelin,
+Mark Czubin,
+Alexandru Duca,
+Pierpaolo Frasa,
+Denis Gorbachev, Winston de Greef, Mathieu Guay-Paquet,
+Marc Huisinga,
+Benjamin Jones,
+Julian Külshammer,
+Victor Liu, Jimmy Lu,
+Martin C. Martin, Giovanni Mascellani, John McDowell, Isaiah Mindich, Hunter Monroe,
+Pietro Monticone,
+Oliver Nash, Emanuelle Natale,
+Pim Otte,
+Bartosz Piotrowski,
+Nicolas Rolland, Keith Rush,
+Yannick Seurin, Guilherme Silva,
+Pedro Sánchez Terraf, Matthew Toohey, Alistair Tucker,
+Floris van Doorn,
+Eric Wieser,
+and others.
 Our work has been partially supported by the Hoskinson Center for
 Formal Mathematics.
 TEXT. -/
