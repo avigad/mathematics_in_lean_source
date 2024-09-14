@@ -653,15 +653,29 @@ SOLUTIONS: -/
 -- QUOTE.
 
 /- TEXT:
+Another way to build subspaces is to use ``Submodule.span`` which builds the smallest subspace
+containing a given set ``s``.
+On paper it is common to use that this space is made of all linear combinations of elements of
+``s``.
+But it is often more efficient to use its universal property expressed by ``Submodule.span_le``,
+and the whole theory of Galois connections.
 
-TODO: discuss ``Submodule.span`` and ``Submodule.span_induction``
 
 EXAMPLES: -/
 -- QUOTE:
+example {s : Set V} (E : Submodule K V) : Submodule.span K s ≤ E ↔ s ⊆ E :=
+  Submodule.span_le
 
+example : GaloisInsertion (Submodule.span K) ((↑) : Submodule K V → Set V) :=
+  Submodule.gi K V
 -- QUOTE.
-
 /- TEXT:
+When those are not enough, one can use the relevant induction principle
+``Submodule.span_induction`` which ensures a property holds for every element of the
+span of ``s`` as long as it holds on ``zero`` and elements of ``s`` and is stable under
+sum and scalar multiplication.
+
+
 Quotient vector spaces use the general quotient notation (typed with ``\quot``, not the ordinary
 ``/``).
 The projection onto a quotient space is ``Submodule.mkQ`` and the universal property is
@@ -1052,7 +1066,6 @@ example : FiniteDimensional.finrank ℝ ℂ = 2 :=
 /- TEXT:
 Note that ``FiniteDimensional.finrank`` is defined for any vector space. It returns
 zero for infinite dimensional vector spaces, just as division by zero returns zero.
-TODO: say more
 
 Of course many lemmas require a finite dimensional assumption. This is the role of
 the ``FiniteDimension`` typeclass. For instance think of how the next example fails without this
@@ -1205,9 +1218,6 @@ example [FiniteDimensional K V] :
 -- QUOTE.
 /-
 
-
-Endomorphisms (polynomial evaluation, minimal polynomial, Caley-Hamilton,
-eigenvalues, eigenvectors)
 
 Multilinear algebra (multilinear maps, alternating maps, quadratic forms,
 inner products, matrix representation, spectral theorem, tensor products)
