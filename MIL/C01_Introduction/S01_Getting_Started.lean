@@ -31,7 +31,7 @@ You'll find a lively and welcoming community of Lean enthusiasts there,
 happy to answer questions and offer moral support.
 
 Although you can read a pdf or html version of this book online,
-it designed to be read interactively,
+it is designed to be read interactively,
 running Lean from inside the VS Code editor.
 To get started:
 
