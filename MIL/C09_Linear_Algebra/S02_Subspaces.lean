@@ -6,14 +6,17 @@ import Mathlib.LinearAlgebra.Charpoly.Basic
 import MIL.Common
 
 /- TEXT:
+.. index:: vector subspace
+
 Subspaces and quotients
 -----------------------
 
-.. index:: vector subspace
+Subspaces
+^^^^^^^^^
 
 Just as linear maps are bundled, a linear subspace of ``V`` is also a bundled structure consisting of
 a set in ``V`` with the relevant closure properties.
-Again the word module appear instead of space because of the more general context that
+Again the word module appears instead of vector space because of the more general context that
 Mathlib actually uses for linear algebra.
 EXAMPLES: -/
 -- QUOTE:
@@ -74,9 +77,8 @@ membership and preimage. This is the only lemma you will need in addition to the
 discussed above about ``LinearMap`` and ``Submodule``.
 BOTH: -/
 -- QUOTE:
-variable {W : Type*} [AddCommGroup W] [Module K W]
-
-def preimage (φ : V →ₗ[K] W) (H : Submodule K W) : Submodule K V where
+def preimage {W : Type*} [AddCommGroup W] [Module K W] (φ : V →ₗ[K] W) (H : Submodule K W) :
+    Submodule K V where
   carrier := φ ⁻¹' H
   zero_mem' := by
 /- EXAMPLES:
@@ -124,6 +126,10 @@ example (U : Submodule K V) : Module K {x : V // x ∈ U} := inferInstance
 -- QUOTE.
 
 /- TEXT:
+
+Complete lattice structure and internal direct sums
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 An important benefit of having a type ``Submodule K V`` instead of a predicate
 ``IsSubmodule : Set V → Prop`` is that one can easily endow ``Submodule K V`` with additional structure.
 Importantly, it has the structure of a complete lattice structure with respect to
@@ -172,33 +178,52 @@ example (x : V) : x ∈ (⊥ : Submodule K V) ↔ x = 0 := Submodule.mem_bot K
 -- QUOTE.
 
 /- TEXT:
-In particular we can discuss the case of submodules that are in (internal) direct sum.
+In particular we can discuss the case of subspaces that are in (internal) direct sum.
+In the case of two subspaces, we use the general purpose predicate ``IsCompl``
+which makes sense for any bounded partially ordered type.
+In the case of general families of subspaces we use ``DirectSum.IsInternal``.
 
 EXAMPLES: -/
 -- QUOTE:
 
+-- If two subspaces are in direct sum then they span the whole space.
 example (U V : Submodule K V) (h : IsCompl U V) :
   U ⊔ V = ⊤ := h.sup_eq_top
 
+-- If two subspaces are in direct sum then they intersect only at zero.
 example (U V : Submodule K V) (h : IsCompl U V) :
   U ⊓ V = ⊥ := h.inf_eq_bot
 
-#check DirectSum.isInternal_submodule_iff_independent_and_iSup_eq_top
+section
+open DirectSum
+variable {ι : Type*} [DecidableEq ι]
 
-example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.IsInternal U) :
+-- If subspaces are in direct sum then they span the whole space.
+example (U : ι → Submodule K V) (h : DirectSum.IsInternal U) :
   ⨆ i, U i = ⊤ := h.submodule_iSup_eq_top
 
+-- If subspaces are in direct sum then they pairwise intersect only at zero.
 example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.IsInternal U)
     {i j : ι} (hij : i ≠ j) : U i ⊓ U j = ⊥ :=
-  h.submodule_independent.pairwiseDisjoint hij |>.eq_bot
+  (h.submodule_independent.pairwiseDisjoint hij).eq_bot
 
-open DirectSum in
-noncomputable example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.IsInternal U)
-   : (⨁ i, U i) →ₗ[K] V := LinearEquiv.ofBijective (coeLinearMap U) h
+-- Those conditions characterize direct sums.
+#check DirectSum.isInternal_submodule_iff_independent_and_iSup_eq_top
 
+-- The relation with external direct sums: if a family of subspaces is
+-- in internal direct sum then the map from their external direct sum into ``V``
+-- is a linear isomorphism.
+noncomputable example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V)
+    (h : DirectSum.IsInternal U) : (⨁ i, U i) ≃ₗ[K] V :=
+  LinearEquiv.ofBijective (coeLinearMap U) h
+end
 -- QUOTE.
 
 /- TEXT:
+
+Subspace spanned by a set
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Another way to build subspaces is to use ``Submodule.span`` which builds the smallest subspace
 containing a given set ``s``.
 On paper it is common to use that this space is made of all linear combinations of elements of
@@ -216,19 +241,61 @@ example : GaloisInsertion (Submodule.span K) ((↑) : Submodule K V → Set V) :
   Submodule.gi K V
 -- QUOTE.
 /- TEXT:
+
+When those are not enough, one can use the relevant induction principle
+``Submodule.span_induction`` which ensures a property holds for every element of the
+span of ``s`` as long as it holds on ``zero`` and elements of ``s`` and is stable under
+sum and scalar multiplication. As usual with such lemmas, Lean sometimes needs help
+to figure out the predicate we are interested in.
+
+As an exercise, let us reprove one implication of ``Submodule.mem_sup``.
+EXAMPLES: -/
+-- QUOTE:
+
+example {S T : Submodule K V} {x : V} (h : x ∈ S ⊔ T) :
+    ∃ s ∈ S, ∃ t ∈ T, x = s + t  := by
+  rw [← S.span_eq, ← T.span_eq, ← Submodule.span_union] at h
+  apply Submodule.span_induction h (p := fun x ↦ ∃ s ∈ S, ∃ t ∈ T, x = s + t)
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
+  · rintro x (hx|hx)
+    · use x, hx, 0, T.zero_mem
+      simp
+    · use 0, S.zero_mem, x, hx
+      simp
+  · use 0, S.zero_mem, 0, T.zero_mem
+    simp
+  · rintro - - ⟨s, hs, t, ht, rfl⟩ ⟨s', hs', t', ht', rfl⟩
+    use s + s', S.add_mem hs hs', t + t', T.add_mem ht ht'
+    abel
+  · rintro a - ⟨s, hs, t, ht, rfl⟩
+    use a • s, S.smul_mem a hs, a • t, T.smul_mem a ht
+    rw [smul_add]
+
+-- QUOTE.
+/- TEXT:
+
+Pushing and pulling subspaces
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 As promised earlier, we now describe how to push and pull subspaces by linear maps.
 As usual in Mathlib, the first operation is called ``map`` and the second one is called
 ``comap``.
 EXAMPLES: -/
 -- QUOTE:
-variable (φ : V →ₗ[K] W)
+
+section
+
+variable {W : Type*} [AddCommGroup W] [Module K W] (φ : V →ₗ[K] W)
 
 variable (E : Submodule K V) in
-#check Submodule.map φ E
+#check (Submodule.map φ E : Submodule K W)
 
 variable (F : Submodule K W) in
-#check Submodule.comap φ F
+#check (Submodule.comap φ F : Submodule K V)
 -- QUOTE.
+
 /- TEXT:
 Note those live in the ``Submodule`` namespace so one can use dot notation and write
 ``E.map φ`` instead of ``Submodule.map φ E``, but this is pretty awkward to read (although some
@@ -240,8 +307,9 @@ EXAMPLES: -/
 -- QUOTE:
 example : LinearMap.range φ = .map φ ⊤ := LinearMap.range_eq_map φ
 
-example : LinearMap.ker φ = .comap φ ⊥ := rfl
+example : LinearMap.ker φ = .comap φ ⊥ := Submodule.comap_bot φ -- or `rfl`
 -- QUOTE.
+
 
 /- TEXT:
 Note that we cannot write ``φ.ker`` instead of ``LinearMap.ker φ`` because ``LinearMap.ker`` also
@@ -274,8 +342,8 @@ EXAMPLES: -/
 example (E : Submodule K V) (F : Submodule K W) :
     Submodule.map φ E ≤ F ↔ E ≤ Submodule.comap φ F := by
 /- EXAMPLES:
-    dsimp
-    sorry
+  dsimp
+  sorry
 SOLUTIONS: -/
   constructor
   · intro h x hx
@@ -285,11 +353,8 @@ SOLUTIONS: -/
 -- QUOTE.
 
 /- TEXT:
-When those are not enough, one can use the relevant induction principle
-``Submodule.span_induction`` which ensures a property holds for every element of the
-span of ``s`` as long as it holds on ``zero`` and elements of ``s`` and is stable under
-sum and scalar multiplication.
-
+Quotient spaces
+^^^^^^^^^^^^^^^
 
 Quotient vector spaces use the general quotient notation (typed with ``\quot``, not the ordinary
 ``/``).
@@ -304,10 +369,51 @@ example : Module K (V ⧸ E) := inferInstance
 
 example : V →ₗ[K] V ⧸ E := E.mkQ
 
+example : ker E.mkQ = E := E.ker_mkQ
+
+example : range E.mkQ = ⊤ := E.range_mkQ
+
 example (hφ : E ≤ ker φ) : V ⧸ E →ₗ[K] W := E.liftQ φ hφ
 
 example (F : Submodule K W) (hφ : E ≤ .comap φ F) : V ⧸ E →ₗ[K] W ⧸ F := E.mapQ F φ hφ
 
 noncomputable example : (V ⧸ LinearMap.ker φ) ≃ₗ[K] range φ := φ.quotKerEquivRange
 
+-- QUOTE.
+/- TEXT:
+As an exercise, let us prove the correspondance theorem for subspaces of quotient spaces.
+Mathlib knows a slightly more precise version as ``Submodule.comapMkQRelIso``.
+EXAMPLES: -/
+-- QUOTE:
+
+open Submodule
+
+-- TODO: remove the next line once  #16830 is merged
+attribute [gcongr] comap_mono
+
+#check Submodule.map_comap_eq
+#check Submodule.comap_map_eq
+
+example : Submodule K (V ⧸ E) ≃ { F : Submodule K V // E ≤ F } where
+/- EXAMPLES:
+  toFun := _
+  invFun := _
+  left_inv := _
+  right_inv := _
+SOLUTIONS: -/
+  toFun F := ⟨comap E.mkQ F, by
+    conv_lhs => rw [← E.ker_mkQ, ← comap_bot]
+    gcongr
+    apply bot_le⟩
+  invFun P := map E.mkQ P
+  left_inv P := by
+    dsimp
+    rw [Submodule.map_comap_eq, E.range_mkQ]
+    exact top_inf_eq P
+  right_inv := by
+    intro P
+    ext x
+    dsimp only
+    rw [Submodule.comap_map_eq, E.ker_mkQ, sup_of_le_left]
+    exact P.2
 -- QUOTE.

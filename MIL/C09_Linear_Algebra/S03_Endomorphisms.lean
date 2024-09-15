@@ -46,7 +46,7 @@ example (φ : End K V) : aeval φ (X : K[X]) = φ :=
 /- TEXT:
 As an exercise manipulating endomorphisms, subspaces and polynomials, let us prove the
 (binary) kernels lemma: for any endomorphism :math:`φ` and any two relatively
-prime polynomials :math:`P` and $`Q`$, we have $`\ker P(φ) ⊕ \ker Q(φ) = \ker \big(PQ(φ)\big)`$.
+prime polynomials :math:`P` and :math:`Q`, we have :math:`\ker P(φ) ⊕ \ker Q(φ) = \ker \big(PQ(φ)\big)`.
 
 Note that ``IsCoprime x y`` is defined as ``∃ a b, a * x + b * y = 1``.
 EXAMPLES: -/
@@ -100,7 +100,7 @@ SOLUTIONS: -/
 -- QUOTE.
 /- TEXT:
 We now move to the discussions of eigenspaces and eigenvalues. By the definition, the eigenspace
-associated to an endomorphism :math:`φ` and a scalar $`a`$ is the kernel of $`φ - aId`$.
+associated to an endomorphism :math:`φ` and a scalar :math:`a` is the kernel of :math:`φ - aId`.
 The first thing to understand is how to spell :math:`aId`. We could use
 ``a • LinearMap.id``, but Mathlib uses `algebraMap K (End K V) a` which directly plays nicely
 with the ``K``-algebra structure.

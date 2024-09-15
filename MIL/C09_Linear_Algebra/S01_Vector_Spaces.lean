@@ -16,12 +16,13 @@ Vector spaces
 .. index:: vector space
 
 We will start directly abstract linear algebra, taking place in a vector space over any field.
-However you can find information about matrices in :numref:`Section %s
-<matrices>` which does not logically depend on this abstract theory.
+However you can find information about matrices in
+:numref:`Section %s <matrices>` which does not logically depend on this abstract theory.
 Mathlib actually deals with a more general version of linear algebra involving the word module,
 but for now we will pretend this is only an excentric spelling habit.
 
-The way to say “let :math:`K` be a field and let $`V`$ be a vector space over $`K`$” is:
+The way to say “let :math:`K` be a field and let :math:`V` be a vector space over :math:`K`”
+(and make them implicit arguments to later results) is:
 
 EXAMPLES: -/
 
@@ -43,11 +44,12 @@ from :math:`V`.
 This would be very bad for the type class synthesis system.
 
 The multiplication of a vector `v` by a scalar `a` is denoted by
-`a • v`. We a couple of algebraic rules about the interaction of this operation with addition in the
-following examples. Of course `simp` of `apply?` would find those proofs, but it is still useful to
-remember than scalar multiplication is abbreviated `smul` in lemma names.
-Unfortunately there is not yet an analogue of the `ring` or `group` tactic that would prove
-all equalities following from the vector space axioms (there is no deep obstruction here, we
+`a • v`. We list a couple of algebraic rules about the interaction of this
+operation with addition in the following examples. Of course `simp` of `apply?`
+would find those proofs, but it is still useful to remember than scalar
+multiplication is abbreviated `smul` in lemma names. Unfortunately there is not
+yet an analogue of the `ring` or `group` tactic that would prove all equalities
+following from the vector space axioms (there is no deep obstruction here, we
 simply need to find a skilled tactic writer having time for this).
 
 EXAMPLES: -/
@@ -79,7 +81,7 @@ The type of linear maps between two ``K``-vector spaces
 ``V`` and ``W`` is denoted by ``V →ₗ[K] W``. The subscript `l` stands for linear.
 At first it may feel odd to specify ``K`` in this notation.
 But this is crucial when several fields come into play.
-For instance real-linear maps from :math:`ℂ` to $`ℂ`$ are every map $`z ↦ az + b\bar{z}`$
+For instance real-linear maps from :math:`ℂ` to :math:`ℂ` are every map :math:`z ↦ az + b\bar{z}`
 while only the maps :math:`z ↦ az` are complex linear, and this difference is crucial in
 complex analysis.
 
@@ -101,6 +103,7 @@ example (v w : V) : φ (v + w) = φ v + φ w :=
 /- TEXT:
 Note that ``V →ₗ[K] W`` itself carries interesting algebraic structures (this
 is part of the motivation for bundling those maps).
+It is a ``K``-vector space so we can add linear maps and multiply them by scalars.
 
 EXAMPLES: -/
 -- QUOTE:
@@ -124,7 +127,7 @@ variable (θ : W →ₗ[K] V)
 
 /- TEXT:
 There are two main ways to construct linear maps.
-First you can build the structure by providing the function and the linearity proof.
+First we can build the structure by providing the function and the linearity proof.
 As usual, this is facilitated by the structure code action: you can type
 ``example : V →ₗ[K] V := _`` and use the code action “Generate a skeleton” attached to the
 underscore.
@@ -142,7 +145,7 @@ example : V →ₗ[K] V where
 You may wonder why the proof fields of ``LinearMap`` have names ending with a prime.
 This is because they are defined before the coercion to functions is defined, hence they are
 phrased in terms of ``LinearMap.toFun``. Then they are restated as ``LinearMap.map_add``
-and ``LinearMap.smul`` in terms of the coercion to function.
+and ``LinearMap.map_smul`` in terms of the coercion to function.
 This is not yet the end of the story. One also want a version of ``map_add`` that applies to
 any (bundled) map preserving addition, such as additive group morphisms, linear maps, continuous
 linear maps, ``K``-algebra maps etc… This one is ``map_add`` (in the root namespace).
@@ -152,9 +155,9 @@ is explained in :numref:`Chapter %s <hierarchies>`.
 EXAMPLES: -/
 -- QUOTE:
 
-#check φ.map_add'
-#check φ.map_add
-#check map_add φ
+#check (φ.map_add' : ∀ x y : V, φ.toFun (x + y) = φ.toFun x + φ.toFun y)
+#check (φ.map_add : ∀ x y : V, φ (x + y) = φ x + φ y)
+#check (map_add φ : ∀ x y : V, φ (x + y) = φ x + φ y)
 
 -- QUOTE.
 
@@ -171,8 +174,8 @@ But also ``LinearMap.lsmul K V`` is an interesting object by itself: it has type
 EXAMPLES: -/
 -- QUOTE:
 
-#check LinearMap.lsmul K V 3
-#check LinearMap.lsmul K V
+#check (LinearMap.lsmul K V 3 : V →ₗ[K] V)
+#check (LinearMap.lsmul K V : K →ₗ[K] V →ₗ[K] V)
 
 -- QUOTE.
 
@@ -199,11 +202,14 @@ noncomputable example (f : V →ₗ[K] W) (h : Function.Bijective f) : V ≃ₗ[
 -- QUOTE.
 
 /- TEXT:
+Note that in the above example, Lean uses the announced type to understand that ``.ofBijective``
+refers to ``LinearEquiv.ofBijective`` (without needing to open any namespace).
+
 Sums and products of vector spaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-We can also build new vector spaces out of old ones using direct sums and direct
-products (we will discuss tensor products below after discussing multi-linear maps).
+We can build new vector spaces out of old ones using direct sums and direct
+products.
 Let us start with two vectors spaces. In this case there is no difference between sum and product,
 and we can simply use the product type.
 In the following snippet of code we simply show how to get all the structure maps (inclusions
@@ -259,7 +265,9 @@ example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) : φ.coprod ψ ∘ₗ LinearMa
 example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) : φ.coprod ψ ∘ₗ LinearMap.inr K V W = ψ :=
   LinearMap.coprod_inr φ ψ
 
-
+-- The coproduct map is defined in the expected way
+example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) (v : V) (w : W) : φ.coprod ψ (v, w) = φ v + ψ w :=
+  rfl
 
 end binary_product
 
@@ -277,27 +285,29 @@ EXAMPLES: -/
 section families
 open DirectSum
 
-variable {ι : Type*} [DecidableEq ι] (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module K (V i)]
+variable {ι : Type*} [DecidableEq ι]
+         (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module K (V i)]
 
-example (φ : Π i, V i →ₗ[K] W) : (⨁ i, V i) →ₗ[K] W :=
+-- The universal property of the direct sum assembles maps from the summands to build
+-- a map from the direct sum
+example (φ : Π i, (V i →ₗ[K] W)) : (⨁ i, V i) →ₗ[K] W :=
   DirectSum.toModule K ι W φ
 
-
-example (φ : Π i, W →ₗ[K] V i) : W →ₗ[K] (Π i, V i) :=
+-- The universal property of the direct product assembles maps into the summands to build
+-- a map into the direct product
+example (φ : Π i, (W →ₗ[K] V i)) : W →ₗ[K] (Π i, V i) :=
   LinearMap.pi φ
 
+-- The projection maps from the product
 example (i : ι) : (Π j, V j) →ₗ[K] V i := LinearMap.proj i
 
-example : Π i, V i →+ (⨁ i, V i) := DirectSum.of V
+-- The inclusion maps into the sum
+example (i : ι) : V i →ₗ[K] (⨁ i, V i) := DirectSum.lof K ι V i
 
-example : Π i, V i →ₗ[K] (⨁ i, V i) := DirectSum.lof K ι V
+-- The inclusion maps into the product
+example (i : ι) : V i →ₗ[K] (Π i, V i) := LinearMap.single K V i
 
-variable (i : ι) in
-#check LinearMap.single (R := K) (φ := V) i  -- The linear inclusion of V i into the product
-
-variable (i : ι) in
-#check DirectSum.lof K ι V i -- The linear inclusion of V i into the sum
-
+-- In case `ι` is a finite type, there is an isomorphism between the sum and product.
 example [Fintype ι] : (⨁ i, V i) ≃ₗ[K] (Π i, V i) :=
   linearEquivFunOnFintype K ι V
 
