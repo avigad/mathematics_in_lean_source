@@ -396,10 +396,10 @@ attribute [gcongr] comap_mono
 
 example : Submodule K (V ⧸ E) ≃ { F : Submodule K V // E ≤ F } where
 /- EXAMPLES:
-  toFun := _
-  invFun := _
-  left_inv := _
-  right_inv := _
+  toFun := sorry
+  invFun := sorry
+  left_inv := sorry
+  right_inv := sorry
 SOLUTIONS: -/
   toFun F := ⟨comap E.mkQ F, by
     conv_lhs => rw [← E.ker_mkQ, ← comap_bot]

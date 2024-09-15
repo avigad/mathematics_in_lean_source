@@ -19,6 +19,8 @@ Matrices
 
 .. index:: matrices
 
+TODO: make text for this section
+
 Beware the matrix notation list rows but the vector notation
 is neither a row vector nor a column vector. Multiplication of a matrix with a vector
 from the left (resp. right) interprets the vector as a row (resp. column) vector.
@@ -74,21 +76,6 @@ example : !![(1 : ℝ), 2; 3, 4].trace = 5 := by
   simp [trace]
   norm_num
 
--- variable {R : Type*} [AddCommMonoid R]
--- @[simp]
--- theorem trace_fin_one_of (a : R) : trace !![a] = a :=
---   trace_fin_one _
---
--- @[simp]
--- theorem trace_fin_two_of (a b c d : R) : trace !![a, b; c, d] = a + d :=
---   trace_fin_two _
---
--- @[simp]
--- theorem trace_fin_three_of (a b c d e f g h i : R) :
---     trace !![a, b, c; d, e, f; g, h, i] = a + e + i :=
---   trace_fin_three _
-
--- L’exemple ci-dessous est très décevant sans les lemmes ci-dessus (qui sont proposés dans Mathlib)
 #norm_num !![(1 : ℝ), 2; 3, 4].trace
 
 variable (a b c d : ℝ) in
@@ -330,6 +317,9 @@ example (φ : V →ₗ[K] W) (v : V) : (toMatrix B B' φ) *ᵥ (B.repr v) = B'.r
   toMatrix_mulVec_repr B B' φ v
 end
 -- QUOTE.
+
+-- TODO: Need some exercises for this section
+
 /- TEXT:
 
 Dimension
@@ -513,6 +503,8 @@ example [FiniteDimensional K V] :
     (FiniteDimensional.finrank K V : Cardinal) = Module.rank K V :=
   finrank_eq_rank K V
 -- QUOTE.
+
+-- TODO: Decide what to do about the topics below.
 /-
 
 

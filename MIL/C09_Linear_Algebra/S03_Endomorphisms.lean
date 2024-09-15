@@ -27,11 +27,10 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 variable {W : Type*} [AddCommGroup W] [Module K W]
 
 
-section endomorphisms
 open Polynomial Module LinearMap
 
 example (φ ψ : End K V) : φ * ψ = φ ∘ₗ ψ :=
-  LinearMap.mul_eq_comp φ ψ -- rfl would also work
+  LinearMap.mul_eq_comp φ ψ -- `rfl` would also work
 
 -- evaluating `P` on `φ`
 example (P : K[X]) (φ : End K V) : V →ₗ[K] V :=
@@ -58,7 +57,7 @@ EXAMPLES: -/
 
 example (P Q : K[X]) (h : IsCoprime P Q) (φ : End K V) : ker (aeval φ P) ⊓ ker (aeval φ Q) = ⊥ := by
 /- EXAMPLES:
-    sorry
+  sorry
 SOLUTIONS: -/
   rw [Submodule.eq_bot_iff]
   rintro x hx
@@ -76,7 +75,7 @@ SOLUTIONS: -/
 example (P Q : K[X]) (h : IsCoprime P Q) (φ : End K V) :
     ker (aeval φ P) ⊔ ker (aeval φ Q) = ker (aeval φ (P*Q)) := by
 /- EXAMPLES:
-    sorry
+  sorry
 SOLUTIONS: -/
   apply le_antisymm
   · apply sup_le
@@ -117,7 +116,8 @@ However an eigenvector is, by definition, a non-zero element of an eigenspace. T
 predicate is ``End.HasEigenvector``.
 EXAMPLES: -/
 -- QUOTE:
-example (φ : End K V) (a : K) : φ.eigenspace a = LinearMap.ker (φ - algebraMap K (End K V) a) :=
+example (φ : End K V) (a : K) :
+    φ.eigenspace a = LinearMap.ker (φ - algebraMap K (End K V) a) :=
   rfl
 
 
@@ -140,13 +140,16 @@ example (φ : End K V) : φ.Eigenvalues = {a // φ.HasEigenvalue a} :=
 example (φ : End K V) (a : K) : φ.HasEigenvalue a → (minpoly K φ).IsRoot a :=
   φ.isRoot_of_hasEigenvalue
 
--- In finite dimension, the converse is also true
-example [FiniteDimensional K V] (φ : End K V) (a : K) : φ.HasEigenvalue a ↔ (minpoly K φ).IsRoot a :=
+-- In finite dimension, the converse is also true (we will discuss dimension below)
+example [FiniteDimensional K V] (φ : End K V) (a : K) :
+    φ.HasEigenvalue a ↔ (minpoly K φ).IsRoot a :=
   φ.hasEigenvalue_iff_isRoot
 
 -- Cayley-Hamilton
 example [FiniteDimensional K V] (φ : End K V) : aeval φ φ.charpoly = 0 :=
   φ.aeval_self_charpoly
 
-end endomorphisms
 -- QUOTE.
+
+-- TODO: Add an exercise here. Maybe say that an endormorphism whose minimal polynomial
+-- splits with simple roots is diagonalizable? Needs the full kernels lemma.
