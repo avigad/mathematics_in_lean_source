@@ -42,6 +42,7 @@ section matrices
 -- Multiplying matrices
 #eval !![1, 2; 3, 4] * !![3, 4; 5, 6]  -- !![4, 6; 8, 10]
 
+-- QUOTE.
 /- TEXT:
 It is important to understand that this use of ``#eval`` is interesting only for
 exploration, it is not meant to replace a computer algebra system such as Sage.
@@ -86,7 +87,6 @@ Other familiar operations include the vector dot product,
 EXAMPLES: -/
 -- QUOTE:
 
--- QUOTE.
 /-
 TODO: make text for this section
 
