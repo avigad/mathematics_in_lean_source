@@ -19,44 +19,91 @@ Matrices
 
 .. index:: matrices
 
-TODO: make text for this section
-
-Beware the matrix notation list rows but the vector notation
-is neither a row vector nor a column vector. Multiplication of a matrix with a vector
-from the left (resp. right) interprets the vector as a row (resp. column) vector.
+Before introducing bases for abstract vector spaces, we go back to the much more elementary setup
+of linear algebra in :math:`K^n` for some field :math:`K`.
+Here the main objects are vectors and matrices.
+For concrte vectors, one can use the ``![…]`` notation, where components are separated by commas.
+For concrete matrices we can use the ``!![…]`` notation, lines are separated by semi-colons
+and components of lines are separated by colons.
+When entries have a computable type such as ``ℕ`` or ``ℚ``, we can use
+the ``eval`` command to play with basic operations.
 
 EXAMPLES: -/
 -- QUOTE:
 
 section matrices
 
+-- Adding vectors
+#eval !![1, 2] + !![3, 4]  -- !![4, 6]
+
+-- Adding matrices
 #eval !![1, 2; 3, 4] + !![3, 4; 5, 6]  -- !![4, 6; 8, 10]
 
+-- Multiplying matrices
 #eval !![1, 2; 3, 4] * !![3, 4; 5, 6]  -- !![4, 6; 8, 10]
-/-
-* `⬝ᵥ` for `Matrix.dotProduct`
-* `*ᵥ` for `Matrix.mulVec`
-* `ᵥ*` for `Matrix.vecMul`
-* `ᵀ` for `Matrix.transpose`
-* `ᴴ` for `Matrix.conjTranspose`
 
-Concrete matrices with concrete entries
+/- TEXT:
+It is important to understand that this use of ``#eval`` is interesting only for
+exploration, it is not meant to replace a computer algebra system such as Sage.
+The data representation used here for matrices is *not* computationaly
+efficient in any way, it uses functions instead of arrays and is optimized for
+proving, not computing.
+The virtual machine used by ``#eval`` is also not optimized for this use.
 
-Note we are not suggesting to replace Sage with #eval or #norm_num
--/
+
+Beware the matrix notation list rows but the vector notation
+is neither a row vector nor a column vector. Multiplication of a matrix with a vector
+from the left (resp. right) interprets the vector as a row (resp. column) vector.
+This corresponds to operations
+``Matrix.vecMul``, with notation ``ᵥ*`` and ``Matrix.mulVec``, with notation ` `*ᵥ``.
+Those notations are scoped in the ``Matrix`` namespace that we therefore need to open.
+EXAMPLES: -/
+-- QUOTE:
 open Matrix
 
+-- matrices acting on vectors on the left
+#eval !![1, 2; 3, 4] *ᵥ ![1, 1] -- ![3, 7]
+
+-- matrices acting on vectors on the left, resulting in a size one matrix
+#eval !![1, 2] *ᵥ ![1, 1]  -- ![3]
+
+-- matrices acting on vectors on the right
+#eval  ![1, 1, 1] ᵥ* !![1, 2; 3, 4; 5, 6] -- ![9, 12]
+-- QUOTE.
+/- TEXT:
+In order to generate matrices with identical rows or columns specified by a vector, we
+use ``Matrix.row`` and ``Matrix.column``, with arguments the type indexing the
+rows or columns and the vector.
+For instance one can get single row or single column matrixes.
+EXAMPLES: -/
+-- QUOTE:
 #eval row (Fin 1) ![1, 2]
 
 #eval col (Fin 1) ![1, 2]
+-- QUOTE.
+/- TEXT:
+Other familiar operations include the vector dot product,
+EXAMPLES: -/
+-- QUOTE:
+
+-- QUOTE.
+/-
+TODO: make text for this section
+
+Beware the matrix notation list rows but the vector notation
+is neither a row vector nor a column vector. Multiplication of a matrix with a vector
+from the left (resp. right) interprets the vector as a row (resp. column) vector.
+* `⬝ᵥ` for ``Matrix.dotProduct``
+* `ᵀ` for `Matrix.transpose`
+* `ᴴ` for `Matrix.conjTranspose`
+
+
+Note we are not suggesting to replace Sage with #eval or #norm_num
+-/
+
 
 #eval ![1, 2] ⬝ᵥ ![3, 4] -- vector dot product
 
-#eval !![1, 2; 3, 4] *ᵥ ![1, 1]  -- matrices acting on vectors on the left
-
-#eval !![1, 2] *ᵥ ![1, 1]  -- matrices acting on vectors on the left
-
-#eval  ![1, 1, 1] ᵥ* !![1, 2; 3, 4; 5, 6]  -- matrices acting on vectors on the right
 
 #eval !![1, 2; 3, 4]ᵀ
 
