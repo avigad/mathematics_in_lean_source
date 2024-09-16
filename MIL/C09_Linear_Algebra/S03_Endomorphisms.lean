@@ -150,6 +150,3 @@ example [FiniteDimensional K V] (φ : End K V) : aeval φ φ.charpoly = 0 :=
   φ.aeval_self_charpoly
 
 -- QUOTE.
-
--- TODO: Add an exercise here. Maybe say that an endormorphism whose minimal polynomial
--- splits with simple roots is diagonalizable? Needs the full kernels lemma.

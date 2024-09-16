@@ -47,10 +47,11 @@ The multiplication of a vector `v` by a scalar `a` is denoted by
 `a • v`. We list a couple of algebraic rules about the interaction of this
 operation with addition in the following examples. Of course `simp` of `apply?`
 would find those proofs, but it is still useful to remember than scalar
-multiplication is abbreviated `smul` in lemma names. Unfortunately there is not
-yet an analogue of the `ring` or `group` tactic that would prove all equalities
-following from the vector space axioms (there is no deep obstruction here, we
-simply need to find a skilled tactic writer having time for this).
+multiplication is abbreviated `smul` in lemma names.
+
+Unfortunately there is not yet an analogue of the `ring` or `group` tactic that
+would prove all equalities following from the vector space axioms.
+Hopefully this will change before this chapter is deployed.
 
 EXAMPLES: -/
 
@@ -65,7 +66,20 @@ example (a b : K) (u : V) : a • b • u = b • a • u :=
   smul_comm a b u
 
 -- QUOTE.
+/- TEXT:
+As a quick note for more advanced readers, let us point out that, as suggested by
+terminology, Mathlib’s linear algebra also covers modules over (not necessarily commutative)
+rings.
+In fact it even covers semi-modules over semi-rings. If you think you do not need
+this level of generality, you can meditate the following example:
+EXAMPLES: -/
+-- QUOTE:
+example {R M : Type*} [CommSemiring R] [AddCommMonoid M] [Module R M] :
+    Module (Ideal R) (Submodule R M) :=
+  inferInstance
 
+
+-- QUOTE.
 /- TEXT:
 Linear maps
 ^^^^^^^^^^^
