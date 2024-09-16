@@ -388,9 +388,6 @@ EXAMPLES: -/
 
 open Submodule
 
--- TODO: remove the next line once  #16830 is merged
-attribute [gcongr] comap_mono
-
 #check Submodule.map_comap_eq
 #check Submodule.comap_map_eq
 
