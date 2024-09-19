@@ -230,23 +230,23 @@ example (hfa : FnUb f a) (hgb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
 example (hfa : FnLb f a) (hgb : FnLb g b) : FnLb (fun x ↦ f x + g x) (a + b) := by
   intro x
   apply add_le_add
-  apply hfa
-  apply hgb
+  · exact hfa x
+  · exact hgb x
 
 example (nnf : FnLb f 0) (nng : FnLb g 0) : FnLb (fun x ↦ f x * g x) 0 := by
   intro x
   apply mul_nonneg
-  apply nnf
-  apply nng
+  · exact nnf x
+  · exact nng x
 
 example (hfa : FnUb f a) (hgb : FnUb g b) (nng : FnLb g 0) (nna : 0 ≤ a) :
     FnUb (fun x ↦ f x * g x) (a * b) := by
   intro x
   apply mul_le_mul
-  apply hfa
-  apply hgb
-  apply nng
-  apply nna
+  · exact hfa x
+  · exact hgb x
+  · exact nng x
+  · exact nna
 
 -- BOTH:
 end
@@ -375,19 +375,19 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x := by
   intro a b aleb
   apply mul_le_mul_of_nonneg_left _ nnc
-  apply mf aleb
+  exact mf aleb
 
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
-  fun a b aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
+  fun _ _ aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   intro a b aleb
   apply mf
   apply mg
-  apply aleb
+  exact aleb
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
-  fun a b aleb ↦ mf (mg aleb)
+  fun _ _ aleb ↦ mf (mg aleb)
 
 /- TEXT:
 Here are some more examples.
@@ -512,10 +512,10 @@ example : r ⊆ s → s ⊆ t → r ⊆ t := by
   intro rsubs ssubt x xr
   apply ssubt
   apply rsubs
-  apply xr
+  exact xr
 
 theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
-  fun rsubs ssubt x xr ↦ ssubt (rsubs xr)
+  fun rsubs ssubt _ xr ↦ ssubt (rsubs xr)
 
 -- BOTH:
 end
@@ -547,7 +547,7 @@ example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
 -- SOLUTIONS:
 example (h : SetUb s a) (h' : a ≤ b) : SetUb s b := by
   intro x xs
-  apply le_trans (h x xs) h'
+  exact le_trans (h x xs) h'
 
 example (h : SetUb s a) (h' : a ≤ b) : SetUb s b :=
   fun x xs ↦ le_trans (h x xs) h'
@@ -589,7 +589,7 @@ example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
 -- SOLUTIONS:
 example {c : ℝ} (h : c ≠ 0) : Injective fun x ↦ c * x := by
   intro x₁ x₂ h'
-  apply (mul_right_inj' h).mp h'
+  exact (mul_right_inj' h).mp h'
 
 /- TEXT:
 Finally, show that the composition of two injective functions is injective:
@@ -608,7 +608,7 @@ example (injg : Injective g) (injf : Injective f) : Injective fun x ↦ g (f x) 
   intro x₁ x₂ h
   apply injf
   apply injg
-  apply h
+  exact h
 
 -- BOTH:
 end
