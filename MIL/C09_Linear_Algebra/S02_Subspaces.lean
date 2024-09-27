@@ -383,7 +383,7 @@ noncomputable example : (V ⧸ LinearMap.ker φ) ≃ₗ[K] range φ := φ.quotKe
 
 -- QUOTE.
 /- TEXT:
-As an exercise, let us prove the correspondance theorem for subspaces of quotient spaces.
+As an exercise, let us prove the correspondence theorem for subspaces of quotient spaces.
 Mathlib knows a slightly more precise version as ``Submodule.comapMkQRelIso``.
 EXAMPLES: -/
 -- QUOTE:
