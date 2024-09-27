@@ -19,7 +19,7 @@ We will start directly abstract linear algebra, taking place in a vector space o
 However you can find information about matrices in
 :numref:`Section %s <matrices>` which does not logically depend on this abstract theory.
 Mathlib actually deals with a more general version of linear algebra involving the word module,
-but for now we will pretend this is only an excentric spelling habit.
+but for now we will pretend this is only an eccentric spelling habit.
 
 The way to say “let :math:`K` be a field and let :math:`V` be a vector space over :math:`K`”
 (and make them implicit arguments to later results) is:
@@ -39,7 +39,7 @@ Mathematically we want to say that having a :math:`K`-vector space structure
 implies having an additive commutative group structure.
 We could tell this to Lean. But then whenever Lean would need to find such a
 group structure on a type :math:`V`, it would go hunting for vector space
-structures using a *completely unspecified* field :math:`K` that cannot be infered
+structures using a *completely unspecified* field :math:`K` that cannot be inferred
 from :math:`V`.
 This would be very bad for the type class synthesis system.
 
@@ -164,7 +164,7 @@ and ``LinearMap.map_smul`` in terms of the coercion to function.
 This is not yet the end of the story. One also want a version of ``map_add`` that applies to
 any (bundled) map preserving addition, such as additive group morphisms, linear maps, continuous
 linear maps, ``K``-algebra maps etc… This one is ``map_add`` (in the root namespace).
-The intermediate version, ``LinearMap.map_add`` is a bit redudant but allows to use dot notation, which
+The intermediate version, ``LinearMap.map_add`` is a bit redundant but allows to use dot notation, which
 can be nice sometimes. A similar story exists for ``map_smul``, and the general framework
 is explained in :numref:`Chapter %s <hierarchies>`.
 EXAMPLES: -/
@@ -328,4 +328,3 @@ example [Fintype ι] : (⨁ i, V i) ≃ₗ[K] (Π i, V i) :=
 
 end families
 -- QUOTE.
-

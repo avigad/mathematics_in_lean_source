@@ -15,7 +15,7 @@ An important special case of linear maps are endomorphisms: linear maps from a v
 They are interesting because they form a ``K``-algebra. In particular we can evaluate polynomials
 with coefficients in ``K`` on them, and they can have eigenvalues and eigenvectors.
 
-Mathlib uses the abreviation ``Module.End K V := V →ₗ[K] V`` which is convenient when
+Mathlib uses the abbreviation ``Module.End K V := V →ₗ[K] V`` which is convenient when
 using a lot of these (especially after opening the ``Module`` namespace).
 
 EXAMPLES: -/
