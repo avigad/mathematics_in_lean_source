@@ -213,7 +213,7 @@ BOTH: -/
 
 Then the next big piece is a complete lattice structure on ``TopologicalSpace X``
 for any given structure. If you think of topologies as being primarily the data of open sets then you expect
-the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, ie you expect ``t ≤ t'``
+the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, i.e. you expect ``t ≤ t'``
 if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that Mathlib focuses
 on neighborhoods more than open sets so, for any ``x : X`` we want the map from topological spaces to neighborhoods
 ``fun T : TopologicalSpace X ↦ @nhds X T x`` to be order preserving.
@@ -375,7 +375,7 @@ Since ``Y`` is regular, it suffices to check that for every *closed* neighborhoo
 ``V'`` of ``φ x``, ``φ ⁻¹' V' ∈ 𝓝 x``.
 The limit assumption gives (through the auxiliary lemma above)
 some ``V ∈ 𝓝 x`` such ``IsOpen V ∧ (↑) ⁻¹' V ⊆ f ⁻¹' V'``.
-Since ``V ∈ 𝓝 x``, it suffices to prove ``V ⊆ φ ⁻¹' V'``, ie  ``∀ y ∈ V, φ y ∈ V'``.
+Since ``V ∈ 𝓝 x``, it suffices to prove ``V ⊆ φ ⁻¹' V'``, i.e.  ``∀ y ∈ V, φ y ∈ V'``.
 Let's fix ``y`` in ``V``. Because ``V`` is *open*, it is a neighborhood of ``y``.
 In particular ``(↑) ⁻¹' V ∈ comap (↑) (𝓝 y)`` and a fortiori ``f ⁻¹' V' ∈ comap (↑) (𝓝 y)``.
 In addition ``comap (↑) (𝓝 y) ≠ ⊥`` because ``A`` is dense.
@@ -443,7 +443,7 @@ a point ``x : X`` is a cluster point of ``F`` if ``F``, seen as a generalized se
 with the generalized set of points that are close to ``x``.
 
 Then we can say that a set ``s`` is compact if every nonempty generalized set ``F`` contained in ``s``,
-ie such that ``F ≤ 𝓟 s``, has a cluster point in ``s``.
+i.e. such that ``F ≤ 𝓟 s``, has a cluster point in ``s``.
 
 BOTH: -/
 -- QUOTE:
