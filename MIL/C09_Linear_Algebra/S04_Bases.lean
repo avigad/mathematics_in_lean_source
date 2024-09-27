@@ -106,7 +106,7 @@ EXAMPLES: -/
 /- TEXT:
 When entries do not have a computable type, for instance if they are real numbers, we cannot
 hope that ``#eval`` can help. Also this kind of evaluation cannot be used in proofs without
-considerably expanding the trusted code base (ie the part of Lean that you need to trust when
+considerably expanding the trusted code base (i.e. the part of Lean that you need to trust when
 checking proofs).
 
 So it is good to also use the ``simp`` and ``norm_num`` tactics in proofs, or
@@ -240,7 +240,7 @@ Indeed only finite linear combinations make sense in this algebraic context. So 
 as a reference vector space is not a direct product of copies of ``K`` but a direct sum.
 We could use ``⨁ i : ι, K`` for some type ``ι`` indexing the basis
 But we rather use the more specialized spelling ``ι →₀ K`` which means
-“functions from ``ι`` to ``K`` with finite support”, ie functions which vanish outside a finite set
+“functions from ``ι`` to ``K`` with finite support”, i.e. functions which vanish outside a finite set
 in ``ι`` (this finite set is not fixed, it depends on the function).
 Evaluating such a function coming from a basis ``B`` at a vector ``v`` and
 ``i : ι`` returns the component (or coordinate) of ``v`` on the ``i``-th basis vector.
@@ -273,7 +273,7 @@ Instead of starting with such an isomorphism, one can start with a family ``b`` 
 linearly independent and spanning, this is ``Basis.mk``.
 
 The assumption that the family is spanning is spelled out as ``⊤ ≤ Submodule.span K (Set.range b)``.
-Here ``⊤`` is the top submodule of ``V``, ie ``V`` seen as submodule of itself.
+Here ``⊤`` is the top submodule of ``V``, i.e. ``V`` seen as submodule of itself.
 This spelling looks a bit tortuous, but we will see below that it is almost equivalent by definition
 to the more readable ``∀ v, v ∈ Submodule.span K (Set.range b)`` (the underscores in the snippet
 below refers to the useless information ``v ∈ ⊤``).
@@ -294,7 +294,7 @@ example (b : ι → V) (b_indep : LinearIndependent K b)
 In particular the model vector space ``ι →₀ K`` has a so-called canonical basis whose ``repr``
 function evaluated on any vector is the identity isomorphism. It is called
 ``Finsupp.basisSingleOne`` where ``Finsupp`` means function with finite support and
-``basisSingleOne`` refers to the fact that basis vectors are function which
+``basisSingleOne`` refers to the fact that basis vectors are functions which
 vanish expect for a single input value. More precisely the basis vector indexed by ``i : ι``
 is ``Finsupp.single i 1`` which is the finitely supported function taking value ``1`` at ``i``
 and ``0`` everywhere else.
@@ -374,7 +374,7 @@ variable (f : ι → V) in
 #check (Finsupp.linearCombination K f : (ι →₀ K) →ₗ[K] V)
 -- QUOTE.
 /- TEXT:
-The above subtlety also explain why dot notation cannot be used to write
+The above subtlety also explains why dot notation cannot be used to write
 ``c.linearCombination K f`` instead of ``Finsupp.linearCombination K f c``.
 Indeed ``Finsupp.linearCombination`` does not take ``c`` as an argument,
 ``Finsupp.linearCombination K f`` is coerced to a function type and then this function
@@ -551,7 +551,7 @@ The above spelling is strange because we already have ``h`` as an assumption, so
 just as well give the full proof ``FiniteDimensional.finrank_pos_iff.1 h`` but it
 is good to know for more complicated cases.
 
-By definition, ``FiniteDimensional K V`` can be read from any basis.
+By definition, ``FiniteDimensional K V`` can be read from any basis.
 EXAMPLES: -/
 -- QUOTE:
 variable {ι : Type*} (B : Basis ι K V)
@@ -605,7 +605,7 @@ end
 Let us now move to the general case of dimension theory. In this case
 ``finrank`` is useless, but we still have that, for any two bases of the same
 vector space, there is a bijection between the types indexing those bases. So we
-can still hope to define the rank as a cardinal, ie an element of the “quotient of
+can still hope to define the rank as a cardinal, i.e. an element of the “quotient of
 the collection of types under the existence of a bijection equivalence
 relation”.
 
@@ -625,8 +625,8 @@ by ``u + 1``, and ``Type u`` has type ``Type (u+1)``.
 But universe levels are not natural numbers, they have a really different nature and don’t
 have a type. In particular you cannot state in Lean something like ``u ≠ u + 1``.
 There is simply no type where this would take place. Even stating
-``Type u ≠ Type (u+1)`` does not make any sense since ``Type u`` and ``Type
-(u+1)`` have different types.
+``Type u ≠ Type (u+1)`` does not make any sense since ``Type u`` and ``Type (u+1)``
+have different types.
 
 Whenever we write ``Type*``, Lean inserts a universe level variable named ``u_n`` where ``n`` is a
 number. This allows definitions and statements to live in all universes.
@@ -640,7 +640,7 @@ denote a universe variable. The image of ``α : Type u`` in this quotient is
 But we cannot directly compare cardinals in different universes. So technically we
 cannot define the rank of a vector space ``V`` as the cardinal of all types indexing
 a basis of ``V``.
-So instead it is defined as the supremum ``Module.rank K V`` of cardinals of
+So instead it is defined as the supremum ``Module.rank K V`` of cardinals of
 all linearly independent sets in ``V``. If ``V`` has universe level ``u`` then
 its rank has type ``Cardinal.{u}``.
 
