@@ -45,11 +45,11 @@ This would be very bad for the type class synthesis system.
 
 The multiplication of a vector `v` by a scalar `a` is denoted by
 `a • v`. We list a couple of algebraic rules about the interaction of this
-operation with addition in the following examples. Of course `simp` of `apply?`
+operation with addition in the following examples. Of course `simp` or `apply?`
 would find those proofs. There is also a `module` tactic that solves goals
 following from the axioms of vector spaces and fields, in the same way the
 `ring` tactic is used in commutative rings or the `group` tactic is used in
-groups. But it is still useful to remember than scalar
+groups. But it is still useful to remember that scalar
 multiplication is abbreviated `smul` in lemma names.
 
 
@@ -87,7 +87,7 @@ Linear maps
 
 .. index:: linear map
 
-Next we need linear maps. Like group morphisms, linear maps in Mathlib are bundled maps, ie packages
+Next we need linear maps. Like group morphisms, linear maps in Mathlib are bundled maps, i.e. packages
 made of a map and proofs of its linearity properties.
 Those bundled maps are converted to ordinary functions when applied.
 See :numref:`Chapter %s <hierarchies>` for more information about this design.
@@ -129,7 +129,7 @@ variable (ψ : V →ₗ[K] W)
 -- QUOTE.
 
 /- TEXT:
-One down-side of using bundled maps is that we cannot use ordinary function composition.
+One downside of using bundled maps is that we cannot use ordinary function composition.
 We need to use ``LinearMap.comp`` or the notation ``∘ₗ``.
 
 EXAMPLES: -/
@@ -161,7 +161,7 @@ You may wonder why the proof fields of ``LinearMap`` have names ending with a pr
 This is because they are defined before the coercion to functions is defined, hence they are
 phrased in terms of ``LinearMap.toFun``. Then they are restated as ``LinearMap.map_add``
 and ``LinearMap.map_smul`` in terms of the coercion to function.
-This is not yet the end of the story. One also want a version of ``map_add`` that applies to
+This is not yet the end of the story. One also wants a version of ``map_add`` that applies to
 any (bundled) map preserving addition, such as additive group morphisms, linear maps, continuous
 linear maps, ``K``-algebra maps etc… This one is ``map_add`` (in the root namespace).
 The intermediate version, ``LinearMap.map_add`` is a bit redundant but allows to use dot notation, which
