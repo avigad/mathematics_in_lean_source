@@ -46,7 +46,7 @@ section matrices
 /- TEXT:
 It is important to understand that this use of ``#eval`` is interesting only for
 exploration, it is not meant to replace a computer algebra system such as Sage.
-The data representation used here for matrices is *not* computationaly
+The data representation used here for matrices is *not* computationally
 efficient in any way. It uses functions instead of arrays and is optimized for
 proving, not computing.
 The virtual machine used by ``#eval`` is also not optimized for this use.
@@ -209,7 +209,7 @@ example : !![1, 1; 1, 1] * !![1, 1; 1, 1] = !![2, 2; 2, 2] := by
 /- TEXT:
 In order to define matrices as functions without loosing the benefits of ``Matrix``
 for type class synthesis, we can use the equivalence ``Matrix.of`` between functions
-and matrices. This equivalence is secretely defined using ``Equiv.refl``.
+and matrices. This equivalence is secretly defined using ``Equiv.refl``.
 
 For instance we can define Vandermonde matrices corresponding to a vector ``v``.
 EXAMPLES: -/
@@ -311,7 +311,7 @@ example (i : ι) : Finsupp.basisSingleOne i = Finsupp.single i 1 :=
 
 -- QUOTE.
 /- TEXT:
-The story of finitely supported functions is uneeded when the indexing type is finite.
+The story of finitely supported functions is unneeded when the indexing type is finite.
 In this case we can use the simpler ``Pi.basisFun`` which gives a basis of the whole
 ``ι → K``.
 EXAMPLES: -/
@@ -669,7 +669,7 @@ example : Cardinal.lift.{v, u} (.mk ι) = Cardinal.lift.{u, v} (.mk ι') :=
 -- QUOTE.
 /- TEXT:
 We can relate the finite dimensional case to this discussion using the coercion
-from natural numbers to finite cardinals (or more precisly the finite cardinals which live in ``Cardinal.{v}`` where ``v`` is the universe level of ``V``).
+from natural numbers to finite cardinals (or more precisely the finite cardinals which live in ``Cardinal.{v}`` where ``v`` is the universe level of ``V``).
 EXAMPLES: -/
 -- QUOTE:
 
@@ -677,4 +677,3 @@ example [FiniteDimensional K V] :
     (FiniteDimensional.finrank K V : Cardinal) = Module.rank K V :=
   finrank_eq_rank K V
 -- QUOTE.
-
