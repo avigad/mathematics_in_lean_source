@@ -27,9 +27,9 @@ more details about what the ``class`` command is doing.
 First, the ``class`` command above defines a structure ``One₁`` with parameter ``α : Type`` and
 a single field ``one``. It also mark this structure as a class so that arguments of type
 ``One₁ α`` for some type ``α`` will be inferrable using the instance resolution procedure,
-as long as they are marked as instance-implicit, ie appear between square brackets.
+as long as they are marked as instance-implicit, i.e. appear between square brackets.
 Those two effects could also have been achieved using the ``structure`` command with ``class``
-attribute, ie writing ``@[class] structure`` instance of ``class``. But the class command also
+attribute, i.e. writing ``@[class] structure`` instance of ``class``. But the class command also
 ensures that ``One₁ α`` appears as an instance-implicit argument in its own fields. Compare:
 BOTH: -/
 
