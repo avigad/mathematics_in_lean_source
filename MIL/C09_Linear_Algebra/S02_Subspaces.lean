@@ -15,7 +15,7 @@ Subspaces
 ^^^^^^^^^
 
 Just as linear maps are bundled, a linear subspace of ``V`` is also a bundled structure consisting of
-a set in ``V`` with the relevant closure properties.
+a set in ``V``, called the carrier of the subspace, with the relevant closure properties.
 Again the word module appears instead of vector space because of the more general context that
 Mathlib actually uses for linear algebra.
 EXAMPLES: -/
@@ -66,7 +66,7 @@ noncomputable example : Submodule ℝ ℂ where
 
 /- TEXT:
 The prime at the end of proof fields in ``Submodule`` are analogous to the one in ``LinearMap``.
-Those fields are stated in terms of the ``carrier`` fields because they are defined before the
+Those fields are stated in terms of the ``carrier`` field because they are defined before the
 ``MemberShip`` instance. They are then superseded by ``Submodule.add_mem``, ``Submodule.zero_mem``
 and ``Submodule.smul_mem`` that we saw above.
 
@@ -135,7 +135,7 @@ An important benefit of having a type ``Submodule K V`` instead of a predicate
 Importantly, it has the structure of a complete lattice structure with respect to
 inclusion. For instance, instead of having a lemma stating that an intersection of
 two subspaces of ``V`` is again a subspace, we
-have used the lattice operation ``⊓`` to construct the intersection. We can then apply arbitrary
+use the lattice operation ``⊓`` to construct the intersection. We can then apply arbitrary
 lemmas about lattices to the construction.
 
 Let us check that the set underlying the infimum of two subspaces is indeed, by definition,
@@ -211,7 +211,7 @@ example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V) (h : DirectSum.
 #check DirectSum.isInternal_submodule_iff_independent_and_iSup_eq_top
 
 -- The relation with external direct sums: if a family of subspaces is
--- in internal direct sum then the map from their external direct sum into ``V``
+-- in internal direct sum then the map from their external direct sum into `V`
 -- is a linear isomorphism.
 noncomputable example {ι : Type*} [DecidableEq ι] (U : ι → Submodule K V)
     (h : DirectSum.IsInternal U) : (⨁ i, U i) ≃ₗ[K] V :=
@@ -224,8 +224,9 @@ end
 Subspace spanned by a set
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Another way to build subspaces is to use ``Submodule.span`` which builds the smallest subspace
-containing a given set ``s``.
+In addition to building subspaces out of existing subspaces, we can build them out
+of any set ``s`` using ``Submodule.span K s`` which builds the smallest subspace
+containing ``s``.
 On paper it is common to use that this space is made of all linear combinations of elements of
 ``s``.
 But it is often more efficient to use its universal property expressed by ``Submodule.span_le``,
@@ -249,6 +250,8 @@ sum and scalar multiplication. As usual with such lemmas, Lean sometimes needs h
 to figure out the predicate we are interested in.
 
 As an exercise, let us reprove one implication of ``Submodule.mem_sup``.
+Remember that you can use the `module` tactic to close goals that follow from
+the axioms relating the various algebraic operations on ``V``.
 EXAMPLES: -/
 -- QUOTE:
 
@@ -261,17 +264,17 @@ example {S T : Submodule K V} {x : V} (h : x ∈ S ⊔ T) :
 SOLUTIONS: -/
   · rintro x (hx|hx)
     · use x, hx, 0, T.zero_mem
-      simp
+      module
     · use 0, S.zero_mem, x, hx
-      simp
+      module
   · use 0, S.zero_mem, 0, T.zero_mem
-    simp
+    module
   · rintro - - ⟨s, hs, t, ht, rfl⟩ ⟨s', hs', t', ht', rfl⟩
     use s + s', S.add_mem hs hs', t + t', T.add_mem ht ht'
-    abel
+    module
   · rintro a - ⟨s, hs, t, ht, rfl⟩
     use a • s, S.smul_mem a hs, a • t, T.smul_mem a ht
-    rw [smul_add]
+    module
 
 -- QUOTE.
 /- TEXT:
@@ -342,7 +345,6 @@ EXAMPLES: -/
 example (E : Submodule K V) (F : Submodule K W) :
     Submodule.map φ E ≤ F ↔ E ≤ Submodule.comap φ F := by
 /- EXAMPLES:
-  dsimp
   sorry
 SOLUTIONS: -/
   constructor

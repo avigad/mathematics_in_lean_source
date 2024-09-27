@@ -46,12 +46,12 @@ This would be very bad for the type class synthesis system.
 The multiplication of a vector `v` by a scalar `a` is denoted by
 `a • v`. We list a couple of algebraic rules about the interaction of this
 operation with addition in the following examples. Of course `simp` of `apply?`
-would find those proofs, but it is still useful to remember than scalar
+would find those proofs. There is also a `module` tactic that solves goals
+following from the axioms of vector spaces and fields, in the same way the
+`ring` tactic is used in commutative rings or the `group` tactic is used in
+groups. But it is still useful to remember than scalar
 multiplication is abbreviated `smul` in lemma names.
 
-Unfortunately there is not yet an analogue of the `ring` or `group` tactic that
-would prove all equalities following from the vector space axioms.
-Hopefully this will change before this chapter is deployed.
 
 EXAMPLES: -/
 
@@ -71,7 +71,8 @@ As a quick note for more advanced readers, let us point out that, as suggested b
 terminology, Mathlib’s linear algebra also covers modules over (not necessarily commutative)
 rings.
 In fact it even covers semi-modules over semi-rings. If you think you do not need
-this level of generality, you can meditate the following example:
+this level of generality, you can meditate the following example that nicely captures
+a lot of algebraic rules about ideals acting on submodules:
 EXAMPLES: -/
 -- QUOTE:
 example {R M : Type*} [CommSemiring R] [AddCommMonoid M] [Module R M] :
@@ -201,8 +202,7 @@ the identity isomorphism of ``V`` is ``LinearEquiv.refl K V``.
 Elements of this type are automatically coerced to morphisms and functions when necessary.
 EXAMPLES: -/
 -- QUOTE:
-example (f : V ≃ₗ[K] W) :
-    f ≪≫ₗ f.symm = LinearEquiv.refl K V :=
+example (f : V ≃ₗ[K] W) : f ≪≫ₗ f.symm = LinearEquiv.refl K V :=
   f.self_trans_symm
 -- QUOTE.
 
@@ -260,7 +260,7 @@ example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] T) : (V × W) →ₗ[K] (U × T) 
 
 -- This is simply done by combining the projections with the universal property
 example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] T) :
-  φ.prodMap ψ = (φ ∘ₗ .fst K V W).prod (ψ ∘ₗ.snd K V W) := rfl
+  φ.prodMap ψ = (φ ∘ₗ .fst K V W).prod (ψ ∘ₗ .snd K V W) := rfl
 
 -- First inclusion map
 example : V →ₗ[K] V × W := LinearMap.inl K V W
@@ -280,7 +280,8 @@ example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) : φ.coprod ψ ∘ₗ LinearMa
   LinearMap.coprod_inr φ ψ
 
 -- The coproduct map is defined in the expected way
-example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) (v : V) (w : W) : φ.coprod ψ (v, w) = φ v + ψ w :=
+example (φ : V →ₗ[K] U) (ψ : W →ₗ[K] U) (v : V) (w : W) :
+    φ.coprod ψ (v, w) = φ v + ψ w :=
   rfl
 
 end binary_product
@@ -307,8 +308,8 @@ variable {ι : Type*} [DecidableEq ι]
 example (φ : Π i, (V i →ₗ[K] W)) : (⨁ i, V i) →ₗ[K] W :=
   DirectSum.toModule K ι W φ
 
--- The universal property of the direct product assembles maps into the summands to build
--- a map into the direct product
+-- The universal property of the direct product assembles maps into the factors
+-- to build a map into the direct product
 example (φ : Π i, (W →ₗ[K] V i)) : W →ₗ[K] (Π i, V i) :=
   LinearMap.pi φ
 

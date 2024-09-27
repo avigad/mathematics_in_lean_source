@@ -22,7 +22,7 @@ Matrices
 Before introducing bases for abstract vector spaces, we go back to the much more elementary setup
 of linear algebra in :math:`K^n` for some field :math:`K`.
 Here the main objects are vectors and matrices.
-For concrte vectors, one can use the ``![…]`` notation, where components are separated by commas.
+For concrete vectors, one can use the ``![…]`` notation, where components are separated by commas.
 For concrete matrices we can use the ``!![…]`` notation, lines are separated by semi-colons
 and components of lines are separated by colons.
 When entries have a computable type such as ``ℕ`` or ``ℚ``, we can use
@@ -181,7 +181,7 @@ So Mathlib simply defines ``Matrix m n α`` to be ``m → n → α`` for any typ
 and the matrices we have been using so far had types such as ``Matrix (Fin 2) (Fin 2) ℝ``.
 Of course algebraic operations require more assumptions on ``m``, ``n`` and ``α``.
 
-Note the main reason why we do notuse ``m → n → α`` directly is to allow the type class
+Note the main reason why we do not use ``m → n → α`` directly is to allow the type class
 system to understand what we want. For instance, for a ring ``R``, the type ``n → R`` is
 endowed with the point-wise multiplication operation, and similarly ``m → n → R``
 has this operation which is *not* the multiplication we want on matrices.
@@ -208,8 +208,8 @@ example : !![1, 1; 1, 1] * !![1, 1; 1, 1] = !![2, 2; 2, 2] := by
 -- QUOTE.
 /- TEXT:
 In order to define matrices as functions without loosing the benefits of ``Matrix``
-for type class synthesis, we can use the equivalence``Matrix.of`` between functions
-matrices. This equivalence is secretely defined using ``Equiv.refl``.
+for type class synthesis, we can use the equivalence ``Matrix.of`` between functions
+and matrices. This equivalence is secretely defined using ``Equiv.refl``.
 
 For instance we can define Vandermonde matrices corresponding to a vector ``v``.
 EXAMPLES: -/
@@ -273,7 +273,7 @@ Instead of starting with such an isomorphism, one can start with a family ``b`` 
 linearly independent and spanning, this is ``Basis.mk``.
 
 The assumption that the family is spanning is spelled out as ``⊤ ≤ Submodule.span K (Set.range b)``.
-Where ``⊤`` is the top submodule of ``V``, ie ``V`` seen as submodule of itself.
+Here ``⊤`` is the top submodule of ``V``, ie ``V`` seen as submodule of itself.
 This spelling looks a bit tortuous, but we will see below that it is almost equivalent by definition
 to the more readable ``∀ v, v ∈ Submodule.span K (Set.range b)`` (the underscores in the snippet
 below refers to the useless information ``v ∈ ⊤``).
@@ -302,9 +302,6 @@ and ``0`` everywhere else.
 EXAMPLES: -/
 -- QUOTE:
 variable [DecidableEq ι]
-
-example : Finsupp.basisSingleOne.repr = LinearEquiv.refl K (ι →₀ K) :=
-  rfl
 
 example : Finsupp.basisSingleOne.repr = LinearEquiv.refl K (ι →₀ K) :=
   rfl
@@ -343,7 +340,7 @@ However the support of the function being summed is finite (it is the support of
 But we need to apply a construction that takes this into account.
 Here Mathlib uses a special purpose function that requires some time to get used to:
 ``Finsupp.linearCombination`` (which is built on top of the more general ``Finsupp.sum``).
-Given a finetely supported function ``c`` from a type ``ι`` to the base field ``K`` and any
+Given a finitely supported function ``c`` from a type ``ι`` to the base field ``K`` and any
 function ``f`` from ``ι`` to ``V``, ``Finsupp.linearCombination K f c`` is the
 sum over the support of ``c`` of the scalar multiplication ``c • f``. In
 particular, we can replace it by a sum over any finite set containing the
@@ -367,9 +364,9 @@ example : Finsupp.linearCombination K B (B.repr v) = v :=
   B.linearCombination_repr v
 -- QUOTE.
 /- TEXT:
-One could wonder why ``K`` is an explicit argument here, whereas it can be inferred from
+One could wonder why ``K`` is an explicit argument here, despite the fact it can be inferred from
 the type of ``c``. The point is that the partially applied ``Finsupp.linearCombination K f``
-is interesting in itself, it is not a bare function from ``ι →₀ K`` to ``V`` but a
+is interesting in itself. It is not a bare function from ``ι →₀ K`` to ``V`` but a
 ``K``-linear map.
 EXAMPLES: -/
 -- QUOTE:
@@ -446,7 +443,7 @@ end
 
 -- QUOTE.
 /- TEXT:
-As an exercise for this question, we will prove part of the theorem which guarantees that
+As an exercise on this topic, we will prove part of the theorem which guarantees that
 endomorphisms have a well-defined determinant.
 Namely we want to prove that when two bases are indexed by the same type, the matrices
 they attach to any endomorphism have the same determinant.
@@ -458,10 +455,9 @@ shouldn’t use it too soon, but rather use the provided lemmas.
 EXAMPLES: -/
 -- QUOTE:
 
--- QUOTE.
 open Module LinearMap Matrix
 
--- Some lemmas coming from the fact that ``LinearMap.toMatrix`` is an algebra morphism.
+-- Some lemmas coming from the fact that `LinearMap.toMatrix` is an algebra morphism.
 #check toMatrix_comp
 #check id_comp
 #check comp_id
@@ -490,6 +486,7 @@ SOLUTIONS: -/
 -- BOTH:
 end
 
+-- QUOTE.
 /- TEXT:
 
 Dimension
@@ -511,11 +508,11 @@ section
 example (n : ℕ) : FiniteDimensional.finrank K (Fin n → K) = n :=
   FiniteDimensional.finrank_fin_fun K
 
--- seen as a vector space over itself, `ℂ` has dimension one.
+-- Seen as a vector space over itself, `ℂ` has dimension one.
 example : FiniteDimensional.finrank ℂ ℂ = 1 :=
   FiniteDimensional.finrank_self ℂ
 
--- but as a real vector space it has dimension two.
+-- But as a real vector space it has dimension two.
 example : FiniteDimensional.finrank ℝ ℂ = 2 :=
   Complex.finrank_real_complex
 
@@ -525,7 +522,7 @@ Note that ``FiniteDimensional.finrank`` is defined for any vector space. It retu
 zero for infinite dimensional vector spaces, just as division by zero returns zero.
 
 Of course many lemmas require a finite dimension assumption. This is the role of
-the ``FiniteDimension`` typeclass. For instance, think about how the next
+the ``FiniteDimensional`` typeclass. For instance, think about how the next
 example fails without this assumption.
 EXAMPLES: -/
 -- QUOTE:
@@ -583,10 +580,14 @@ example : finrank K (E ⊔ F : Submodule K V) + finrank K (E ⊓ F : Submodule K
 example : finrank K E ≤ finrank K V := Submodule.finrank_le E
 -- QUOTE.
 /- TEXT:
+In the first statement above, the purpose of the type ascriptions is to make sure that
+coercion to ``Type*`` does not trigger too early.
+
 We are now ready for an exercise about ``finrank`` and subspaces.
 EXAMPLES: -/
 -- QUOTE:
-example (h : finrank K V < finrank K E + finrank K F) : Nontrivial (E ⊓ F : Submodule K V) := by
+example (h : finrank K V < finrank K E + finrank K F) :
+    Nontrivial (E ⊓ F : Submodule K V) := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
