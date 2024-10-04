@@ -149,7 +149,7 @@ structure Group₁ (α : Type*) where
 
 -- OMIT: TODO: explain the extends command later, and also redundant inheritance
 /- TEXT:
-Notice that the type ``α`` is a *parameter* in the definition of ``group₁``.
+Notice that the type ``α`` is a *parameter* in the definition of ``Group₁``.
 So you should think of an object ``struc : Group₁ α`` as being
 a group structure on ``α``.
 We saw in :numref:`proving_identities_in_algebraic_structures`
