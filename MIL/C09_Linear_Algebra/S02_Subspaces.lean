@@ -260,7 +260,10 @@ example {S T : Submodule K V} {x : V} (h : x ∈ S ⊔ T) :
   rw [← S.span_eq, ← T.span_eq, ← Submodule.span_union] at h
   apply Submodule.span_induction h (p := fun x ↦ ∃ s ∈ S, ∃ t ∈ T, x = s + t)
 /- EXAMPLES:
-  sorry
+  · sorry
+  · sorry
+  · sorry
+  · sorry
 SOLUTIONS: -/
   · rintro x (hx|hx)
     · use x, hx, 0, T.zero_mem
