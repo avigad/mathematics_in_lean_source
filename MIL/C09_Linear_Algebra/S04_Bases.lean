@@ -496,29 +496,29 @@ Returning to the case of a single vector space, bases are also useful to define 
 dimension.
 Here again, there is the elementary case of finite-dimensional vector spaces.
 For such spaces we expect a dimension which is a natural number.
-This is ``FiniteDimensional.finrank``. It takes the base field as an explicit argument
+This is ``Module.finrank``. It takes the base field as an explicit argument
 since a given abelian group can be a vector space over different fields.
 
 EXAMPLES: -/
 -- QUOTE:
 section
-#check (FiniteDimensional.finrank K V : ℕ)
+#check (Module.finrank K V : ℕ)
 
 -- `Fin n → K` is the archetypical space with dimension `n` over `K`.
-example (n : ℕ) : FiniteDimensional.finrank K (Fin n → K) = n :=
-  FiniteDimensional.finrank_fin_fun K
+example (n : ℕ) : Module.finrank K (Fin n → K) = n :=
+  Module.finrank_fin_fun K
 
 -- Seen as a vector space over itself, `ℂ` has dimension one.
-example : FiniteDimensional.finrank ℂ ℂ = 1 :=
-  FiniteDimensional.finrank_self ℂ
+example : Module.finrank ℂ ℂ = 1 :=
+  Module.finrank_self ℂ
 
 -- But as a real vector space it has dimension two.
-example : FiniteDimensional.finrank ℝ ℂ = 2 :=
+example : Module.finrank ℝ ℂ = 2 :=
   Complex.finrank_real_complex
 
 -- QUOTE.
 /- TEXT:
-Note that ``FiniteDimensional.finrank`` is defined for any vector space. It returns
+Note that ``Module.finrank`` is defined for any vector space. It returns
 zero for infinite dimensional vector spaces, just as division by zero returns zero.
 
 Of course many lemmas require a finite dimension assumption. This is the role of
@@ -527,13 +527,13 @@ example fails without this assumption.
 EXAMPLES: -/
 -- QUOTE:
 
-example [FiniteDimensional K V] : 0 < FiniteDimensional.finrank K V ↔ Nontrivial V  :=
-  FiniteDimensional.finrank_pos_iff
+example [FiniteDimensional K V] : 0 < Module.finrank K V ↔ Nontrivial V  :=
+  Module.finrank_pos_iff
 
 -- QUOTE.
 /- TEXT:
 In the above statement, ``Nontrivial V`` means ``V`` has at least two different elements.
-Note that ``FiniteDimensional.finrank_pos_iff`` has no explicit argument.
+Note that ``Module.finrank_pos_iff`` has no explicit argument.
 This is fine when using it from left to right, but not when using it from right to left
 because Lean has no way to guess ``K`` from the statement ``Nontrivial V``.
 In that case it is useful to use the name argument syntax, after checking that the lemma
@@ -541,14 +541,14 @@ is stated over a ring named ``R``. So we can write:
 EXAMPLES: -/
 -- QUOTE:
 
-example [FiniteDimensional K V] (h : 0 < FiniteDimensional.finrank K V) : Nontrivial V := by
-  apply (FiniteDimensional.finrank_pos_iff (R := K)).1
+example [FiniteDimensional K V] (h : 0 < Module.finrank K V) : Nontrivial V := by
+  apply (Module.finrank_pos_iff (R := K)).1
   exact h
 
 -- QUOTE.
 /- TEXT:
 The above spelling is strange because we already have ``h`` as an assumption, so we could
-just as well give the full proof ``FiniteDimensional.finrank_pos_iff.1 h`` but it
+just as well give the full proof ``Module.finrank_pos_iff.1 h`` but it
 is good to know for more complicated cases.
 
 By definition, ``FiniteDimensional K V`` can be read from any basis.
@@ -571,7 +571,7 @@ EXAMPLES: -/
 section
 variable (E F : Submodule K V) [FiniteDimensional K V]
 
-open FiniteDimensional
+open Module
 
 example : finrank K (E ⊔ F : Submodule K V) + finrank K (E ⊓ F : Submodule K V) =
     finrank K E + finrank K F :=
@@ -674,6 +674,6 @@ EXAMPLES: -/
 -- QUOTE:
 
 example [FiniteDimensional K V] :
-    (FiniteDimensional.finrank K V : Cardinal) = Module.rank K V :=
-  finrank_eq_rank K V
+    (Module.finrank K V : Cardinal) = Module.rank K V :=
+  Module.finrank_eq_rank K V
 -- QUOTE.
