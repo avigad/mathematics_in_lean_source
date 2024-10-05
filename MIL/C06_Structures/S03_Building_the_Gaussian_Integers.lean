@@ -301,7 +301,7 @@ we have :math:`N(xy) = N(x)N(y)`.
 To see that this definition of the norm makes the Gaussian integers a Euclidean
 domain, only the first property is challenging. Suppose
 we want to write :math:`a + bi = (c + di) q + r` for suitable :math:`q`
-and :math:`r`. Treating :math:`a + bi` and :math:`c + di` are complex
+and :math:`r`. Treating :math:`a + bi` and :math:`c + di` as complex
 numbers, carry out the division
 
 .. math::
