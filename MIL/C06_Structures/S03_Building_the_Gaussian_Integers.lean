@@ -346,9 +346,9 @@ See the file `GaussianInt.lean
 <https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean>`_.
 
 Here we will instead carry out an argument that stays in the integers.
-This illustrates an choice one commonly faces when formalizing mathematics.
+This illustrates a choice one commonly faces when formalizing mathematics.
 Given an argument that requires concepts or machinery that is not already
-in the library, one has two choices: either formalizes the concepts or machinery
+in the library, one has two choices: either formalize the concepts or machinery
 needed, or adapt the argument to make use of concepts and machinery you
 already have.
 The first choice is generally a good investment of time when the results
