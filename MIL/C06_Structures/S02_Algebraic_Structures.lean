@@ -288,7 +288,7 @@ independent of structure.
 For example, we can consider groups :math:`(G_1, \cdot, 1, \cdot^{-1})`,
 :math:`(G_2, \circ, e, i(\cdot))`, and :math:`(G_3, +, 0, -)`.
 In the first case, we write the binary operation as :math:`\cdot`,
-the identity at :math:`1`, and the inverse function as :math:`x \mapsto x^{-1}`.
+the identity as :math:`1`, and the inverse function as :math:`x \mapsto x^{-1}`.
 In the second and third cases, we use the notational alternatives shown.
 When we formalize the notion of a group in Lean, however,
 the notation is more tightly linked to the structure.
