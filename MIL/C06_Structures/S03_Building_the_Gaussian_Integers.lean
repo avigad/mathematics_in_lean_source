@@ -604,7 +604,7 @@ theorem natAbs_norm_mod_lt (x y : GaussInt) (hy : y ≠ 0) :
     (x % y).norm.natAbs < y.norm.natAbs := by
   apply Int.ofNat_lt.1
   simp only [Int.natCast_natAbs, abs_of_nonneg, norm_nonneg]
-  apply norm_mod_lt x hy
+  exact norm_mod_lt x hy
 -- QUOTE.
 
 /- TEXT:
