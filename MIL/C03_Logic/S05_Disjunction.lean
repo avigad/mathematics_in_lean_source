@@ -155,13 +155,14 @@ namespace MyAbs
 
 -- EXAMPLES:
 theorem le_abs_self (x : ℝ) : x ≤ |x| := by
-  sorry
+  rw [le_abs]
+  simp
 
 theorem neg_le_abs_self (x : ℝ) : -x ≤ |x| := by
-  sorry
+  simpa using C03S05.MyAbs.le_abs_self (-x)
 
 theorem abs_add (x y : ℝ) : |x + y| ≤ |x| + |y| := by
-  sorry
+  apply abs_add_le
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -194,7 +195,8 @@ theorem lt_abs : x < |y| ↔ x < y ∨ x < -y := by
   sorry
 
 theorem abs_lt : |x| < y ↔ -y < x ∧ x < y := by
-  sorry
+  cases x
+  exact abs_lt
 -- QUOTE.
 
 -- SOLUTIONS:

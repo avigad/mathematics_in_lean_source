@@ -240,10 +240,10 @@ using only those axioms:
 TEXT. -/
 -- QUOTE:
 theorem absorb1 : x ⊓ (x ⊔ y) = x := by
-  sorry
+  simp
 
 theorem absorb2 : x ⊔ x ⊓ y = x := by
-  sorry
+  simp
 -- QUOTE.
 
 -- SOLUTIONS:

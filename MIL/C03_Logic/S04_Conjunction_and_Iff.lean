@@ -243,9 +243,8 @@ We suggest proving an auxiliary lemma using
 ``linarith``, ``pow_two_nonneg``, and ``pow_eq_zero``.
 TEXT. -/
 -- QUOTE:
-theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
-  have h' : x ^ 2 = 0 := by sorry
-  pow_eq_zero h'
+theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 := by
+  nlinarith
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
   sorry

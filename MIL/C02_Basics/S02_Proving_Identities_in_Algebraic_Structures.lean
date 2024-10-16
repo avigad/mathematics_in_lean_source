@@ -177,7 +177,7 @@ TEXT. -/
 -- Prove these:
 -- QUOTE:
 theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
-  sorry
+  simp
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -189,10 +189,10 @@ Use these to prove the following:
 TEXT. -/
 -- QUOTE:
 theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c := by
-  sorry
+  simpa using h
 
 theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c := by
-  sorry
+  simpa using h
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -277,7 +277,7 @@ so the following theorem also requires some work.
 TEXT. -/
 -- QUOTE:
 theorem zero_mul (a : R) : 0 * a = 0 := by
-  sorry
+  rw [MulZeroClass.zero_mul]
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -293,17 +293,19 @@ established in this section.
 TEXT. -/
 -- QUOTE:
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
-  sorry
+  rw [add_eq_zero_iff_eq_neg] at h
+  simp [h]
 
 theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b := by
-  sorry
+  rw [eq_neg_iff_add_eq_zero]
+  exact h
 
 theorem neg_zero : (-0 : R) = 0 := by
   apply neg_eq_of_add_eq_zero
   rw [add_zero]
 
 theorem neg_neg (a : R) : - -a = a := by
-  sorry
+  simp
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -380,7 +382,7 @@ variable {R : Type*} [Ring R]
 -- EXAMPLES:
 -- QUOTE:
 theorem self_sub (a : R) : a - a = 0 := by
-  sorry
+  simp
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -405,7 +407,8 @@ theorem one_add_one_eq_two : 1 + 1 = (2 : R) := by
 
 -- EXAMPLES:
 theorem two_mul (a : R) : 2 * a = a + a := by
-  sorry
+  rw [← one_add_one_eq_two]
+  simp [add_mul]
 -- QUOTE.
 
 -- SOLUTIONS:
@@ -466,13 +469,13 @@ namespace MyGroup
 -- EXAMPLES:
 -- QUOTE:
 theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := by
-  sorry
+  simp
 
 theorem mul_one (a : G) : a * 1 = a := by
-  sorry
+  simp
 
 theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
-  sorry
+  simp
 -- QUOTE.
 
 -- SOLUTIONS:

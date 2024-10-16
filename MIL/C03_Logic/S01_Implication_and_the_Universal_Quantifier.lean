@@ -98,8 +98,7 @@ TEXT. -/
 -- QUOTE:
 theorem my_lemma3 :
     ∀ {x y ε : ℝ}, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
-  intro x y ε epos ele1 xlt ylt
-  sorry
+  apply C03S01.my_lemma
 -- QUOTE.
 
 /- TEXT:
@@ -504,7 +503,7 @@ example : s ⊆ s := by
 theorem Subset.refl : s ⊆ s := fun x xs ↦ xs
 
 theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
-  sorry
+  exact Set.Subset.trans
 -- QUOTE.
 
 -- SOLUTIONS:
