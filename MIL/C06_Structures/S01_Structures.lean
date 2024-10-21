@@ -366,6 +366,7 @@ As an exercise, see if you can define the weighted average of
 two points in the standard :math:`n`-simplex.
 You can use ``Finset.sum_add_distrib``
 and ``Finset.mul_sum`` to manipulate the relevant sums.
+
 SOLUTIONS: -/
 namespace StandardSimplex
 
