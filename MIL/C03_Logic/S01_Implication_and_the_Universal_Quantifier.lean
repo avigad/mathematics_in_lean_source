@@ -87,7 +87,7 @@ end
 At this stage, you also know that if you use
 the ``apply`` tactic to apply ``my_lemma``
 to a goal of the form ``|a * b| < δ``,
-you are left with new goals that require you to  prove
+you are left with new goals that require you to prove
 each of the hypotheses.
 
 .. index:: intro, tactics; intro
