@@ -207,7 +207,7 @@ example : !![1, 1; 1, 1] * !![1, 1; 1, 1] = !![2, 2; 2, 2] := by
   norm_num
 -- QUOTE.
 /- TEXT:
-In order to define matrices as functions without loosing the benefits of ``Matrix``
+In order to define matrices as functions without losing the benefits of ``Matrix``
 for type class synthesis, we can use the equivalence ``Matrix.of`` between functions
 and matrices. This equivalence is secretly defined using ``Equiv.refl``.
 
