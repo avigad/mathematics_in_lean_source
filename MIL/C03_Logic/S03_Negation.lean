@@ -252,7 +252,7 @@ example (h : ∃ x, ¬P x) : ¬∀ x, P x := by
   intro h'
   rcases h with ⟨x, nPx⟩
   apply nPx
-  apply h'
+  exact h' x
 
 /- TEXT:
 The first, second, and fourth are straightforward to
@@ -334,7 +334,7 @@ example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   apply le_of_not_gt
   intro h''
   apply h'
-  use x
+  exists x
 
 /- TEXT:
 .. index:: push_neg, tactics ; push_neg
@@ -381,7 +381,7 @@ example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
 -- SOLUTIONS:
 example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
   rw [Monotone] at h
-  push_neg  at h
+  push_neg at h
   exact h
 
 /- TEXT:

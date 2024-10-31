@@ -140,9 +140,9 @@ example {m n : ℕ} (h : m ∣ n ∧ m ≠ n) : m ∣ n ∧ ¬n ∣ m := by
   rcases h with ⟨h0, h1⟩
   constructor
   · exact h0
-  intro h2
-  apply h1
-  apply Nat.dvd_antisymm h0 h2
+  · intro h2
+    apply h1
+    exact Nat.dvd_antisymm h0 h2
 
 /- TEXT:
 You can nest uses of ``∃`` and ``∧``
@@ -225,15 +225,15 @@ example {x y : ℝ} : x ≤ y ∧ ¬y ≤ x ↔ x ≤ y ∧ x ≠ y := by
   · rintro ⟨h0, h1⟩
     constructor
     · exact h0
-    intro h2
-    apply h1
-    rw [h2]
-  rintro ⟨h0, h1⟩
-  constructor
-  · exact h0
-  intro h2
-  apply h1
-  apply le_antisymm h0 h2
+    · intro h2
+      apply h1
+      rw [h2]
+  · rintro ⟨h0, h1⟩
+    constructor
+    · exact h0
+    · intro h2
+      apply h1
+      exact le_antisymm h0 h2
 
 /- TEXT:
 For a more interesting exercise, show that for any
@@ -261,10 +261,10 @@ example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
   · intro h
     constructor
     · exact aux h
-    rw [add_comm] at h
-    exact aux h
-  rintro ⟨rfl, rfl⟩
-  norm_num
+    · rw [add_comm] at h
+      exact aux h
+  · rintro ⟨rfl, rfl⟩
+    norm_num
 
 /- TEXT:
 In Lean, bi-implication leads a double-life.
@@ -353,15 +353,15 @@ example : a < b ↔ a ≤ b ∧ a ≠ b := by
   · rintro ⟨h0, h1⟩
     constructor
     · exact h0
-    intro h2
-    apply h1
-    rw [h2]
-  rintro ⟨h0, h1⟩
-  constructor
-  · exact h0
-  intro h2
-  apply h1
-  apply le_antisymm h0 h2
+    · intro h2
+      apply h1
+      rw [h2]
+  · rintro ⟨h0, h1⟩
+    constructor
+    · exact h0
+    · intro h2
+      apply h1
+      exact le_antisymm h0 h2
 
 -- BOTH:
 end
@@ -410,9 +410,9 @@ example : a < b → b < c → a < c := by
   rintro ⟨h0, h1⟩ ⟨h2, h3⟩
   constructor
   · apply le_trans h0 h2
-  intro h4
-  apply h1
-  apply le_trans h2 h4
+  · intro h4
+    apply h1
+    exact le_trans h2 h4
 
 -- BOTH:
 end

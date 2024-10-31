@@ -306,22 +306,18 @@ example {x : ℝ} (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h'' : (x + 1) * (x - 1) = 0 := by
     rw [← h']
     ring
-  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
-  · right
-    exact eq_neg_iff_add_eq_zero.mpr h1
-  · left
-    exact eq_of_sub_eq_zero h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h''
+  · exact sq_eq_one_iff.mp h
+  · exact sq_eq_one_iff.mp h
 
 example {x y : ℝ} (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
   have h'' : (x + y) * (x - y) = 0 := by
     rw [← h']
     ring
-  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
-  · right
-    exact eq_neg_iff_add_eq_zero.mpr h1
-  · left
-    exact eq_of_sub_eq_zero h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h''
+  · exact sq_eq_sq_iff_eq_or_eq_neg.mp h
+  · exact sq_eq_sq_iff_eq_or_eq_neg.mp h
 
 /- TEXT:
 Remember that you can use the ``ring`` tactic to help
@@ -361,22 +357,18 @@ example (h : x ^ 2 = 1) : x = 1 ∨ x = -1 := by
   have h'' : (x + 1) * (x - 1) = 0 := by
     rw [← h']
     ring
-  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
-  · right
-    exact eq_neg_iff_add_eq_zero.mpr h1
-  · left
-    exact eq_of_sub_eq_zero h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h''
+  · exact sq_eq_one_iff.mp h
+  · exact sq_eq_one_iff.mp h
 
 example (h : x ^ 2 = y ^ 2) : x = y ∨ x = -y := by
   have h' : x ^ 2 - y ^ 2 = 0 := by rw [h, sub_self]
   have h'' : (x + y) * (x - y) = 0 := by
     rw [← h']
     ring
-  rcases eq_zero_or_eq_zero_of_mul_eq_zero h'' with h1 | h1
-  · right
-    exact eq_neg_iff_add_eq_zero.mpr h1
-  · left
-    exact eq_of_sub_eq_zero h1
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero h''
+  · exact sq_eq_sq_iff_eq_or_eq_neg.mp h
+  · exact sq_eq_sq_iff_eq_or_eq_neg.mp h
 
 -- BOTH:
 end
@@ -445,6 +437,6 @@ example (P Q : Prop) : P → Q ↔ ¬P ∨ Q := by
       exact h'
   rintro (h | h)
   · intro h'
-    exact absurd h' h
+    contradiction
   · intro
-    exact h
+    assumption
