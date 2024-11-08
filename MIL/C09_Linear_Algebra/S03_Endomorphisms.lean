@@ -98,27 +98,16 @@ SOLUTIONS: -/
 
 -- QUOTE.
 /- TEXT:
-We now move to the discussions of eigenspaces and eigenvalues. By the definition, the eigenspace
+We now move to the discussions of eigenspaces and eigenvalues. The eigenspace
 associated to an endomorphism :math:`φ` and a scalar :math:`a` is the kernel of :math:`φ - aId`.
-The first thing to understand is how to spell :math:`aId`. We could use
-``a • LinearMap.id``, but Mathlib uses `algebraMap K (End K V) a` which directly plays nicely
-with the ``K``-algebra structure.
-
-EXAMPLES: -/
--- QUOTE:
-example (a : K) : algebraMap K (End K V) a = a • LinearMap.id := rfl
-
--- QUOTE.
-/- TEXT:
-Then the next thing to note is that eigenspaces are defined for all values of ``a``, although
+Eigenspaces are defined for all values of ``a``, although
 they are interesting only when they are non-zero.
 However an eigenvector is, by definition, a non-zero element of an eigenspace. The corresponding
 predicate is ``End.HasEigenvector``.
 EXAMPLES: -/
 -- QUOTE:
-example (φ : End K V) (a : K) :
-    φ.eigenspace a = LinearMap.ker (φ - algebraMap K (End K V) a) :=
-  rfl
+example (φ : End K V) (a : K) : φ.eigenspace a = LinearMap.ker (φ - a • 1) :=
+  End.eigenspace_def
 
 
 -- QUOTE.

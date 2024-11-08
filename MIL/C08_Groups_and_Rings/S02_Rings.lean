@@ -1,5 +1,5 @@
 -- BOTH:
-import Mathlib.RingTheory.Ideal.QuotientOperations
+import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.RingTheory.Localization.Basic
 import Mathlib.RingTheory.DedekindDomain.Ideal
 import Mathlib.Analysis.Complex.Polynomial.Basic
@@ -560,9 +560,9 @@ since it does not assume the existence of a ``Algebra R S`` instance, so dot not
 you would expect.
 EXAMPLES: -/
 -- QUOTE:
-#check (Complex.ofReal : ℝ →+* ℂ)
+#check (Complex.ofRealHom : ℝ →+* ℂ)
 
-example : (X ^ 2 + 1 : ℝ[X]).eval₂ Complex.ofReal Complex.I = 0 := by simp
+example : (X ^ 2 + 1 : ℝ[X]).eval₂ Complex.ofRealHom Complex.I = 0 := by simp
 -- QUOTE.
 
 /- TEXT:
