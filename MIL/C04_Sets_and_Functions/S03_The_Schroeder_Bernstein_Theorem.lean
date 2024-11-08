@@ -266,7 +266,7 @@ SOLUTIONS: -/
     rw [if_pos x₁A, if_pos x₂A] at hxeq
     exact hf hxeq
 -- BOTH:
-  push_neg  at xA
+  push_neg at xA
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
