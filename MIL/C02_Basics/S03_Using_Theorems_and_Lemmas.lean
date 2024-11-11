@@ -329,16 +329,16 @@ can also finish the job.
 Here is another example of an inequality:
 TEXT. -/
 -- QUOTE:
-example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
-  have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2
+example : 2*a*b ≤ a^2 + b^2 := by
+  have h : 0 ≤ a^2 - 2*a*b + b^2
   calc
-    a ^ 2 - 2 * a * b + b ^ 2 = (a - b) ^ 2 := by ring
+    a^2 - 2*a*b + b^2 = (a - b)^2 := by ring
     _ ≥ 0 := by apply pow_two_nonneg
 
   calc
-    2 * a * b = 2 * a * b + 0 := by ring
-    _ ≤ 2 * a * b + (a ^ 2 - 2 * a * b + b ^ 2) := add_le_add (le_refl _) h
-    _ = a ^ 2 + b ^ 2 := by ring
+    2*a*b = 2*a*b + 0 := by ring
+    _ ≤ 2*a*b + (a^2 - 2*a*b + b^2) := add_le_add (le_refl _) h
+    _ = a^2 + b^2 := by ring
 -- QUOTE.
 
 /- TEXT:
@@ -362,10 +362,10 @@ Once we have it, the second calculation involves only
 linear arithmetic, and ``linarith`` can handle it:
 TEXT. -/
 -- QUOTE:
-example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
-  have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2
+example : 2*a*b ≤ a^2 + b^2 := by
+  have h : 0 ≤ a^2 - 2*a*b + b^2
   calc
-    a ^ 2 - 2 * a * b + b ^ 2 = (a - b) ^ 2 := by ring
+    a^2 - 2*a*b + b^2 = (a - b)^2 := by ring
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
 -- QUOTE.
@@ -377,28 +377,28 @@ You will also need the ``constructor`` tactic to split a conjunction
 to two goals; see :numref:`conjunction_and_biimplication`.
 TEXT. -/
 -- QUOTE:
-example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by
+example : |a*b| ≤ (a^2 + b^2)/2 := by
   sorry
 
 #check abs_le'.mpr
 -- QUOTE.
 
 -- SOLUTIONS:
-theorem fact1 : a * b * 2 ≤ a ^ 2 + b ^ 2 := by
-  have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2
+theorem fact1 : a*b*2 ≤ a^2 + b^2 := by
+  have h : 0 ≤ a^2 - 2*a*b + b^2
   calc
-    a ^ 2 - 2 * a * b + b ^ 2 = (a - b) ^ 2 := by ring
+    a^2 - 2*a*b + b^2 = (a - b)^2 := by ring
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
 
-theorem fact2 : -(a * b) * 2 ≤ a ^ 2 + b ^ 2 := by
-  have h : 0 ≤ a ^ 2 + 2 * a * b + b ^ 2
+theorem fact2 : -(a*b)*2 ≤ a^2 + b^2 := by
+  have h : 0 ≤ a^2 + 2*a*b + b^2
   calc
-    a ^ 2 + 2 * a * b + b ^ 2 = (a + b) ^ 2 := by ring
+    a^2 + 2*a*b + b^2 = (a + b)^2 := by ring
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
 
-example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by
+example : |a*b| ≤ (a^2 + b^2)/2 := by
   have h : (0 : ℝ) < 2 := by norm_num
   apply abs_le'.mpr
   constructor
