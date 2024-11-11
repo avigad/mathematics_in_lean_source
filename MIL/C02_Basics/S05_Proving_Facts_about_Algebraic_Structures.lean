@@ -323,7 +323,7 @@ end
 
 /- TEXT:
 It is possible to combine axiomatic structures into larger ones.
-For example, a *strict ordered ring* consists of a commutative ring together
+For example, a *strict ordered ring* consists of a ring together
 with a partial order on the carrier
 satisfying additional axioms that say that the ring operations
 are compatible with the order:
@@ -353,7 +353,8 @@ used to reason about arithmetic and the ordering on the real
 numbers hold generically for any ordered ring.
 Here are a couple of examples you can try,
 using only properties of rings, partial orders, and the facts
-enumerated in the last two examples:
+enumerated in the last two examples (beware that those rings are
+not assumed to be commutative, so the `ring` tactic is not available):
 TEXT. -/
 -- QUOTE:
 example (h : a ≤ b) : 0 ≤ b - a := by
