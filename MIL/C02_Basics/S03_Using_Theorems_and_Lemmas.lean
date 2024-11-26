@@ -93,7 +93,7 @@ within the block introduced by the dot, only one goal is visible,
 and it must be completed before the end of the block.
 Here we end the first block by starting a new one with another dot.
 We could just as well have decreased the indentation.
-In the fourth example and in the last example,
+In the third example and in the last example,
 we avoid going into tactic mode entirely:
 ``le_trans h₀ h₁`` and ``le_refl x`` are the proof terms we need.
 
