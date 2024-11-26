@@ -45,7 +45,7 @@ example {ι : Type*} [Fintype ι] {s : ι → Set X} (hs : ∀ i, IsOpen (s i)) 
 
 /- TEXT:
 
-Closed sets are then defined as sets whose complement  is open. A function between topological spaces
+Closed sets are then defined as sets whose complement is open. A function between topological spaces
 is (globally) continuous if all preimages of open sets are open.
 BOTH: -/
 -- QUOTE:
