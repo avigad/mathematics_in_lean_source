@@ -149,22 +149,22 @@ SOLUTIONS: -/
   apply le_antisymm
   · apply le_min
     · apply le_trans
-      apply min_le_left
-      apply min_le_left
-    apply le_min
-    · apply le_trans
-      apply min_le_left
-      apply min_le_right
-    apply min_le_right
-  apply le_min
+      · exact min_le_left (min a b) c
+      · exact min_le_left a b
+    · apply le_min
+      · apply le_trans
+        · exact min_le_left (min a b) c
+        · exact min_le_right a b
+      · apply min_le_right
   · apply le_min
-    · apply min_le_left
-    apply le_trans
-    apply min_le_right
-    apply min_le_left
-  apply le_trans
-  apply min_le_right
-  apply min_le_right
+    · apply le_min
+      · apply min_le_left
+      · apply le_trans
+        · exact min_le_right a (min b c)
+        · exact min_le_left b c
+    · apply le_trans
+      · exact min_le_right a (min b c)
+      · exact min_le_right b c
 -- QUOTE.
 
 /- TEXT:
@@ -199,9 +199,9 @@ theorem aux : min a b + c ≤ min (a + c) (b + c) := by
 SOLUTIONS: -/
   apply le_min
   · apply add_le_add_right
-    apply min_le_left
-  apply add_le_add_right
-  apply min_le_right
+    exact min_le_left a b
+  · apply add_le_add_right
+    exact min_le_right a b
 
 -- BOTH:
 example : min a b + c = min (a + c) (b + c) := by
@@ -210,13 +210,13 @@ example : min a b + c = min (a + c) (b + c) := by
 SOLUTIONS: -/
   apply le_antisymm
   · apply aux
-  have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c := by rw [sub_add_cancel]
-  rw [h]
-  apply add_le_add_right
-  rw [sub_eq_add_neg]
-  apply le_trans
-  apply aux
-  rw [add_neg_cancel_right, add_neg_cancel_right]
+  · have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c := by rw [sub_add_cancel]
+    rw [h]
+    apply add_le_add_right
+    rw [sub_eq_add_neg]
+    apply le_trans
+    · apply aux
+    · rw [add_neg_cancel_right, add_neg_cancel_right]
 -- QUOTE.
 
 /- TEXT:
@@ -312,8 +312,8 @@ SOLUTIONS: -/
   apply dvd_add
   · apply dvd_add
     · apply dvd_mul_of_dvd_right
-      apply dvd_mul_right
-    apply dvd_mul_left
+      exact dvd_mul_right x z
+    · exact dvd_mul_left x (x.pow 1)
   rw [pow_two]
   apply dvd_mul_of_dvd_right
   exact h
