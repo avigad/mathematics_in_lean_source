@@ -174,7 +174,7 @@ EXAMPLES: -/
 -- QUOTE.
 
 /- TEXT:
-Together these two properties allow us to prove that limits compose, yielding in one shot all 256 variants
+Together these two properties allow us to prove that limits compose, yielding in one shot all 512 variants
 of the composition lemma described in the introduction, and lots more.
 You can practice proving the following statement using either the definition
 of ``Tendsto₁`` in terms of the
