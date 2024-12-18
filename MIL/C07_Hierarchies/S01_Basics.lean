@@ -671,7 +671,7 @@ BOTH: -/
 
 -- QUOTE.
 /- TEXT:
-But in a more indirect context it can happen that Lean infers the one and then gets confused.
+But in a more indirect context it can happen that Lean infers the other one and then gets confused.
 This situation is known as a bad diamond. This has nothing to do with the diamond operation
 we used above, it refers to the way one can draw the paths from ``ℤ`` to its ``Module₁ ℤ``
 going through either ``AddCommGroup₃ ℤ`` or ``Ring₃ ℤ``.
@@ -687,8 +687,8 @@ But the diamond we created with modules is definitely bad. The offending piece i
 field which is data, not a proof, and we have two constructions that are not definitionally equal.
 The robust way of fixing this issue is to make sure that going from a rich structure to a
 poor structure is always done by forgetting data, not by defining data. This well-known pattern
-as been named "forgetful inheritance" and extensively discussed in
-https://inria.hal.science/hal-02463336.
+has been named "forgetful inheritance" and extensively discussed in
+https://inria.hal.science/hal-02463336v2.
 
 In our concrete case, we can modify the definition of ``AddMonoid₃`` to include a ``nsmul`` data
 field and some ``Prop``-valued fields ensuring this operation is provably the one we constructed
