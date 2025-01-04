@@ -191,7 +191,7 @@ TEXT. -/
 Some of the theorems, ``exp_le_exp``, ``exp_lt_exp``
 use a *bi-implication*, which represents the
 phrase "if and only if."
-(You can type it in VS Code with ``\lr`` of ``\iff``).
+(You can type it in VS Code with ``\lr`` or ``\iff``).
 We will discuss this connective in greater detail in the next chapter.
 Such a theorem can be used with ``rw`` to rewrite a goal to
 an equivalent one:
