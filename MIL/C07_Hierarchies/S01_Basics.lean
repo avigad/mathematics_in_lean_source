@@ -759,7 +759,7 @@ As an exercise, you can come back to the order relation hierarchy you built abov
 to incorporate a type class ``LT₁`` carrying the Less-Than notation ``<₁`` and make sure
 that every preorder comes with a ``<₁`` which has a default value built from ``≤₁`` and a
 ``Prop``-valued field asserting the natural relation between those two comparison operators.
--/
+TEXT. -/
 
 -- SOLUTIONS:
 
