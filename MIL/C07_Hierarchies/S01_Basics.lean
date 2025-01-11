@@ -681,7 +681,7 @@ in Mathlib, and also in this chapter. Already at the very beginning we saw one c
 from ``Monoid₁ α`` to ``Dia₁ α`` through either ``Semigroup₁ α`` or ``DiaOneClass₁ α`` and
 thanks to the work done by the ``class`` command, the resulting two ``Dia₁ α`` instances
 are definitionally equal. In particular a diamond having a ``Prop``-valued class at the bottom
-cannot be bad since any too proofs of the same statement are definitionally equal.
+cannot be bad since any two proofs of the same statement are definitionally equal.
 
 But the diamond we created with modules is definitely bad. The offending piece is the ``smul``
 field which is data, not a proof, and we have two constructions that are not definitionally equal.
