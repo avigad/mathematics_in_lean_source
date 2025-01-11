@@ -301,7 +301,7 @@ we have :math:`N(xy) = N(x)N(y)`.
 To see that this definition of the norm makes the Gaussian integers a Euclidean
 domain, only the first property is challenging. Suppose
 we want to write :math:`a + bi = (c + di) q + r` for suitable :math:`q`
-and :math:`r`. Treating :math:`a + bi` and :math:`c + di` are complex
+and :math:`r`. Treating :math:`a + bi` and :math:`c + di` as complex
 numbers, carry out the division
 
 .. math::
@@ -346,9 +346,9 @@ See the file `GaussianInt.lean
 <https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean>`_.
 
 Here we will instead carry out an argument that stays in the integers.
-This illustrates an choice one commonly faces when formalizing mathematics.
+This illustrates a choice one commonly faces when formalizing mathematics.
 Given an argument that requires concepts or machinery that is not already
-in the library, one has two choices: either formalizes the concepts or machinery
+in the library, one has two choices: either formalize the concepts or machinery
 needed, or adapt the argument to make use of concepts and machinery you
 already have.
 The first choice is generally a good investment of time when the results
@@ -390,7 +390,6 @@ theorem abs_mod'_le (a b : ℤ) (h : 0 < b) : |mod' a b| ≤ b / 2 := by
   have := Int.emod_lt_of_pos (a + b / 2) h
   have := Int.ediv_add_emod b 2
   have := Int.emod_lt_of_pos b zero_lt_two
-  revert this; intro this -- FIXME, this should not be needed
   linarith
 -- QUOTE.
 
@@ -604,7 +603,7 @@ theorem natAbs_norm_mod_lt (x y : GaussInt) (hy : y ≠ 0) :
     (x % y).norm.natAbs < y.norm.natAbs := by
   apply Int.ofNat_lt.1
   simp only [Int.natCast_natAbs, abs_of_nonneg, norm_nonneg]
-  apply norm_mod_lt x hy
+  exact norm_mod_lt x hy
 -- QUOTE.
 
 /- TEXT:
