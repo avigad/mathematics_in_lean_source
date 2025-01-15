@@ -241,7 +241,7 @@ function :math:`N : R \to \mathbb{N}` with the following two properties:
 
 - For every :math:`a` and :math:`b \ne 0` in :math:`R`, there are
   :math:`q` and :math:`r` in :math:`R` such that :math:`a = bq + r` and
-  either :math:`r = 0` or `N(r) < N(b)`.
+  either :math:`r = 0` or :math:`N(r) < N(b)`.
 - For every :math:`a` and :math:`b \ne 0`, :math:`N(a) \le N(ab)`.
 
 The ring of integers :math:`\Bbb{Z}` with :math:`N(a) = |a|` is an
@@ -288,7 +288,7 @@ implies that every irreducible element is prime.
 The axioms for a Euclidean domain imply that one can write any nonzero element
 as a finite product of irreducible elements. They also imply that one can use
 the Euclidean algorithm to find a greatest common divisor of any two
-nonzero elements ``a`` and ``b``, i.e.~an element that is divisible by any
+nonzero elements ``a`` and ``b``, i.e. an element that is divisible by any
 other common divisor. This, in turn, implies that factorization
 into irreducible elements is unique up to multiplication by units.
 
@@ -348,7 +348,7 @@ See the file `GaussianInt.lean
 Here we will instead carry out an argument that stays in the integers.
 This illustrates a choice one commonly faces when formalizing mathematics.
 Given an argument that requires concepts or machinery that is not already
-in the library, one has two choices: either formalize the concepts or machinery
+in the library, one has two choices: either formalize the concepts and machinery
 needed, or adapt the argument to make use of concepts and machinery you
 already have.
 The first choice is generally a good investment of time when the results
