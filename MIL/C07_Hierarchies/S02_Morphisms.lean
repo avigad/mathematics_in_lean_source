@@ -52,7 +52,7 @@ BOTH: -/
 example : Continuous (id : ℝ → ℝ) := continuous_id
 -- QUOTE.
 /- TEXT:
-We still have bundles continuous functions, which are convenient for instance to put a topology
+We still have bundles of continuous functions, which are convenient for instance to put a topology
 on a space of continuous functions, but they are not the primary tool to work with continuity.
 
 By contrast, morphisms between monoids (or other algebraic structures) are bundled as in:
