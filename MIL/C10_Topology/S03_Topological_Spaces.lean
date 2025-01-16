@@ -200,7 +200,7 @@ example (f : X → Y) (T_X : TopologicalSpace X) (T_Y : TopologicalSpace Y) :
 -- QUOTE.
 
 /- TEXT:
-Those operations are compactible with composition of functions.
+Those operations are compatible with composition of functions.
 As usual, pushing forward is covariant and pulling back is contravariant, see ``coinduced_compose`` and ``induced_compose``.
 On paper we will use notations :math:`f_*T` for ``TopologicalSpace.coinduced f T`` and
 :math:`f^*T` for ``TopologicalSpace.induced f T``.
