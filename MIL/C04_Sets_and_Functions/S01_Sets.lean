@@ -459,7 +459,7 @@ and anonymous constructors,
 these two expressions behave roughly the same.
 As a result, we usually don't need to use ``bex_def``
 to transform them explicitly.
-Here is are some examples of how they are used:
+Here are some examples of how they are used:
 TEXT. -/
 -- BOTH:
 section

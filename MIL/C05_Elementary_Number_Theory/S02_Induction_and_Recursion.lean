@@ -175,7 +175,7 @@ The codomain of ``f`` can be any type that supports a commutative,
 associative addition operation with a zero element.
 If you import ``Algebra.BigOperators.Basic`` and issue the command
 ``open BigOperators``, you can use the more suggestive notation
-``∑ x in s, f x``. Of course, there is are an analogous operation and
+``∑ x in s, f x``. Of course, there is an analogous operation and
 notation for finite products.
 
 We will talk about the ``Finset`` type and the operations

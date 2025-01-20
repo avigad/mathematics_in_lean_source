@@ -762,7 +762,6 @@ that every preorder comes with a ``<₁`` which has a default value built from `
 TEXT. -/
 
 -- SOLUTIONS:
-
 class LT₁ (α : Type) where
   /-- The Less-Than relation -/
   lt : α → α → Prop

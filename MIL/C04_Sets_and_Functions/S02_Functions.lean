@@ -407,7 +407,7 @@ to their full domain,
 there are often relativized versions that restrict
 the statements to a subset of the domain type.
 
-Here is are some examples of ``InjOn`` and ``range`` in use:
+Here are some examples of ``InjOn`` and ``range`` in use:
 BOTH: -/
 section
 
