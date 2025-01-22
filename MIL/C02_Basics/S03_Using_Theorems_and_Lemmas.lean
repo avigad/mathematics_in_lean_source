@@ -248,7 +248,7 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
   apply add_le_add_left
   rw [exp_le_exp]
-  apply add_le_add_left h₀
+  exact add_le_add_left h₀ a
 
 -- an alternative using `linarith`.
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
@@ -260,7 +260,7 @@ example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
 example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   have h₀ : 0 < 1 + exp a := by linarith [exp_pos a]
   apply log_le_log h₀
-  apply add_le_add_left (exp_le_exp.mpr h)
+  exact add_le_add_left (exp_le_exp.mpr h) 1
 
 -- SOLUTION.
 /- TEXT:
@@ -403,7 +403,7 @@ example : |a*b| ≤ (a^2 + b^2)/2 := by
   apply abs_le'.mpr
   constructor
   · rw [le_div_iff₀ h]
-    apply fact1
+    exact fact1 a b
   rw [le_div_iff₀ h]
   apply fact2
 
