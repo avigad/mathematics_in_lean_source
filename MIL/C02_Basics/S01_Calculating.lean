@@ -351,9 +351,41 @@ example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
 #check mul_sub a b c
 #check add_mul a b c
 #check add_sub a b c
+#check sub_add a b c
+#check sub_self a
 #check sub_sub a b c
 #check add_zero a
 -- QUOTE.
+
+end
+
+-- SOLUTIONS:
+
+section
+variable (a b c d : ℝ)
+
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
+  rw [mul_add]
+  rw [add_mul, add_mul, ← add_assoc]
+  rw [add_assoc (a * c)]
+  rw [add_assoc (a * c) (a * d), add_comm (a * d)]
+
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d :=
+  calc
+    (a + b) * (c + d) = (a + b) * c + (a + b) * d := by
+      rw [mul_add]
+    _ = a * c + b * c + a * d + b * d := by
+      rw [add_mul, add_mul, ← add_assoc]
+    _ = a * c + (b * c + a * d) + b * d := by
+      rw [add_assoc (a * c)]
+    _ = a * c + a * d + b * c + b * d := by
+      rw [add_assoc (a * c) (a * d), add_comm (a * d)]
+
+example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
+  rw [pow_two, pow_two]
+  rw [add_mul, mul_sub, mul_sub, add_sub]
+  rw [mul_comm b]
+  rw [sub_add, sub_self, sub_sub, add_comm, add_zero]
 
 end
 
