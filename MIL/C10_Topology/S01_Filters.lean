@@ -297,7 +297,7 @@ example (f : ℕ → ℝ × ℝ) (x₀ y₀ : ℝ) :
     Tendsto f atTop (𝓝 (x₀, y₀)) ↔
       Tendsto (Prod.fst ∘ f) atTop (𝓝 x₀) ∧ Tendsto (Prod.snd ∘ f) atTop (𝓝 y₀) := by
   rw [nhds_prod_eq]
-  unfold Tendsto SProd.sprod Filter.instSProd Filter.prod
+  unfold Tendsto SProd.sprod Filter.instSProd
   rw [le_inf_iff, ← map_le_iff_le_comap, map_map, ← map_le_iff_le_comap, map_map]
 
 /- TEXT:

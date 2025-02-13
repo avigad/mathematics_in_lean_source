@@ -310,7 +310,7 @@ example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : HasFDerivAt f f' 
 We also have iterated derivatives that take values in the type of multilinear maps
 ``E [×n]→L[𝕜] F``,
 and we have continuously differential functions.
-The type ``WithTop ℕ`` is ``ℕ`` with an additional element ``⊤`` that
+The type ``ℕ∞`` is ``ℕ`` with an additional element ``∞`` that
 is bigger than every natural number.
 So :math:`\mathcal{C}^\infty` functions are functions ``f`` that satisfy
 ``ContDiff 𝕜 ⊤ f``.
@@ -319,7 +319,7 @@ EXAMPLES: -/
 example (n : ℕ) (f : E → F) : E → E[×n]→L[𝕜] F :=
   iteratedFDeriv 𝕜 n f
 
-example (n : WithTop ℕ) {f : E → F} :
+example (n : ℕ∞) {f : E → F} :
     ContDiff 𝕜 n f ↔
       (∀ m : ℕ, (m : WithTop ℕ) ≤ n → Continuous fun x ↦ iteratedFDeriv 𝕜 m f x) ∧
         ∀ m : ℕ, (m : WithTop ℕ) < n → Differentiable 𝕜 fun x ↦ iteratedFDeriv 𝕜 m f x :=
@@ -327,6 +327,9 @@ example (n : WithTop ℕ) {f : E → F} :
 -- QUOTE.
 
 /- TEXT:
+The differentiability parameter in ``ContDiff`` can also take value ``ω : WithTop ℕ∞``
+to denote analytic functions.
+
 There is a stricter notion of differentiability called
 ``HasStrictFDerivAt``, which is used in the statement
 of the inverse function theorem and the statement of the implicit function
@@ -336,7 +339,7 @@ functions are strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
 example {𝕂 : Type*} [RCLike 𝕂] {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕂 E] {F : Type*}
-    [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ}
+    [NormedAddCommGroup F] [NormedSpace 𝕂 F] {f : E → F} {x : E} {n : WithTop ℕ∞}
     (hf : ContDiffAt 𝕂 n f x) (hn : 1 ≤ n) : HasStrictFDerivAt f (fderiv 𝕂 f x) x :=
   hf.hasStrictFDerivAt hn
 -- QUOTE.
