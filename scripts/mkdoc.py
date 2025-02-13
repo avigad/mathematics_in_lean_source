@@ -264,7 +264,7 @@ def make_everything():
 
     # copy Lean configuration files to the user repo
     shutil.copy2(repository_root/'lake-manifest.json', user_repo_dir)
-    shutil.copy2(repository_root/'lakefile.lean', user_repo_dir)
+    shutil.copy2(repository_root/'lakefile.toml', user_repo_dir)
     shutil.copy2(repository_root/'lean-toolchain', user_repo_dir)
     shutil.copy2(repository_root/'MIL'/'Common.lean', user_repo_dir/'MIL')
 
