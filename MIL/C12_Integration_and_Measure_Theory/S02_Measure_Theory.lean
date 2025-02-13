@@ -76,7 +76,7 @@ Of course, many lemmas still require
 measurability assumptions, but not all.
 BOTH: -/
 -- QUOTE:
-open MeasureTheory
+open MeasureTheory Function
 variable {μ : Measure α}
 
 -- EXAMPLES:
