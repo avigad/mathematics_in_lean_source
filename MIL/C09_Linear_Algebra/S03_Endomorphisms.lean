@@ -18,7 +18,7 @@ with coefficients in ``K`` on them, and they can have eigenvalues and eigenvecto
 Mathlib uses the abbreviation ``Module.End K V := V →ₗ[K] V`` which is convenient when
 using a lot of these (especially after opening the ``Module`` namespace).
 
-EXAMPLES: -/
+BOTH: -/
 
 -- QUOTE:
 
@@ -48,7 +48,7 @@ As an exercise manipulating endomorphisms, subspaces and polynomials, let us pro
 prime polynomials :math:`P` and :math:`Q`, we have :math:`\ker P(φ) ⊕ \ker Q(φ) = \ker \big(PQ(φ)\big)`.
 
 Note that ``IsCoprime x y`` is defined as ``∃ a b, a * x + b * y = 1``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 #check Submodule.eq_bot_iff

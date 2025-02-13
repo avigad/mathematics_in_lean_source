@@ -18,7 +18,7 @@ Just as linear maps are bundled, a linear subspace of ``V`` is also a bundled st
 a set in ``V``, called the carrier of the subspace, with the relevant closure properties.
 Again the word module appears instead of vector space because of the more general context that
 Mathlib actually uses for linear algebra.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
@@ -251,7 +251,7 @@ sum and scalar multiplication.
 As an exercise, let us reprove one implication of ``Submodule.mem_sup``.
 Remember that you can use the `module` tactic to close goals that follow from
 the axioms relating the various algebraic operations on ``V``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 example {S T : Submodule K V} {x : V} (h : x ∈ S ⊔ T) :
@@ -296,7 +296,7 @@ Pushing and pulling subspaces
 As promised earlier, we now describe how to push and pull subspaces by linear maps.
 As usual in Mathlib, the first operation is called ``map`` and the second one is called
 ``comap``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 section
@@ -334,7 +334,7 @@ Lean expects a term with type ``Submodule K V`` after elaborating the left-hand 
 ``.comap`` as ``Submodule.comap``.
 
 The following lemmas give the key relations between those submodule and the properties of ``φ``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 open Function LinearMap
@@ -346,7 +346,7 @@ example : Surjective φ ↔ range φ = ⊤ := range_eq_top.symm
 /- TEXT:
 As an exercise, let us prove the Galois connection property for ``map`` and ``comap``.
 One can use the following lemmas but this is not required since they are true by definition.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 #check Submodule.mem_map_of_mem
@@ -373,7 +373,7 @@ Quotient vector spaces use the general quotient notation (typed with ``\quot``, 
 ``/``).
 The projection onto a quotient space is ``Submodule.mkQ`` and the universal property is
 ``Submodule.liftQ``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 variable (E : Submodule K V)
@@ -396,7 +396,7 @@ noncomputable example : (V ⧸ LinearMap.ker φ) ≃ₗ[K] range φ := φ.quotKe
 /- TEXT:
 As an exercise, let us prove the correspondence theorem for subspaces of quotient spaces.
 Mathlib knows a slightly more precise version as ``Submodule.comapMkQRelIso``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 open Submodule

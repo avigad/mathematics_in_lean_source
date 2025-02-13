@@ -247,7 +247,7 @@ Evaluating such a function coming from a basis ``B`` at a vector ``v`` and
 
 The type of bases indexed by a type ``ι`` of ``V`` as a ``K`` vector space is ``Basis ι K V``.
 The isomorphism is called ``Basis.repr``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
@@ -299,10 +299,13 @@ vanish expect for a single input value. More precisely the basis vector indexed 
 is ``Finsupp.single i 1`` which is the finitely supported function taking value ``1`` at ``i``
 and ``0`` everywhere else.
 
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 variable [DecidableEq ι]
+-- QUOTE.
 
+-- EXAMPLES:
+-- QUOTE:
 example : Finsupp.basisSingleOne.repr = LinearEquiv.refl K (ι →₀ K) :=
   rfl
 
@@ -390,7 +393,7 @@ This is ``Basis.constr``. For any ``K``-vector space ``W``, our basis ``B``
 gives a linear isomorphism ``Basis.constr B K`` from ``ι → W`` to ``V →ₗ[K] W``.
 This isomorphism is characterized by the fact that it sends any function ``u : ι → W``
 to a linear map sending the basis vector ``B i`` to ``u i``, for every ``i : ι``.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 section
 
@@ -418,7 +421,7 @@ example (φ ψ : V →ₗ[K] W) (h : ∀ i, φ (B i) = ψ (B i)) : φ = ψ :=
 /- TEXT:
 If we also have a basis ``B'`` on the target space then we can identify linear maps
 with matrices. This identification is a ``K``-linear isomorphism.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 
@@ -452,7 +455,7 @@ get the full result.
 
 Of course Mathlib already knows this, and ``simp`` can close the goal immediately, so you
 shouldn’t use it too soon, but rather use the provided lemmas.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 open Module LinearMap Matrix
@@ -565,7 +568,7 @@ end
 /- TEXT:
 Using that the subtype corresponding to a linear subspace has a vector space structure,
 we can talk about the dimension of a subspace.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 
 section
@@ -584,7 +587,7 @@ In the first statement above, the purpose of the type ascriptions is to make sur
 coercion to ``Type*`` does not trigger too early.
 
 We are now ready for an exercise about ``finrank`` and subspaces.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 example (h : finrank K V < finrank K E + finrank K F) :
     Nontrivial (E ⊓ F : Submodule K V) := by

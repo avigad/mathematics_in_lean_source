@@ -18,6 +18,7 @@ user_repo_lean_dir = user_repo_dir/'MIL'
 lean_main_import_file = repository_root/'MIL.lean'
 sphinx_index_file = sphinx_dir/'index.rst'
 lean_user_main_import_file = user_repo_dir/'MIL.lean'
+lean_user_solutions_import_file = user_repo_dir/'MIL_solutions.lean'
 
 def clean_generated_directories():
     """
@@ -54,9 +55,10 @@ def make_lean_main_import_file():
                 import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
         import_file.write(f"import MIL.Common\n")
 
-def make_lean_user_main_import_file():
+def make_lean_user_main_import_files():
     """
-    Generates a Lean file with all imports for all the exercise files in the user repository.
+    Generates a Lean file with all imports for all the exercise files and their
+    solutions in the user repository.
     """
     if not user_repo_lean_dir.exists():
         user_repo_lean_dir.mkdir(parents=True)
@@ -69,6 +71,16 @@ def make_lean_user_main_import_file():
             for section_file in section_files:
                 section_name = section_file.name[:-5]
                 import_file.write(f"import MIL.{chapter_dir.name}.{section_name}\n")
+        import_file.write(f"import MIL.Common\n")
+    with lean_user_solutions_import_file.open('w', encoding='utf8') as import_file:
+        chapter_dirs = sorted(
+            [dir for dir in lean_source_dir.glob("C*") if dir.is_dir()],
+            key=lambda d: d.name)
+        for chapter_dir in chapter_dirs:
+            section_files= sorted([file for file in chapter_dir.glob("S*.lean")], key=lambda f: f.name)
+            for section_file in section_files:
+                section_name = section_file.name[:-5]
+                import_file.write(f"import MIL.{chapter_dir.name}.solutions.Solutions_{section_name}\n")
         import_file.write(f"import MIL.Common\n")
 
 index_file_start = """
@@ -268,8 +280,8 @@ def make_everything():
     shutil.copy2(repository_root/'lean-toolchain', user_repo_dir)
     shutil.copy2(repository_root/'MIL'/'Common.lean', user_repo_dir/'MIL')
 
-    # make the main import file in the user repo
-    make_lean_user_main_import_file()
+    # make the main import files in the user repo
+    make_lean_user_main_import_files()
 
     # copy initial files to the Sphinx folder
     shutil.copytree(sphinx_source_dir, sphinx_dir)
