@@ -157,7 +157,7 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
   exact lt_trans xltz zlty
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-  fun ⟨z, xltz, zlty⟩ ↦ lt_trans xltz zlty
+  fun ⟨_, xltz, zlty⟩ ↦ lt_trans xltz zlty
 -- QUOTE.
 
 /- TEXT:

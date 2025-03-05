@@ -49,7 +49,7 @@ In that case, their integrals are equal to zero by definition, as is ``(μ s).to
 So in all cases we have the following lemma.
 EXAMPLES: -/
 -- QUOTE:
-example {s : Set α} (c : E) : ∫ x in s, c ∂μ = (μ s).toReal • c :=
+example {s : Set α} (c : E) : ∫ _ in s, c ∂μ = (μ s).toReal • c :=
   setIntegral_const c
 -- QUOTE.
 

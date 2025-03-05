@@ -217,7 +217,7 @@ example : f '' s \ f '' t ⊆ f '' (s \ t) := by
   · rfl
 
 example : f ⁻¹' u \ f ⁻¹' v ⊆ f ⁻¹' (u \ v) :=
-  fun x ↦ id
+  fun _ ↦ id
 
 example : f '' s ∩ v = f '' (s ∩ f ⁻¹' v) := by
   ext y; constructor
@@ -622,7 +622,7 @@ example : Surjective f ↔ RightInverse (inverse f) f := by
   apply h
 
 example : Surjective f ↔ RightInverse (inverse f) f :=
-  ⟨fun h y ↦ inverse_spec _ (h _), fun h y ↦ ⟨inverse f y, h _⟩⟩
+  ⟨fun h _ ↦ inverse_spec _ (h _), fun h y ↦ ⟨inverse f y, h _⟩⟩
 
 -- BOTH:
 end

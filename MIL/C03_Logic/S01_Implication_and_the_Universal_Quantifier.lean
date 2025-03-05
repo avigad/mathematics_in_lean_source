@@ -346,7 +346,7 @@ the application of the theorem to its arguments.
 TEXT. -/
 -- QUOTE:
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x :=
-  fun a b aleb ↦ add_le_add (mf aleb) (mg aleb)
+  fun _ _ aleb ↦ add_le_add (mf aleb) (mg aleb)
 -- QUOTE.
 
 /- TEXT:
@@ -378,7 +378,7 @@ example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x
   apply mf aleb
 
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
-  fun a b aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
+  fun _ _ aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   intro a b aleb
@@ -387,7 +387,7 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   apply aleb
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
-  fun a b aleb ↦ mf (mg aleb)
+  fun _ _ aleb ↦ mf (mg aleb)
 
 /- TEXT:
 Here are some more examples.
@@ -501,7 +501,7 @@ example : s ⊆ s := by
   intro x xs
   exact xs
 
-theorem Subset.refl : s ⊆ s := fun x xs ↦ xs
+theorem Subset.refl : s ⊆ s := fun _ xs ↦ xs
 
 theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
   sorry
@@ -515,7 +515,7 @@ example : r ⊆ s → s ⊆ t → r ⊆ t := by
   apply xr
 
 theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
-  fun rsubs ssubt x xr ↦ ssubt (rsubs xr)
+  fun rsubs ssubt _ xr ↦ ssubt (rsubs xr)
 
 -- BOTH:
 end
