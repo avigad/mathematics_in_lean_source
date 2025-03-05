@@ -136,7 +136,7 @@ a ``k`` and the assumption that ``n = 2 * k``.
 The second line, ``use m * k``,
 declares that we are going to show that ``m * n`` is even by
 showing ``m * n = 2 * (m * k)``.
-The next line uses the ``rewrite`` tactic
+The next line uses the ``rw`` tactic
 to replace ``n`` by ``2 * k`` in the goal,
 and the ``ring`` tactic solves the resulting goal ``m * (2 * k) = 2 * (m * k)``.
 

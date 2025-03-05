@@ -71,7 +71,7 @@ Notice that here we are defining the interpretations of the notation ``0``,
 ``1``, ``+``, ``-``, and ``*`` directly, rather than naming them
 ``GaussInt.zero`` and the like and assigning the notation to those.
 It is often useful to have an explicit name for the definitions, for example,
-to use with ``simp`` and ``rewrite``.
+to use with ``simp`` and ``rw``.
 BOTH: -/
 -- QUOTE:
 theorem zero_def : (0 : GaussInt) = ⟨0, 0⟩ :=
@@ -522,7 +522,7 @@ instance : Div GaussInt :=
 Having defined ``x / y``, We define ``x % y`` to be the remainder,
 ``x - (x / y) * y``. As above, we record the definitions in the
 theorems ``div_def`` and
-``mod_def`` so that we can use them with ``simp`` and ``rewrite``.
+``mod_def`` so that we can use them with ``simp`` and ``rw``.
 BOTH: -/
 -- QUOTE:
 instance : Mod GaussInt :=
