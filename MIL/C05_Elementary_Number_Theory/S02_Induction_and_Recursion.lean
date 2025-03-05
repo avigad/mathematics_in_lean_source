@@ -198,16 +198,16 @@ open BigOperators
 open Finset
 
 -- EXAMPLES:
-example : s.sum f = ∑ x in s, f x :=
+example : s.sum f = ∑ x ∈ s, f x :=
   rfl
 
-example : s.prod f = ∏ x in s, f x :=
+example : s.prod f = ∏ x ∈ s, f x :=
   rfl
 
-example : (range n).sum f = ∑ x in range n, f x :=
+example : (range n).sum f = ∑ x ∈ range n, f x :=
   rfl
 
-example : (range n).prod f = ∏ x in range n, f x :=
+example : (range n).prod f = ∏ x ∈ range n, f x :=
   rfl
 -- QUOTE.
 
@@ -217,16 +217,16 @@ provide a recursive description of summation up to :math:`n`,
 and similarly for products.
 EXAMPLES: -/
 -- QUOTE:
-example (f : ℕ → ℕ) : ∑ x in range 0, f x = 0 :=
+example (f : ℕ → ℕ) : ∑ x ∈ range 0, f x = 0 :=
   Finset.sum_range_zero f
 
-example (f : ℕ → ℕ) (n : ℕ) : ∑ x in range n.succ, f x = ∑ x in range n, f x + f n :=
+example (f : ℕ → ℕ) (n : ℕ) : ∑ x ∈ range n.succ, f x = ∑ x ∈ range n, f x + f n :=
   Finset.sum_range_succ f n
 
-example (f : ℕ → ℕ) : ∏ x in range 0, f x = 1 :=
+example (f : ℕ → ℕ) : ∏ x ∈ range 0, f x = 1 :=
   Finset.prod_range_zero f
 
-example (f : ℕ → ℕ) (n : ℕ) : ∏ x in range n.succ, f x = (∏ x in range n, f x) * f n :=
+example (f : ℕ → ℕ) (n : ℕ) : ∏ x ∈ range n.succ, f x = (∏ x ∈ range n, f x) * f n :=
   Finset.prod_range_succ f n
 -- QUOTE.
 
@@ -237,7 +237,7 @@ you can replace the proofs by ``rfl``.
 The following expresses the factorial function that we defined as a product.
 EXAMPLES: -/
 -- QUOTE:
-example (n : ℕ) : fac n = ∏ i in range n, (i + 1) := by
+example (n : ℕ) : fac n = ∏ i ∈ range n, (i + 1) := by
   induction' n with n ih
   · simp [fac, prod_range_zero]
   simp [fac, ih, prod_range_succ, mul_comm]
@@ -276,7 +276,7 @@ because calculations with division generally have side conditions.
 (It is similarly useful to avoid using subtraction on the natural numbers when possible.)
 EXAMPLES: -/
 -- QUOTE:
-theorem sum_id (n : ℕ) : ∑ i in range (n + 1), i = n * (n + 1) / 2 := by
+theorem sum_id (n : ℕ) : ∑ i ∈ range (n + 1), i = n * (n + 1) / 2 := by
   symm; apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 2)
   induction' n with n ih
   · simp
@@ -289,7 +289,7 @@ We encourage you to prove the analogous identity for sums of squares,
 and other identities you can find on the web.
 BOTH: -/
 -- QUOTE:
-theorem sum_sqr (n : ℕ) : ∑ i in range (n + 1), i ^ 2 = n * (n + 1) * (2 * n + 1) / 6 := by
+theorem sum_sqr (n : ℕ) : ∑ i ∈ range (n + 1), i ^ 2 = n * (n + 1) * (2 * n + 1) / 6 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
