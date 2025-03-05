@@ -105,7 +105,7 @@ The following shows that any constant sequence :math:`a, a, a, \ldots`
 converges.
 BOTH: -/
 -- QUOTE:
-theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ ↦ a) a := by
+theorem convergesTo_const (a : ℝ) : ConvergesTo (fun _ : ℕ ↦ a) a := by
   intro ε εpos
   use 0
   intro n nge
