@@ -607,7 +607,7 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
     · exact (incl m).trans (Set.inter_subset_left.trans h)
   have yball : ∀ n, y ∈ closedBall (c n) (r n) := by
     intro n
-    refine isClosed_ball.mem_of_tendsto ylim ?_
+    refine isClosed_closedBall.mem_of_tendsto ylim ?_
     refine (Filter.eventually_ge_atTop n).mono fun m hm ↦ ?_
     exact I n m hm (mem_closedBall_self (rpos _).le)
   constructor
