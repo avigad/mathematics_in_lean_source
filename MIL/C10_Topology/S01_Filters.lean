@@ -108,9 +108,9 @@ We can also directly define the filter ``𝓝 x`` of neighborhoods of any ``x : 
 In the real numbers, a neighborhood of ``x`` is a set containing an open interval
 :math:`(x_0 - \varepsilon, x_0 + \varepsilon)`,
 defined in Mathlib as ``Ioo (x₀ - ε) (x₀ + ε)``.
-(This is notion of a neighborhood is only a special case of a more general construction in Mathlib.)
+(This notion of a neighborhood is only a special case of a more general construction in Mathlib.)
 
-With these examples, we can already define what is means for a function ``f : X → Y``
+With these examples, we can already define what it means for a function ``f : X → Y``
 to converge to some ``G : Filter Y`` along some ``F : Filter X``,
 as follows:
 BOTH: -/
@@ -134,7 +134,7 @@ hide the quantifier ``∀ V`` and make the intuition more salient by using more 
 The first ingredient is the *pushforward* operation :math:`f_*` associated to any map ``f : X → Y``,
 denoted ``Filter.map f`` in Mathlib. Given a filter ``F`` on ``X``, ``Filter.map f F : Filter Y`` is defined so that
 ``V ∈ Filter.map f F ↔ f ⁻¹' V ∈ F`` holds definitionally.
-In this examples file we've opened the ``Filter`` namespace so that
+In the example file we've opened the ``Filter`` namespace so that
 ``Filter.map`` can be written as ``map``. This means that we can rewrite the definition of ``Tendsto`` using
 the order relation on ``Filter Y``, which is reversed inclusion of the set of members.
 In other words, given ``G H : Filter Y``, we have ``G ≤ H ↔ ∀ V : Set Y, V ∈ H → V ∈ G``.
