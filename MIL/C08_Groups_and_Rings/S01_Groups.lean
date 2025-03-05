@@ -655,7 +655,7 @@ Recall that elements of this dependent product are pairs ``⟨ω, x⟩`` where t
 EXAMPLES: -/
 -- QUOTE:
 example {G X : Type*} [Group G] [MulAction G X] :
-    X ≃ (ω : orbitRel.Quotient G X) × (orbit G (Quotient.out' ω)) :=
+    X ≃ (ω : orbitRel.Quotient G X) × (orbit G (Quotient.out ω)) :=
   MulAction.selfEquivSigmaOrbits G X
 -- QUOTE.
 
