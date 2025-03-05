@@ -82,7 +82,7 @@ example {f : X → Y} {x : X} : ContinuousAt f x ↔ map f (𝓝 x) ≤ 𝓝 (f 
 /- TEXT:
 One can also spell it using both neighborhoods seen as ordinary sets and a neighborhood filter
 seen as a generalized set: "for any neighborhood ``U`` of ``f x``, all points close to ``x``
-are sent to ``U``". Note that the proof is again ``iff.rfl``, this point of view is definitionally
+are sent to ``U``". Note that the proof is again ``Iff.rfl``, this point of view is definitionally
 equivalent to the previous one.
 
 BOTH: -/
@@ -175,7 +175,7 @@ equivalently, it can be pulled back by an injective map. But that's pretty much 
 They cannot be pulled back by general map or pushed forward, even by surjective maps.
 
 In particular there is no sensible distance to put on a quotient of a metric space or on an uncountable
-products of metric spaces. Consider for instance the type ``ℝ → ℝ``, seen as
+product of metric spaces. Consider for instance the type ``ℝ → ℝ``, seen as
 a product of copies of ``ℝ`` indexed by ``ℝ``. We would like to say that pointwise convergence of
 sequences of functions is a respectable notion of convergence. But there is no distance on
 ``ℝ → ℝ`` that gives this notion of convergence. Relatedly, there is no distance ensuring that
@@ -214,7 +214,7 @@ BOTH: -/
 Then the next big piece is a complete lattice structure on ``TopologicalSpace X``
 for any given structure. If you think of topologies as being primarily the data of open sets then you expect
 the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, i.e. you expect ``t ≤ t'``
-if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that Mathlib focuses
+if a set ``u`` is open in ``t'`` only if it is open for ``t``. However we already know that Mathlib focuses
 on neighborhoods more than open sets so, for any ``x : X`` we want the map from topological spaces to neighborhoods
 ``fun T : TopologicalSpace X ↦ @nhds X T x`` to be order preserving.
 And we know the order relation on ``Filter X`` is designed to ensure an order
