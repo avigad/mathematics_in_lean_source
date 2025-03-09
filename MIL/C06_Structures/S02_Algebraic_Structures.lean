@@ -175,17 +175,17 @@ morally the same as the definition of a group that Mathlib uses.
 
 It is sometimes useful to bundle
 the type together with the structure, and Mathlib also
-contains a definition of a ``GroupCat`` structure that is equivalent to
+contains a definition of a ``Grp`` structure that is equivalent to
 the following:
 EXAMPLES: -/
 -- QUOTE:
-structure Group₁Cat where
+structure Grp₁ where
   α : Type*
   str : Group₁ α
 -- QUOTE.
 
 /- TEXT:
-The Mathlib version is found in ``Mathlib.Algebra.Category.GroupCat.Basic``,
+The Mathlib version is found in ``Mathlib.Algebra.Category.Grp.Basic``,
 and you can ``#check`` it if you add this to the imports at the
 beginning of the examples file.
 
@@ -277,7 +277,7 @@ def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
 
 /- TEXT:
 In fact, Mathlib defines exactly this ``Group`` structure on ``Equiv.Perm α``
-in the file ``GroupTheory.Perm.Basic``.
+in the file ``Algebra.Group.End``.
 As always, you can hover over the theorems used in the definition of
 ``permGroup`` to see their statements,
 and you can jump to their definitions in the original file to learn
