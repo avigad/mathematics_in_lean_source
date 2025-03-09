@@ -586,13 +586,13 @@ because Lean knows that these are defined for every ring.
 We can use this method to specify notation for our ``Group₂`` class:
 EXAMPLES: -/
 -- QUOTE:
-instance hasMulGroup₂ {α : Type*} [Group₂ α] : Mul α :=
+instance {α : Type*} [Group₂ α] : Mul α :=
   ⟨Group₂.mul⟩
 
-instance hasOneGroup₂ {α : Type*} [Group₂ α] : One α :=
+instance {α : Type*} [Group₂ α] : One α :=
   ⟨Group₂.one⟩
 
-instance hasInvGroup₂ {α : Type*} [Group₂ α] : Inv α :=
+instance {α : Type*} [Group₂ α] : Inv α :=
   ⟨Group₂.inv⟩
 
 section
@@ -607,8 +607,6 @@ end
 -- QUOTE.
 
 /- TEXT:
-In this case, we have to supply names for the instances, because
-Lean has a hard time coming up with good defaults.
 What makes this approach work is that Lean carries out a recursive search.
 According to the instances we have declared, Lean can find an instance of
 ``Mul (Equiv.Perm α)`` by finding an
