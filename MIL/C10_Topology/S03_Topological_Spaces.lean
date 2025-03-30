@@ -327,7 +327,7 @@ a continuous mapping of :math:`A` into a :math:`T_3` space :math:`Y`. If, for ea
 while remaining in :math:`A` then there exists a continuous extension :math:`φ` of :math:`f` to
 :math:`X`.
 
-Actually Mathlib contains a more general version of the above lemma, ``DenseInducing.continuousAt_extend``,
+Actually Mathlib contains a more general version of the above lemma, ``IsDenseInducing.continuousAt_extend``,
 but we'll stick to Bourbaki's version here.
 
 Remember that, given ``A : Set X``, ``↥A`` is the subtype associated to ``A``, and Lean will automatically
