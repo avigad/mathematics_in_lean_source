@@ -279,7 +279,7 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
 -- QUOTE.
 
 /- TEXT:
-Whereas it is possible to figure out what it going on in this proof
+Whereas it is possible to figure out what is going on in this proof
 by stepping through it in the editor,
 it is hard to read on its own.
 Lean provides a more structured way of writing proofs like this
