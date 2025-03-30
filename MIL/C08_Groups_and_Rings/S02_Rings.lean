@@ -588,7 +588,7 @@ Recall the ``![...]`` notation denotes elements of ``Fin n → X`` for some natu
 determined by the number of arguments and some type ``X`` determined by the type of arguments.
 EXAMPLES: -/
 -- QUOTE:
-example : MvPolynomial.eval ![0, 1] circleEquation = 0 := by simp [circleEquation]
+example : MvPolynomial.eval ![1, 0] circleEquation = 0 := by simp [circleEquation]
 -- QUOTE.
 
 end Polynomials
