@@ -148,12 +148,12 @@ It's your turn now to prove some continuity lemma. After trying the continuity t
 BOTH: -/
 -- QUOTE:
 example {f : ℝ → X} (hf : Continuous f) : Continuous fun x : ℝ ↦ f (x ^ 2 + x) :=
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {f : ℝ → X} (hf : Continuous f) : Continuous fun x : ℝ ↦ f (x ^ 2 + x) :=
+SOLUTIONS: -/
   hf.comp <| (continuous_pow 2).add continuous_id
+
+-- QUOTE.
 
 /- TEXT:
 So far we saw continuity as a global notion, but one can also define continuity at a point.
@@ -223,12 +223,10 @@ Do the next exercise without using `mem_closure_iff_seq_limit`
 BOTH: -/
 -- QUOTE:
 example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) :
-    a ∈ closure s :=
+    a ∈ closure s := by
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n, u n ∈ s) : a ∈ closure s := by
+SOLUTIONS: -/
   rw [Metric.tendsto_atTop] at hu
   rw [Metric.mem_closure_iff]
   intro ε ε_pos
@@ -236,6 +234,8 @@ example {u : ℕ → X} (hu : Tendsto u atTop (𝓝 a)) {s : Set X} (hs : ∀ n,
   refine ⟨u N, hs _, ?_⟩
   rw [dist_comm]
   exact hN N le_rfl
+
+-- QUOTE.
 
 /- TEXT:
 
@@ -351,13 +351,10 @@ BOTH: -/
 -- QUOTE:
 example {X : Type*} [MetricSpace X] [CompactSpace X]
       {Y : Type*} [MetricSpace Y] {f : X → Y}
-    (hf : Continuous f) : UniformContinuous f :=
-  sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {X : Type*} [MetricSpace X] [CompactSpace X] {Y : Type*} [MetricSpace Y] {f : X → Y}
     (hf : Continuous f) : UniformContinuous f := by
+/- EXAMPLES:
+  sorry
+SOLUTIONS: -/
   rw [Metric.uniformContinuous_iff]
   intro ε ε_pos
   let φ : X × X → ℝ := fun p ↦ dist (f p.1) (f p.2)
@@ -382,6 +379,8 @@ example {X : Type*} [MetricSpace X] [CompactSpace X] {Y : Type*} [MetricSpace Y]
       contrapose!
       intro (hxx' : (x, x') ∈ K)
       exact H hxx'
+
+-- QUOTE.
 
 /- TEXT:
 Completeness
@@ -420,6 +419,7 @@ open BigOperators
 open Finset
 
 -- QUOTE:
+-- EXAMPLES:
 theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
     (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
@@ -477,6 +477,7 @@ BOTH: -/
 -- QUOTE:
 open Metric
 
+-- EXAMPLES:
 example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : ∀ n, Dense (f n)) :
     Dense (⋂ n, f n) := by
   let B : ℕ → ℝ := fun n ↦ (1 / 2) ^ n
@@ -525,7 +526,7 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
 example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : ∀ n, Dense (f n)) :
     Dense (⋂ n, f n) := by
   let B : ℕ → ℝ := fun n ↦ (1 / 2) ^ n
-  have Bpos : ∀ n, 0 < B n := fun n ↦ pow_pos sorry n
+  have Bpos : ∀ n, 0 < B n := fun n ↦ pow_pos (by linarith) n
   /- Translate the density assumption into two functions `center` and `radius` associating
     to any n, x, δ, δpos a center and a positive radius such that
     `closedBall center radius` is included both in `f n` and in `closedBall x δ`.
@@ -619,8 +620,3 @@ example [CompleteSpace X] (f : ℕ → Set X) (ho : ∀ n, IsOpen (f n)) (hd : �
   calc
     dist y x ≤ r 0 := yball 0
     _ ≤ ε := min_le_left _ _
-
-
-/- TEXT:
-
-BOTH: -/
