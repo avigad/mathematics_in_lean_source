@@ -226,9 +226,7 @@ example (ubf : FnHasUb f) (ubg : FnHasUb g) : FnHasUb fun x ↦ f x + g x := by
 /- TEXT:
 Think of the first ``obtain`` instruction as matching the "contents" of ``ubf``
 with the given pattern and assigning the components to the named variables.
-``rcases`` and ``obtain`` are said to ``destruct`` their arguments, though
-there is a small difference in that ``rcases`` clears ``ubf`` from the context
-when it is done, whereas it is still present after ``obtain``.
+``rcases`` and ``obtain`` are said to ``destruct`` their arguments.
 
 Lean also supports syntax that is similar to that used in other functional programming
 languages:
