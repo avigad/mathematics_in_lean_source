@@ -269,7 +269,7 @@ def permGroup {α : Type*} : Group₁ (Equiv.Perm α)
   mul f g := Equiv.trans g f
   one := Equiv.refl α
   inv := Equiv.symm
-  mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
+  mul_assoc _ _ _ := (Equiv.trans_assoc _ _ _).symm
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
   inv_mul_cancel := Equiv.self_trans_symm
@@ -480,7 +480,7 @@ instance {α : Type*} : Group₂ (Equiv.Perm α) where
   mul f g := Equiv.trans g f
   one := Equiv.refl α
   inv := Equiv.symm
-  mul_assoc f g h := (Equiv.trans_assoc _ _ _).symm
+  mul_assoc _ _ _ := (Equiv.trans_assoc _ _ _).symm
   one_mul := Equiv.trans_refl
   mul_one := Equiv.refl_trans
   inv_mul_cancel := Equiv.self_trans_symm
