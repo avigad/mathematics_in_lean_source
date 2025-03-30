@@ -376,14 +376,9 @@ EXAMPLES: -/
 -- QUOTE:
 variable (f : ι → V) in
 #check (Finsupp.linearCombination K f : (ι →₀ K) →ₗ[K] V)
+
 -- QUOTE.
 /- TEXT:
-The above subtlety also explains why dot notation cannot be used to write
-``c.linearCombination K f`` instead of ``Finsupp.linearCombination K f c``.
-Indeed ``Finsupp.linearCombination`` does not take ``c`` as an argument,
-``Finsupp.linearCombination K f`` is coerced to a function type and then this function
-takes ``c`` as an argument.
-
 Returning to the mathematical discussion, it is important to understand that the
 representation of vectors in a basis is less useful in formalized
 mathematics than you may think.
