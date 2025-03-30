@@ -214,7 +214,7 @@ BOTH: -/
 Then the next big piece is a complete lattice structure on ``TopologicalSpace X``
 for any given structure. If you think of topologies as being primarily the data of open sets then you expect
 the order relation on ``TopologicalSpace X`` to come from ``Set (Set X)``, i.e. you expect ``t ≤ t'``
-if a set ``u`` is open in ``t'`` only if it is open for ``t``. However we already know that Mathlib focuses
+if a set ``u`` is open for ``t'`` as soon as it is open for ``t``. However we already know that Mathlib focuses
 on neighborhoods more than open sets so, for any ``x : X`` we want the map from topological spaces to neighborhoods
 ``fun T : TopologicalSpace X ↦ @nhds X T x`` to be order preserving.
 And we know the order relation on ``Filter X`` is designed to ensure an order
