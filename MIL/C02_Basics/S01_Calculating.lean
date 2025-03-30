@@ -52,7 +52,7 @@ The symbol doesn't appear until you hit space or the tab key.
 If you hover over a symbol when reading a Lean file,
 VS Code will show you the syntax that can be used to enter it.
 If you are curious to see all available abbreviations, you can hit Ctrl-Shift-P
-and then type abbreviations to get access to the ``Lean 4: Show all abbreviations`` command.
+and then type abbreviations to get access to the ``Lean 4: Show Unicode Input Abbreviations`` command.
 If your keyboard does not have an easily accessible backslash,
 you can change the leading character by changing the
 ``lean4.input.leader`` setting.
