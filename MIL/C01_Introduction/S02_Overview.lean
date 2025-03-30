@@ -20,6 +20,8 @@ These are mathematical objects.
 TEXT. -/
 -- These are pieces of data.
 -- QUOTE:
+import MIL.Common
+
 #check 2 + 2
 
 def f (x : ℕ) :=
