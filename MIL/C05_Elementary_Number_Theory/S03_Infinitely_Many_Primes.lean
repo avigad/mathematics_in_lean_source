@@ -131,7 +131,7 @@ BOTH: -/
 -- QUOTE:
 theorem primes_infinite : ∀ n, ∃ p > n, Nat.Prime p := by
   intro n
-  have : 2 ≤ Nat.factorial (n + 1) + 1 := by
+  have : 2 ≤ Nat.factorial n + 1 := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -143,7 +143,7 @@ SOLUTIONS: -/
   show p > n
   by_contra ple
   push_neg at ple
-  have : p ∣ Nat.factorial (n + 1) := by
+  have : p ∣ Nat.factorial n := by
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
