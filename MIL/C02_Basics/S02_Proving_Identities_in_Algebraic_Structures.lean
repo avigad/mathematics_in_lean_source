@@ -128,7 +128,7 @@ To avoid errors due to name clashes,
 in the next example we put our versions of the library
 theorems in a new namespace called ``MyRing.``
 
-The next example shows that we do not need ``add_zero`` or ``add_right_neg``
+The next example shows that we do not need ``add_zero`` or ``add_neg_cancel``
 as ring axioms, because they follow from the other axioms.
 TEXT. -/
 -- QUOTE:
@@ -137,7 +137,7 @@ variable {R : Type*} [Ring R]
 
 theorem add_zero (a : R) : a + 0 = a := by rw [add_comm, zero_add]
 
-theorem add_right_neg (a : R) : a + -a = 0 := by rw [add_comm, neg_add_cancel]
+theorem add_neg_cancel (a : R) : a + -a = 0 := by rw [add_comm, neg_add_cancel]
 
 #check MyRing.add_zero
 #check add_zero
@@ -182,7 +182,7 @@ theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
 
 -- SOLUTIONS:
 theorem add_neg_cancel_rightαα (a b : R) : a + b + -b = a := by
-  rw [add_assoc, add_right_neg, add_zero]
+  rw [add_assoc, add_neg_cancel, add_zero]
 
 /- TEXT:
 Use these to prove the following:
@@ -385,7 +385,7 @@ theorem self_sub (a : R) : a - a = 0 := by
 
 -- SOLUTIONS:
 theorem self_subαα (a : R) : a - a = 0 := by
-  rw [sub_eq_add_neg, add_right_neg]
+  rw [sub_eq_add_neg, add_neg_cancel]
 
 /- TEXT:
 Show that you can prove this using ``rw``,
