@@ -260,14 +260,14 @@ Compactness
 ^^^^^^^^^^^
 
 Compactness is an important topological notion. It distinguishes subsets of a metric space
-that enjoy the same kind of properties as segments in reals compared to other intervals:
+that enjoy the same kind of properties as segments in the reals compared to other intervals:
 
-* Any sequence taking value in a compact set has a subsequence that converges in this set
+* Any sequence with values in a compact set has a subsequence that converges in this set.
 * Any continuous function on a nonempty compact set with values in real numbers is bounded and
-  achieves its bounds somewhere (this is called the extreme values theorem).
+  attains its bounds somewhere (this is called the extreme value theorem).
 * Compact sets are closed sets.
 
-Let us first check that the unit interval in reals is indeed a compact set, and then check the above
+Let us first check that the unit interval in the reals is indeed a compact set, and then check the above
 claims for compact sets in general metric spaces. In the second statement we only
 need continuity on the given set so we will use ``ContinuousOn`` instead of ``Continuous``, and
 we will give separate statements for the minimum and the maximum. Of course all these results
