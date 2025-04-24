@@ -82,10 +82,8 @@ def preimage {W : Type*} [AddCommGroup W] [Module K W] (φ : V →ₗ[K] W) (H :
   carrier := φ ⁻¹' H
   zero_mem' := by
 /- EXAMPLES:
-    dsimp
     sorry
 SOLUTIONS: -/
-    dsimp
     rw [Set.mem_preimage, map_zero]
     exact H.zero_mem
 -- BOTH:
@@ -99,10 +97,8 @@ SOLUTIONS: -/
 -- BOTH:
   smul_mem' := by
 /- EXAMPLES:
-    dsimp
     sorry
 SOLUTIONS: -/
-    dsimp
     rintro a v hv
     rw [Set.mem_preimage, map_smul]
     exact H.smul_mem a hv

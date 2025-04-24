@@ -268,7 +268,7 @@ it will apply in all these instances.
 TEXT. -/
 section
 -- QUOTE:
-variable {α : Type*} {R : Type*} [OrderedCancelAddCommMonoid R]
+variable {α : Type*} {R : Type*} [AddCommMonoid R] [PartialOrder R] [IsOrderedCancelAddMonoid R]
 
 #check add_le_add
 

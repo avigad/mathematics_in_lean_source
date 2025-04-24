@@ -74,15 +74,15 @@ open Matrix
 -- QUOTE.
 /- TEXT:
 In order to generate matrices with identical rows or columns specified by a vector, we
-use ``Matrix.row`` and ``Matrix.column``, with arguments the type indexing the
+use ``Matrix.replicateRow`` and ``Matrix.replicateCol``, with arguments the type indexing the
 rows or columns and the vector.
 For instance one can get single row or single column matrixes (more precisely matrices whose rows
 or columns are indexed by ``Fin 1``).
 EXAMPLES: -/
 -- QUOTE:
-#eval row (Fin 1) ![1, 2] -- !![1, 2]
+#eval replicateRow (Fin 1) ![1, 2] -- !![1, 2]
 
-#eval col (Fin 1) ![1, 2] -- !![1; 2]
+#eval replicateCol (Fin 1) ![1, 2] -- !![1; 2]
 -- QUOTE.
 /- TEXT:
 Other familiar operations include the vector dot product, matrix transpose, and,

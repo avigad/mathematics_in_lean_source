@@ -259,7 +259,7 @@ example (a b : ℤ) : b ≠ 0 → 0 ≤ a % b :=
   Int.emod_nonneg a
 
 example (a b : ℤ) : b ≠ 0 → a % b < |b| :=
-  Int.emod_lt a
+  Int.emod_lt_abs a
 -- QUOTE.
 
 /- TEXT:
@@ -408,7 +408,7 @@ We will use the fact that :math:`x^2 + y^2` is equal to zero if and only if
 :math:`x` and :math:`y` are both zero. As an exercise, we ask you to prove
 that this holds in any ordered ring.
 SOLUTIONS: -/
-private theorem aux {α : Type*} [LinearOrderedRing α] {x y : α} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
+private theorem aux {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing α] {x y : α} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   haveI h' : x ^ 2 = 0 := by
     apply le_antisymm _ (sq_nonneg x)
     rw [← h]
@@ -417,8 +417,8 @@ private theorem aux {α : Type*} [LinearOrderedRing α] {x y : α} (h : x ^ 2 + 
 
 -- QUOTE:
 -- BOTH:
-theorem sq_add_sq_eq_zero {α : Type*} [LinearOrderedRing α] (x y : α) :
-    x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
+theorem sq_add_sq_eq_zero {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing α]
+    (x y : α) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
@@ -639,7 +639,7 @@ instance : EuclideanDomain GaussInt :=
     quotient := (· / ·)
     remainder := (· % ·)
     quotient_mul_add_remainder_eq :=
-      fun x y ↦ by simp only; rw [mod_def, add_comm] ; ring
+      fun x y ↦ by rw [mod_def, add_comm] ; ring
     quotient_zero := fun x ↦ by
       simp [div_def, norm, Int.div']
       rfl
