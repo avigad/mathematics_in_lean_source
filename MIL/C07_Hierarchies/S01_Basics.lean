@@ -110,7 +110,7 @@ For now, we define it by hand as a structure with two fields, a ``Dia₁`` insta
 BOTH: -/
 
 -- QUOTE:
-class Semigroup₁ (α : Type) where
+class Semigroup₀ (α : Type) where
   toDia₁ : Dia₁ α
   /-- Diamond is associative -/
   dia_assoc : ∀ a b c : α, a ⋄ b ⋄ c = a ⋄ (b ⋄ c)
@@ -127,23 +127,24 @@ We can fix this by adding the ``instance`` attribute later.
 BOTH: -/
 
 -- QUOTE:
-attribute [instance] Semigroup₁.toDia₁
+attribute [instance] Semigroup₀.toDia₁
 
-example {α : Type} [Semigroup₁ α] (a b : α) : α := a ⋄ b
+example {α : Type} [Semigroup₀ α] (a b : α) : α := a ⋄ b
 -- QUOTE.
 
 /- TEXT:
-Before building up, we need a more convenient way to extend structures than explicitly
-writing fields like `toDia₁` and adding the instance attribute by hand. The ``class``
-supports this using the ``extends`` syntax as in:
+Before building up, we need to use a different syntax to add this `toDia₁` field,
+to tell Lean that `Dia₁ α` should be treated as if its fields were fields of `Semigroup₁` itself.
+This also conveniently adds the `toDia₁` instance automatically.
+The ``class`` command supports this using the ``extends`` syntax as in:
 BOTH: -/
 
 -- QUOTE:
-class Semigroup₂ (α : Type) extends Dia₁ α where
+class Semigroup₁ (α : Type) extends toDia₁ : Dia₁ α where
   /-- Diamond is associative -/
   dia_assoc : ∀ a b c : α, a ⋄ b ⋄ c = a ⋄ (b ⋄ c)
 
-example {α : Type} [Semigroup₂ α] (a b : α) : α := a ⋄ b
+example {α : Type} [Semigroup₁ α] (a b : α) : α := a ⋄ b
 -- QUOTE.
 
 /- TEXT:
@@ -151,8 +152,18 @@ Note this syntax is also available in the ``structure`` command, although it tha
 case it fixes only the hurdle of writing fields such as `toDia₁` since there
 is no instance to define in that case.
 
+The field name `toDia₁` is optional in the `extends` syntax.
+By default it takes the name of the class being extended and prefixes it with "to".
+BOTH: -/
 
-Let us now try to combine a diamond operation and a distinguished one with axioms saying
+-- QUOTE:
+class Semigroup₂ (α : Type) extends Dia₁ α where
+  /-- Diamond is associative -/
+  dia_assoc : ∀ a b c : α, a ⋄ b ⋄ c = a ⋄ (b ⋄ c)
+-- QUOTE.
+
+/- TEXT:
+Let us now try to combine a diamond operation and a distinguished one element with axioms saying
 this element is neutral on both sides.
 BOTH: -/
 -- QUOTE:
@@ -333,12 +344,12 @@ BOTH: -/
 
 
 class AddSemigroup₃ (α : Type) extends Add α where
-/-- Addition is associative -/
+  /-- Addition is associative -/
   add_assoc₃ : ∀ a b c : α, a + b + c = a + (b + c)
 
 @[to_additive AddSemigroup₃]
 class Semigroup₃ (α : Type) extends Mul α where
-/-- Multiplication is associative -/
+  /-- Multiplication is associative -/
   mul_assoc₃ : ∀ a b c : α, a * b * c = a * (b * c)
 
 class AddMonoid₃ (α : Type) extends AddSemigroup₃ α, AddZeroClass α
@@ -629,7 +640,7 @@ to scalar multiplication by an integer by ensuring ``(-1) • a = -a``.
 BOTH: -/
 -- QUOTE:
 
-def nsmul₁ [Zero M] [Add M] : ℕ → M → M
+def nsmul₁ {M : Type*} [Zero M] [Add M] : ℕ → M → M
   | 0, _ => 0
   | n + 1, a => a + nsmul₁ n a
 
