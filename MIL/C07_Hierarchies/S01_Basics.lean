@@ -462,7 +462,8 @@ play this game, first because in practice this does not make any ring instance e
 also because Mathlib's algebraic hierarchy goes through semirings which are like rings but without
 opposites so that the proof below does not work for them. What we gain here, besides a nice exercise
 if you have never seen it, is an example of building an instance using the syntax that allows
-to provide a parent structure and some extra fields.
+to provide a parent structure as an instance parameter and then supply the extra fields.
+Here the `Ring₃ R` argument supplies anything `AddCommGroup₃ R` wants except for `add_comm`.
 BOTH: -/
 
 -- QUOTE:
@@ -473,8 +474,7 @@ class Ring₃ (R : Type) extends AddGroup₃ R, Monoid₃ R, MulZeroClass R wher
   right_distrib : ∀ a b c : R, (a + b) * c = a * c + b * c
 
 instance {R : Type} [Ring₃ R] : AddCommGroup₃ R :=
-{ Ring₃.toAddGroup₃ with
-  add_comm := by
+{ add_comm := by
 /- EXAMPLES:
     sorry }
 SOLUTIONS: -/
