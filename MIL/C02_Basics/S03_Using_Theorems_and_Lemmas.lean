@@ -275,6 +275,9 @@ There are a number of strategies you can use:
 * You can use the API documentation on the Mathlib
   `web pages <https://leanprover-community.github.io/mathlib4_docs/>`_.
 
+* You can use `Loogle <https://loogle.lean-lang.org>`
+  to search Lean and Mathlib definitions and theorems by patterns.
+
 * You can rely on Mathlib naming conventions and Ctrl-space completion in
   the editor to guess a theorem name (or Cmd-space on a Mac keyboard).
   In Lean, a theorem named ``A_of_B_of_C`` establishes
