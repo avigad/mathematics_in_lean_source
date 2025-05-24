@@ -17,11 +17,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Mathematics in Lean'
-copyright = '2020, Jeremy Avigad, Patrick Massot'
+copyright = '2020-2025, Jeremy Avigad, Patrick Massot'
 author = 'Jeremy Avigad, Patrick Massot'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = 'v4.19.0'
 
 # -- General configuration ------------------------------------------------
 
