@@ -284,3 +284,5 @@ The textbook is still a work in progress, but feedback and corrections are welco
 You can open a pull request,
 find us on the [Lean Zulip channel](https://leanprover.zulipchat.com/),
 or contact us by email.
+Please contact us before making a pull request for substantial expository or stylistic
+changes.

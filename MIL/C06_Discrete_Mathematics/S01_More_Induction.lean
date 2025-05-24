@@ -11,7 +11,7 @@ namespace more_induction
 More Induction
 --------------
 
-In :numref:`section_induction_and_recursion` we saw how to define the factorial function by
+In :numref:`section_induction_and_recursion`, we saw how to define the factorial function by
 recursion on the natural numbers.
 EXAMPLES: -/
 -- QUOTE:
@@ -60,14 +60,14 @@ The names of the cases, ``zero`` and ``succ``, are taken from the definition of 
 principle.
 Notice that the ``succ`` case allows you to choose whatever names you want for the
 induction variable and the inductive hypothesis, here ``n`` and ``ih``.
-You can even use the same notation used to define a recursive function.
+You can even prove a theorem with the same notation used to define a recursive function.
 EXAMPLES: -/
 -- QUOTE:
 theorem fac_pos' : ∀ n, 0 < fac n
   | 0 => by
-      rw [fac]
-      exact zero_lt_one
-  | n+1 => by
+    rw [fac]
+    exact zero_lt_one
+  | n + 1 => by
     rw [fac]
     exact mul_pos n.succ_pos (fac_pos' n)
 -- QUOTE.
@@ -82,23 +82,24 @@ This style of definition is remarkably flexible.
 Lean's designers have built in elaborate means of defining recursive functions, and these
 extend to doing proofs by induction.
 For example, we can define the Fibonacci function with multiple base cases.
-EXAMPLES: -/
+BOTH: -/
 -- QUOTE:
 @[simp] def fib : ℕ → ℕ
   | 0 => 0
   | 1 => 1
-  | n+2 => fib n + fib (n + 1)
+  | n + 2 => fib n + fib (n + 1)
 -- QUOTE.
 
 /- TEXT:
 The ``@[simp]`` annotation means that the simplifier will use the defining equations.
 You can also apply them by writing ``rw [fib]``.
-Below it will be helpful to give a name to the ``n+2`` case.
-EXAMPLES: -/
+Below it will be helpful to give a name to the ``n + 2`` case.
+BOTH: -/
 -- QUOTE:
-theorem fib_add_two (n : ℕ) : fib (n+2) = fib n + fib (n+1) := rfl
+theorem fib_add_two (n : ℕ) : fib (n + 2) = fib n + fib (n + 1) := rfl
 
-example (n : ℕ) : fib (n+2) = fib n + fib (n+1) := by rw [fib]
+-- EXAMPLES:
+example (n : ℕ) : fib (n + 2) = fib n + fib (n + 1) := by rw [fib]
 -- QUOTE.
 
 /- TEXT:
@@ -125,8 +126,8 @@ theorem fib_eq : ∀ n, fib n = (phi^n - phi'^n) / √5
   | 0 => by simp
   | 1 => by field_simp [phi, phi']
   | n+2 => by
-      field_simp [fib_eq, pow_add, phi_sq, phi'_sq]
-      ring
+    field_simp [fib_eq, pow_add, phi_sq, phi'_sq]
+    ring
 
 end
 -- QUOTE.
@@ -140,8 +141,8 @@ theorem fib_coprime_fib_succ (n : ℕ) : Nat.Coprime (fib n) (fib (n + 1)) := by
   induction n with
   | zero => simp
   | succ n ih =>
-      simp only [fib, Nat.coprime_add_self_right]
-      exact ih.symm
+    simp only [fib, Nat.coprime_add_self_right]
+    exact ih.symm
 -- QUOTE.
 
 /- TEXT:
@@ -153,11 +154,12 @@ EXAMPLES: -/
 -- QUOTE.
 
 /- TEXT:
-The straightforward implementation of `fib``` is computationally inefficient. In fact, it runs
+The straightforward implementation of ``fib`` is computationally inefficient. In fact, it runs
 in time exponential in its argument. (You should think about why.)
 In Lean, we can implement the following tail-recursive version, whose running time is linear
 in ``n``, and prove that it computes the same function.
 EXAMPLES: -/
+-- QUOTE:
 def fib' (n : Nat) : Nat :=
   aux n 0 1
 where aux
@@ -174,6 +176,7 @@ theorem fib'_eq_fib : fib' = fib := by
   erw [fib', fib'.aux_eq 0 n]; rfl
 
 #eval fib' 10000
+-- QUOTE.
 
 /- TEXT:
 Notice the ``generalizing`` keyword in the proof of ``fib'.aux_eq``.
@@ -182,6 +185,7 @@ step, ``m`` can take a different value.
 You can step through the proof and check that in this case, ``m`` needs to be instantiated
 to ``m + 1``.
 As usual, you can hover over the ``induction`` keyword to read the documentation.
+
 Notice also the use of ``erw`` (for "extended rewrite") instead of ``rw``.
 This is used because to rewrite the goal ``fib'.aux_eq``, ``fib 0`` and ``fib 1``
 have to be reduced to ``0`` and ``1``, respectively.
@@ -192,7 +196,7 @@ sparingly.
 
 Here is another example of the ``generalizing`` keyword in use, in the proof of another
 identity that is found in ``Mathlib``.
-An informal proof of the identity can be found [here](https://proofwiki.org/wiki/Fibonacci_Number_in_terms_of_Smaller_Fibonacci_Numbers).
+An informal proof of the identity can be found `here <https://proofwiki.org/wiki/Fibonacci_Number_in_terms_of_Smaller_Fibonacci_Numbers>`_.
 We provide two variants of the formal proof.
 BOTH: -/
 -- QUOTE:
@@ -200,32 +204,31 @@ theorem fib_add (m n : ℕ) : fib (m + n + 1) = fib m * fib n + fib (m + 1) * fi
   induction n generalizing m with
   | zero => simp
   | succ n ih =>
-      specialize ih (m + 1)
-      rw [add_assoc m 1 n, add_comm 1 n] at ih
-      simp only [fib_add_two, Nat.succ_eq_add_one, ih]
-      ring
+    specialize ih (m + 1)
+    rw [add_assoc m 1 n, add_comm 1 n] at ih
+    simp only [fib_add_two, Nat.succ_eq_add_one, ih]
+    ring
 
 -- EXAMPLES:
 theorem fib_add' : ∀ m n, fib (m + n + 1) = fib m * fib n + fib (m + 1) * fib (n + 1)
   | _, 0     => by simp
   | m, n + 1 => by
-      have := fib_add' (m + 1) n
-      rw [add_assoc m 1 n, add_comm 1 n] at this
-      simp only [fib_add_two, Nat.succ_eq_add_one, this]
-      ring
+    have := fib_add' (m + 1) n
+    rw [add_assoc m 1 n, add_comm 1 n] at this
+    simp only [fib_add_two, Nat.succ_eq_add_one, this]
+    ring
 -- QUOTE.
 
 /- TEXT:
 As an exercise, use ``fib_add`` to prove the following.
-BOTH: -/
--- QUOTE:
-example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) :=
-/- SOLUTIONS:
-  by rw [two_mul, fib_add, pow_two, pow_two]
 EXAMPLES: -/
-  sorry
+-- QUOTE:
+example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) := by sorry
 -- QUOTE.
--- BOTH:
+/- SOLUTIONS:
+example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) := by
+  rw [two_mul, fib_add, pow_two, pow_two]
+BOTH: -/
 
 /- TEXT:
 Lean's mechanisms for defining recursive functions are flexible enough to allow arbitrary
@@ -278,7 +281,7 @@ theorem zero_lt_of_mul_eq_one (m n : ℕ) : n*m = 1 → 0 < n ∧ 0 < m := by
   cases n <;> cases m <;> simp
 
 example (m n : ℕ) : n*m = 1 → 0 < n ∧ 0 < m := by
-  rcases m with (_ | m) <;> simp
+  rcases m with (_ | m); simp
   rcases n with (_ | n) <;> simp
 -- QUOTE.
 

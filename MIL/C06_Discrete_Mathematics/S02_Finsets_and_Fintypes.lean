@@ -15,7 +15,7 @@ multiple ways of handling them. In this section we will discuss the most common 
 We have already come across the type ``Finset`` in :numref:`section_induction_and_recursion`
 and :numref:`section_infinitely_many_primes`.
 As the name suggests, an element of type ``Finset α`` is a finite set of elements of type ``α``.
-We will call the elements of such a type "finsets."
+We will these "finsets."
 The ``Finset`` data type is designed to have a computational interpretation,
 and many basic operations on ``Finset α`` assume that ``α`` has decidable equality,
 which guarantees that there is an algorithm for testing whether ``a : α`` is an element
@@ -54,12 +54,9 @@ variable (n : ℕ)
 #check (∅ : Finset ℕ)
 
 example : a ∩ (b ∪ c) = (a ∩ b) ∪ (a ∩ c) := by
-  ext x
-  simp only [mem_inter, mem_union]
-  tauto
+  ext x; simp only [mem_inter, mem_union]; tauto
 
-example : a ∩ (b ∪ c) = (a ∩ b) ∪ (a ∩ c) := by
-  rw [inter_union_distrib_left]
+example : a ∩ (b ∪ c) = (a ∩ b) ∪ (a ∩ c) := by rw [inter_union_distrib_left]
 -- QUOTE.
 
 /- TEXT:
@@ -96,13 +93,10 @@ example : ({0, 1} : Finset ℕ) = {1, 0} := by rw [Finset.pair_comm]
 example (x : Nat) : ({x, x} : Finset ℕ) = {x} := by simp
 
 example (x y z : Nat) : ({x, y, z, y, z, x} : Finset ℕ) = {x, y, z} := by
-  ext i
-  simp [or_comm, or_assoc, or_left_comm]
+  ext i; simp [or_comm, or_assoc, or_left_comm]
 
 example (x y z : Nat) : ({x, y, z, y, z, x} : Finset ℕ) = {x, y, z} := by
-  ext i
-  simp
-  tauto
+  ext i; simp; tauto
 -- QUOTE.
 
 /- TEXT:
@@ -128,7 +122,7 @@ set_option pp.notation false in
 -- QUOTE.
 
 /- TEXT:
-Given a finset ``s`` and a predicate ``P``, we can use set-builder notation``{x ∈ s | P x}`` to
+Given a finset ``s`` and a predicate ``P``, we can use set-builder notation ``{x ∈ s | P x}`` to
 define the set of elements of ``s`` that satisfy ``P``.
 This is notation for ``Finset.filter P s``, which can also be written ``s.filter P``.
 EXAMPLES: -/
@@ -166,7 +160,7 @@ end
 Defining operations on finsets in terms of their elements is tricky, because any such definition
 has to be independent of the order in which the elements are presented.
 Of course, you can always define functions by composing existing operations.
-Another thing you can do is use ``Finset.fold`` *fold* a binary operation over the
+Another thing you can do is use ``Finset.fold`` to fold a binary operation over the
 elements, provided that the operation is associative and commutative,
 since these properties guarantee that the result is independent of the order that
 the operation is applied. Finite sums, products, and unions are defined in that way.
@@ -174,7 +168,7 @@ In the last example below, ``biUnion`` stands for "bounded indexed union."
 With conventional mathematical notation, the expression would be written
 :math:`\bigcup_{i ∈ s} g(i)`.
 EXAMPLES: -/
-section
+namespace finsets_and_fintypes
 -- QUOTE:
 #check Finset.fold
 
@@ -191,12 +185,12 @@ variable (g : Nat → Finset Int)
 #check (range 5).biUnion g
 -- QUOTE.
 
-end
+end finsets_and_fintypes
 
 /- TEXT:
 There is a natural principle of induction on finsets: to prove that every finset
 has a property, show that the empty set has the property and that the property is
-preserved when we add one new element to a finset. (Rhe ``@`` in
+preserved when we add one new element to a finset. (The ``@`` symbol in
 ``@insert`` is needed in the induction step of the next example to give names to the
 parameters ``a`` and ``s`` because they have been marked implicit. )
 EXAMPLES: -/
@@ -225,8 +219,7 @@ EXAMPLES: -/
 -- QUOTE:
 noncomputable example (s : Finset ℕ) (h : s.Nonempty) : ℕ := Classical.choose h
 
-example (s : Finset ℕ) (h : s.Nonempty) : Classical.choose h ∈ s :=
-   Classical.choose_spec h
+example (s : Finset ℕ) (h : s.Nonempty) : Classical.choose h ∈ s := Classical.choose_spec h
 
 noncomputable example (s : Finset ℕ) : List ℕ := s.toList
 
@@ -265,25 +258,24 @@ Every finset ``s`` has a finite cardinality, ``Finset.card s``, which can be wri
 when the ``Finset`` namespace is open.
 
 EXAMPLES: -/
--- BEGIN QUOTE:
+-- QUOTE:
 #check Finset.card
 
 #eval (range 5).card
 
 example (s : Finset ℕ) : s.card = #s := by rfl
 
-example (s : Finset ℕ) : s.card = ∑ i ∈ s, 1 := by
-  rw [card_eq_sum_ones]
+example (s : Finset ℕ) : s.card = ∑ i ∈ s, 1 := by rw [card_eq_sum_ones]
 
 example (s : Finset ℕ) : s.card = ∑ i ∈ s, 1 := by simp
--- END QUOTE.
+-- QUOTE.
 
 /- TEXT:
 The next section is all about reasoning about cardinality.
 
 When formalizing mathematics, one often has to make a decision as to whether to express
 one's definitions and theorems in terms of sets or types.
-Restricting attention to an entire type often simplifies notation and proofs, but working
+Using types often simplifies notation and proofs, but working
 with subsets of a type can be more flexible.
 The type-based analogue of a finset is a *fintype*, that is, a type ``Fintype α`` for some
 ``α``.
@@ -291,12 +283,12 @@ By definition, a fintype is just a data type that comes equipped with a finset `
 contains all its elements.
 EXAMPLES: -/
 section
--- BEGIN QUOTE:
+-- QUOTE:
 variable {α : Type*} [Fintype α]
 
 example : ∀ x : α, x ∈ Finset.univ := by
   intro x; exact mem_univ x
--- END QUOTE.
+-- QUOTE.
 
 /- TEXT:
 ``Fintype.card α`` is equal to the cardinality of the corresponding finset.
@@ -309,7 +301,7 @@ end
 /- TEXT:
 We have already seen a prototypical example of a fintype, namely, the types ``Fin n`` for
 each ``n``.
-But Lean also recognizes that the fintypes are closed under operations like the product operation.
+Lean recognizes that the fintypes are closed under operations like the product operation.
 EXAMPLES: -/
 -- QUOTE:
 example : Fintype.card (Fin 5) = 5 := by simp
@@ -334,5 +326,5 @@ Lean and Mathlib use *type class inference* to track the additional structure on
 namely, the universal finset that contains all the elements.
 In other words, you can think of a fintype as an algebraic structure equipped with that
 extra data.
-Chapter :numref:`Chapter %s <structures>` explains how this works.
+:numref:`Chapter %s <structures>` explains how this works.
 EXAMPLES: -/

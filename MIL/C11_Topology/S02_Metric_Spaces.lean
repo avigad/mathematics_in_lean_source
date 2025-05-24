@@ -420,7 +420,7 @@ open Finset
 
 -- QUOTE:
 -- EXAMPLES:
-theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
+theorem cauchySeq_of_le_geometric_two'αα {u : ℕ → X}
     (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
   intro ε ε_pos
@@ -439,7 +439,8 @@ theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
 -- QUOTE.
 
 -- SOLUTIONS:
-example {u : ℕ → X} (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
+theorem cauchySeq_of_le_geometric_two' {u : ℕ → X}
+    (hu : ∀ n : ℕ, dist (u n) (u (n + 1)) ≤ (1 / 2) ^ n) : CauchySeq u := by
   rw [Metric.cauchySeq_iff']
   intro ε ε_pos
   obtain ⟨N, hN⟩ : ∃ N : ℕ, 1 / 2 ^ N * 2 < ε := by
