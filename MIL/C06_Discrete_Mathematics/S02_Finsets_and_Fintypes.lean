@@ -1,11 +1,7 @@
-import Mathlib.Data.Finset.Sum
-import Mathlib.Data.Finset.Fold
 import Mathlib.Data.Finset.Powerset
-import Mathlib.Data.Finset.Prod
+import Mathlib.Data.Finset.Max
 import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Algebra.BigOperators.Ring
-import Mathlib.Algebra.BigOperators.Intervals
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Data.Fintype.BigOperators
 
 /- TEXT:
 .. _finsets_and_fintypes:
@@ -14,15 +10,15 @@ Finsets and Fintypes
 --------------------
 
 Dealing with finite sets and types in Mathlib can be confusing, because the library offers
-multiple ways of handling them. In this section we will discuss one of them.
+multiple ways of handling them. In this section we will discuss the most common ones.
 
 We have already come across the type ``Finset`` in :numref:`section_induction_and_recursion`
 and :numref:`section_infinitely_many_primes`.
 As the name suggests, an element of type ``Finset α`` is a finite set of elements of type ``α``.
 We will call the elements of such a type "finsets."
-``Finset`` is designed to have a computational interpretation,
-and many basic operations on ``Finset α`` assume that ``α`` has decidable equality, which guarantees
-that there is an algorithm for testing whether ``a : α`` is an element
+The ``Finset`` data type is designed to have a computational interpretation,
+and many basic operations on ``Finset α`` assume that ``α`` has decidable equality,
+which guarantees that there is an algorithm for testing whether ``a : α`` is an element
 of a finset ``s``.
 EXAMPLES: -/
 -- QUOTE:
@@ -40,13 +36,12 @@ If you remove the declaration ``[DecidableEq α]``, Lean will complain on the li
 ``#check s ∩ t`` because it cannot compute the intersection.
 All of the data types that you should expect to be able to compute with
 have decidable equality, however,
-and f you work classically by opening the ``Classical`` namespace and
+and if you work classically by opening the ``Classical`` namespace and
 declaring ``noncomputable section``, you can reason about finsets of elements of any type
 at all.
 
 Finsets support most of the set-theoretic operations that sets do:
 EXAMPLES: -/
-section
 -- QUOTE:
 open Finset
 
@@ -133,15 +128,15 @@ set_option pp.notation false in
 -- QUOTE.
 
 /- TEXT:
-Unfortunately, we cannot use set-builder notation with finsets: we can't write
-an expression like ``{ x : ℕ | Even x ∧ x < 5 }`` because Lean can't straightforwardly infer that such a set is finite.
-However, you can start with a finset and separate the elements you want using ``Finset.filter``.
+Given a finset ``s`` and a predicate ``P``, we can use set-builder notation``{x ∈ s | P x}`` to
+define the set of elements of ``s`` that satisfy ``P``.
+This is notation for ``Finset.filter P s``, which can also be written ``s.filter P``.
 EXAMPLES: -/
 -- QUOTE:
-#check (range n).filter Even
-#check (range n).filter (fun x ↦ Even x ∧ x ≠ 3)
+example : {m ∈ range n | Even m} = (range n).filter Even := rfl
+example : {m ∈ range n | Even m ∧ m ≠ 3} = (range n).filter (fun m ↦ Even m ∧ m ≠ 3) := rfl
 
-example : (range 10).filter Even = {0, 2, 4, 6, 8} := by decide
+example : {m ∈ range 10 | Even m} = {0, 2, 4, 6, 8} := by decide
 -- QUOTE.
 
 /- TEXT:
@@ -150,7 +145,7 @@ EXAMPLES: -/
 -- QUOTE:
 #check (range 5).image (fun x ↦ x * 2)
 
-example : (range 5).image (fun x ↦ x * 2) = (range 10).filter Even := by decide
+example : (range 5).image (fun x ↦ x * 2) = {x ∈ range 10 | Even x} := by decide
 -- QUOTE.
 
 /- TEXT:
@@ -168,7 +163,7 @@ variable (s t : Finset Nat)
 end
 
 /- TEXT:
-Defining an operation on finsets in terms of their elements is tricky, because any such definition
+Defining operations on finsets in terms of their elements is tricky, because any such definition
 has to be independent of the order in which the elements are presented.
 Of course, you can always define functions by composing existing operations.
 Another thing you can do is use ``Finset.fold`` *fold* a binary operation over the
@@ -201,9 +196,9 @@ end
 /- TEXT:
 There is a natural principle of induction on finsets: to prove that every finset
 has a property, show that the empty set has the property and that the property is
-preserved when we add one new element to a finset. (The ``@`` in ``@insert`` is need
-in the induction step to give names to the parameters ``a`` and ``s`` because they
-have been marked implicit. )
+preserved when we add one new element to a finset. (Rhe ``@`` in
+``@insert`` is needed in the induction step of the next example to give names to the
+parameters ``a`` and ``s`` because they have been marked implicit. )
 EXAMPLES: -/
 -- QUOTE:
 #check Finset.induction
@@ -240,14 +235,15 @@ example (s : Finset ℕ) (a : ℕ) : a ∈ s.toList ↔ a ∈ s := mem_toList
 
 /- TEXT:
 You can use ``Finset.min`` and ``Finset.max`` to choose the minimum or maximum element
-of a finset of elements of a linear order, and similarly you can use ``Finset.sup``
-and ``Finset.max`` with finstes of elements of a lattice, but there is a catch.
+of a finset of elements of a linear order, and similarly you can use ``Finset.inf``
+and ``Finset.sup`` with finsets of elements of a lattice, but there is a catch.
 What should the minimum element of an empty finset be?
 You can check that the primed versions of the functions below add a precondition
 that the finset is nonempty.
 The non-primed versions ``Finset.min`` and ``Finset.max``
-add a top or bottom element, respectively, to handle the case where the finset is empty,
-and the non-primed versions ``Finset.inf`` and ``Finset.sup`` assume that
+add a top or bottom element, respectively, to the output type, to handle the case where the
+finset is empty.
+The non-primed versions ``Finset.inf`` and ``Finset.sup`` assume that
 the lattice comes equipped with a top or bottom element, respectively.
 EXAMPLES: -/
 -- QUOTE:
@@ -265,11 +261,16 @@ example : Finset.min' {2, 6, 7} ⟨6, by trivial⟩ = 2 := by trivial
 -- QUOTE.
 
 /- TEXT:
-One of the most important features of finsets is that each one has a finite cardinality.
+Every finset ``s`` has a finite cardinality, ``Finset.card s``, which can be written ``#s``
+when the ``Finset`` namespace is open.
+
 EXAMPLES: -/
 -- BEGIN QUOTE:
 #check Finset.card
+
 #eval (range 5).card
+
+example (s : Finset ℕ) : s.card = #s := by rfl
 
 example (s : Finset ℕ) : s.card = ∑ i ∈ s, 1 := by
   rw [card_eq_sum_ones]

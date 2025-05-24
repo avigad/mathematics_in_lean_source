@@ -11,8 +11,8 @@ namespace more_induction
 More Induction
 --------------
 
-In :numref:`section_induction_and_recursion` we saw how to define the factorial function by recursion on
-the natural numbers.
+In :numref:`section_induction_and_recursion` we saw how to define the factorial function by
+recursion on the natural numbers.
 EXAMPLES: -/
 -- QUOTE:
 def fac : ℕ → ℕ
@@ -73,7 +73,7 @@ theorem fac_pos' : ∀ n, 0 < fac n
 -- QUOTE.
 
 /- TEXT:
-Notice the absence of the ``:=``, the ``∀ n`` after the colon, the ``by`` keyword in each case,
+Notice also the absence of the ``:=``, the ``∀ n`` after the colon, the ``by`` keyword in each case,
 and the inductive appeal to ``fac_pos' n``.
 It is as though the theorem is a recursive function of ``n`` and in the inductive step we make
 a recursive call.
@@ -111,20 +111,15 @@ arithmetic operations on the real numbers are not computable.
 EXAMPLES: -/
 -- QUOTE:
 noncomputable section
-open Real
 
-def phi := (1 + √5) / 2
-def phi' := (1 - √5) / 2
+def phi  : ℝ := (1 + √5) / 2
+def phi' : ℝ := (1 - √5) / 2
 
 theorem phi_sq : phi^2 = phi + 1 := by
-  field_simp [phi]
-  ring_nf
-  simp [sq_sqrt]; ring
+  field_simp [phi, add_sq]; ring
 
 theorem phi'_sq : phi'^2 = phi' + 1 := by
-  field_simp [phi']
-  ring_nf
-  simp [sq_sqrt]; ring
+  field_simp [phi', sub_sq]; ring
 
 theorem fib_eq : ∀ n, fib n = (phi^n - phi'^n) / √5
   | 0 => by simp
@@ -226,9 +221,9 @@ BOTH: -/
 -- QUOTE:
 example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) :=
 /- SOLUTIONS:
-  sorry
-EXAMPLES: -/
   by rw [two_mul, fib_add, pow_two, pow_two]
+EXAMPLES: -/
+  sorry
 -- QUOTE.
 -- BOTH:
 
@@ -250,7 +245,7 @@ theorem ne_one_iff_exists_prime_dvd : ∀ {n}, n ≠ 1 ↔ ∃ p : ℕ, p.Prime 
   | 1 => by simp [Nat.not_prime_one]
   | n + 2 => by
     have hn : n+2 ≠ 1 := by omega
-    simp only [true_iff_iff, Ne, not_false_iff, hn]
+    simp only [Ne, not_false_iff, true_iff, hn]
     by_cases h : Nat.Prime (n + 2)
     · use n+2, h
     · have : 2 ≤ n + 2 := by omega
@@ -266,14 +261,13 @@ theorem ne_one_iff_exists_prime_dvd : ∀ {n}, n ≠ 1 ↔ ∃ p : ℕ, p.Prime 
 /- TEXT:
 The line ``rw [ne_one_iff_exists_prime_dvd] at this`` is like a magic trick: we are using
 the very theorem we are proving in its own proof.
-What makes it work is that it is instantiated at ``m`` and the context has ``m < n + 2``.
+What makes it work is that the inductive call is instantiated at ``m``,
+the current case is ``n + 2``, and the context has ``m < n + 2``.
 Lean can find the hypothesis and use it to show that the induction is well-founded.
 Lean is pretty good at figuring out what is decreasing; in this case, the choice of
-``n`` and the less-than relation is obvious.
-We will see later (in a section that has not been written yet) that in more complicated
-situations Lean will let you specify an arbitrary measure of complexity.
-
-.. TODO: fill in a reference here
+``n`` in the statement of the theorem and the less-than relation is obvious.
+In more complicated cases, Lean provides mechanisms to provide this information
+explicitly. See the section on `well-founded recursion <https://lean-lang.org/doc/reference/latest//Definitions/Recursive-Definitions/#well-founded-recursion>`_ in the Lean Reference Manual.
 
 Sometimes, in a proof, you need to split on cases depending on whether a natural number ``n``
 is zero or a successor, without requiring an inductive hypothesis in the successor case.
