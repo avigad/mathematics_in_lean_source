@@ -120,7 +120,7 @@ class Semigroup₀ (α : Type) where
 Note that while stating `dia_assoc`, the previously defined field `toDia₁` is in the local
 context hence can be used when Lean searches for an instance of `Dia₁ α` to make sense
 of `a ⋄ b`. However this `toDia₁` field does not become part of the type class instances database.
-Hence doing ``example {α : Type} [Semigroup₁ α] (a b : α) : α := a ⋄ b`` would fail with
+Hence doing ``example {α : Type} [Semigroup₀ α] (a b : α) : α := a ⋄ b`` would fail with
 error message ``failed to synthesize instance Dia₁ α``.
 
 We can fix this by adding the ``instance`` attribute later.
