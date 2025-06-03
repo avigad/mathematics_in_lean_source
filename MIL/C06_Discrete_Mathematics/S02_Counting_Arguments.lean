@@ -17,10 +17,12 @@ open Finset
 -- EXAMPLES:
 variable {α β : Type*} [DecidableEq α] [DecidableEq β] (s t : Finset α) (f : α → β)
 
+example : #(s ×ˢ t) = #s * #t := by rw [card_product]
 example : #(s ×ˢ t) = #s * #t := by simp
 
-example : #(s ∪ t) = #s + #t - #(s ∩ t) := card_union _ _
+example : #(s ∪ t) = #s + #t - #(s ∩ t) := by rw [card_union]
 
+example (h : Disjoint s t) : #(s ∪ t) = #s + #t := by rw [card_union_of_disjoint h]
 example (h : Disjoint s t) : #(s ∪ t) = #s + #t := by simp [h]
 
 example (h : Function.Injective f) : #(s.image f) = #s := by rw [card_image_of_injective _ h]
@@ -58,8 +60,8 @@ end
 /- TEXT:
 When the ``Fintype`` namespace is not open, we have to use ``Fintype.card`` instead of `card`.
 
-The following is an example of calculating the cardinality of a finset, namely, `range n` together
-with a copy of range `n` shifted by more than `n`.
+The following is an example of calculating the cardinality of a finset, namely, the union of
+`range n` with a copy of range `n` that has been shifted by more than `n`.
 The calculation requires showing the the two sets in the union are disjoint;
 the first line of the proof yields the side condition
 ``Disjoint (range n) (image (fun i ↦ m + i) (range n))``, which is established at the end of the
@@ -244,8 +246,7 @@ on combinatorics given by Bhavik Mehta at *Lean for the Curious Mathematician* i
 Suppose we have a bipartite graph with vertex sets ``s`` and ``t``, such that for every ``a`` in
 ``s``, there are at least three edges leaving ``a``, and for every ``b`` in ``t``, there is at most
 one edge entering ``b``. Then the total number of edges in the graph is at least three times the
-cardinality of ``s`` and at most the cardinality of ``t``, from which is follows that the
-cardinality of ``t`` is at least three times the cardinality of ``s``.
+cardinality of ``s`` and at most the cardinality of ``t``, from which is follows that three times the cardinality of ``s`` is at most the cardinality of ``t``.
 The following theorem implements this argument, where we use the relation ``r`` to represent
 the edges of the graph. The proof is an elegant calculation.
 EXAMPLES: -/
@@ -259,14 +260,14 @@ theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
     (h_left : ∀ a ∈ s, 3 ≤ #{b ∈ t | r a b})
     (h_right : ∀ b ∈ t, #{a ∈ s | r a b} ≤ 1) :
     3 * #(s) ≤ #(t) := by
-  calc
-    3 * #(s) = ∑ a ∈ s, 3 := by simp [sum_const_nat, mul_comm]
-    _ ≤ ∑ a ∈ s, #({b ∈ t | r a b}) := sum_le_sum h_left
+  calc 3 * #(s)
+      = ∑ a ∈ s, 3                               := by simp [sum_const_nat, mul_comm]
+    _ ≤ ∑ a ∈ s, #({b ∈ t | r a b})              := sum_le_sum h_left
     _ = ∑ a ∈ s, ∑ b ∈ t, if r a b then 1 else 0 := by simp
     _ = ∑ b ∈ t, ∑ a ∈ s, if r a b then 1 else 0 := sum_comm
-    _ = ∑ b ∈ t, #({a ∈ s | r a b}) := by simp
-    _ ≤ ∑ b ∈ t, 1 := sum_le_sum h_right
-    _ ≤ #(t) := by simp
+    _ = ∑ b ∈ t, #({a ∈ s | r a b})              := by simp
+    _ ≤ ∑ b ∈ t, 1                               := sum_le_sum h_right
+    _ ≤ #(t)                                     := by simp
 -- QUOTE.
 
 /- TEXT:
@@ -282,7 +283,7 @@ example (m k : ℕ) (h : m ≠ k) (h' : m / 2 = k / 2) : m = k + 1 ∨ k = m + 1
 -- QUOTE.
 
 /- TEXT:
-The proof of the claim uses the pigeonhole principle, in the form
+The solution to Mehta's exercise uses the pigeonhole principle, in the form
 ``exists_lt_card_fiber_of_mul_lt_card_of_maps_to``, to show that there are two distinct elements
 ``m`` and ``k`` in ``A`` such that ``m / 2 = k / 2``.
 See if you can complete the justification of that fact and then use it to finish the proof.

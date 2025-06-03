@@ -127,7 +127,7 @@ You can use ``#eval reverse [1, 2, 3, 4, 5]`` to test it out.
 The most straightforward definition of
 ``reverse`` requires quadratic time, but don't worry about that.
 You can jump to the definition of ``List.reverse`` in the standard library to see a
-linear time implementation.
+linear-time implementation.
 Try proving ``reverse (as ++ bs) = reverse bs ++ reverse as`` and
 ``reverse (reverse as) = as``.
 You can use ``cons_append`` and ``append_assoc``, but you
@@ -166,16 +166,16 @@ BOTH: -/
 -- QUOTE:
 inductive BinTree where
   | empty : BinTree
-  | node : BinTree → BinTree → BinTree
+  | node  : BinTree → BinTree → BinTree
 
 namespace BinTree
 
 def size : BinTree → ℕ
-  | empty => 0
+  | empty    => 0
   | node l r => size l + size r + 1
 
 def depth : BinTree → ℕ
-  | empty => 0
+  | empty    => 0
   | node l r => max (depth l) (depth r) + 1
 -- QUOTE.
 
@@ -190,17 +190,17 @@ Here is an important inequality relating the size and the depth:
 EXAMPLES: -/
 -- QUOTE:
 theorem size_le : ∀ t : BinTree, size t ≤ 2^depth t - 1
-  | empty => Nat.zero_le _
+  | empty    => Nat.zero_le _
   | node l r => by
     simp only [depth, size]
     calc l.size + r.size + 1
       ≤ (2^l.depth - 1) + (2^r.depth - 1) + 1 := by
           gcongr <;> apply size_le
     _ ≤ (2 ^ max l.depth r.depth - 1) + (2 ^ max l.depth r.depth - 1) + 1 := by
-        gcongr <;> simp
+          gcongr <;> simp
     _ ≤ 2 ^ (max l.depth r.depth + 1) - 1 := by
-        have : 0 < 2 ^ max l.depth r.depth := by simp
-        omega
+          have : 0 < 2 ^ max l.depth r.depth := by simp
+          omega
 -- QUOTE.
 
 /- TEXT:
@@ -314,14 +314,14 @@ def vars : PropForm → Finset ℕ
 -- EXAMPLES:
 theorem eval_eq_eval : ∀ (A : PropForm) (v1 v2 : ℕ → Bool),
     (∀ n ∈ A.vars, v1 n = v2 n) → A.eval v1 = A.eval v2
-  | var n, v1, v2, h => by simp_all [vars, eval, h]
-  | fls, v1, v2, h => by simp_all [eval]
+  | var n, v1, v2, h    => by simp_all [vars, eval, h]
+  | fls, v1, v2, h      => by simp_all [eval]
   | conj A B, v1, v2, h => by
-    simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
+      simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
   | disj A B, v1, v2, h => by
-    simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
+      simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
   | impl A B, v1, v2, h => by
-    simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
+      simp_all [vars, eval, eval_eq_eval A v1 v2, eval_eq_eval B v1 v2]
 -- QUOTE.
 
 /- TEXT:

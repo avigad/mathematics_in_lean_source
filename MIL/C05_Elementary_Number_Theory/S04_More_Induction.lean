@@ -56,8 +56,8 @@ example (n : ℕ) : 0 < fac n := by
 -- QUOTE.
 
 /- TEXT:
-The names of the cases, ``zero`` and ``succ``, are taken from the definition of the induction
-principle.
+As usual, you can hover over the ``induction`` keyword to read the documentation.
+The names of the cases, ``zero`` and ``succ``, are taken from the definition of the type `ℕ`.
 Notice that the ``succ`` case allows you to choose whatever names you want for the
 induction variable and the inductive hypothesis, here ``n`` and ``ih``.
 You can even prove a theorem with the same notation used to define a recursive function.
@@ -123,11 +123,9 @@ theorem phi'_sq : phi'^2 = phi' + 1 := by
   field_simp [phi', sub_sq]; ring
 
 theorem fib_eq : ∀ n, fib n = (phi^n - phi'^n) / √5
-  | 0 => by simp
-  | 1 => by field_simp [phi, phi']
-  | n+2 => by
-    field_simp [fib_eq, pow_add, phi_sq, phi'_sq]
-    ring
+  | 0   => by simp
+  | 1   => by field_simp [phi, phi']
+  | n+2 => by field_simp [fib_eq, pow_add, phi_sq, phi'_sq]; ring
 
 end
 -- QUOTE.
@@ -163,7 +161,7 @@ EXAMPLES: -/
 def fib' (n : Nat) : Nat :=
   aux n 0 1
 where aux
-  | 0, x, _ => x
+  | 0,   x, _ => x
   | n+1, x, y => aux n y (x + y)
 
 theorem fib'.aux_eq (m n : ℕ) : fib'.aux n (fib m) (fib (m + 1)) = fib (n + m) := by
@@ -182,14 +180,13 @@ theorem fib'_eq_fib : fib' = fib := by
 Notice the ``generalizing`` keyword in the proof of ``fib'.aux_eq``.
 It serves to insert a ``∀ m`` in front of the inductive hypothesis, so that in the induction
 step, ``m`` can take a different value.
-You can step through the proof and check that in this case, ``m`` needs to be instantiated
-to ``m + 1``.
-As usual, you can hover over the ``induction`` keyword to read the documentation.
+You can step through the proof and check that in this case, the quantifier needs to be
+instantiated to ``m + 1`` in the inductive step.
 
 Notice also the use of ``erw`` (for "extended rewrite") instead of ``rw``.
 This is used because to rewrite the goal ``fib'.aux_eq``, ``fib 0`` and ``fib 1``
 have to be reduced to ``0`` and ``1``, respectively.
-The tactic ``erw`` is simply more aggressive than ``rw`` in unfolding definitions to
+The tactic ``erw`` is more aggressive than ``rw`` in unfolding definitions to
 match parameters.
 This isn't always a good idea; it can waste a lot of time in some cases, so use ``erw``
 sparingly.
@@ -223,19 +220,21 @@ theorem fib_add' : ∀ m n, fib (m + n + 1) = fib m * fib n + fib (m + 1) * fib 
 As an exercise, use ``fib_add`` to prove the following.
 EXAMPLES: -/
 -- QUOTE:
-example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) := by sorry
+example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by sorry
 -- QUOTE.
 /- SOLUTIONS:
-example (n : ℕ): (fib n)^2 + (fib (n + 1))^2 = fib (2 * n + 1) := by
+example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by
   rw [two_mul, fib_add, pow_two, pow_two]
 BOTH: -/
+example (n : ℕ): (fib n) ^ 2 + (fib (n + 1)) ^ 2 = fib (2 * n + 1) := by
+  rw [two_mul, fib_add, pow_two, pow_two]
 
 /- TEXT:
 Lean's mechanisms for defining recursive functions are flexible enough to allow arbitrary
 recursive calls, as long the complexity of the arguments decrease according to some
 well-founded measure.
 In the next example, we show that every natural number ``n ≠ 1`` has a prime divisor,
-using the fact that if ``n`` is itself nonzero and not prime, it has a smaller divisor.
+using the fact that if ``n`` is nonzero and not prime, it has a smaller divisor.
 (You can check that Mathlib has a theorem of the same name in the ``Nat`` namespace,
 though it has a different proof than the one we give here.)
 EXAMPLES: -/
@@ -277,7 +276,7 @@ is zero or a successor, without requiring an inductive hypothesis in the success
 For that, you can use the ``cases`` and ``rcases`` tactics.
 EXAMPLES: -/
 -- QUOTE:
-theorem zero_lt_of_mul_eq_one (m n : ℕ) : n*m = 1 → 0 < n ∧ 0 < m := by
+theorem zero_lt_of_mul_eq_one (m n : ℕ) : n * m = 1 → 0 < n ∧ 0 < m := by
   cases n <;> cases m <;> simp
 
 example (m n : ℕ) : n*m = 1 → 0 < n ∧ 0 < m := by

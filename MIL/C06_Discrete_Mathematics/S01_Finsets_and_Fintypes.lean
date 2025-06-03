@@ -15,7 +15,7 @@ multiple ways of handling them. In this section we will discuss the most common 
 We have already come across the type ``Finset`` in :numref:`section_induction_and_recursion`
 and :numref:`section_infinitely_many_primes`.
 As the name suggests, an element of type ``Finset α`` is a finite set of elements of type ``α``.
-We will these "finsets."
+We will call these "finsets."
 The ``Finset`` data type is designed to have a computational interpretation,
 and many basic operations on ``Finset α`` assume that ``α`` has decidable equality,
 which guarantees that there is an algorithm for testing whether ``a : α`` is an element
@@ -202,12 +202,12 @@ example {α : Type*} [DecidableEq α] (f : α → ℕ)  (s : Finset α) (h : ∀
   induction s using Finset.induction_on with
   | empty => simp
   | @insert a s anins ih =>
-      rw [prod_insert anins]
-      apply mul_ne_zero
-      · apply h; apply mem_insert_self
-      apply ih
-      intros x xs
-      exact h x (mem_insert_of_mem xs)
+    rw [prod_insert anins]
+    apply mul_ne_zero
+    · apply h; apply mem_insert_self
+    apply ih
+    intros x xs
+    exact h x (mem_insert_of_mem xs)
 -- QUOTE.
 
 /- TEXT:
