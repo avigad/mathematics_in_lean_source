@@ -236,7 +236,7 @@ example (n : ℕ) : #(triangle' n) = #(triangle n) := by
       omega
     . simp; omega
   rw [this, card_image_of_injOn]
-  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f] at *
+  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f]
 BOTH: -/
 -- QUOTE.
 
