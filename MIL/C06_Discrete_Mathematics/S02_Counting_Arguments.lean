@@ -313,9 +313,8 @@ BOTH: -/
   sorry
 /- SOLUTIONS:
   rcases ht' with ⟨m, ⟨hm, hm'⟩, k, ⟨hk, hk'⟩, hmk⟩
+  use m, hm, k, hk
   have : m = k + 1 ∨ k = m + 1 := by omega
-  rcases this with rfl | rfl
-  . use k, hk, k+1, hm; simp
-  . use m, hm, m+1, hk; simp
+  rcases this with h | h <;> simp [h]
 BOTH: -/
 -- QUOTE.
