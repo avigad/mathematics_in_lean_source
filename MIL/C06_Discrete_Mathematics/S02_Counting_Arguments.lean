@@ -253,7 +253,7 @@ EXAMPLES: -/
 section
 -- QUOTE:
 open Classical
-variable (s t : Finset Nat) (a b : Nat)
+variable (s t : Finset ℕ) (a b : ℕ)
 
 theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
     (r : α → β → Prop)
