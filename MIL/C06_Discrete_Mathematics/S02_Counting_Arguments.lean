@@ -117,7 +117,7 @@ example (n : ℕ) : #(triangle n) = (n + 1) * n / 2 := by
     intro x _ y _ xney
     simp [disjoint_iff_ne, xney]
   -- continue the calculation
-  transitivity (∑ i in range (n+1), i)
+  transitivity (∑ i ∈ range (n+1), i)
   · congr; ext i
     rw [card_image_of_injective, card_range]
     intros i1 i2; simp
@@ -236,7 +236,7 @@ example (n : ℕ) : #(triangle' n) = #(triangle n) := by
       omega
     . simp; omega
   rw [this, card_image_of_injOn]
-  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f] at *
+  rintro ⟨p1, p2⟩ hp ⟨q1, q2⟩ hq; simp [f]
 BOTH: -/
 -- QUOTE.
 
@@ -253,7 +253,7 @@ EXAMPLES: -/
 section
 -- QUOTE:
 open Classical
-variable (s t : Finset Nat) (a b : Nat)
+variable (s t : Finset ℕ) (a b : ℕ)
 
 theorem doubleCounting {α β : Type*} (s : Finset α) (t : Finset β)
     (r : α → β → Prop)
@@ -313,9 +313,8 @@ BOTH: -/
   sorry
 /- SOLUTIONS:
   rcases ht' with ⟨m, ⟨hm, hm'⟩, k, ⟨hk, hk'⟩, hmk⟩
+  use m, hm, k, hk
   have : m = k + 1 ∨ k = m + 1 := by omega
-  rcases this with rfl | rfl
-  . use k, hk, k+1, hm; simp
-  . use m, hm, m+1, hk; simp
+  rcases this with h | h <;> simp [h]
 BOTH: -/
 -- QUOTE.
