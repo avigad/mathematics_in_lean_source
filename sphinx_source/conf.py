@@ -17,7 +17,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Mathematics in Lean'
-copyright = '2020-2025, Jeremy Avigad, Patrick Massot. Text licensed under CC BY 4.0.'
+copyright = '2020-2025, Jeremy Avigad, Patrick Massot. Text licensed under CC BY 4.0'
 author = 'Jeremy Avigad, Patrick Massot'
 
 # The full version, including alpha/beta/rc tags
