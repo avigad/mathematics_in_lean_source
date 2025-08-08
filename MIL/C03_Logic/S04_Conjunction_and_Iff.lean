@@ -342,13 +342,13 @@ variable (a b : α)
 
 -- EXAMPLES:
 example : a < b ↔ a ≤ b ∧ a ≠ b := by
-  rw [lt_iff_le_not_le]
+  rw [lt_iff_le_not_ge]
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
 example : a < b ↔ a ≤ b ∧ a ≠ b := by
-  rw [lt_iff_le_not_le]
+  rw [lt_iff_le_not_ge]
   constructor
   · rintro ⟨h0, h1⟩
     constructor
@@ -391,22 +391,22 @@ variable (a b c : α)
 
 -- EXAMPLES:
 example : ¬a < a := by
-  rw [lt_iff_le_not_le]
+  rw [lt_iff_le_not_ge]
   sorry
 
 example : a < b → b < c → a < c := by
-  simp only [lt_iff_le_not_le]
+  simp only [lt_iff_le_not_ge]
   sorry
 -- QUOTE.
 
 -- SOLUTIONS:
 example : ¬a < a := by
-  rw [lt_iff_le_not_le]
+  rw [lt_iff_le_not_ge]
   rintro ⟨h0, h1⟩
   exact h1 h0
 
 example : a < b → b < c → a < c := by
-  simp only [lt_iff_le_not_le]
+  simp only [lt_iff_le_not_ge]
   rintro ⟨h0, h1⟩ ⟨h2, h3⟩
   constructor
   · apply le_trans h0 h2
