@@ -65,7 +65,7 @@ Lean accepts it as a term of that type,
 you have done something very impressive.
 (Using ``sorry`` is cheating, and Lean knows it.)
 So now you know the game.
-All that is left to learn are the rules.
+All that is left to learn is the rules.
 
 This book is complementary to a companion tutorial,
 `Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean4/>`_,

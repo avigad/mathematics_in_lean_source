@@ -328,7 +328,7 @@ In type theory, a *property* or *predicate* on a type ``α``
 is just a function ``P : α → Prop``.
 This makes sense:
 given ``a : α``, ``P a`` is just the proposition
-that ``P`` holds of ``a``.
+that ``P`` holds for ``a``.
 In the library, ``Set α`` is defined to be ``α → Prop`` and ``x ∈ s`` is defined to be ``s x``.
 In other words, sets are really properties, treated as objects.
 
