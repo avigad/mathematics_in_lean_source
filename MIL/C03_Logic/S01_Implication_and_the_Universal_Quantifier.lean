@@ -470,7 +470,7 @@ If ``x`` has type ``α`` and ``s`` has type ``Set α``, then ``x ∈ s`` is a pr
 that asserts that ``x`` is an element of ``s``. If ``y`` has some different type ``β`` then the
 expression ``y ∈ s`` makes no sense. Here "makes no sense" means "has no type hence Lean does not
 accept it as a well-formed statement". This contrasts with Zermelo-Fraenkel set theory for instance
-where ``a ∈ b`` is a well-formed statement for every mathematical objects ``a`` and ``b``.
+where ``a ∈ b`` is a well-formed statement for both mathematical objects ``a`` and ``b``.
 For instance ``sin ∈ cos`` is a well-formed statement in ZF. This defect of set theoretic
 foundations is an important motivation for not using it in a proof assistant which is meant to assist
 us by detecting meaningless expressions. In Lean ``sin`` has type ``ℝ → ℝ`` and ``cos`` has type
