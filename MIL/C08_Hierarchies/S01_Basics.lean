@@ -598,11 +598,7 @@ class Module₁ (R : Type) [Ring₃ R] (M : Type) [AddCommGroup₃ M] extends SM
 There is something interesting going on here. While it isn't too surprising that the
 ring structure on ``R`` is a parameter in this definition, you probably expected ``AddCommGroup₃ M``
 to be part of the ``extends`` clause just as ``SMul₃ R M`` is.  Trying to do that would lead
-to a mysterious sounding error message:
-``cannot find synthesization order for instance Module₁.toAddCommGroup₃ with type (R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M
-all remaining arguments have metavariables: Ring₃ ?R @Module₁ ?R ?inst✝ M``.
-In order to understand this message, you need to remember that such an ``extends`` clause would
-lead to a field ``Module₃.toAddCommGroup₃`` marked as an instance. This instance
+to a field ``Module₃.toAddCommGroup₃`` marked as an instance. This instance
 would have the signature appearing in the error message:
 ``(R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M``.
 With such an instance in the type class database, each time Lean would look for a
@@ -610,8 +606,7 @@ With such an instance in the type class database, each time Lean would look for 
 unspecified type ``R`` and a ``Ring₃ R`` instance before embarking on the main quest of finding a
 ``Module₁ R M`` instance. Those two side-quests are represented by the meta-variables mentioned in
 the error message and denoted by ``?R`` and ``?inst✝`` there. Such a ``Module₃.toAddCommGroup₃``
-instance would then be a huge trap for the instance resolution procedure and then ``class`` command
-refuses to set it up.
+instance would then be a huge trap for the instance resolution procedure.
 
 What about ``extends SMul₃ R M`` then? That one creates a field
 ``Module₁.toSMul₃ : {R : Type} →  [inst : Ring₃ R] → {M : Type} → [inst_1 : AddCommGroup₃ M] → [self : Module₁ R M] → SMul₃ R M``
