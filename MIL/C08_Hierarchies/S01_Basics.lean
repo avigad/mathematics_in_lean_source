@@ -599,7 +599,7 @@ There is something interesting going on here. While it isn't too surprising that
 ring structure on ``R`` is a parameter in this definition, you probably expected ``AddCommGroup₃ M``
 to be part of the ``extends`` clause just as ``SMul₃ R M`` is.  Trying to do that would lead
 to a field ``Module₃.toAddCommGroup₃`` marked as an instance. This instance
-would have the signature appearing in the error message:
+would have the signature:
 ``(R : Type) → [inst : Ring₃ R] → {M : Type} → [self : Module₁ R M] → AddCommGroup₃ M``.
 With such an instance in the type class database, each time Lean would look for a
 ``AddCommGroup₃ M`` instance for some ``M``, it would need to go hunting for a completely
