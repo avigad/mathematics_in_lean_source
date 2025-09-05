@@ -246,10 +246,10 @@ theorem ne_one_iff_exists_prime_dvd : ∀ {n}, n ≠ 1 ↔ ∃ p : ℕ, p.Prime 
   | 0 => by simpa using Exists.intro 2 Nat.prime_two
   | 1 => by simp [Nat.not_prime_one]
   | n + 2 => by
-    have hn : n+2 ≠ 1 := by omega
+    have hn : n + 2 ≠ 1 := by omega
     simp only [Ne, not_false_iff, true_iff, hn]
     by_cases h : Nat.Prime (n + 2)
-    · use n+2, h
+    · use n + 2, h
     · have : 2 ≤ n + 2 := by omega
       rw [Nat.not_prime_iff_exists_dvd_lt this] at h
       rcases h with ⟨m, mdvdn, mge2, -⟩
