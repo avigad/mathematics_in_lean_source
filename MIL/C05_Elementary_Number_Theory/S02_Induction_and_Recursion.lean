@@ -32,7 +32,7 @@ The command specifies that ``Nat`` is the datatype generated
 freely and inductively by the two constructors ``zero : Nat`` and
 ``succ : Nat → Nat``.
 Of course, the library introduces notation ``ℕ`` and ``0`` for
-``nat`` and ``zero`` respectively. (Numerals are translated to binary
+``Nat`` and ``zero`` respectively. (Numerals are translated to binary
 representations, but we don't have to worry about the details of that now.)
 
 What "freely" means for the working mathematician is that the type
