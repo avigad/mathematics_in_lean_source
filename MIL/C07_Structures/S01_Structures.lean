@@ -50,9 +50,12 @@ def myPoint1 : Point where
   z := 4
 
 def myPoint2 : Point :=
+  { x := 2, y := -1, z := 4 }
+
+def myPoint3 : Point :=
   ⟨2, -1, 4⟩
 
-def myPoint3 :=
+def myPoint4 :=
   Point.mk 2 (-1) 4
 -- QUOTE.
 
@@ -67,7 +70,7 @@ def myPoint3 :=
 
 In the first example, the fields of the structure are named
 explicitly.
-The function ``Point.mk`` referred to in the definition of ``myPoint3``
+The function ``Point.mk`` referred to in the definition of ``myPoint4``
 is known as the *constructor* for the ``Point`` structure, because
 it serves to construct elements.
 You can specify a different name if you want, like ``build``.
