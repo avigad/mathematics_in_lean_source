@@ -65,7 +65,7 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
 -- QUOTE.
 
 /- TEXT:
-In this example, we open the ``set`` namespace to have
+In this example, we open the ``Set`` namespace to have
 access to the shorter names for the theorems.
 But, in fact, we can delete the calls to ``rw`` and ``simp``
 entirely:
