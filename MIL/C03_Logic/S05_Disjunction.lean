@@ -82,9 +82,9 @@ example : x < |y| → x < y ∨ x < -y := by
 /- TEXT:
 Notice that the pattern changes from ``⟨h₀, h₁⟩`` in the case of
 a conjunction to ``h₀ | h₁`` in the case of a disjunction.
-Think of the first pattern as matching against data the contains
-*both* an ``h₀`` and a ``h₁``, whereas second pattern, with the bar,
-matches against data that contains *either* an ``h₀`` or ``h₁``.
+Think of the first pattern as matching against data that contains
+*both* an ``h₀`` and a ``h₁``, whereas the second pattern, with the bar,
+matches against data that contains *either* an ``h₀`` or an ``h₁``.
 In this case, because the two goals are separate, we have chosen
 to use the same name, ``h``, in each case.
 
