@@ -149,7 +149,7 @@ So ``apply le_trans`` produces three goals that look like ``x ≤ ?a``, ``?a ≤
 and ``α`` where ``?a`` (probably with a more complicated auto-generated name) stands
 for the mysterious ``y``.
 The last goal, with type ``α``, is to provide the value of ``y``.
-It comes lasts because Lean hopes to automatically infer it from the proof of
+It comes last because Lean hopes to automatically infer it from the proof of
 the first goal ``x ≤ ?a``.
 In order to avoid this unappealing situation, you can use the ``calc`` tactic
 to explicitly provide ``y``.
