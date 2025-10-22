@@ -170,7 +170,7 @@ SOLUTIONS: -/
 /- TEXT:
 Let's consider a variation of the proof above, where instead
 of using the factorial function,
-we suppose that we are given by a finite set
+we suppose that we are given a finite set
 :math:`\{ p_1, \ldots, p_n \}` and we consider a prime factor of
 :math:`\prod_{i = 1}^n p_i + 1`.
 That prime factor has to be distinct from each
