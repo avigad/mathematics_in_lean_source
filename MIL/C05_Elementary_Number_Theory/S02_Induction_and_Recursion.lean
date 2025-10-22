@@ -9,7 +9,7 @@ Induction and Recursion
 
 The set of natural numbers :math:`\mathbb{N} = \{ 0, 1, 2, \ldots \}`
 is not only fundamentally important in its own right,
-but also a plays a central role in the construction of new mathematical objects.
+but also plays a central role in the construction of new mathematical objects.
 Lean's foundation allows us to declare *inductive types*,
 which are types generated inductively by a given list of
 *constructors*.
@@ -108,7 +108,7 @@ The line ``induction' n with n ih`` in the proof
 below therefore results in two goals:
 in the first we need to prove ``0 < fac 0``,
 and in the second we have the added assumption ``ih : 0 < fac n``
-and a required to prove ``0 < fac (n + 1)``.
+and are required to prove ``0 < fac (n + 1)``.
 The phrase ``with n ih`` serves to name the variable and
 the assumption for the inductive hypothesis,
 and you can choose whatever names you want for them.
