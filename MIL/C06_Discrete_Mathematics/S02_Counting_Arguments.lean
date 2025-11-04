@@ -93,7 +93,7 @@ the diagonal and halving the result shows us that the cardinality of the triangl
 :math:`n (n + 1) / 2`.
 
 Alternatively, we note that the rows of the triangle have sizes :math:`0, 1, \ldots, n`, so the
-cardinality is the sum of the first :math:`n` natural numbers. The first ``have`` of the proof
+cardinality is the sum of the first :math:`n` positive integers. The first ``have`` of the proof
 below describes the triangle as the union of the rows, where row :math:`j` consists of
 the numbers :math:`0, 1, ..., j - 1` paired with :math:`j`.
 In the proof below, the notation ``(., j)`` abbreviates the function
