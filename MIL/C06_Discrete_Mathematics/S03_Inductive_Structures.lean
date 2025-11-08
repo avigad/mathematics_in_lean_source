@@ -183,7 +183,7 @@ def depth : BinTree → ℕ
 It is convenient to count the empty binary tree as a binary tree of size 0 and depth 0.
 In the literature, this data type is sometimes called the *extended binary trees*.
 Including the empty tree means, for example, that we can define the tree
-``node empty (node empty empty)`` consisting of a root node, and empty left subtree,
+``node empty (node empty empty)`` consisting of a root node, an empty left subtree,
 and a right subtree consisting of a single node.
 
 Here is an important inequality relating the size and the depth:
