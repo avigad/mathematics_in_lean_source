@@ -301,7 +301,7 @@ def eval : PropForm → (ℕ → Bool) → Bool
 /- TEXT:
 The next definition specifies the set of variables occurring in a formula, and the subsequent
 theorem shows that evaluating a formula on two truth assignments that agree on its variables
-yields that same value.
+yields the same value.
 BOTH: -/
 -- QUOTE:
 def vars : PropForm → Finset ℕ
