@@ -13,8 +13,8 @@ To clarify what we mean by the phrase *algebraic structure*,
 it will help to consider some examples.
 
 #. A *partially ordered set* consists of a set :math:`P` and
-   a binary relation :math:`\le` on :math:`P` that is transitive
-   and reflexive.
+   a binary relation :math:`\le` on :math:`P` that is transitive,
+   reflexive and antisymmetric.
 
 #. A *group* consists of a set :math:`G` with an associative
    binary operation, an identity element
@@ -62,7 +62,7 @@ For example, when we say "let :math:`G` be a group" and then
 the structure and its carrier.
 Not every algebraic structure is associated with a single carrier set in this way.
 For example, a *bipartite graph* involves a relation between two sets,
-as does a *Galois connection*,
+as does a *Galois connection*.
 A *category* also involves two sets of interest, commonly called the *objects*
 and the *morphisms*.
 
@@ -133,7 +133,7 @@ some axiomatic hypotheses, and we saw in :numref:`section_structures` that
 this is exactly what the ``structure`` command is designed to accommodate.
 It's a marriage made in heaven!
 
-Given a data type ``α``, we can define the group structure on ``α``
+Given a data type ``α``, we can define a group structure on ``α``
 as follows.
 EXAMPLES: -/
 -- QUOTE:
