@@ -448,7 +448,7 @@ we generally do not need to refer to them explicitly,
 Lean allows us to write ``[Group G]`` and leave the name anonymous.
 You have probably already noticed that Lean chooses names like ``_inst_1``
 automatically.
-When we use the anonymous square-bracket annotation with the ``variables`` command,
+When we use the anonymous square-bracket annotation with the ``variable`` command,
 then as long as the variables are still in scope,
 Lean automatically adds the argument ``[Group G]`` to any definition or
 theorem that mentions ``G``.
