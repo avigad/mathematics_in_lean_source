@@ -358,13 +358,14 @@ is more efficient.
 
 The usual quotient-remainder theorem for the integers says that for
 every :math:`a` and nonzero :math:`b`, there are :math:`q` and :math:`r`
-such that :math:`a = b q + r` and :math:`0 \le r < b`.
+such that :math:`a = b q + r` and :math:`0 \le r < |b|`.
 Here we will make use of the following variation, which says that there
 are :math:`q'` and :math:`r'` such that
-:math:`a = b q' + r'` and :math:`|r'| \le b/2`.
+:math:`a = b q' + r'` and :math:`|r'| \le |b|/2`.
 You can check that if the value of :math:`r` in the first statement
-satisfies :math:`r \le b/2`, we can take :math:`q' = q` and :math:`r' = r`,
-and otherwise we can take :math:`q' = q + 1` and :math:`r' = r - b`.
+satisfies :math:`r \le |b|/2`, we can take :math:`q' = q` and :math:`r' = r`,
+and otherwise we can take :math:`q' = q + 1` and :math:`r' = r - b`
+(for :math:`b` positive; otherwise mutatis mutandis).
 We are grateful to Heather Macbeth for suggesting the following more
 elegant approach, which avoids definition by cases.
 We simply add ``b / 2`` to ``a`` before dividing and then subtract it
