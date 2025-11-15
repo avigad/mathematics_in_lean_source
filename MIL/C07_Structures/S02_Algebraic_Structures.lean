@@ -248,7 +248,7 @@ example : (f.trans g : α → γ) = g ∘ f :=
 end
 
 /- TEXT:
-Mathlib also defines the type ``perm α`` of equivalences between
+Mathlib also defines the type ``Perm α`` of equivalences between
 ``α`` and itself.
 EXAMPLES: -/
 -- QUOTE:
