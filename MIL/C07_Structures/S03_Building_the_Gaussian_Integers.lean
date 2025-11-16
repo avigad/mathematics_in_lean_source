@@ -520,7 +520,7 @@ instance : Div GaussInt :=
 -- QUOTE.
 
 /- TEXT:
-Having defined ``x / y``, We define ``x % y`` to be the remainder,
+Having defined ``x / y``, we define ``x % y`` to be the remainder,
 ``x - (x / y) * y``. As above, we record the definitions in the
 theorems ``div_def`` and
 ``mod_def`` so that we can use them with ``simp`` and ``rw``.
