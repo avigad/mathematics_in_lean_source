@@ -425,7 +425,7 @@ BOTH: -/
 
 -- QUOTE:
 @[to_additive (attr := simp)]
-lemma Group₃.mul_inv {G : Type} [Group₃ G] {a : G} : a * a⁻¹ = 1 := by
+lemma Group₃.mul_inv {G : Type} [Group₃ G] (a : G) : a * a⁻¹ = 1 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
