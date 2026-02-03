@@ -377,7 +377,7 @@ example : 2*a*b ≤ a^2 + b^2 := by
 How nice! We challenge you to use these ideas to prove the
 following theorem. You can use the theorem ``abs_le'.mpr``.
 You will also need the ``constructor`` tactic to split a conjunction
-to two goals; see :numref:`conjunction_and_biimplication`.
+into two goals; see :numref:`conjunction_and_biimplication`.
 TEXT. -/
 -- QUOTE:
 example : |a*b| ≤ (a^2 + b^2)/2 := by
