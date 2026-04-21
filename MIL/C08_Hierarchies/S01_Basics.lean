@@ -148,7 +148,7 @@ example {α : Type} [Semigroup₁ α] (a b : α) : α := a ⋄ b
 -- QUOTE.
 
 /- TEXT:
-Note this syntax is also available in the ``structure`` command, although it that
+Note this syntax is also available in the ``structure`` command, although in that
 case it fixes only the hurdle of writing fields such as `toDia₁` since there
 is no instance to define in that case.
 
