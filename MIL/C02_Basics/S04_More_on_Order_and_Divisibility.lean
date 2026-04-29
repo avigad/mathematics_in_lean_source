@@ -233,7 +233,7 @@ Lean's naming convention is made manifest
 in the library's name for the triangle inequality:
 TEXT. -/
 -- QUOTE:
-#check (abs_add : ∀ a b : ℝ, |a + b| ≤ |a| + |b|)
+#check (abs_add_le : ∀ a b : ℝ, |a + b| ≤ |a| + |b|)
 -- QUOTE.
 
 /- TEXT:
@@ -249,13 +249,13 @@ SOLUTIONS: -/
     |a| - |b| = |a - b + b| - |b| := by rw [sub_add_cancel]
     _ ≤ |a - b| + |b| - |b| := by
       apply sub_le_sub_right
-      apply abs_add
+      apply abs_add_le
     _ ≤ |a - b| := by rw [add_sub_cancel_right]
 
 
 -- alternatively
 example : |a| - |b| ≤ |a - b| := by
-  have h := abs_add (a - b) b
+  have h := abs_add_le (a - b) b
   rw [sub_add_cancel] at h
   linarith
 
