@@ -180,8 +180,8 @@ example {x y : ℝ} : x ≤ y ∧ x ≠ y → x ≤ y ∧ ¬y ≤ x := by
 -- QUOTE.
 
 /- TEXT:
-In the first example, the semicolon after the ``constructor`` command tells Lean to use the
-``norm_num`` tactic on both of the goals that result.
+In the first example, the ``<;>`` after the ``constructor`` command tells Lean to use
+the ``norm_num`` tactic on both of the goals that result.
 
 In Lean, ``A ↔ B`` is *not* defined to be ``(A → B) ∧ (B → A)``,
 but it could have been,

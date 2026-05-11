@@ -274,7 +274,7 @@ example {m n k : ℕ} (h : m ∣ n ∨ m ∣ k) : m ∣ n * k := by
 /- TEXT:
 See if you can prove the following with a single (long) line.
 Use ``rcases`` to unpack the hypotheses and split on cases,
-and use a semicolon and ``linarith`` to solve each branch.
+and use ``<;> linarith`` to solve each branch.
 TEXT. -/
 -- QUOTE:
 example {z : ℝ} (h : ∃ x y, z = x ^ 2 + y ^ 2 ∨ z = x ^ 2 + y ^ 2 + 1) : z ≥ 0 := by
