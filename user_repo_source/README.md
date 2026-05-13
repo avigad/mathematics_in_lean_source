@@ -21,14 +21,12 @@ For the Lean 3 version, see [https://github.com/leanprover-community/mathematics
 Do the following:
 
 1. Install Lean 4 and VS Code following
-   these [instructions](https://leanprover-community.github.io/get_started.html).
+   these [instructions](https://lean-lang.org/install/).
 
-2. Make sure you have [git](https://git-scm.com/) installed.
+2. Fetch the repository by clicking on the forall symbol in the upper right corner of VS Code,
+   and choose `Open Project`, `Download Project`, and `Mathematics in Lean`.
 
-3. Follow these [instructions](https://leanprover-community.github.io/install/project.html#working-on-an-existing-project)
-   to fetch the `mathematics_in_lean` repository and open it up in VS Code.
-
-4. Each section in the textbook has an associated Lean file with examples and exercises.
+3. Each section in the textbook has an associated Lean file with examples and exercises.
    You can find them in the folder `MIL`, organized by chapter.
    We strongly recommend making a copy of that folder and experimenting and doing the
    exercises in that copy.
