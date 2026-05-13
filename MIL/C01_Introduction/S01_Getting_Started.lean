@@ -60,7 +60,7 @@ At that point, you can open the textbook in a side panel in VS Code as follows:
 3. In the window that opens, click on ``Mathematics in Lean``.
 
 Alternatively, you can run Lean and VS Code in the cloud,
-using `Gitpod <https://gitpod.io/>`_.
+using `Codespaces <https://github.com/codespaces>`_.
 You can find instructions as to how to do that on the Mathematics in Lean
 `project page <https://github.com/leanprover-community/mathematics_in_lean>`_
 on Github. We still recommend working in a copy of the `MIL` folder,

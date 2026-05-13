@@ -74,32 +74,6 @@ amount of time of inactivity.
 To restart a previous workspace, visit <https://github.com/codespaces>.
 
 
-## To use this repository with Gitpod
-
-Gitpod is an alternative to Github Codespaces, but is a little less convenient,
-since it requires you to verify your phone number.
-If you have a Gitpod account or are willing to sign up for one,
-point your browser to
-[https://gitpod.io/#/https://github.com/leanprover-community/mathematics_in_lean](https://gitpod.io/#/https://github.com/leanprover-community/mathematics_in_lean).
-This creates a virtual machine in the cloud,
-and installs Lean and Mathlib.
-It then presents you with a VS Code window, running in a virtual
-copy of the repository.
-We suggest making a copy of the `MIL` directory, as described
-in the instructions above for using MIL on your computer.
-You can update the repository by opening a terminal in the browser
-and typing `git pull` followed by `lake exe cache get` as above.
-
-Gitpod gives you 50 free hours every month.
-When you are done working, choose `Stop workspace` from the menu on the left.
-The workspace should also stop automatically
-30 minutes after the last interaction or 3 minutes after closing the tab.
-
-To restart a previous workspace, go to [https://gitpod.io/workspaces/](https://gitpod.io/workspaces/).
-If you change the filter from Active to All, you will see all your recent workspaces.
-You can pin a workspace to keep it on the list of active ones.
-
-
 ## Contributing
 
 PRs and issues should be opened at the upstream
