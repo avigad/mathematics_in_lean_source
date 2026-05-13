@@ -131,7 +131,7 @@ linear-time implementation.
 Try proving ``reverse (as ++ bs) = reverse bs ++ reverse as`` and
 ``reverse (reverse as) = as``.
 You can use ``cons_append`` and ``append_assoc``, but you
-You may need to come up with auxiliary lemmas and prove them.
+may need to come up with auxiliary lemmas and prove them.
 EXAMPLES: -/
 -- QUOTE:
 def reverseαα : List α → List α := sorry
