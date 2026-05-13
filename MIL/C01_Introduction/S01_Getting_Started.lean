@@ -84,7 +84,7 @@ TEXT. -/
 You should be able to find the corresponding example in the associated
 Lean file.
 If you click on the line, VS Code will show you Lean's feedback in
-the ``Lean Goal`` window, and if you hover
+the ``Lean InfoView`` window, and if you hover
 your cursor over the ``#eval`` command VS Code will show you Lean's response
 to this command in a pop-up window.
 You are encouraged to edit the file and try examples of your own.

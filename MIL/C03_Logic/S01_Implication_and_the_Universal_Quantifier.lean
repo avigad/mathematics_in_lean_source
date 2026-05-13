@@ -356,7 +356,7 @@ an underscore where the rest of the
 expression should go,
 Lean will flag an error,
 indicating that it can't guess the value of that expression.
-If you check the Lean Goal window in VS Code or
+If you check the Lean InfoView window in VS Code or
 hover over the squiggly error marker,
 Lean will show you the goal that the remaining
 expression has to solve.
