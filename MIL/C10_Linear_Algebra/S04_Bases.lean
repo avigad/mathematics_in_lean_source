@@ -254,6 +254,8 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
 section
 
+open Module
+
 variable {ι : Type*} (B : Basis ι K V) (v : V) (i : ι)
 
 -- The basis vector with index ``i``
@@ -501,6 +503,7 @@ since a given abelian group can be a vector space over different fields.
 EXAMPLES: -/
 -- QUOTE:
 section
+
 #check (Module.finrank K V : ℕ)
 
 -- `Fin n → K` is the archetypical space with dimension `n` over `K`.
@@ -553,7 +556,7 @@ is good to know for more complicated cases.
 By definition, ``FiniteDimensional K V`` can be read from any basis.
 EXAMPLES: -/
 -- QUOTE:
-variable {ι : Type*} (B : Basis ι K V)
+variable {ι : Type*} (B : Module.Basis ι K V)
 
 example [Finite ι] : FiniteDimensional K V := FiniteDimensional.of_fintype_basis B
 
@@ -660,8 +663,8 @@ EXAMPLES: -/
 
 universe u v -- `u` and `v` will denote universe levels
 
-variable {ι : Type u} (B : Basis ι K V)
-         {ι' : Type v} (B' : Basis ι' K V)
+variable {ι : Type u} (B : Module.Basis ι K V)
+         {ι' : Type v} (B' : Module.Basis ι' K V)
 
 example : Cardinal.lift.{v, u} (.mk ι) = Cardinal.lift.{u, v} (.mk ι') :=
   mk_eq_mk_of_basis B B'
