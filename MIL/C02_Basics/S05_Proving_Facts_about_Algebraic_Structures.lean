@@ -369,17 +369,25 @@ example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
 
 -- SOLUTIONS:
 theorem aux1 (h : a ≤ b) : 0 ≤ b - a := by
-  rw [← sub_self a, sub_eq_add_neg, sub_eq_add_neg, add_comm, add_comm b]
+  rw [← sub_self a, sub_eq_add_neg, sub_eq_add_neg, add_comm, add_comm]
   apply add_le_add_left h
 
 theorem aux2 (h : 0 ≤ b - a) : a ≤ b := by
-  rw [← add_zero a, ← sub_add_cancel b a, add_comm (b - a)]
+  rw [← add_zero a, ← sub_add_cancel b a, add_comm]
   apply add_le_add_left h
 
 example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
   have h1 : 0 ≤ (b - a) * c := mul_nonneg (aux1 _ _ h) h'
   rw [sub_mul] at h1
   exact aux2 _ _ h1
+
+example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
+  apply aux2
+  rw [← sub_mul]
+  apply mul_nonneg
+  · apply aux1
+    exact h
+  · exact h'
 
 -- BOTH:
 end
