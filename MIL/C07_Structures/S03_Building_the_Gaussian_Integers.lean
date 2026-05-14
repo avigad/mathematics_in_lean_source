@@ -253,7 +253,7 @@ satisfy the following:
 EXAMPLES: -/
 -- QUOTE:
 example (a b : ℤ) : a = b * (a / b) + a % b :=
-  Eq.symm (Int.ediv_add_emod a b)
+  Eq.symm (Int.mul_ediv_add_emod a b)
 
 example (a b : ℤ) : b ≠ 0 → 0 ≤ a % b :=
   Int.emod_nonneg a
@@ -382,14 +382,14 @@ def mod' (a b : ℤ) :=
 
 theorem div'_add_mod' (a b : ℤ) : b * div' a b + mod' a b = a := by
   rw [div', mod']
-  linarith [Int.ediv_add_emod (a + b / 2) b]
+  linarith [Int.mul_ediv_add_emod (a + b / 2) b]
 
 theorem abs_mod'_le (a b : ℤ) (h : 0 < b) : |mod' a b| ≤ b / 2 := by
   rw [mod', abs_le]
   constructor
   · linarith [Int.emod_nonneg (a + b / 2) h.ne']
   have := Int.emod_lt_of_pos (a + b / 2) h
-  have := Int.ediv_add_emod b 2
+  have := Int.mul_ediv_add_emod b 2
   have := Int.emod_lt_of_pos b zero_lt_two
   linarith
 -- QUOTE.
@@ -414,7 +414,7 @@ private theorem aux {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing
     apply le_antisymm _ (sq_nonneg x)
     rw [← h]
     apply le_add_of_nonneg_right (sq_nonneg y)
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 -- QUOTE:
 -- BOTH:

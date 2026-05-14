@@ -236,8 +236,7 @@ BOTH: -/
 theorem sb_injective (hf : Injective f) : Injective (sbFun f g) := by
   set A := sbSet f g with A_def
   set h := sbFun f g with h_def
-  intro x₁ x₂
-  intro (hxeq : h x₁ = h x₂)
+  intro x₁ x₂ (hxeq : h x₁ = h x₂)
   show x₁ = x₂
   simp only [h_def, sbFun, ← A_def] at hxeq
   by_cases xA : x₁ ∈ A ∨ x₂ ∈ A

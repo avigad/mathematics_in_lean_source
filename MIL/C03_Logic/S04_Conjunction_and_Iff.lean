@@ -157,10 +157,13 @@ example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y := by
   exact lt_trans xltz zlty
 
 example (x y : ℝ) : (∃ z : ℝ, x < z ∧ z < y) → x < y :=
-  fun ⟨z, xltz, zlty⟩ ↦ lt_trans xltz zlty
+  fun ⟨_z, xltz, zlty⟩ ↦ lt_trans xltz zlty
 -- QUOTE.
 
 /- TEXT:
+Recall that prefixing `z` with underscore tells Lean we don’t intend to use `z`.
+Otherwise Lean would output a warning saying `z` is unused.
+
 You can also use the ``use`` tactic:
 TEXT. -/
 -- QUOTE:
@@ -240,12 +243,12 @@ For a more interesting exercise, show that for any
 two real numbers ``x`` and ``y``,
 ``x^2 + y^2 = 0`` if and only if ``x = 0`` and ``y = 0``.
 We suggest proving an auxiliary lemma using
-``linarith``, ``pow_two_nonneg``, and ``pow_eq_zero``.
+``linarith``, ``pow_two_nonneg``, and ``eq_zero_of_pow_eq_zero``.
 TEXT. -/
 -- QUOTE:
 theorem aux {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   have h' : x ^ 2 = 0 := by sorry
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
   sorry
@@ -254,7 +257,7 @@ example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 :=
 -- SOLUTIONS:
 theorem auxαα {x y : ℝ} (h : x ^ 2 + y ^ 2 = 0) : x = 0 :=
   have h' : x ^ 2 = 0 := by linarith [pow_two_nonneg x, pow_two_nonneg y]
-  pow_eq_zero h'
+  eq_zero_of_pow_eq_zero h'
 
 example (x y : ℝ) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
   constructor

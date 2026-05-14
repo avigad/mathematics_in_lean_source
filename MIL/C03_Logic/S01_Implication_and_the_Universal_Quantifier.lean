@@ -136,14 +136,14 @@ SOLUTIONS: -/
   calc
     |x * y| = |x| * |y| := by apply abs_mul
     _ ≤ |x| * ε := by apply mul_le_mul; linarith; linarith; apply abs_nonneg; apply abs_nonneg;
-    _ < 1 * ε := by rw [mul_lt_mul_right epos]; linarith
+    _ < 1 * ε := by apply mul_lt_mul_of_pos_right _ epos; linarith
     _ = ε := by apply one_mul
 -- QUOTE.
 
 /- TEXT:
 Finish the proof using the theorems
 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
-``mul_lt_mul_right``, and ``one_mul``.
+``mul_lt_mul_of_pos_right ``, and ``one_mul``.
 Remember that you can find theorems like these using
 Ctrl-space completion (or Cmd-space completion on a Mac).
 Remember also that you can use ``.mp`` and ``.mpr``
@@ -346,7 +346,7 @@ the application of the theorem to its arguments.
 TEXT. -/
 -- QUOTE:
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f x + g x :=
-  fun a b aleb ↦ add_le_add (mf aleb) (mg aleb)
+  fun _a _b aleb ↦ add_le_add (mf aleb) (mg aleb)
 -- QUOTE.
 
 /- TEXT:
@@ -361,7 +361,24 @@ hover over the squiggly error marker,
 Lean will show you the goal that the remaining
 expression has to solve.
 
-Try proving these, with either tactics or proof terms:
+You’ll notice Lean prints warnings about the above proof, saying
+that `a` and `b` are not used in the body of the function.
+This is a general mechanism that is useful for instance to avoid having
+unnecessary assumptions in a theorem. Here it is not really telling us
+anything useful. We can either disable this warning until the end of the
+current section by writing
+`set_option linter.unusedVariables false`
+or only in the example by writing
+`set_option linter.unusedVariables false in`
+above the example.
+
+We can also replace `a` and `b` by underscores to tell Lean we don’t
+want to name them. Lean will then use auto-generated inaccessible names
+such as `x✝`. Alternatively we can prefix our names with underscores to
+tell Lean we do not intend to use them.
+
+
+Try proving the following examples, with either tactics or proof terms:
 TEXT. -/
 -- QUOTE:
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
@@ -378,7 +395,7 @@ example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x
   apply mf aleb
 
 example {c : ℝ} (mf : Monotone f) (nnc : 0 ≤ c) : Monotone fun x ↦ c * f x :=
-  fun a b aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
+  fun _a _b aleb ↦ mul_le_mul_of_nonneg_left (mf aleb) nnc
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   intro a b aleb
@@ -387,7 +404,7 @@ example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) := by
   apply aleb
 
 example (mf : Monotone f) (mg : Monotone g) : Monotone fun x ↦ f (g x) :=
-  fun a b aleb ↦ mf (mg aleb)
+  fun _a _b aleb ↦ mf (mg aleb)
 
 /- TEXT:
 Here are some more examples.
@@ -501,7 +518,7 @@ example : s ⊆ s := by
   intro x xs
   exact xs
 
-theorem Subset.refl : s ⊆ s := fun x xs ↦ xs
+theorem Subset.refl : s ⊆ s := fun _x xs ↦ xs
 
 theorem Subset.trans : r ⊆ s → s ⊆ t → r ⊆ t := by
   sorry
@@ -515,7 +532,7 @@ example : r ⊆ s → s ⊆ t → r ⊆ t := by
   apply xr
 
 theorem Subset.transαα : r ⊆ s → s ⊆ t → r ⊆ t :=
-  fun rsubs ssubt x xr ↦ ssubt (rsubs xr)
+  fun rsubs ssubt _x xr ↦ ssubt (rsubs xr)
 
 -- BOTH:
 end

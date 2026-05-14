@@ -109,6 +109,9 @@ The following example provides an explicit formula for the nth Fibonacci number 
 the golden mean, ``φ``, and its conjugate, ``φ'``.
 We have to tell Lean that we don't expect our definitions to generate code because the
 arithmetic operations on the real numbers are not computable.
+
+We will use the `grind` tactic to do computations, telling it to use the definitions
+of `phi` and `phi'` and the inductively assumed `fib_eq n` and `fib_eq (n+1)`.
 EXAMPLES: -/
 -- QUOTE:
 noncomputable section
@@ -116,16 +119,10 @@ noncomputable section
 def phi  : ℝ := (1 + √5) / 2
 def phi' : ℝ := (1 - √5) / 2
 
-theorem phi_sq : phi^2 = phi + 1 := by
-  field_simp [phi, add_sq]; ring
-
-theorem phi'_sq : phi'^2 = phi' + 1 := by
-  field_simp [phi', sub_sq]; ring
-
 theorem fib_eq : ∀ n, fib n = (phi^n - phi'^n) / √5
   | 0   => by simp
-  | 1   => by field_simp [phi, phi']
-  | n+2 => by field_simp [fib_eq, pow_add, phi_sq, phi'_sq]; ring
+  | 1   => by unfold fib; grind [phi, phi']
+  | n+2 => by unfold fib; simp; grind [fib_eq n, fib_eq (n+1), phi, phi']
 
 end
 -- QUOTE.
@@ -203,7 +200,7 @@ theorem fib_add (m n : ℕ) : fib (m + n + 1) = fib m * fib n + fib (m + 1) * fi
   | succ n ih =>
     specialize ih (m + 1)
     rw [add_assoc m 1 n, add_comm 1 n] at ih
-    simp only [fib_add_two, Nat.succ_eq_add_one, ih]
+    simp only [fib_add_two, ih]
     ring
 
 -- EXAMPLES:
@@ -212,7 +209,7 @@ theorem fib_add' : ∀ m n, fib (m + n + 1) = fib m * fib n + fib (m + 1) * fib 
   | m, n + 1 => by
     have := fib_add' (m + 1) n
     rw [add_assoc m 1 n, add_comm 1 n] at this
-    simp only [fib_add_two, Nat.succ_eq_add_one, this]
+    simp only [fib_add_two, this]
     ring
 -- QUOTE.
 

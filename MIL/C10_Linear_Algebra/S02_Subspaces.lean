@@ -20,7 +20,7 @@ Again the word module appears instead of vector space because of the more genera
 Mathlib actually uses for linear algebra.
 BOTH: -/
 -- QUOTE:
-
+section
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
 example (U : Submodule K V) {x y : V} (hx : x ∈ U) (hy : y ∈ U) :
@@ -30,7 +30,7 @@ example (U : Submodule K V) {x y : V} (hx : x ∈ U) (hy : y ∈ U) :
 example (U : Submodule K V) {x : V} (hx : x ∈ U) (a : K) :
     a • x ∈ U :=
   U.smul_mem a hx
-
+end
 -- QUOTE.
 
 /- TEXT:
@@ -77,6 +77,8 @@ membership and preimage. This is the only lemma you will need in addition to the
 discussed above about ``LinearMap`` and ``Submodule``.
 BOTH: -/
 -- QUOTE:
+variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
+
 def preimage {W : Type*} [AddCommGroup W] [Module K W] (φ : V →ₗ[K] W) (H : Submodule K W) :
     Submodule K V where
   carrier := φ ⁻¹' H

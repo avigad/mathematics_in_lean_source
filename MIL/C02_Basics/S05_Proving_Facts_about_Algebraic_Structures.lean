@@ -335,7 +335,7 @@ variable {R : Type*} [Ring R] [PartialOrder R] [IsStrictOrderedRing R]
 variable (a b c : R)
 
 -- EXAMPLES:
-#check (add_le_add_left : a ≤ b → ∀ c, c + a ≤ c + b)
+#check (add_le_add_right : a ≤ b → ∀ c, c + a ≤ c + b)
 #check (mul_pos : 0 < a → 0 < b → 0 < a * b)
 -- QUOTE.
 
@@ -370,11 +370,11 @@ example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
 -- SOLUTIONS:
 theorem aux1 (h : a ≤ b) : 0 ≤ b - a := by
   rw [← sub_self a, sub_eq_add_neg, sub_eq_add_neg, add_comm, add_comm b]
-  apply add_le_add_left h
+  apply add_le_add_right h
 
 theorem aux2 (h : 0 ≤ b - a) : a ≤ b := by
   rw [← add_zero a, ← sub_add_cancel b a, add_comm (b - a)]
-  apply add_le_add_left h
+  apply add_le_add_right h
 
 example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := by
   have h1 : 0 ≤ (b - a) * c := mul_nonneg (aux1 _ _ h) h'

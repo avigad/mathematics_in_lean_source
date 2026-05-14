@@ -160,7 +160,7 @@ theorem le_abs_self (x : ℝ) : x ≤ |x| := by
 theorem neg_le_abs_self (x : ℝ) : -x ≤ |x| := by
   sorry
 
-theorem abs_add (x y : ℝ) : |x + y| ≤ |x| + |y| := by
+theorem abs_add_le (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   sorry
 -- QUOTE.
 
@@ -177,7 +177,7 @@ theorem neg_le_abs_selfαα (x : ℝ) : -x ≤ |x| := by
     linarith
   · rw [abs_of_neg h]
 
-theorem abs_addαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
+theorem abs_add_leαα (x y : ℝ) : |x + y| ≤ |x| + |y| := by
   rcases le_or_gt 0 (x + y) with h | h
   · rw [abs_of_nonneg h]
     linarith [le_abs_self x, le_abs_self y]

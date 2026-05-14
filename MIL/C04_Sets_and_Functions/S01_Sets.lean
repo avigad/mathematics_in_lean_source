@@ -84,7 +84,7 @@ The following example also illustrate the phenomenon:
 TEXT. -/
 -- QUOTE:
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-  fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
+  fun _x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 -- QUOTE.
 
 /- TEXT:
@@ -211,7 +211,7 @@ the following one-line proof is for you:
 TEXT. -/
 -- QUOTE:
 example : s ∩ t = t ∩ s :=
-  Set.ext fun x ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
+  Set.ext fun _x ↦ ⟨fun ⟨xs, xt⟩ ↦ ⟨xt, xs⟩, fun ⟨xt, xs⟩ ↦ ⟨xs, xt⟩⟩
 -- QUOTE.
 
 /- TEXT:
@@ -244,7 +244,7 @@ example : s ∩ t = t ∩ s :=
     Subset.antisymm sorry sorry
 SOLUTIONS: -/
     Subset.antisymm
-    (fun x ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun x ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
+    (fun _x ⟨xs, xt⟩ ↦ ⟨xt, xs⟩) fun _x ⟨xt, xs⟩ ↦ ⟨xs, xt⟩
 -- QUOTE.
 
 -- BOTH:

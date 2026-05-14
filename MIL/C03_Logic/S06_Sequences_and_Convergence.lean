@@ -79,7 +79,7 @@ leaving us to prove ``a = a - b + b``.
 Finally, the ``convert`` tactic is used to apply a theorem
 to a goal when the conclusion of the theorem doesn't quite match.
 For example, suppose we want to prove ``a < a * a`` from ``1 < a``.
-A theorem in the library, ``mul_lt_mul_right``,
+A theorem in the library, ``mul_lt_mul_iff_left₀``,
 will let us prove ``1 * a < a * a``.
 One possibility is to work backwards and rewrite the goal
 so that it has that form.
@@ -90,7 +90,7 @@ are needed to make the goal match.
 TEXT. -/
 -- QUOTE:
 example {a : ℝ} (h : 1 < a) : a < a * a := by
-  convert (mul_lt_mul_right _).2 h
+  convert (mul_lt_mul_iff_left₀ _).2 h
   · rw [one_mul]
   exact lt_trans zero_lt_one h
 -- QUOTE.
@@ -105,7 +105,7 @@ The following shows that any constant sequence :math:`a, a, a, \ldots`
 converges.
 BOTH: -/
 -- QUOTE:
-theorem convergesTo_const (a : ℝ) : ConvergesTo (fun x : ℕ ↦ a) a := by
+theorem convergesTo_const (a : ℝ) : ConvergesTo (fun _x : ℕ ↦ a) a := by
   intro ε εpos
   use 0
   intro n nge
@@ -169,7 +169,7 @@ theorem convergesTo_addαα {s t : ℕ → ℝ} {a b : ℝ}
     |s n + t n - (a + b)| = |s n - a + (t n - b)| := by
       congr
       ring
-    _ ≤ |s n - a| + |t n - b| := (abs_add _ _)
+    _ ≤ |s n - a| + |t n - b| := (abs_add_le _ _)
     _ < ε / 2 + ε / 2 := (add_lt_add (hs n ngeNs) (ht n ngeNt))
     _ = ε := by norm_num
 
@@ -253,7 +253,7 @@ theorem exists_abs_le_of_convergesToαα {s : ℕ → ℝ} {a : ℝ} (cs : Conve
     |s n| = |s n - a + a| := by
       congr
       abel
-    _ ≤ |s n - a| + |a| := (abs_add _ _)
+    _ ≤ |s n - a| + |a| := (abs_add_le _ _)
     _ < |a| + 1 := by linarith [h n ngt]
 
 /- TEXT:
@@ -376,7 +376,7 @@ theorem convergesTo_uniqueαα {s : ℕ → ℝ} {a b : ℝ}
     |a - b| = |(-(s N - a)) + (s N - b)| := by
       congr
       ring
-    _ ≤ |(-(s N - a))| + |s N - b| := (abs_add _ _)
+    _ ≤ |(-(s N - a))| + |s N - b| := (abs_add_le _ _)
     _ = |s N - a| + |s N - b| := by rw [abs_neg]
     _ < ε + ε := (add_lt_add absa absb)
     _ = |a - b| := by norm_num [ε]

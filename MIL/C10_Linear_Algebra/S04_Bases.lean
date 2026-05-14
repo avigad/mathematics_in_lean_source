@@ -2,7 +2,7 @@
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
 import Mathlib.LinearAlgebra.Charpoly.Basic
-import Mathlib.Data.Complex.FiniteDimensional
+import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 
 import MIL.Common
 
@@ -558,7 +558,7 @@ EXAMPLES: -/
 -- QUOTE:
 variable {ι : Type*} (B : Module.Basis ι K V)
 
-example [Finite ι] : FiniteDimensional K V := FiniteDimensional.of_fintype_basis B
+example [Finite ι] : FiniteDimensional K V := Module.Basis.finiteDimensional_of_finite B
 
 example [FiniteDimensional K V] : Finite ι :=
   (FiniteDimensional.fintypeBasisIndex B).finite
