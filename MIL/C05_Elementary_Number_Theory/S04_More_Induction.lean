@@ -105,7 +105,7 @@ example (n : ℕ) : fib (n + 2) = fib n + fib (n + 1) := by rw [fib]
 /- TEXT:
 Using Lean's notation for recursive functions, you can carry out proofs by induction on the
 natural numbers that mirror the recursive definition of ``fib``.
-The following example provides an explicit formula for the nth Fibonacci number in terms of
+The following example provides an explicit formula for the ``n``th Fibonacci number in terms of
 the golden mean, ``φ``, and its conjugate, ``φ'``.
 We have to tell Lean that we don't expect our definitions to generate code because the
 arithmetic operations on the real numbers are not computable.
