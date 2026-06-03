@@ -79,8 +79,50 @@ example {R M : Type*} [CommSemiring R] [AddCommMonoid M] [Module R M] :
     Module (Ideal R) (Submodule R M) :=
   inferInstance
 
+-- QUOTE.
+/- TEXT:
+To say that ``M`` is a module over the ring ``R``, we write:
+
+EXAMPLES: -/
+-- QUOTE:
+section
+variable {R : Type*} [Ring R] {M : Type*} [AddCommGroup M] [Module R M]
+end
 
 -- QUOTE.
+
+/- TEXT:
+If we compare this to declaring a vector space, we see two differences. Apart from renaming the variables, the only change is to replace the ``Field K`` hypothesis with a ``Ring R`` hypothesis.
+
+To say that ``M`` is a semi-module over the semi-ring ``R``, we replace the ``Ring R`` hypothesis with a ``Semiring R`` hypothesis, and also replace ``AddCommGroup M`` with ``AddCommMonoid M``, reflecting the fact that semi-modules do not have negation:
+
+EXAMPLES: -/
+
+-- QUOTE:
+section
+variable {R : Type*} [Semiring R] {M : Type*} [AddCommMonoid M] [Module R M]
+end
+
+-- QUOTE.
+
+/- TEXT:
+Lean **cannot** automatically infer that ``M`` has negation if ``R`` has,
+because a priori it cannot guess the correct ``R`` given an arbitrary ``M``.
+So if we declare ``R`` to be a ring and ``M`` to be a module over ``R``,
+then either declare ``M`` to be an ``AddCommGroup``, or add the instance to the context manually:
+
+EXAMPLES: -/
+
+-- QUOTE:
+example {R : Type*} [Ring R] {M : Type*} [AddCommMonoid M] [Module R M] : M → M :=
+  -- Make sure to use `letI` (instead of `haveI` or `let`) to make it easier to
+  -- identify the existing additive structure from the `AddCommMonoid M` hypothesis
+  -- with the new one introduced in the line below.
+  letI : AddCommGroup M := Module.addCommMonoidToAddCommGroup R
+  fun x => - x
+
+-- QUOTE.
+
 /- TEXT:
 Linear maps
 ^^^^^^^^^^^
