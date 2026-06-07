@@ -210,13 +210,10 @@ example : min a b + c = min (a + c) (b + c) := by
 SOLUTIONS: -/
   apply le_antisymm
   · apply aux
-  have h : min (a + c) (b + c) = min (a + c) (b + c) - c + c := by rw [sub_add_cancel]
-  rw [h]
-  apply add_le_add_left
-  rw [sub_eq_add_neg]
+  rw [← add_neg_le_iff_le_add]
   apply le_trans
   apply aux
-  rw [add_neg_cancel_right, add_neg_cancel_right]
+  repeat rw [add_neg_cancel_right]
 -- QUOTE.
 
 /- TEXT:
