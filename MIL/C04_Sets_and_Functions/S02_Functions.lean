@@ -106,8 +106,8 @@ In the library, this equivalence is named
 ``image_subset_iff``.
 In practice, the right-hand side is often the
 more useful representation,
-because ``y ∈ f ⁻¹' t`` unfolds to ``f y ∈ t``
-whereas working with ``x ∈ f '' s`` requires
+because ``x ∈ f ⁻¹' t`` unfolds to ``f x ∈ t``
+whereas working with ``y ∈ f '' s`` requires
 decomposing an existential quantifier.
 
 Here is a long list of set-theoretic identities for
