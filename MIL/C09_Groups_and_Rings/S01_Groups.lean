@@ -32,7 +32,7 @@ equipped with addition forms a monoid.
 
 From a practical point of view, you can mostly ignore monoids when using Mathlib. But you need
 to know they exist when you are looking for a lemma by browsing Mathlib files. Otherwise, you
-might end up looking for a statement in the group theory files when it is actually in the found
+might end up looking for a statement in the group theory files when it is actually found
 with monoids because it does not require elements to be invertible.
 
 The type of monoid structures on a type ``M`` is written ``Monoid M``.
