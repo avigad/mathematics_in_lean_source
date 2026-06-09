@@ -623,7 +623,8 @@ example {G X : Type*} [Group G] [MulAction G X] : G →* Equiv.Perm X :=
 
 /- TEXT:
 As an illustration let us see how to define the Cayley isomorphism embedding of any group ``G`` into
-a permutation group, namely ``Perm G``.
+a permutation group, namely ``Perm G``. To instantiate ``[MulAction G G]``, Lean finds
+the standard group action given by left multiplication, which is what we want.
 EXAMPLES: -/
 -- QUOTE:
 def CayleyIsoMorphism (G : Type*) [Group G] : G ≃* (toPermHom G G).range :=
