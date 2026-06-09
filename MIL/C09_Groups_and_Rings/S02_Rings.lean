@@ -367,8 +367,8 @@ Algebras and polynomials
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Given a commutative (semi)ring ``R``, an *algebra over* ``R`` is a semiring ``A`` equipped
-with a ring morphism whose image commutes with every element of ``A``. This is encoded as
-a type class ``Algebra R A``.
+with a ring morphism from ``R`` to ``A`` whose image commutes with every element of ``A``.
+This is encoded as a type class ``Algebra R A``.
 The morphism from ``R`` to ``A`` is called the structure map and is denoted
 ``algebraMap R A : R →+* A`` in Lean.
 Multiplication of ``a : A`` by ``algebraMap R A r`` for some ``r : R`` is called the scalar
