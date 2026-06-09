@@ -346,7 +346,7 @@ proved by the simplifier.
 So the proof is carried out in cases.
 The line ``rcases r with _ | r`` replaces the goal with two versions:
 one in which ``r`` is replaced by ``0``,
-and the other in which ``r`` is replaces by ``r + 1``.
+and the other in which ``r`` is replaced by ``r + 1``.
 In the second case, we can use the theorem ``r.succ_ne_zero``, which
 establishes ``r + 1 ≠ 0`` (``succ`` stands for successor).
 
