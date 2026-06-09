@@ -756,7 +756,7 @@ example (n : ℕ) (m : ℤ) : SMul.smul (self := mySMul) n m = n * m := rfl
 /- TEXT:
 This story then continues with incorporating a ``zsmul`` field into the definition of groups
 and similar tricks. You are now ready to read the definition of monoids, groups, rings and modules
-in Mathlib. There are more complicated than what we have seen here, because they are part of a huge
+in Mathlib. They are more complicated than what we have seen here, because they are part of a huge
 hierarchy, but all principles have been explained above.
 
 As an exercise, you can come back to the order relation hierarchy you built above and try
