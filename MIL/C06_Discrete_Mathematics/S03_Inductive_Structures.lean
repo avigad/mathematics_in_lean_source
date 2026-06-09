@@ -50,7 +50,7 @@ namespace MyListSpace2
 -- QUOTE:
 def append {α : Type*} : List α → List α → List α
   | [],      bs => bs
-  | a :: as, bs => a :: (append as bs)
+  | a :: as, bs => a :: append as bs
 
 def map {α β : Type*} (f : α → β) : List α → List β
   | []      => []
@@ -68,7 +68,7 @@ EXAMPLES: -/
 theorem nil_append {α : Type*} (as : List α) : append [] as = as := rfl
 
 theorem cons_append {α : Type*} (a : α) (as : List α) (bs : List α) :
-    append (a :: as) bs = a :: (append as bs) := rfl
+    append (a :: as) bs = a :: append as bs := rfl
 
 theorem map_nil {α β : Type*} (f : α → β) : map f [] = [] := rfl
 
