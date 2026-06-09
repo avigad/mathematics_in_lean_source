@@ -197,7 +197,7 @@ into one structure. It is common in Mathlib
 to use capital roman letters like ``G`` for a type
 when it is used as the carrier type for a group.
 
-Let's construct a group, which is to say, an element of the ``Group₁`` type.
+Let's construct a group by defining an element of the ``Group₁`` type.
 For any pair of types ``α`` and ``β``, Mathlib defines the type ``Equiv α β``
 of *equivalences* between ``α`` and ``β``.
 Mathlib also defines the suggestive notation ``α ≃ β`` for this type.
