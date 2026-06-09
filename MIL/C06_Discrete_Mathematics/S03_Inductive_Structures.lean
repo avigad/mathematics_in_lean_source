@@ -34,7 +34,7 @@ end MyListSpace
 The inductive definition says that every element of ``List α`` is either ``nil``, the empty list,
 or ``cons a as``, where ``a`` is an element of ``α`` and ``as`` is a list of elements of ``α``.
 The constructors are properly named ``List.nil`` and ``List.cons``, but you can use the shorter
-notation with the ``List`` namespace is open.
+notation when the ``List`` namespace is open.
 When the ``List`` namespace is *not* open, you can write ``.nil`` and ``.cons a as`` anywhere
 that ``Lean`` expects a list, and Lean will automatically insert the ``List`` qualifier.
 Throughout this section, we will put temporary definitions in separate namespaces like
