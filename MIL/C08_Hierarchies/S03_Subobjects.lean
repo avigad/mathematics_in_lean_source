@@ -41,7 +41,7 @@ instance [Monoid M] : SetLike (Submonoid₁ M) M where
 /- TEXT:
 Equipped with the above ``SetLike`` instance, we can already state naturally that
 a submonoid ``N`` contains ``1`` without using ``N.carrier``.
-We can also silently treat ``N`` as a set in ``M`` as take its direct image under a map.
+We can also silently treat ``N`` as a set in ``M`` and take its direct image under a map.
 BOTH: -/
 
 -- QUOTE:
