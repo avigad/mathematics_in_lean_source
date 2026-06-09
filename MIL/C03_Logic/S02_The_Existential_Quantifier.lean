@@ -412,8 +412,8 @@ open Function
 -- EXAMPLES:
 -- QUOTE:
 example {c : ℝ} : Surjective fun x ↦ x + c := by
-  intro x
-  use x - c
+  intro y
+  use y - c
   dsimp; ring
 -- QUOTE.
 
@@ -427,13 +427,13 @@ example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
 
 -- SOLUTIONS:
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
-  intro x
-  use x / c
+  intro y
+  use y / c
   dsimp; rw [mul_div_cancel₀ _ h]
 
 example {c : ℝ} (h : c ≠ 0) : Surjective fun x ↦ c * x := by
-  intro x
-  use x / c
+  intro y
+  use y / c
   field_simp
 
 /- TEXT:
