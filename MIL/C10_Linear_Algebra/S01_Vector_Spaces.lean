@@ -109,7 +109,8 @@ end
 Lean **cannot** automatically infer that ``M`` has negation if ``R`` has,
 because a priori it cannot guess the correct ``R`` given an arbitrary ``M``.
 So if we declare ``R`` to be a ring and ``M`` to be a module over ``R``,
-then either declare ``M`` to be an ``AddCommGroup``, or add the instance to the context manually:
+then we have to either declare ``M`` to be an ``AddCommGroup``, or add the instance to the context
+manually:
 
 EXAMPLES: -/
 
