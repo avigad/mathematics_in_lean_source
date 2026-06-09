@@ -309,8 +309,9 @@ example : Fintype.card ((Fin 5) × (Fin 3)) = 15 := by simp
 -- QUOTE.
 
 /- TEXT:
-Any element ``s`` of ``Finset α`` can be coerced to a type ``(↑s : Fintype α)``, namely,
-the subtype of elements of ``α`` that are contained in ``s``.
+Any element ``s`` of ``Finset α`` can be coerced to a type ``(↑s : Type α)``, namely,
+the subtype of elements of ``α`` that are contained in ``s``. Moreover, Lean knows that ``↑s``
+is a fintype.
 EXAMPLES: -/
 section
 -- QUOTE:
