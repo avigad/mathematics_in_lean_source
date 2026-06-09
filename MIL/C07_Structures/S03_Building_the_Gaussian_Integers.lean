@@ -248,8 +248,9 @@ The ring of integers :math:`\Bbb{Z}` with :math:`N(a) = |a|` is an
 archetypal example of a Euclidean domain.
 In that case, we can take :math:`q` to be the
 result of integer division of :math:`a` by :math:`b` and :math:`r`
-to be the remainder. These functions are defined in Lean so that the
-satisfy the following:
+to be the remainder. Note that when ``a`` and ``b`` are integers, ``a / b`` denotes
+integer division in Lean, and ``a % b`` denotes the remainder. These are defined so
+as to satisfly the following:
 EXAMPLES: -/
 -- QUOTE:
 example (a b : ℤ) : a = b * (a / b) + a % b :=
