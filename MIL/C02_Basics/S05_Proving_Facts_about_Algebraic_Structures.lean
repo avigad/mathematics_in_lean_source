@@ -426,6 +426,5 @@ example (x y : X) : 0 ≤ dist x y :=by
 end
 
 /- TEXT:
-We recommend making use of the theorem ``nonneg_of_mul_nonneg_left``.
 As you may have guessed, this theorem is called ``dist_nonneg`` in Mathlib.
 TEXT. -/
