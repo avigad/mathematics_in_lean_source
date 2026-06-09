@@ -259,7 +259,7 @@ more general.
 The definitions make sense for functions between any two types
 for which there is a notion of order on the codomain.
 Checking the type of the theorem ``add_le_add`` shows that it holds
-of any structure that is an "ordered additive commutative monoid";
+of any monoid structure that respects the relevant order;
 the details of what that means don't matter now,
 but it is worth knowing that the natural numbers, integers, rationals,
 and real numbers are all instances.
