@@ -24,8 +24,8 @@ Before introducing bases for abstract vector spaces, we go back to the much more
 of linear algebra in :math:`K^n` for some field :math:`K`.
 Here the main objects are vectors and matrices.
 For concrete vectors, one can use the ``![…]`` notation, where components are separated by commas.
-For concrete matrices we can use the ``!![…]`` notation, lines are separated by semi-colons
-and components of lines are separated by commas.
+For concrete matrices we can use the ``!![…]`` notation, rows are separated by semicolons
+and elements of the rows are separated by commas.
 When entries have a computable type such as ``ℕ`` or ``ℚ``, we can use
 the ``eval`` command to play with basic operations.
 
@@ -175,7 +175,7 @@ But sometimes it is more convenient to index matrices using arbitrary finite typ
 For instance the adjacency matrix of a finite graph has rows and columns naturally indexed by
 the vertices of the graph.
 
-In fact when simply wants to define matrices without defining any operation on them,
+In fact, when one simply wants to define matrices without defining any operation on them,
 finiteness of the indexing types are not even needed, and coefficients can have any type,
 without any algebraic structure.
 So Mathlib simply defines ``Matrix m n α`` to be ``m → n → α`` for any types ``m``, ``n`` and ``α``,
