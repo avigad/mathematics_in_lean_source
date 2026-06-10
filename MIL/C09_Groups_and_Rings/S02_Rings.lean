@@ -514,11 +514,11 @@ example {R : Type*} [CommRing R] [IsDomain R] (r : R) (n : ℕ):
 -- QUOTE.
 
 /- TEXT:
-Both ``Polynomial.eval`` and ``Polynomial.roots`` consider only the coefficients ring. They do not
+Both ``Polynomial.eval`` and ``Polynomial.roots`` consider only the coefficient ring. They do not
 allow us to say that ``X ^ 2 - 2 : ℚ[X]`` has a root in ``ℝ`` or that ``X ^ 2 + 1 : ℝ[X]`` has a root in
 ``ℂ``. For this, we need ``Polynomial.aeval``, which will evaluate ``P : R[X]`` in any ``R``-algebra.
 More precisely, given a semiring ``A`` and an instance of ``Algebra R A``, ``Polynomial.aeval`` sends
-every element of ``a`` along the ``R``-algebra morphism of evaluation at ``a``. Since ``AlgHom``
+every element ``a : A`` to the ``R``-algebra morphism ``R[X] → A`` that evaluates ``X`` at ``a``. Since ``AlgHom``
 has a coercion to functions, one can apply it to a polynomial.
 But ``aeval`` does not have a polynomial as an argument, so one cannot use dot notation like in
 ``P.eval`` above.
