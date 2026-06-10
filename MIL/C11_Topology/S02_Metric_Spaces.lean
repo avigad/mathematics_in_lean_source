@@ -126,7 +126,6 @@ example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Contin
 /- TEXT:
 Note that, without the elaboration issue coming from composition, another way to compress
 our proof would be to use ``Continuous.prod_map`` which is sometimes useful and gives
-as an alternate proof term ``continuous_dist.comp (hf.prod_map hf)`` which even shorter to type.
 
 Since it is sad to decide between a version which is better for elaboration and a version which is shorter
 to type, let us wrap this discussion with a last bit of compression offered
