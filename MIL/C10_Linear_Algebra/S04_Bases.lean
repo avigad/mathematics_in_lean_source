@@ -237,10 +237,10 @@ the base field ``K``, seen as a vector space over ``K``.
 This isomorphism version is actually the one that Mathlib uses as a definition under the hood, and
 other characterizations are proven from it.
 One must be slightly careful with the “power of ``K``” idea in the case of infinite bases.
-Indeed only finite linear combinations make sense in this algebraic context. So what we need
+Indeed, only finite linear combinations make sense in this algebraic context. So what we need
 as a reference vector space is not a direct product of copies of ``K`` but a direct sum.
-We could use ``⨁ i : ι, K`` for some type ``ι`` indexing the basis
-But we rather use the more specialized spelling ``ι →₀ K`` which means
+We could use ``⨁ i : ι, K`` for some type ``ι`` indexing the basis,
+but instead we use the more specialized spelling ``ι →₀ K``, which means
 “functions from ``ι`` to ``K`` with finite support”, i.e. functions which vanish outside a finite set
 in ``ι`` (this finite set is not fixed, it depends on the function).
 Evaluating such a function coming from a basis ``B`` at a vector ``v`` and
@@ -298,7 +298,7 @@ In particular the model vector space ``ι →₀ K`` has a so-called canonical b
 function evaluated on any vector is the identity isomorphism. It is called
 ``Finsupp.basisSingleOne`` where ``Finsupp`` means function with finite support and
 ``basisSingleOne`` refers to the fact that basis vectors are functions which
-vanish expect for a single input value. More precisely the basis vector indexed by ``i : ι``
+vanish except for a single input value. More precisely the basis vector indexed by ``i : ι``
 is ``Finsupp.single i 1`` which is the finitely supported function taking value ``1`` at ``i``
 and ``0`` everywhere else.
 
