@@ -338,7 +338,8 @@ We fix ``ε > 0`` and start looking for some ``δ``.
 
 Let ``φ : X × X → ℝ := fun p ↦ dist (f p.1) (f p.2)`` and let ``K := { p : X × X | ε ≤ φ p }``.
 Observe ``φ`` is continuous since ``f`` and distance are continuous.
-And ``K`` is clearly closed (use ``isClosed_le``) hence compact since ``X`` is compact.
+And ``K`` is clearly closed (use ``isClosed_le``) hence compact since ``X`` is compact and
+Lean knows that the product of compact spaces is compact.
 
 Then we discuss two possibilities using ``eq_empty_or_nonempty``.
 If ``K`` is empty then we are clearly done (we can set ``δ = 1`` for instance).
