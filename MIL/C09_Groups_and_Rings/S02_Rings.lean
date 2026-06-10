@@ -170,8 +170,8 @@ example {R S : Type*} [CommRing R] [CommRing S] (I : Ideal R) (J : Ideal S) (f :
 /- TEXT:
 One subtle point is that the type ``R ⧸ I`` really depends on ``I``
 (up to definitional equality), so having a proof that two ideals ``I`` and ``J`` are equal is not
-enough to make the corresponding quotients equal. However, the universal properties do provide
-an isomorphism in this case.
+enough to make the corresponding quotient types definitionally equal.
+However, the universal properties do provide an isomorphism in this case.
 EXAMPLES: -/
 -- QUOTE:
 example {R : Type*} [CommRing R] {I J : Ideal R} (h : I = J) : R ⧸ I ≃+* R ⧸ J :=

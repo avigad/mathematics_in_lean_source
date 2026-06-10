@@ -798,8 +798,8 @@ example {G G': Type*} [Group G] [Group G']
 /- TEXT:
 One subtle point to keep in mind is that the type ``G ⧸ N`` really depends on ``N``
 (up to definitional equality), so having a proof that two normal subgroups ``N`` and ``M`` are equal
-is not enough to make the corresponding quotients equal. However the universal properties does give
-an isomorphism in this case.
+is not enough to make the corresponding quotient types definitionally equal.
+However, the universal properties do give an isomorphism in this case.
 EXAMPLES: -/
 -- QUOTE:
 example {G : Type*} [Group G] {M N : Subgroup G} [M.Normal]
