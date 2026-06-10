@@ -64,13 +64,12 @@ example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} :
 /- TEXT:
 .. index:: continuity, tactics ; continuity
 
-
 A *lot* of lemmas have some continuity assumptions, so we end up proving a lot of continuity results and there
 is a ``continuity`` tactic devoted to this task. Let's prove a continuity statement that will be needed
-in an exercise below. Notice that Lean knows how to treat a product of two metric spaces as a metric space, so
-it makes sense to consider continuous functions from ``X × X`` to ``ℝ``.
+in an exercise below. Notice that Lean knows how to treat a product of two metric spaces as a metric space;
+it chooses the sup norm, so ``dist (x₁, y₁) (x₂, y₂) = max (dist x₁ x₂) (dist y₁ y₂)`` holds by
+reflexivity. As a result, it makes sense to consider continuous functions from ``X × X`` to ``ℝ``.
 In particular the (uncurried version of the) distance function is such a function.
-
 BOTH: -/
 -- QUOTE:
 example {X Y : Type*} [MetricSpace X] [MetricSpace Y] {f : X → Y} (hf : Continuous f) :
