@@ -515,7 +515,7 @@ theorem aux {m n : ℕ} (h₀ : m ∣ n) (h₁ : 2 ≤ m) (h₂ : m < n) : n / m
 SOLUTIONS: -/
   constructor
   · exact Nat.div_dvd_of_dvd h₀
-  exact Nat.div_lt_self (lt_of_le_of_lt (zero_le _) h₂) h₁
+  exact Nat.div_lt_self (lt_of_le_of_lt zero_le h₂) h₁
 -- QUOTE.
 
 -- BOTH:

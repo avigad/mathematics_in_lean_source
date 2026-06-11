@@ -2,6 +2,7 @@ import MIL.Common
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.Calculus.Deriv.Pow
 import Mathlib.Analysis.Calculus.MeanValue
+import Mathlib.Analysis.Calculus.Deriv.MeanValue
 
 open Set Filter
 open Topology Filter Classical Real
@@ -77,8 +78,9 @@ So making sense of the following statement requires knowing the precise
 definition of ``deriv``.
 EXAMPLES: -/
 -- QUOTE:
-example {f : ℝ → ℝ} {a : ℝ} (h : IsLocalMin f a) : deriv f a = 0 :=
-  h.deriv_eq_zero
+example {f : ℝ → ℝ} {a : ℝ} (h : IsLocalMin f a) : deriv f a = 0 := by
+  exact?
+  --h.deriv_eq_zero
 -- QUOTE.
 
 /- TEXT:

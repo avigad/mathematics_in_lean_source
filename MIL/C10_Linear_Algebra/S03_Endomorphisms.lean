@@ -5,6 +5,7 @@ import Mathlib.LinearAlgebra.Charpoly.Basic
 
 import MIL.Common
 
+noncomputable section
 
 /- TEXT:
 

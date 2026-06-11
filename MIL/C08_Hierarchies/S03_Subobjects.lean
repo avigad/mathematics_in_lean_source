@@ -234,18 +234,17 @@ SOLUTIONS: -/
     apply Quotient.sound
     dsimp only
     rw [mul_assoc]
-    apply @Setoid.refl M N.Setoid
 -- BOTH:
   one := QuotientMonoid.mk N 1
   one_mul := by
 /- EXAMPLES:
       sorry
 SOLUTIONS: -/
-    rintro ⟨a⟩ ; apply Quotient.sound ; dsimp only ; rw [one_mul] ; apply @Setoid.refl M N.Setoid
+    rintro ⟨a⟩ ; apply Quotient.sound ; dsimp only ; rw [one_mul]
 -- BOTH:
   mul_one := by
 /- EXAMPLES:
       sorry
 SOLUTIONS: -/
-    rintro ⟨a⟩ ; apply Quotient.sound ; dsimp only ; rw [mul_one] ; apply @Setoid.refl M N.Setoid
+    rintro ⟨a⟩ ; apply Quotient.sound ; dsimp only ; rw [mul_one]
 -- QUOTE.
