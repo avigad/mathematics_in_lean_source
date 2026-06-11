@@ -192,7 +192,7 @@ example {ι : Type*} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, �
   have hU : (⋃ n : ℕ, e n) = univ
   sorry
   /- apply the Baire category theorem to conclude that for some `m : ℕ`,
-       `e m` contains some `x` -/
+       the interior of `e m` contains some `x` -/
   obtain ⟨m, x, hx⟩ : ∃ m, ∃ x, x ∈ interior (e m) := sorry
   obtain ⟨ε, ε_pos, hε⟩ : ∃ ε > 0, ball x ε ⊆ interior (e m) := sorry
   obtain ⟨k, hk⟩ : ∃ k : 𝕜, 1 < ‖k‖ := sorry
@@ -220,7 +220,7 @@ example {ι : Type*} [CompleteSpace E] {g : ι → E →L[𝕜] F} (h : ∀ x, �
     obtain ⟨m, hm⟩ := exists_nat_ge C
     exact ⟨e m, mem_range_self m, mem_iInter.mpr fun i ↦ le_trans (hC i) hm⟩
   /- apply the Baire category theorem to conclude that for some `m : ℕ`,
-       `e m` contains some `x` -/
+       the interior of `e m` contains some `x` -/
   obtain ⟨m : ℕ, x : E, hx : x ∈ interior (e m)⟩ := nonempty_interior_of_iUnion_of_closed hc hU
   obtain ⟨ε, ε_pos, hε : ball x ε ⊆ interior (e m)⟩ := isOpen_iff.mp isOpen_interior x hx
   obtain ⟨k : 𝕜, hk : 1 < ‖k‖⟩ := NormedField.exists_one_lt_norm 𝕜
