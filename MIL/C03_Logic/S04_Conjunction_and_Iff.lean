@@ -373,7 +373,7 @@ end
 .. index:: simp, tactics ; simp
 
 Beyond logical operations, you do not need
-anything more than ``le_refl``, ``le_trans``
+anything more than ``le_refl``, ``le_trans``,
 and ``le_antisymm``.
 Show that even in the case where ``≤``
 is only assumed to be a preorder,
