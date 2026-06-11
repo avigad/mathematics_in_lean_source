@@ -351,7 +351,7 @@ function and the assumptions that the function is strictly differentiable at a
 point ``a`` and that its derivative is an isomorphism.
 
 The first example below gets this local inverse.
-The next one states that it is indeed a local inverse
+The next ones state that it is indeed a local inverse
 from the left and from the right, and that it is strictly differentiable.
 EXAMPLES: -/
 -- QUOTE:
@@ -369,8 +369,7 @@ example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     ∀ᶠ x in 𝓝 (f a), f (hf.localInverse f f' a x) = x :=
   hf.eventually_right_inverse
 
-example {f : E → F} {f' : E ≃L[𝕜] F} {a : E}
-  (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
+example (hf : HasStrictFDerivAt f (f' : E →L[𝕜] F) a) :
     HasStrictFDerivAt (HasStrictFDerivAt.localInverse f f' a hf) (f'.symm : F →L[𝕜] E) (f a) :=
   HasStrictFDerivAt.to_localInverse hf
 
