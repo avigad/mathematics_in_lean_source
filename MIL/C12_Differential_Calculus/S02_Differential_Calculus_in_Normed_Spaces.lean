@@ -115,7 +115,7 @@ continuous linear maps.
 In Mathlib, the type of ``𝕜``-linear continuous maps between normed spaces
 ``E`` and ``F`` is written ``E →L[𝕜] F``.
 They are implemented as *bundled maps*, which means that an element of this type
-a structure that that includes the function itself and the properties
+is a structure that that includes the function itself and the properties
 of being linear and continuous.
 Lean will insert a coercion so that a continuous linear map can be treated
 as a function.
