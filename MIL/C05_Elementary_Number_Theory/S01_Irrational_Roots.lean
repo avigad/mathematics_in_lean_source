@@ -356,7 +356,7 @@ To understand how it works, try replacing it with a tactic proof,
 and then think about how the tactics describe the proof term.
 
 See if you can fill in the missing parts of the proof below.
-At the very end, you can use ``Nat.dvd_sub'`` and ``Nat.dvd_mul_right``
+At the very end, you can use ``Nat.dvd_sub`` and ``Nat.dvd_mul_right``
 to finish it off.
 
 Note that this example does not assume that ``p`` is prime, but the
