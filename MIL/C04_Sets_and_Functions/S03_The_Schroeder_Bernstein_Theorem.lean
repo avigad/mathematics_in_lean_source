@@ -190,7 +190,7 @@ theorem sb_right_inv {x : α} (hx : x ∉ sbSet f g) : g (invFun g x) = x := by
     contrapose! hx
     rw [sbSet, mem_iUnion]
     use 0
-    rw [sbAux, mem_diff]
+    rw [sbAux, mem_sdiff]
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
@@ -265,7 +265,7 @@ SOLUTIONS: -/
     rw [if_pos x₁A, if_pos x₂A] at hxeq
     exact hf hxeq
 -- BOTH:
-  push_neg at xA
+  push Not at xA
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/

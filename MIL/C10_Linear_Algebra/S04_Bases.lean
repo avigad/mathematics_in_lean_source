@@ -423,7 +423,7 @@ BOTH: -/
 -- QUOTE:
 
 
-variable {ι' : Type*} (B' : Basis ι' K W) [Fintype ι] [DecidableEq ι] [Fintype ι'] [DecidableEq ι']
+variable {ι' : Type*} (B' : Basis ι' K W) [Fintype ι] [Fintype ι'] [DecidableEq ι']
 
 open LinearMap
 

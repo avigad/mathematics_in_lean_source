@@ -486,7 +486,7 @@ compact. In addition to what we saw already, you should use ``Filter.push_pull``
 BOTH: -/
 -- QUOTE:
 -- EXAMPLES:
-example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
+example {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
     IsCompact (f '' s) := by
   intro F F_ne F_le
   have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by sorry
@@ -496,7 +496,7 @@ example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs :
 -- QUOTE.
 
 -- SOLUTIONS:
-example [TopologicalSpace Y] {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
+example {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
     IsCompact (f '' s) := by
   intro F F_ne F_le
   have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by rw [Filter.push_pull, map_principal]

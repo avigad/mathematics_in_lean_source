@@ -302,14 +302,14 @@ end
 /- TEXT:
 See if you can use ``rw`` with the theorem below
 to provide a short proof that negation is not a
-nondecreasing function. (Note that ``push_neg`` won't
+nondecreasing function. (Note that ``push Not`` won't
 unfold definitions for you, so the ``rw [Monotone]`` in
 the proof of the theorem is needed.)
 BOTH: -/
 -- QUOTE:
 theorem not_monotone_iff {f : ℝ → ℝ} : ¬Monotone f ↔ ∃ x y, x ≤ y ∧ f x > f y := by
   rw [Monotone]
-  push_neg
+  push Not
   rfl
 
 -- EXAMPLES:

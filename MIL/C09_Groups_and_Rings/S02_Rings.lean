@@ -213,7 +213,7 @@ section
 variable {ι R : Type*} [CommRing R]
 open Ideal Quotient Function
 
-#check Pi.ringHom
+#check RingHom.pi
 #check ker_Pi_Quotient_mk
 
 /-- The homomorphism from ``R ⧸ ⨅ i, I i`` to ``Π i, R ⧸ I i`` featured in the Chinese
@@ -222,7 +222,7 @@ def chineseMap (I : ι → Ideal R) : (R ⧸ ⨅ i, I i) →+* Π i, R ⧸ I i :
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  Ideal.Quotient.lift (⨅ i, I i) (Pi.ringHom fun i : ι ↦ Ideal.Quotient.mk (I i))
+  Ideal.Quotient.lift (⨅ i, I i) (RingHom.pi fun i : ι ↦ Ideal.Quotient.mk (I i))
     (by simp [← RingHom.mem_ker, ker_Pi_Quotient_mk])
 -- QUOTE.
 -- BOTH:
