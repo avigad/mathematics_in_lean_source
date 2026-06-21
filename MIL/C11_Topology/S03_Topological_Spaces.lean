@@ -348,7 +348,8 @@ theorem aux {X Y A : Type*} [TopologicalSpace X] {c : A → X}
   sorry
 
 SOLUTIONS: -/
-  simpa [and_assoc] using ((nhds_basis_opens' x).comap c).tendsto_left_iff.mp h V' V'_in
+  obtain ⟨V, ⟨V_mem, V_op⟩, hV⟩ := ((nhds_basis_opens' x).comap c).tendsto_left_iff.mp h V' V'_in
+  exact ⟨V, V_mem, V_op, hV⟩
 -- QUOTE.
 
 /- TEXT:
