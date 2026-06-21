@@ -87,10 +87,12 @@ Instead, the ``convert`` tactic lets us apply the theorem
 as it is,
 and leaves us with the task of proving the equations that
 are needed to make the goal match.
+The `convert!` variant more aggressively unfold definitions when
+trying to solve the resulting goals.
 TEXT. -/
 -- QUOTE:
 example {a : ℝ} (h : 1 < a) : a < a * a := by
-  convert (mul_lt_mul_iff_left₀ _).2 h
+  convert! (mul_lt_mul_iff_left₀ _).2 h
   · rw [one_mul]
   exact lt_trans zero_lt_one h
 -- QUOTE.

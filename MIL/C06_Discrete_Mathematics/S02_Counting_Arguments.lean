@@ -154,7 +154,7 @@ example (n : ℕ) : #(triangle n) = (n + 1) * n / 2 := by
   rw [←Fintype.card_coe]
   trans; apply (Fintype.card_congr this)
   rw [Fintype.card_sigma, sum_fin_eq_sum_range]
-  convert Finset.sum_range_id (n + 1)
+  convert! Finset.sum_range_id (n + 1)
   simp_all
 -- QUOTE.
 
