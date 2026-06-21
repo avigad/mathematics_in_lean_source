@@ -36,6 +36,8 @@ release = 'v4.19.0'
 #     'sphinx.ext.githubpages',
 #     'lean_sphinx']
 
+extensions = ['sphinx_copybutton']
+
 highlight_language = "lean"
 
 # Allows for numerical references to sections
