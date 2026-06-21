@@ -337,26 +337,27 @@ example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   use x
 
 /- TEXT:
-.. index:: push_neg, tactics ; push_neg
+.. index:: push, tactics ; push
 
 It is often tedious to work with compound statements with
 a negation in front,
 and it is a common mathematical pattern to replace such
 statements with equivalent forms in which the negation
 has been pushed inward.
-To facilitate this, Mathlib offers a ``push_neg`` tactic,
-which restates the goal in this way (this includes
-simplifying ``¬ ¬A`` to ``A``).
-The command ``push_neg at h`` restates the hypothesis ``h``.
+To facilitate this, Mathlib offers a ``push`` tactic
+that can push an application using registered lemmas.
+In our case we will use `push Neg` to restate negations
+(this includes simplifying ``¬ ¬A`` to ``A``).
+The command ``push Not at h`` restates the hypothesis ``h``.
 TEXT. -/
 -- QUOTE:
 example (h : ¬∀ a, ∃ x, f x > a) : FnHasUb f := by
-  push_neg at h
+  push Not at h
   exact h
 
 example (h : ¬FnHasUb f) : ∀ a, ∃ x, f x > a := by
   dsimp only [FnHasUb, FnUb] at h
-  push_neg at h
+  push Not at h
   exact h
 -- QUOTE.
 
@@ -368,10 +369,10 @@ to expand ``FnUb``,
 because it appears in the scope of a quantifier.)
 You can verify that in the examples above
 with ``¬∃ x, P x`` and ``¬∀ x, P x``,
-the ``push_neg`` tactic does the expected thing.
+the ``push`` tactic does the expected thing.
 Without even knowing how to use the conjunction
 symbol,
-you should be able to use ``push_neg``
+you should be able to use ``push Not``
 to prove the following:
 TEXT. -/
 -- QUOTE:
@@ -382,7 +383,7 @@ example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
 -- SOLUTIONS:
 example (h : ¬Monotone f) : ∃ x y, x ≤ y ∧ f y < f x := by
   rw [Monotone] at h
-  push_neg at h
+  push Not at h
   exact h
 
 /- TEXT:
@@ -395,7 +396,7 @@ hypothesis ``h : A``,
 ``contrapose h`` leaves you with a goal of proving
 ``¬A`` from hypothesis ``¬B``.
 Using ``contrapose!`` instead of ``contrapose``
-applies ``push_neg`` to the goal and the relevant
+applies ``push Not`` to the goal and the relevant
 hypothesis as well.
 TEXT. -/
 -- QUOTE:
