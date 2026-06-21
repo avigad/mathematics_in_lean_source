@@ -135,7 +135,8 @@ class MonoidHomClass₁ (F : Type) (M N : Type) [Monoid M] [Monoid N] where
 
 /- TEXT:
 However there is a problem with the above implementation. We haven't registered a coercion to
-function instance yet. Let us try to do it now.
+function instance yet. Let us try to do it now (ignoring the warning from Lean telling us something
+is dangerous here, since we know we are indeed doing something bad).
 
 BOTH: -/
 
