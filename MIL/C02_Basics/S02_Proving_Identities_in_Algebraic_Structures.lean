@@ -289,7 +289,7 @@ theorem zero_mulαα (a : R) : 0 * a = 0 := by
 By now, you should also be able to replace each ``sorry`` in the next
 exercise with a proof,
 still using only facts about rings that we have
-established in this section along with the axiom ``eq_symm``.
+established in this section along with the axiom ``symm``.
 TEXT. -/
 -- QUOTE:
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
