@@ -1,7 +1,7 @@
-import Mathlib.Data.Finset.Powerset
-import Mathlib.Data.Finset.Max
-import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Data.Finset.Powerset
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Data.Nat.Prime.Basic
+public import Mathlib.Data.Fintype.BigOperators
 
 /- TEXT:
 .. _finsets_and_fintypes:

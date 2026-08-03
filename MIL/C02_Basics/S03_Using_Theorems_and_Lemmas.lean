@@ -1,6 +1,6 @@
 -- BOTH:
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import MIL.Common
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+public import MIL.Common
 
 variable (a b c d e : ℝ)
 open Real

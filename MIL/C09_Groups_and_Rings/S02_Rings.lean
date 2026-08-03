@@ -1,9 +1,9 @@
 -- BOTH:
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.Localization.Basic
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.Data.ZMod.QuotientRing
-import MIL.Common
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.RingTheory.Localization.Basic
+public import Mathlib.Analysis.Complex.Polynomial.Basic
+public import Mathlib.Data.ZMod.QuotientRing
+public import MIL.Common
 
 noncomputable section
 

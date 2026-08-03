@@ -1,6 +1,6 @@
-import Mathlib.Algebra.EuclideanDomain.Basic
-import Mathlib.RingTheory.PrincipalIdealDomain
-import MIL.Common
+public import Mathlib.Algebra.EuclideanDomain.Basic
+public import Mathlib.RingTheory.PrincipalIdealDomain
+public import MIL.Common
 
 /- TEXT:
 .. _section_building_the_gaussian_integers:

@@ -1,10 +1,10 @@
 -- BOTH:
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Eigenspace.Minpoly
-import Mathlib.LinearAlgebra.Charpoly.Basic
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Eigenspace.Minpoly
+public import Mathlib.LinearAlgebra.Charpoly.Basic
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 
-import MIL.Common
+public import MIL.Common
 
 /- TEXT:
 

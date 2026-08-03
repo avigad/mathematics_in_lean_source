@@ -1,5 +1,5 @@
-import MIL.Common
-import Mathlib.Data.Real.Basic
+public import MIL.Common
+public import Mathlib.Data.Real.Basic
 
 namespace C03S05
 

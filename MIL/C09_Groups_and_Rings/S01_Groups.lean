@@ -1,10 +1,10 @@
 -- BOTH:
-import Mathlib.GroupTheory.Sylow
-import Mathlib.GroupTheory.Perm.Cycle.Concrete
-import Mathlib.GroupTheory.Perm.Subgroup
-import Mathlib.GroupTheory.PresentedGroup
+public import Mathlib.GroupTheory.Sylow
+public import Mathlib.GroupTheory.Perm.Cycle.Concrete
+public import Mathlib.GroupTheory.Perm.Subgroup
+public import Mathlib.GroupTheory.PresentedGroup
 
-import MIL.Common
+public import MIL.Common
 
 /- TEXT:
 .. _groups:

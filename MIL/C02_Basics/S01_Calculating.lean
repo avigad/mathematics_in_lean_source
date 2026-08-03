@@ -1,5 +1,5 @@
-import MIL.Common
-import Mathlib.Data.Real.Basic
+public import MIL.Common
+public import Mathlib.Data.Real.Basic
 /- TEXT:
 Calculating
 -----------
@@ -41,7 +41,7 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 
 /- TEXT:
 The ``import`` lines at the beginning of the associated examples file
-import the theory of the real numbers from Mathlib, as well as useful automation.
+public import the theory of the real numbers from Mathlib, as well as useful automation.
 For the sake of brevity,
 we generally suppress information like this in the textbook.
 
@@ -410,7 +410,7 @@ end
 
 /- TEXT:
 The ``ring`` tactic is imported indirectly when we
-import ``Mathlib.Data.Real.Basic``,
+public import ``Mathlib.Data.Real.Basic``,
 but we will see in the next section that it can be used
 for calculations on structures other than the real numbers.
 It can be imported explicitly with the command

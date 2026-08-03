@@ -1,5 +1,5 @@
-import Mathlib.Data.Nat.GCD.Basic
-import MIL.Common
+public import Mathlib.Data.Nat.GCD.Basic
+public import MIL.Common
 
 /- TEXT:
 .. _section_induction_and_recursion:

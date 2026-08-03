@@ -1,6 +1,6 @@
-import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Combinatorics.Pigeonhole
-import Mathlib.Tactic
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Combinatorics.Pigeonhole
+public import Mathlib.Tactic
 
 /- TEXT:
 .. _counting_arguments:

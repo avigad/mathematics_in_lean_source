@@ -1,4 +1,4 @@
-import MIL.Common
+public import MIL.Common
 
 open Nat
 

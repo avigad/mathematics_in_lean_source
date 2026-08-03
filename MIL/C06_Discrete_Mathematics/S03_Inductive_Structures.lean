@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+public import Mathlib.Tactic
 
 /- TEXT:
 .. _inductively_defined_types:

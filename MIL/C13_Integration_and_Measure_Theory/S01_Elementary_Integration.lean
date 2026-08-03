@@ -1,6 +1,6 @@
-import MIL.Common
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-import Mathlib.Analysis.Convolution
+public import MIL.Common
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.Convolution
 
 open Set Filter
 
