@@ -1,6 +1,7 @@
 -- BOTH:
-import MIL.Common
-import Mathlib.Data.Real.Basic
+module
+public import MIL.Common
+public import Mathlib.Data.Real.Basic
 
 set_option autoImplicit true
 

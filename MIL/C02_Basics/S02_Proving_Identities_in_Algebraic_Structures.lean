@@ -1,7 +1,8 @@
 -- BOTH:
-import Mathlib.Algebra.Ring.Defs
-import Mathlib.Data.Real.Basic
-import MIL.Common
+module
+public import Mathlib.Algebra.Ring.Defs
+public import Mathlib.Data.Real.Basic
+public import MIL.Common
 
 /- TEXT:
 .. _proving_identities_in_algebraic_structures:

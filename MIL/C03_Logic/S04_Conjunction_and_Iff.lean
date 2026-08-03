@@ -1,7 +1,8 @@
 -- BOTH:
-import MIL.Common
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Nat.Prime.Basic
+module
+public import MIL.Common
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Data.Nat.Prime.Basic
 
 namespace C03S04
 

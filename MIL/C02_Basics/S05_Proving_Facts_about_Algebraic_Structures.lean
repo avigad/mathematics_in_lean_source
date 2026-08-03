@@ -1,6 +1,7 @@
 -- BOTH:
-import MIL.Common
-import Mathlib.Topology.MetricSpace.Basic
+module
+public import MIL.Common
+public import Mathlib.Topology.MetricSpace.Basic
 
 /- TEXT:
 .. _proving_facts_about_algebraic_structures:
