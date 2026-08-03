@@ -41,8 +41,10 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 -- QUOTE.
 
 /- TEXT:
-The ``import`` lines at the beginning of the associated examples file
-public import the theory of the real numbers from Mathlib, as well as useful automation.
+The ``public import`` lines at the beginning of the associated examples file
+publically import the theory of the real numbers from Mathlib, as well as useful automation.
+(Lean also supports privately importing things, by writing `import` without the `public` keyword.
+Importing everything publically is a safe choice.)
 For the sake of brevity,
 we generally suppress information like this in the textbook.
 
