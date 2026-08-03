@@ -3,6 +3,8 @@ public import Mathlib.Data.Finset.Powerset
 public import Mathlib.Data.Finset.Max
 public import Mathlib.Data.Nat.Prime.Basic
 public import Mathlib.Data.Fintype.BigOperators
+public meta import Mathlib.Data.Finset.Card -- for the #eval on line 267
+public meta import Mathlib.Data.Finset.Fold -- for the #eval on line 181
 
 public section
 
