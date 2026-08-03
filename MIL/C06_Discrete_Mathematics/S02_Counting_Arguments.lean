@@ -1,3 +1,4 @@
+module
 public import Mathlib.Data.Fintype.BigOperators
 public import Mathlib.Combinatorics.Pigeonhole
 public import Mathlib.Tactic

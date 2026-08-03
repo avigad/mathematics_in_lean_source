@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.Localization.Basic
 public import Mathlib.Analysis.Complex.Polynomial.Basic

@@ -1,3 +1,4 @@
+module
 public import Mathlib.Data.Nat.GCD.Basic
 public import MIL.Common
 

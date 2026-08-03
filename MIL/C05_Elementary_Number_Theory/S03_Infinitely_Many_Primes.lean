@@ -1,3 +1,4 @@
+module
 public import Mathlib.Data.Nat.Prime.Basic
 public import MIL.Common
 

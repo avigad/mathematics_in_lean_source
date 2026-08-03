@@ -1,3 +1,4 @@
+module
 public import MIL.Common
 public import Mathlib.Analysis.Normed.Module.FiniteDimension
 public import Mathlib.Analysis.Convolution

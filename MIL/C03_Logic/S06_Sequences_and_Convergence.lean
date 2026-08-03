@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import MIL.Common
 public import Mathlib.Data.Real.Basic
 

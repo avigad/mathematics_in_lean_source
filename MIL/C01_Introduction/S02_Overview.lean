@@ -1,3 +1,4 @@
+module
 public import MIL.Common
 
 open Nat

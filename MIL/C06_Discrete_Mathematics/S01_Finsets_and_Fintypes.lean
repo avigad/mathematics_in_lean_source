@@ -1,3 +1,4 @@
+module
 public import Mathlib.Data.Finset.Powerset
 public import Mathlib.Data.Finset.Max
 public import Mathlib.Data.Nat.Prime.Basic

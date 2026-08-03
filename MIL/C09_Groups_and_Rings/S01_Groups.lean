@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import Mathlib.GroupTheory.Sylow
 public import Mathlib.GroupTheory.Perm.Cycle.Concrete
 public import Mathlib.GroupTheory.Perm.Subgroup

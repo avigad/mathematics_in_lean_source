@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import MIL.Common
 

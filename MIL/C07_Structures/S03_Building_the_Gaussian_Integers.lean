@@ -1,3 +1,4 @@
+module
 public import Mathlib.Algebra.EuclideanDomain.Basic
 public import Mathlib.RingTheory.PrincipalIdealDomain
 public import MIL.Common

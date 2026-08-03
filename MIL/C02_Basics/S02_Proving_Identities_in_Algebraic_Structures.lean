@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import Mathlib.Algebra.Ring.Defs
 public import Mathlib.Data.Real.Basic
 public import MIL.Common

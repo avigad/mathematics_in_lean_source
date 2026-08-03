@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import Mathlib.Data.Set.Lattice
 public import Mathlib.Data.Nat.Prime.Basic
 public import MIL.Common

@@ -1,3 +1,4 @@
+module
 public import MIL.Common
 public import Mathlib.Data.Nat.Factorization.Basic
 public import Mathlib.Data.Nat.Prime.Basic

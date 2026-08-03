@@ -1,3 +1,4 @@
+module
 public import Mathlib.Tactic
 public import Mathlib.Util.Delaborators
 

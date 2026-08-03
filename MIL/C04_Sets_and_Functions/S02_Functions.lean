@@ -1,4 +1,5 @@
 -- BOTH:
+module
 public import MIL.Common
 public import Mathlib.Data.Set.Lattice
 public import Mathlib.Data.Set.Function

@@ -1,3 +1,4 @@
+module
 public import MIL.C01_Introduction.S01_Getting_Started
 public import MIL.C01_Introduction.S02_Overview
 public import MIL.C02_Basics.S01_Calculating
