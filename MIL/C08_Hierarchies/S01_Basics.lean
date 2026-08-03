@@ -3,6 +3,7 @@ public import MIL.Common
 public import Mathlib.Algebra.BigOperators.Ring.List
 public import Mathlib.Data.Real.Basic
 
+public section
 set_option autoImplicit true
 
 /- TEXT:

@@ -4,7 +4,7 @@ public import Mathlib.Algebra.BigOperators.Ring.List
 public import Mathlib.Data.Real.Basic
 
 namespace C06S01
-noncomputable section
+@[expose] public noncomputable section
 
 /- TEXT:
 .. _section_structures:

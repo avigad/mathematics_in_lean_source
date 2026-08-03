@@ -4,6 +4,8 @@ public import Mathlib.Data.Finset.Max
 public import Mathlib.Data.Nat.Prime.Basic
 public import Mathlib.Data.Fintype.BigOperators
 
+public section
+
 /- TEXT:
 .. _finsets_and_fintypes:
 

@@ -6,6 +6,7 @@ public import Mathlib.GroupTheory.Perm.Subgroup
 public import Mathlib.GroupTheory.PresentedGroup
 
 public import MIL.Common
+public section
 
 /- TEXT:
 .. _groups:
