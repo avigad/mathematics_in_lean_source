@@ -68,7 +68,7 @@ So now you know the game.
 All that is left to learn is the rules.
 
 This book is complementary to a companion tutorial,
-`Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean4/>`_,
+`Theorem Proving in Lean <https://lean-lang.org/theorem_proving_in_lean4/>`_,
 which provides a more thorough introduction to the underlying logical framework
 and core syntax of Lean.
 *Theorem Proving in Lean* is for people who prefer to read a user manual cover to cover before

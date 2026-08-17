@@ -20,7 +20,7 @@ interprets expressions and guarantees that they are well-formed,
 and ultimately certifies the correctness of our proofs.
 
 You can learn more about Lean from the
-`Lean project page <https://leanprover.github.io>`_
+`Lean project page <https://lean-lang.org>`_
 and the
 `Lean community web pages <https://leanprover-community.github.io/>`_.
 This tutorial is based on Lean's large and ever-growing library, *Mathlib*.
