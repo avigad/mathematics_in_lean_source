@@ -21,5 +21,5 @@ that you saw there,
 It will also show you how to define and use
 algebraic structures on your own.
 
-For more technical detail, you can consult `Theorem Proving in Lean <https://leanprover.github.io/theorem_proving_in_lean/>`_,
+For more technical detail, you can consult `Theorem Proving in Lean <https://lean-lang.org/theorem_proving_in_lean4/>`_,
 and a paper by Anne Baanen, `Use and abuse of instance parameters in the Lean mathematical library <https://arxiv.org/abs/2202.01629>`_.
