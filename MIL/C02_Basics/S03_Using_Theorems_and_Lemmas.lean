@@ -263,7 +263,6 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   apply log_le_log h₀
   apply add_le_add_right (exp_le_exp.mpr h)
 
--- SOLUTION.
 /- TEXT:
 From these examples, it should be clear that being able to
 find the library theorems you need constitutes an important
