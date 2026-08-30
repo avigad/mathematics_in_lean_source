@@ -185,7 +185,6 @@ TEXT. -/
 #check (add_pos : 0 < a → 0 < b → 0 < a + b)
 #check (add_pos_of_pos_of_nonneg : 0 < a → 0 ≤ b → 0 < a + b)
 #check (exp_pos : ∀ a, 0 < exp a)
-#check add_le_add_right
 -- QUOTE.
 
 /- TEXT:
