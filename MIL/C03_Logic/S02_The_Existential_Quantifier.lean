@@ -318,7 +318,7 @@ and any sum of squares can be expressed in this way.
 The theorem above reflects the fact that norm of a product of
 Gaussian integers is the product of their norms:
 if :math:`x` is the norm of :math:`a + bi` and
-:math:`y` in the norm of :math:`c + di`,
+:math:`y` is the norm of :math:`c + di`,
 then :math:`xy` is the norm of :math:`(a + bi) (c + di)`.
 Our cryptic proof illustrates the fact that
 the proof that is easiest to formalize isn't always
