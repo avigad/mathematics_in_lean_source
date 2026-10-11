@@ -346,7 +346,7 @@ statements with equivalent forms in which the negation
 has been pushed inward.
 To facilitate this, Mathlib offers a ``push`` tactic
 that can push an application using registered lemmas.
-In our case we will use `push Neg` to restate negations
+In our case we will use `push Not` to restate negations
 (this includes simplifying ``¬ ¬A`` to ``A``).
 The command ``push Not at h`` restates the hypothesis ``h``.
 TEXT. -/
