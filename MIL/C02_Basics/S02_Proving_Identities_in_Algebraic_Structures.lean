@@ -290,7 +290,8 @@ theorem zero_mulαα (a : R) : 0 * a = 0 := by
 By now, you should also be able to replace each ``sorry`` in the next
 exercise with a proof,
 still using only facts about rings that we have
-established in this section along with the axiom ``eq_symm``.
+established in this section along with the lemma ``Eq.symm`` stating that
+`a = b` implies `b = a`.
 TEXT. -/
 -- QUOTE:
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
@@ -312,7 +313,7 @@ theorem neg_eq_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : -a = b := by
   rw [← neg_add_cancel_left a b, h, add_zero]
 
 theorem eq_neg_of_add_eq_zeroαα {a b : R} (h : a + b = 0) : a = -b := by
-  symm
+  apply Eq.symm
   apply neg_eq_of_add_eq_zero
   rw [add_comm, h]
 
