@@ -1,5 +1,6 @@
-import Mathlib.Data.Nat.Prime.Basic
-import MIL.Common
+module
+public import Mathlib.Data.Nat.Prime.Basic
+public import MIL.Common
 
 open BigOperators
 

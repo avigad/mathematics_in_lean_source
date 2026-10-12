@@ -1,8 +1,9 @@
 -- BOTH:
-import MIL.Common
-import Mathlib.Data.Set.Lattice
-import Mathlib.Data.Set.Function
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
+module
+public import MIL.Common
+public import Mathlib.Data.Set.Lattice
+public import Mathlib.Data.Set.Function
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
 /- TEXT:
 .. _functions:

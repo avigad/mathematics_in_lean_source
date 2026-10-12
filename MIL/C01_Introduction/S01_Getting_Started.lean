@@ -1,3 +1,4 @@
+module
 /- TEXT:
 Getting Started
 ---------------
