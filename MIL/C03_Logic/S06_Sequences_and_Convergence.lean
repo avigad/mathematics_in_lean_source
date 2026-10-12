@@ -1,7 +1,7 @@
 -- BOTH:
 module
 public import MIL.Common
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 
 namespace C03S06
 

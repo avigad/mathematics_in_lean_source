@@ -1,5 +1,4 @@
 module
-public import Mathlib.Data.Set.Lattice
 public import Mathlib.Data.Set.Function
 public import MIL.Common
 
@@ -247,7 +246,7 @@ theorem sb_injective (hf : Injective f) : Injective (sbFun f g) := by
     have x₂A : x₂ ∈ A := by
       apply _root_.not_imp_self.mp
       intro (x₂nA : x₂ ∉ A)
-      rw [if_pos x₁A, if_neg x₂nA] at hxeq
+      rw [ite_eq_left x₁A, ite_eq_right x₂nA] at hxeq
       rw [A_def, sbSet, mem_iUnion] at x₁A
       have x₂eq : x₂ = g (f x₁) := by
 /- EXAMPLES:
@@ -263,14 +262,14 @@ SOLUTIONS: -/
 /- EXAMPLES:
     sorry
 SOLUTIONS: -/
-    rw [if_pos x₁A, if_pos x₂A] at hxeq
+    rw [ite_eq_left x₁A, ite_eq_left x₂A] at hxeq
     exact hf hxeq
 -- BOTH:
   push Not at xA
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  rw [if_neg xA.1, if_neg xA.2] at hxeq
+  rw [ite_eq_right xA.1, ite_eq_right xA.2] at hxeq
   rw [← sb_right_inv f g xA.1, hxeq, sb_right_inv f g xA.2]
 -- BOTH:
 -- QUOTE.
@@ -327,14 +326,14 @@ theorem sb_surjective (hg : Injective g) : Surjective (sbFun f g) := by
     have : x ∈ A := by
       rw [A_def, sbSet, mem_iUnion]
       exact ⟨n, xmem⟩
-    rw [h_def, sbFun, if_pos this]
+    rw [h_def, sbFun, ite_eq_left this]
     apply hg hx
 
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
   use g y
-  rw [h_def, sbFun, if_neg gyA]
+  rw [h_def, sbFun, ite_eq_right gyA]
   apply leftInverse_invFun hg
 -- BOTH:
 -- QUOTE.

@@ -420,7 +420,7 @@ private theorem aux {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing
 
 -- QUOTE:
 -- BOTH:
-theorem sq_add_sq_eq_zero {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing α]
+theorem square_add_sq_eq_zero {α : Type*} [Ring α] [LinearOrder α] [IsStrictOrderedRing α]
     (x y : α) : x ^ 2 + y ^ 2 = 0 ↔ x = 0 ∧ y = 0 := by
 /- EXAMPLES:
   sorry
@@ -462,7 +462,7 @@ theorem norm_eq_zero (x : GaussInt) : norm x = 0 ↔ x = 0 := by
 /- EXAMPLES:
   sorry
 SOLUTIONS: -/
-  rw [norm, sq_add_sq_eq_zero, GaussInt.ext_iff]
+  rw [norm, square_add_sq_eq_zero, GaussInt.ext_iff]
   rfl
 
 -- BOTH:

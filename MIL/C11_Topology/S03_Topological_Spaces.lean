@@ -407,7 +407,7 @@ SOLUTIONS: -/
     exact mem_of_superset V_in this
     intro y y_in
     have hVx : V ∈ 𝓝 y := V_op.mem_nhds y_in
-    haveI : (comap ((↑) : A → X) (𝓝 y)).NeBot := by simpa [mem_closure_iff_comap_neBot] using hA y
+    have : (comap ((↑) : A → X) (𝓝 y)).NeBot := by simpa [mem_closure_iff_comap_neBot] using hA y
     apply V'_closed.mem_of_tendsto (hφ y)
     exact mem_of_superset (preimage_mem_comap hVx) hV
   · intro a
@@ -494,23 +494,15 @@ example {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
   have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by sorry
   have Hne : (𝓟 s ⊓ comap f F).NeBot := by sorry
   have Hle : 𝓟 s ⊓ comap f F ≤ 𝓟 s := inf_le_left
+/- EXAMPLES:
   sorry
--- QUOTE.
-
--- SOLUTIONS:
-example {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
-    IsCompact (f '' s) := by
-  intro F F_ne F_le
-  have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by rw [Filter.push_pull, map_principal]
-  have Hne : (𝓟 s ⊓ comap f F).NeBot := by
-    apply NeBot.of_map
-    rwa [map_eq, inf_of_le_right F_le]
-  have Hle : 𝓟 s ⊓ comap f F ≤ 𝓟 s := inf_le_left
+SOLUTIONS: -/
   rcases hs Hle with ⟨x, x_in, hx⟩
   refine ⟨f x, mem_image_of_mem f x_in, ?_⟩
   apply hx.map hf.continuousAt
   rw [Tendsto, map_eq]
   exact inf_le_right
+-- QUOTE.
 
 /- TEXT:
 One can also express compactness in terms of open covers: ``s`` is compact if every family of open sets that

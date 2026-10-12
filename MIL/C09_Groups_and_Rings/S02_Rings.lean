@@ -146,9 +146,9 @@ example : I + J = I ⊔ J := rfl
 example {x : R} : x ∈ I + J ↔ ∃ a ∈ I, ∃ b ∈ J, a + b = x := by
   simp [Submodule.mem_sup]
 
-example : I * J ≤ J := Ideal.mul_le_left
+example : I * J ≤ J := Ideal.mul_le_right
 
-example : I * J ≤ I := Ideal.mul_le_right
+example : I * J ≤ I := Ideal.mul_le_left
 
 example : I * J ≤ I ⊓ J := Ideal.mul_le_inf
 -- QUOTE.
@@ -308,7 +308,7 @@ SOLUTIONS: -/
         1 = I + K                  := (hs fun j hj ↦ hf j (Finset.mem_insert_of_mem hj)).symm
         _ = I + K * (I + J i)      := by rw [hf i (Finset.mem_insert_self i s), mul_one]
         _ = (1 + K) * I + K * J i  := by ring
-        _ ≤ I + K ⊓ J i            := by gcongr ; apply mul_le_left ; apply mul_le_inf
+        _ ≤ I + K ⊓ J i            := by gcongr ; apply mul_le_right ; apply mul_le_inf
 
 -- QUOTE.
 

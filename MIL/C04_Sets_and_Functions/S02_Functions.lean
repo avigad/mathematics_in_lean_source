@@ -1,7 +1,6 @@
 -- BOTH:
 module
 public import MIL.Common
-public import Mathlib.Data.Set.Lattice
 public import Mathlib.Data.Set.Function
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
@@ -546,7 +545,7 @@ def inverse (f : α → β) : β → α := fun y : β ↦
   if h : ∃ x, f x = y then Classical.choose h else default
 
 theorem inverse_spec {f : α → β} (y : β) (h : ∃ x, f x = y) : f (inverse f y) = y := by
-  rw [inverse, dif_pos h]
+  rw [inverse, dite_eq_left h]
   exact Classical.choose_spec h
 -- QUOTE.
 
@@ -559,10 +558,10 @@ and a default element of ``α`` otherwise.
 This is an instance of a *dependent if* construction,
 since in the positive case, the value returned,
 ``Classical.choose h``, depends on the assumption ``h``.
-The identity ``dif_pos h`` rewrites ``if h : e then a else b``
+The identity ``dite_eq_left h`` rewrites ``if h : e then a else b``
 to ``a`` given ``h : e``,
-and, similarly, ``dif_neg h`` rewrites it to ``b`` given ``h : ¬ e``.
-There are also versions ``if_pos`` and ``if_neg`` that works for non-dependent
+and, similarly, ``dite_eq_right h`` rewrites it to ``b`` given ``h : ¬ e``.
+There are also versions ``ite_eq_left`` and ``ite_eq_right`` that works for non-dependent
 if constructions and will be used in the next section.
 The theorem ``inverse_spec`` says that ``inverse f``
 meets the first part of this specification.

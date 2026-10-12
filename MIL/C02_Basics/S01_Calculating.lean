@@ -1,6 +1,6 @@
 module
 public import MIL.Common
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 /- TEXT:
 Calculating
 -----------
@@ -431,7 +431,7 @@ end
 
 /- TEXT:
 The ``ring`` tactic is imported indirectly when we
-public import ``Mathlib.Data.Real.Basic``,
+public import ``Mathlib.Basic.Real.Basic``,
 but we will see in the next section that it can be used
 for calculations on structures other than the real numbers.
 It can be imported explicitly with the command

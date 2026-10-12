@@ -1,7 +1,7 @@
 module
 public import MIL.Common
 public import Mathlib.Algebra.BigOperators.Ring.List
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 
 public section
 set_option autoImplicit true
@@ -339,7 +339,7 @@ This is a bit technical; you don't need to understand details. The important poi
 lemmas are then only stated in multiplicative notation and marked with the attribute ``to_additive``
 to generate the additive version as ``left_inv_eq_right_inv'`` with its auto-generated additive
 version ``left_neg_eq_right_neg'``. In order to check the name of this additive version we
-used the ``whatsnew in`` command on top of ``left_inv_eq_right_inv'``.
+used the ``#whats_new in`` command on top of ``left_inv_eq_right_inv'``.
 BOTH: -/
 
 -- QUOTE:
@@ -363,7 +363,7 @@ class Monoid₃ (α : Type) extends Semigroup₃ α, MulOneClass α
 export Semigroup₃ (mul_assoc₃)
 export AddSemigroup₃ (add_assoc₃)
 
-whatsnew in
+#whats_new in
 @[to_additive]
 lemma left_inv_eq_right_inv' {M : Type} [Monoid₃ M] {a b c : M} (hba : b * a = 1) (hac : a * c = 1) : b = c := by
   rw [← one_mul c, ← hba, mul_assoc₃, hac, mul_one b]
