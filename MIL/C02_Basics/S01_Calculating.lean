@@ -41,12 +41,13 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 -- QUOTE.
 
 /- TEXT:
-The ``public import`` lines at the beginning of the associated examples file
-publically import the theory of the real numbers from Mathlib, as well as useful automation.
-(Lean also supports privately importing things, by writing `import` without the `public` keyword.
-Importing everything publically is a safe choice.)
-For the sake of brevity,
-we generally suppress information like this in the textbook.
+The ``module`` and ``public import`` lines at the beginning of the associated examples file
+import the theory of the real numbers from Mathlib, as well as useful automation.
+More precisely, the ``module`` line tells Lean to import from Mathlib only those definitions and
+theorems that are marked as public, and the keyword ``public`` tells Lean to keep them public in any
+file that imports this one. You can ignore these details for now; the most important thing to know
+is that the "import" commands tell Lean what parts of Mathlib you want to use.
+For the sake of brevity, we generally suppress information like this in the textbook.
 
 You are welcome to make changes to see what happens.
 You can type the ``ℝ`` character as ``\R`` or ``\real``
