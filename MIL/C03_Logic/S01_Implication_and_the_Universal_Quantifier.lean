@@ -146,7 +146,7 @@ Finish the proof using the theorems
 ``abs_mul``, ``mul_le_mul``, ``abs_nonneg``,
 ``mul_lt_mul_of_pos_right``, and ``one_mul``.
 Remember that you can find theorems like these using
-Ctrl-space completion (or Cmd-space completion on a Mac).
+Ctrl-space completion.
 Remember also that you can use ``.mp`` and ``.mpr``
 or ``.1`` and ``.2`` to extract the two directions
 of an if-and-only-if statement.

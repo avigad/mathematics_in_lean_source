@@ -280,7 +280,7 @@ There are a number of strategies you can use:
   to search Lean and Mathlib definitions and theorems by patterns.
 
 * You can rely on Mathlib naming conventions and Ctrl-space completion in
-  the editor to guess a theorem name (or Cmd-space on a Mac keyboard).
+  the editor to guess a theorem name.
   In Lean, a theorem named ``A_of_B_of_C`` establishes
   something of the form ``A`` from hypotheses of the form ``B`` and ``C``,
   where ``A``, ``B``, and ``C``
