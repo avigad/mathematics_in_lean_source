@@ -345,7 +345,7 @@ example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
 
 /- TEXT:
 The following exercise is a little more challenging.
-You can use the theorems listed underneath.
+You can use the theorems listed underneath (you won’t need all of them).
 TEXT. -/
 -- QUOTE:
 example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
@@ -356,8 +356,25 @@ example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
 #check add_mul a b c
 #check add_sub a b c
 #check sub_sub a b c
+#check sub_add a b c
 #check add_zero a
+#check sub_zero a
+#check sub_self a
 -- QUOTE.
+
+-- SOLUTIONS:
+
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
+  rw [add_mul, mul_add, mul_add, ← add_assoc]
+
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
+  calc (a + b) * (c + d) = a*(c+d) + b*(c+d) := by rw [add_mul]
+  _  = (a*c+a*d) + (b*c+b*d) := by rw [mul_add, mul_add]
+  _ = a * c + a * d + b * c + b * d := by rw [← add_assoc]
+
+example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
+  rw [add_mul, mul_sub, mul_sub, add_sub, mul_comm b a,
+      ← pow_two, ← pow_two, sub_add, sub_self, sub_zero]
 
 end
 
