@@ -333,15 +333,15 @@ end
 /- TEXT:
 Try proving the following identity using both a pure ``rw`` proof
 and a more structured ``calc`` proof:
-TEXT. -/
+BOTH: -/
 -- Try these. For the second, use the theorems listed underneath.
 section
 variable (a b c d : ℝ)
 
--- QUOTE:
+-- EXAMPLES:
 example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
   sorry
--- QUOTE.
+-- EXAMPLES.
 
 /- TEXT:
 The following exercise is a little more challenging.
@@ -385,13 +385,13 @@ We can also perform rewriting in an assumption in the context.
 For example, ``rw [mul_comm a b] at hyp`` replaces ``a * b`` by ``b * a``
 in the assumption ``hyp``.
 TEXT. -/
--- Examples.
+-- EXAMPLES:
 
 section
+-- QUOTE:
 variable (a b c d : ℝ)
 
--- QUOTE:
-example (a b c d : ℝ) (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
+example (hyp : c = d * a + b) (hyp' : b = a * d) : c = 2 * a * d := by
   rw [hyp'] at hyp
   rw [mul_comm d a] at hyp
   rw [← two_mul (a * d)] at hyp

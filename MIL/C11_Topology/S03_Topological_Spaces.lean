@@ -483,16 +483,28 @@ example {x : X} {F : Filter X} {G : Filter Y} (H : ClusterPt x F) {f : X → Y}
 
 /- TEXT:
 As an exercise, we will prove that the image of a compact set under a continuous map is
-compact. In addition to what we saw already, you should use ``Filter.push_pull`` and
-``NeBot.of_map``.
+compact. In addition to what we saw already, you should use ``Filter.push_pull``,
+``map_principal``, ``inf_of_le_right`` and ``NeBot.of_map``.
 BOTH: -/
 -- QUOTE:
--- EXAMPLES:
+-- BOTH:
 example {f : X → Y} (hf : Continuous f) {s : Set X} (hs : IsCompact s) :
     IsCompact (f '' s) := by
   intro F F_ne F_le
-  have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by sorry
-  have Hne : (𝓟 s ⊓ comap f F).NeBot := by sorry
+  have map_eq : map f (𝓟 s ⊓ comap f F) = 𝓟 (f '' s) ⊓ F := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+    rw [Filter.push_pull, map_principal]
+-- BOTH:
+  have Hne : (𝓟 s ⊓ comap f F).NeBot := by
+/- EXAMPLES:
+    sorry
+SOLUTIONS: -/
+    apply NeBot.of_map
+    rw [map_eq, inf_of_le_right F_le]
+    exact F_ne
+-- BOTH:
   have Hle : 𝓟 s ⊓ comap f F ≤ 𝓟 s := inf_le_left
 /- EXAMPLES:
   sorry
