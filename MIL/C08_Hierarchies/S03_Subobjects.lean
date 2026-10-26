@@ -62,6 +62,18 @@ example [Monoid M] (N : Submonoid₁ M) (x : N) : (x : M) ∈ N := x.property
 -- QUOTE.
 
 /- TEXT:
+We still need to tell Lean we want to equip ``Submonoid₁ M`` with the order relation coming
+from ``Set M``. This is done using the following instance. Then the example shows that the
+partial order we defined is the expected one.
+BOTH: -/
+
+-- QUOTE:
+instance [Monoid M] : PartialOrder (Submonoid₁ M) := .ofSetLike (Submonoid₁ M) M
+
+example [Monoid M] (N P : Submonoid₁ M) : N ≤ P ↔ ∀ x, x ∈ N → x ∈ P := SetLike.le_def
+-- QUOTE.
+
+/- TEXT:
 Using this coercion to ``Type`` we can also tackle the task of equipping a submonoid with a
 monoid structure. We will use the coercion from the type associated to ``N`` as above, and the
 lemma ``SetCoe.ext`` asserting this coercion is injective. Both are provided by the ``SetLike``
@@ -149,7 +161,8 @@ instance [Group G] : SubgroupClass₁ (Subgroup₁ G) G :=
 Another very important thing to know about subobjects of a given algebraic object in Mathlib
 always form a complete lattice, and this structure is used a lot. For instance you may look for
 the lemma saying that an intersection of submonoids is a submonoid. But this won't be a lemma,
-this will be an infimum construction. Let us do the case of two submonoids.
+this will be an infimum construction. Let us do the case of two submonoids. Beware that the relevant
+class is called ``Min``, even in our example where the order is not total.
 
 BOTH: -/
 
