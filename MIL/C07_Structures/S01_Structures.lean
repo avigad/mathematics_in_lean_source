@@ -163,9 +163,6 @@ in a manner similar to the way we defined recursive functions in
 The definitions ``addAlt`` and ``addAlt'`` below are essentially the
 same; the only difference is that we use anonymous constructor notation
 in the second.
-Although it is sometimes convenient to define functions this way, and structural eta-reduction makes
-this alternative definitionally equivalent, it can make things less convenient in later proofs.
-In particular, ``rw [addAlt]`` leaves us with a messier goal view containing a ``match`` statement.
 EXAMPLES: -/
 -- QUOTE:
 def addAlt : Point → Point → Point
@@ -179,7 +176,7 @@ theorem addAlt_x (a b : Point) : (a.addAlt b).x = a.x + b.x := by
 
 theorem addAlt_comm (a b : Point) : addAlt a b = addAlt b a := by
   rw [addAlt, addAlt]
-  -- the same proof still works, but the goal view here is harder to read
+  -- the same proof still works
   ext <;> dsimp
   repeat' apply add_comm
 -- QUOTE.
