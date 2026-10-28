@@ -161,7 +161,7 @@ SOLUTIONS: -/
   simp at *
   rw [pow_succ', fac]
   apply Nat.mul_le_mul _ ih
-  repeat' apply Nat.succ_le_succ
+  repeat apply Nat.succ_le_succ
   apply zero_le
 
 -- BOTH:

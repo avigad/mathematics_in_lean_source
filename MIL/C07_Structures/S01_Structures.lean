@@ -37,7 +37,7 @@ EXAMPLES: -/
 
 example (a b : Point) (hx : a.x = b.x) (hy : a.y = b.y) (hz : a.z = b.z) : a = b := by
   ext
-  repeat' assumption
+  repeat assumption
 -- QUOTE.
 
 /- TEXT:
@@ -141,7 +141,7 @@ namespace Point
 protected theorem add_comm (a b : Point) : add a b = add b a := by
   rw [add, add]
   ext <;> dsimp
-  repeat' apply add_comm
+  repeat apply add_comm
 
 example (a b : Point) : add a b = add b a := by simp [add, add_comm]
 -- QUOTE.
@@ -178,7 +178,7 @@ theorem addAlt_comm (a b : Point) : addAlt a b = addAlt b a := by
   rw [addAlt, addAlt]
   -- the same proof still works
   ext <;> dsimp
-  repeat' apply add_comm
+  repeat apply add_comm
 -- QUOTE.
 
 /- TEXT:
