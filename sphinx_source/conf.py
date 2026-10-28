@@ -21,7 +21,7 @@ copyright = '2020-2025, Jeremy Avigad, Patrick Massot. Text licensed under CC BY
 author = 'Jeremy Avigad, Patrick Massot'
 
 # The full version, including alpha/beta/rc tags
-release = 'v4.19.0'
+release = 'v4.34.0'
 
 # -- General configuration ------------------------------------------------
 
