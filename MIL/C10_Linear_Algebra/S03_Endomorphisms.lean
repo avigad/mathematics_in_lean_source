@@ -71,7 +71,7 @@ SOLUTIONS: -/
 
 #check Submodule.add_mem_sup
 #check map_mul
-#check End.mul_apply
+#check mul_apply_eq_comp
 #check LinearMap.ker_le_ker_comp
 
 example (P Q : K[X]) (h : IsCoprime P Q) (φ : End K V) :
@@ -93,10 +93,10 @@ SOLUTIONS: -/
     have key : x = aeval φ (U*P) x + aeval φ (V*Q) x := by simpa using congr((aeval φ) $hUV.symm x)
     rw [key, add_comm]
     apply Submodule.add_mem_sup <;> rw [mem_ker] at *
-    · rw [← mul_apply, ← map_mul, show P*(V*Q) = V*(P*Q) by ring, map_mul, mul_apply, hx,
-          map_zero]
-    · rw [← mul_apply, ← map_mul, show Q*(U*P) = U*(P*Q) by ring, map_mul, mul_apply, hx,
-          map_zero]
+    · rw [← mul_apply_eq_comp, ← map_mul, show P*(V*Q) = V*(P*Q) by ring, map_mul,
+        mul_apply_eq_comp, hx, map_zero]
+    · rw [← mul_apply_eq_comp, ← map_mul, show Q*(U*P) = U*(P*Q) by ring, map_mul,
+        mul_apply_eq_comp, hx, map_zero]
 
 -- QUOTE.
 /- TEXT:

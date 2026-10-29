@@ -68,9 +68,9 @@ partial order we defined is the expected one.
 BOTH: -/
 
 -- QUOTE:
-instance [Monoid M] : PartialOrder (Submonoid₁ M) := .ofSetLike (Submonoid₁ M) M
+instance [Monoid M] : PartialOrder (Submonoid₁ M) := .ofSetLike (Submonoid₁ M)
 
-example [Monoid M] (N P : Submonoid₁ M) : N ≤ P ↔ ∀ x, x ∈ N → x ∈ P := SetLike.le_def
+example [Monoid M] (N P : Submonoid₁ M) : N ≤ P ↔ ∀ x, x ∈ N → x ∈ P := IsConcreteLE.le_iff
 -- QUOTE.
 
 /- TEXT:
